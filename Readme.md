@@ -1,4 +1,4 @@
-# Leap Web Demo #
+# Leap Web #
 
-Demo application to showcase the LEAP web app.
+Web application for LEAP.
 
