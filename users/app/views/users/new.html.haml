@@ -1,0 +1,10 @@
+%h2=t :signup
+= simple_form_for @user do |f|
+  %legend=t :signup_message
+  = f.input :login, :input_html => { :id => :srp_username }
+  = f.input :password, :required => true, :input_html => { :id => :srp_password }
+  = f.input :password_confirmation, :required => true, :input_html => { :id => :srp_password_confirmation }
+  = f.input :password_verifier, :as => :hidden, :input_html => { :id => :srp_password_verifier }
+  = f.input :password_salt, :as => :hidden, :input_html => { :id => :srp_salt }
+  = f.button :submit, :value => t(:signup), :class => 'btn-primary' 
+  = link_to t(:cancel), root_url, :class => :btn

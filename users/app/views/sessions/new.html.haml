@@ -1,0 +1,7 @@
+%h2=t :login
+= simple_form_for :session, :url => sessions_path, :html => { :id => :new_session } do |f|
+  %legend=t :login_message
+  = f.input :login, :input_html => { :id => :srp_username }
+  = f.input :password, :required => true, :input_html => { :id => :srp_password }
+  = f.button :submit, :value => t(:login), :class => 'btn-primary' 
+  = link_to t(:cancel), root_url, :class => :btn
