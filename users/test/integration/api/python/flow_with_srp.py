@@ -40,11 +40,12 @@ def authenticate(session, login):
   uname, A = usr.start_authentication()
   params = {
       'login': uname,
-      'A': A
+      'A': binascii.hexlify(A)
       }
   init = print_and_parse(session.post(server + '/sessions', data = params))
-  M = usr.process_challenge( init['salt'], init['B'] )
-  return session.put(server + '/sessions/' + login, data = {'client_auth': M})
+  M = usr.process_challenge( binascii.unhexlify(init['salt']), binascii.unhexlify(init['B']) )
+  return session.put(server + '/sessions/' + login, 
+      data = {'client_auth': binascii.hexlify(M)})
 
 session = requests.session()
 user = print_and_parse(signup(session))
