@@ -26,7 +26,7 @@ def print_and_parse(response):
   return json.loads(response.text)
 
 def signup(session):
-  salt, vkey = srp.create_salted_verification_key( login, password )
+  salt, vkey = srp.create_salted_verification_key( login, password, srp.SHA256, srp.NG_1024 )
   user_params = {
       'user[login]': login,
       'user[password_verifier]': binascii.hexlify(vkey),
@@ -34,7 +34,7 @@ def signup(session):
       }
   return session.post(server + '/users.json', data = user_params)
 
-usr = srp.User( login, password )
+usr = srp.User( login, password, srp.SHA256, srp.NG_1024 )
 
 def authenticate(session, login):
   uname, A = usr.start_authentication()
