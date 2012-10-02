@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by_param(params[:login])
     session[:handshake] = @user.initialize_auth(params['A'].hex)
-    render :json => { :B => session[:handshake].bb.to_s(16) }
+    render :json => { :B => session[:handshake].bb.to_s(16),
+      :salt => @user.password_salt }
   rescue RECORD_NOT_FOUND
     render :json => {:errors => {:login => ["unknown user"]}}
   end
