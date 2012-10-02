@@ -26,8 +26,7 @@ class TicketComment < CouchRest::Model::Base #?? do we want this to be a base mo
   end
   
   def set_posted_by
-    #should be something like this, but current_user is not set yet
-    #self.posted_by = current_user if current_user
+    self.posted_by = User.current if User.current
   end
 
 end

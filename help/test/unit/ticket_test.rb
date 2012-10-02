@@ -41,7 +41,8 @@ class TicketTest < ActiveSupport::TestCase
     assert_not_nil t1.code
     assert_nil t1.created_by
 
-    t2 = Ticket.create :title => 'test title', :created_by => 4
+    User.current = 4
+    t2 = Ticket.create :title => 'test title'
     assert_nil t2.code
     assert_not_nil t2.created_by
     

@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by_param(params[:login])
     session[:handshake] = @user.initialize_auth(params['A'].hex)
+    User.current = @user #?
     render :json => { :B => session[:handshake].bb.to_s(16) }
   rescue RECORD_NOT_FOUND
     render :json => {:errors => {:login => ["unknown user"]}}
@@ -17,6 +18,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_param(params[:id])
     @server_auth = @user.authenticate!(params[:client_auth].hex, session.delete(:handshake))
     session[:user_id] = @user.id
+    User.current = @user #?
     render :json => {:M2 => @server_auth}
   rescue WRONG_PASSWORD
     session[:handshake] = nil
@@ -25,6 +27,10 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    User.current = nil #?
     redirect_to root_path
   end
+
+  
+
 end

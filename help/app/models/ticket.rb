@@ -28,7 +28,7 @@ class Ticket < CouchRest::Model::Base
 
   timestamps!
   
-  before_validation :set_code, :on => :create
+  before_validation :set_created_by, :set_code, :on => :create
 
   design do
     view :by_title
@@ -37,7 +37,9 @@ class Ticket < CouchRest::Model::Base
 
   validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :if => :email #email address is optional
   
-  #set created_by to be current_user
+  def set_created_by
+    self.created_by = User.current if User.current
+  end
   
   def is_creator_validated?
     !!created_by

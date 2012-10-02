@@ -25,6 +25,13 @@ class TicketCommentTest < ActiveSupport::TestCase
     #tc.ticket = Ticket.find_by_title("test title")
     #tc.ticket.title
   end
+  
+  test "create authenticated comment" do
+    User.current = 4
+    comment2 = TicketComment.new :body => "help my email is broken!"
+    comment2.save
+    assert_not_nil comment2.posted_by
+  end
 
   test "add comments" do
     testticket = Ticket.create :title => "testing"
