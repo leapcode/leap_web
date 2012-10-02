@@ -14,6 +14,17 @@ PATH
       rails (~> 3.2.8)
 
 PATH
+  remote: help
+  specs:
+    leap_web_help (0.0.1)
+      bootstrap-sass (~> 2.0.4)
+      haml (~> 3.1.7)
+      jquery-rails
+      leap_web_core (~> 0.0.1)
+      rails (~> 3.2.8)
+      simple_form
+
+PATH
   remote: users
   specs:
     leap_web_users (0.0.1)
@@ -173,6 +184,7 @@ DEPENDENCIES
   json
   leap_web_certs!
   leap_web_core!
+  leap_web_help!
   leap_web_users!
   rails (= 3.2.8)
   ruby-debug
