@@ -12,4 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require srp
+//= require users
 //= require_tree .
