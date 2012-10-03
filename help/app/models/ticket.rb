@@ -24,6 +24,7 @@ class Ticket < CouchRest::Model::Base
   #property :user_verified, TrueClass, :default => false #will be true exactly when user is set
   #admins
   property :code, String, :protected => true # only should be set if created_by is nil
+  property :is_open, TrueClass, :default => true
   property :comments, [TicketComment]
 
   timestamps!
@@ -50,6 +51,15 @@ class Ticket < CouchRest::Model::Base
     self.code = SecureRandom.hex(8) if !is_creator_validated?
   end
 
+  def close
+    self.is_open = false
+    save
+  end
+
+  def reopen
+    self.is_open = true
+    save
+  end
 
 =begin
   def validate

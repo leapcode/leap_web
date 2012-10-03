@@ -26,27 +26,31 @@ class TicketCommentTest < ActiveSupport::TestCase
     #tc.ticket.title
   end
   
+=begin
   test "create authenticated comment" do
     User.current = 4
     comment2 = TicketComment.new :body => "help my email is broken!"
-    comment2.save
+    comment2.valid? #save # should not save comment
     assert_not_nil comment2.posted_by
   end
+=end
 
   test "add comments" do
     testticket = Ticket.create :title => "testing"
     assert_equal testticket.comments.count, 0
     comment = TicketComment.new :body => "my email broke"
-    assert comment.valid? #validating or saving necessary for setting posted_at
-    assert_not_nil comment.posted_at
+    #assert comment.valid? #validating or saving necessary for setting posted_at
+    #assert_not_nil comment.posted_at
 
     testticket.comments << comment
     assert_equal testticket.comments.count, 1
     sleep(1) # so first comment has earlier posted_at time
     comment2 = TicketComment.new :body => "my email broke"
-    comment2.save #possible to save only if ticketcomment is a model now
-    testticket.comments << comment2
+    testticket.comments << comment2 #this should validate comment2
+    testticket.valid?
     assert_equal testticket.comments.count, 2
+    assert_not_nil comment.posted_at
+    assert_not_nil testticket.comments.last.posted_at
     assert testticket.comments.first.posted_at < testticket.comments.last.posted_at
   end
 

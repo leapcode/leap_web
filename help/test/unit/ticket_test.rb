@@ -14,6 +14,11 @@ class TicketTest < ActiveSupport::TestCase
     assert t.valid?
     assert_equal t.title, 'test title'
 
+    assert t.is_open
+    t.close
+    assert !t.is_open
+    t.reopen
+    assert t.is_open
     #user = LeapWebHelp::User.new(User.valid_attributes_hash)
     #user = LeapWebUsers::User.create
 
