@@ -1,0 +1,3 @@
+[submodule "users/app/assets/javascripts/srp"]
+	path = users/app/assets/javascripts/srp
+	url = git://leap.se/srp_js
