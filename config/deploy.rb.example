@@ -1,10 +1,10 @@
 require "bundler/capistrano"
 
 set :application, "webapp"
-set :repository,  "git://leap.se/leap_web_demo"
 
 set :scm, :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+set :repository,  "git://leap.se/leap_web"
+set :branch, "master"
 
 set :deploy_via, :remote_cache
 set :deploy_to, '/home/webapp'
@@ -14,8 +14,10 @@ set :normalize_asset_timestamps, false
 
 set :user, "webapp"
 
-role :web, "YOUR SERVER GOES HERE"                          # Your HTTP server, Apache/etc
-role :app, "YOUR SERVER GOES HERE"                          # This may be the same as your `Web` server
+role :web, "YOUR SERVER"                          # Your HTTP server, Apache/etc
+role :app, "YOUR SERVER"                          # This may be the same as your `Web` server
+
+# We're not using this for now...
 # role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run
 # role :db,  "your slave db-server here"
 
