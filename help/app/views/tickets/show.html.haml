@@ -1,0 +1,10 @@
+%h2= @ticket.title
+is open?
+= @ticket.is_open
+code:
+= @ticket.code
+= render(:partial => "comment", :collection => @ticket.comments)
+
+= simple_form_for @ticket do |f|
+  = render :partial => 'new_comment'
+  = f.button :submit

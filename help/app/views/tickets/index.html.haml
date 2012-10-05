@@ -1,0 +1,5 @@
+%h2 Tickets
+- @tickets.each do |ticket|
+  %p
+  = link_to ticket.title, ticket
+= #render(:partial => "ticket", :collection => @tickets)

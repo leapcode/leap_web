@@ -1,0 +1,10 @@
+%div
+  - if User.find(comment.posted_by)
+    Posted by
+    = User.find(comment.posted_by).login 
+    %p
+  Posted at
+  = comment.posted_at
+  %p
+  = comment.body
+  %p
