@@ -24,11 +24,12 @@ class Ticket < CouchRest::Model::Base
   #property :user_verified, TrueClass, :default => false #will be true exactly when user is set
   #admins
   property :code, String, :protected => true # only should be set if created_by is nil
+  property :is_open, TrueClass, :default => true
   property :comments, [TicketComment]
 
   timestamps!
   
-  before_validation :set_code, :on => :create
+  before_validation :set_created_by, :set_code, :on => :create
 
   design do
     view :by_title
@@ -37,7 +38,9 @@ class Ticket < CouchRest::Model::Base
 
   validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :if => :email #email address is optional
   
-  #set created_by to be current_user
+  def set_created_by
+    self.created_by = User.current if User.current
+  end
   
   def is_creator_validated?
     !!created_by
@@ -48,6 +51,15 @@ class Ticket < CouchRest::Model::Base
     self.code = SecureRandom.hex(8) if !is_creator_validated?
   end
 
+  def close
+    self.is_open = false
+    save
+  end
+
+  def reopen
+    self.is_open = true
+    save
+  end
 
 =begin
   def validate
