@@ -32,7 +32,7 @@ gem 'simple_form'
 gem 'leap_web_core', :path => 'core'
 gem 'leap_web_users', :path => 'users'
 gem 'leap_web_certs', :path => 'certs'
-gem 'leap_web_help', :path => 'help'
+# gem 'leap_web_help', :path => 'help'
 
 gem 'couchrest_session_store'
 
