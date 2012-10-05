@@ -15,11 +15,13 @@ class SessionsController < ApplicationController
   end
 
   def update
+    # TODO: validate the id belongs to the session
     @user = User.find_by_param(params[:id])
-    @server_auth = @user.authenticate!(params[:client_auth].hex, session.delete(:handshake))
+    @srp_session = session.delete(:handshake)
+    @server_auth = @srp_session.authenticate!(params[:client_auth].hex)
     session[:user_id] = @user.id
     User.current = @user #?
-    render :json => {:M2 => @server_auth}
+    render :json => {:M2 => "%064x" % @server_auth}
   rescue WRONG_PASSWORD
     session[:handshake] = nil
     render :json => {:errors => {"password" => ["wrong password"]}}

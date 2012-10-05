@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.8"
   s.add_dependency "leap_web_core", "~> 0.0.1"
   s.add_dependency "couchrest_session_store", "~> 0.0.1"
-  s.add_dependency "ruby-srp"
+  s.add_dependency "ruby-srp", "~> 0.1.0"
 
   LeapWebCore::Dependencies.add_ui_gems_to_spec(s)
   

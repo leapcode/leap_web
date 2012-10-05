@@ -34,7 +34,7 @@ PATH
       jquery-rails
       leap_web_core (~> 0.0.1)
       rails (~> 3.2.8)
-      ruby-srp
+      ruby-srp (~> 0.1.0)
       simple_form
 
 GEM

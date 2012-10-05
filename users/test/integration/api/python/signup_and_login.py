@@ -20,14 +20,13 @@ def print_and_parse(response):
   print response.request.method + ': ' + response.url
   print "    " + json.dumps(response.request.data)
   print " -> " + response.text
-  print " () " + json.dumps(requests.utils.dict_from_cookiejar(response.cookies))
   return json.loads(response.text)
 
 def signup(session):
   user_params = {
       'user[login]': id_generator(),
       'user[password_verifier]': '12345',
-      'user[password_salt]': '54321'
+      'user[password_salt]': 'AB54321'
       }
   return session.post(server + '/users.json', data = user_params)
 
@@ -36,11 +35,8 @@ def authenticate(session, login):
       'login': login,
       'A': '12345',
       }
-  init = session.post(server + '/sessions', data = params)
-  cookies = requests.utils.dict_from_cookiejar(init.cookies)
-  init = session.post(server + '/sessions', data = params, cookies = cookies)
-  print "(%) " + json.dumps(cookies)
-  return session.put(server + '/sessions/' + login, data = {'client_auth': '123'}, cookies = cookies)
+  init = print_and_parse(session.post(server + '/sessions', data = params))
+  return session.put(server + '/sessions/' + login, data = {'client_auth': '123'})
 
 session = requests.session()
 user = print_and_parse(signup(session))

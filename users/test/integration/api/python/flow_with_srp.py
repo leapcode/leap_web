@@ -52,7 +52,7 @@ user = print_and_parse(signup(session))
 
 # SRP signup would happen here and calculate M hex
 auth = print_and_parse(authenticate(session, user['login']))
-usr.verify_session( auth )
+usr.verify_session( binascii.unhexlify(auth["M2"]) )
 
 # At this point the authentication process is complete.
 assert usr.authenticated()

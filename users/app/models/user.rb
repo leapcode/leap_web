@@ -1,7 +1,5 @@
 class User < CouchRest::Model::Base
 
-  include SRP::Authentication
-
   property :login, String, :accessible => true
   property :email, String, :accessible => true
   property :password_verifier, String, :accessible => true
@@ -38,12 +36,20 @@ class User < CouchRest::Model::Base
     super(options.merge(:only => ['login', 'password_salt']))
   end
 
+  def initialize_auth(aa)
+    return SRP::Session.new(self, aa)
+  end
+
   def salt
     password_salt.hex
   end
 
   def verifier
     password_verifier.hex
+  end
+
+  def username
+    login
   end
 
   def self.current
