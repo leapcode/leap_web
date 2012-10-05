@@ -36,6 +36,11 @@ gem 'leap_web_help', :path => 'help'
 
 gem 'couchrest_session_store'
 
+
+group :development, :test do
+  gem 'mocha'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

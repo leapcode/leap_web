@@ -112,7 +112,10 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     mime-types (1.19)
+    mocha (0.12.4)
+      metaclass (~> 0.0.1)
     multi_json (1.3.6)
     polyglot (0.3.3)
     rack (1.4.1)
@@ -148,7 +151,7 @@ GEM
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
-    ruby-srp (0.0.2)
+    ruby-srp (0.1.0)
     sass (3.2.1)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -186,6 +189,7 @@ DEPENDENCIES
   leap_web_core!
   leap_web_help!
   leap_web_users!
+  mocha
   rails (= 3.2.8)
   ruby-debug
   sass-rails (~> 3.2.5)
