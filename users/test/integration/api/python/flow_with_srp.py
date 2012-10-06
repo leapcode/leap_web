@@ -16,24 +16,24 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
   return ''.join(random.choice(chars) for x in range(size))
 
 # using globals for a start
-server = 'http://localhost:3000'
+server = 'http://springbok/1/'
 login = id_generator()
 password = id_generator() + id_generator()
 
-print '    username = "' + login + '"'
-print '    password = "' + password + '"'
+# print '    username = "' + login + '"'
+# print '    password = "' + password + '"'
 
 # log the server communication
 def print_and_parse(response):
   # print response.request.method + ': ' + response.url
   # print "    " + json.dumps(response.request.data)
-  print " -> " + response.text
+  # print " -> " + response.text
   return json.loads(response.text)
 
 def signup(session):
   salt, vkey = srp.create_salted_verification_key( login, password, srp.SHA256, srp.NG_1024 )
-  print '    salt = "' + binascii.hexlify(salt) + '"'
-  print '    v = "' + binascii.hexlify(vkey) + '"'
+  # print '    salt = "' + binascii.hexlify(salt) + '"'
+  # print '    v = "' + binascii.hexlify(vkey) + '"'
   user_params = {
       'user[login]': login,
       'user[password_verifier]': binascii.hexlify(vkey),
@@ -45,16 +45,16 @@ usr = srp.User( login, password, srp.SHA256, srp.NG_1024 )
 
 def authenticate(session, login):
   uname, A = usr.start_authentication()
-  print '    aa = "' + binascii.hexlify(A) + '"'
+  # print '    aa = "' + binascii.hexlify(A) + '"'
   params = {
       'login': uname,
       'A': binascii.hexlify(A)
       }
   init = print_and_parse(session.post(server + '/sessions', data = params))
   # print '    b = "' + init['b'] + '"'
-  print '    bb = "' + init['B'] + '"'
+  # print '    bb = "' + init['B'] + '"'
   M = usr.process_challenge( safe_unhexlify(init['salt']), safe_unhexlify(init['B']) )
-  print '    m = "' + binascii.hexlify(M) + '"'
+  # print '    m = "' + binascii.hexlify(M) + '"'
   return session.put(server + '/sessions/' + login, 
       data = {'client_auth': binascii.hexlify(M)})
 
