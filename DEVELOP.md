@@ -1,14 +1,20 @@
-Leap Web Core
-============
-
-This gem provides the generic helpers shared across the different engines that make up leap_web.
+# Development # 
 
 
-Creating a new engine
-===================
+## Engines ##
 
-Rails plugin new
-----------------
+Leap Web consists of different Engines. They live in their own subdirectory and are included through bundler via their path. This way changes to the engines immediately affect the server as if they were in the main '''app''' directory.
+
+Currently Leap Web consists of 4 Engines:
+
+* [core](https://github.com/leapcode/leap_web/blob/master/core) - ships some dependencies that are used accross all engines. This might be removed at some point.
+* [users](https://github.com/leapcode/leap_web/blob/master/users) - user registration and authorization
+* [certs](https://github.com/leapcode/leap_web/blob/master/certs) - Cert distribution for the EIP client
+* [help](https://github.com/leapcode/leap_web/blob/master/help)- Help ticket management
+
+## Creating a new engine ##
+
+### Rails plugin new ###
 
 Create the basic tree structure for an engine using
 <code>
@@ -20,8 +26,7 @@ rails plugin new ENGINE_NAME -O --full
 
 See http://guides.rubyonrails.org/engines.html for more general info about engines.
 
-Require Leap Web Core
----------------------
+### Require Leap Web Core ###
 
 You need to add leap_web_core to your .gemspec:
 <code>
@@ -43,8 +48,7 @@ module MyEngine
 end
 </code>
 
-Require UI Gems
----------------
+### Require UI Gems ###
 
 Leap Web Core provides a basic set of UI gems that should be used accross the engines. These include haml, sass, coffeescript, uglifier, bootstrap-sass, jquery and simple_form.
 
@@ -78,8 +82,7 @@ end
 </code>
 
 
-Creating Models
-===============
+## Creating Models ##
 
 You can use the normal rails generators to create models. Since you required the leap_web_core gem you will be using CouchRest::Model. So your models inherit from CouchRest::Model::Base.
 http://www.couchrest.info/model/definition.html has some good first steps for setting up the model.
