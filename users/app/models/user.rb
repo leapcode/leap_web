@@ -5,8 +5,17 @@ class User < CouchRest::Model::Base
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
 
-  validates :login, :password_salt, :password_verifier, :presence => true
-  validates :login, :uniqueness => true
+  validates :login, :password_salt, :password_verifier,
+    :presence => true
+
+  validates :login,
+    :uniqueness => true,
+    :format => { :with => /\A\w+\z/,
+      :message => "Only letters, digits and _ allowed" }
+
+  validates :password_salt, :password_verifier,
+    :format => { :with => /\A[\dA-Fa-f]+\z/,
+      :message => "Only hex numbers allowed" }
 
   timestamps!
 
