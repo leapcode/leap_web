@@ -9,8 +9,10 @@ class User < CouchRest::Model::Base
     :presence => true
 
   validates :login,
-    :uniqueness => true,
-    :format => { :with => /\A\w+\z/,
+    :uniqueness => true
+
+  validates :login,
+    :format => { :with => /\A[A-Za-z\d_]+\z/,
       :message => "Only letters, digits and _ allowed" }
 
   validates :password_salt, :password_verifier,
@@ -31,8 +33,8 @@ class User < CouchRest::Model::Base
     # valid set of attributes for testing
     def valid_attributes_hash
       { :login => "me",
-        :password_verifier => "1234",
-        :password_salt => "4321" }
+        :password_verifier => "1234ABC",
+        :password_salt => "4321AB" }
     end
 
   end
