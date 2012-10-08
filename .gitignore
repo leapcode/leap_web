@@ -14,3 +14,7 @@
 /log/*.log
 /tmp
 *~
+/pkg
+/*/pkg
+/log
+

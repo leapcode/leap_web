@@ -1,31 +1,35 @@
-Installation
--------------
+# Installation #
 
+## Requirements ##
 
-### Requirements ###
+The webapp only depends on very basic ruby packages and installs the other requirements as gems through bundler.
 
-This file documents installing the webapp demo on a debian system. For other systems you might have to use other commands / packages.
+### Packages ###
 
-The webapp only depends on very basic ruby packages and installs the other requirements as gems for now. We use git for version controll and capistrano to deploy.
-
-#### Packages ####
-
-The following packages need to be installed:
+For now we are using ruby 1.8.7. The following packages need to be installed:
 
 * git
 * ruby1.8
 * rubygems1.8
 * couchdb
 
-#### Gems ####
+### Gems ###
 
-We install most gems we depend upon through bundler. However the bundler gem needs to be installed and the '''bundle''' command needs to be available to the user used for deploy.
+We install most gems we depend upon through [bundler](http://gembundler.com). However the bundler gem needs to be installed and the `bundle` command needs to be available to the user used for deploy.
 
-### Setup Capistrano ###
+### Bundler ###
 
-run capify in the source tree and edit config/deploy.rb to match your needs. We ship an example in config/deploy.rb.example.
+Run `bundle install` to install all the required gems.
 
-run '''cap deploy:setup''' to create the directory structure.
+## Setup ##
 
-run '''cap deploy''' to deploy to the server.
+### Cert Distribution ###
+
+The Webapp can hand out certs for the EIP client. These certs are either picked from a pool in CouchDB or from a file. For now you can either run [Leap CA](http://github.com/leapcode/leap_ca) to fill the pool or you can put your certs file in config/cert.
+
+We also ship provider information through the webapp. For now please add your eip-service.json to the public/config directory.
+
+## Running ##
+
+Run `rails server` or whatever rack server you prefer.
 
