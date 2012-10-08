@@ -1,41 +1,40 @@
-require File.expand_path('../../../lib/leap_web/version', __FILE__)
+require File.expand_path('../task_helper', __FILE__)
+include TaskHelper
+
 
 namespace :gem do
 
-  engines = %w(core users certs help)
-
   desc "run rake gem for all gems"
-  task :build do
-    engines.each do |gem_name|
-      puts "########################### #{gem_name} #########################"
-      cmd = "rm -rf #{gem_name}/pkg"; puts cmd; system cmd
-      cmd = "cd #{gem_name} && bundle exec rake gem"; puts cmd; system cmd
+  task :build => :clear do
+    each_gem do |gem_name|
+      putsys "cd #{gem_name} && bundle exec rake gem"
     end
-    cmd = "rm -rf pkg"; puts cmd; system cmd
-    cmd = "bundle exec rake gem"; puts cmd; system cmd
+    putsys "bundle exec rake gem"
+  end
+  
+  desc "run rake gem for all gems"
+  task :clear do
+    each_gem do |gem_name|
+      putsys "rm -rf #{gem_name}/pkg"
+    end
+    putsys "rm -rf pkg"
   end
   
   desc "run gem install for all gems"
-  task :install do
+  task :install => :build do
 
-    engines.each do |gem_name|
-      puts "########################### #{gem_name} #########################"
-      cmd = "rm -rf #{gem_name}/pkg"; puts cmd; system cmd
-      cmd = "cd #{gem_name} && bundle exec rake gem"; puts cmd; system cmd
-      cmd = "cd #{gem_name}/pkg && gem install leap_web_#{gem_name}-#{LeapWeb::VERSION}.gem"; puts cmd; system cmd
+    each_gem do |gem_name|
+      putsys "cd #{gem_name}/pkg && gem install leap_web_#{gem_name}-#{LeapWeb::VERSION}.gem"
     end
-    cmd = "rm -rf pkg"; puts cmd; system cmd
-    cmd = "bundle exec rake gem"; puts cmd; system cmd
-    cmd = "gem install pkg/leap_web-#{LeapWeb::VERSION}.gem"; puts cmd; system cmd
+    putsys "gem install pkg/leap_web-#{LeapWeb::VERSION}.gem"
   end
 
   desc "Release all gems to gemcutter. Package leap web components, then push"
   task :release do
 
-    engines.each do |gem_name|
-      puts "########################### #{gem_name} #########################"
-      cmd = "cd #{gem_name}/pkg && gem push leap_web_#{gem_name}-#{LeapWeb::VERSION}.gem"; puts cmd; system cmd
+    each_gem do |gem_name|
+      putsys "cd #{gem_name}/pkg && gem push leap_web_#{gem_name}-#{LeapWeb::VERSION}.gem"
     end
-    cmd = "gem push pkg/leap_web-#{LeapWeb::VERSION}.gem"; puts cmd; system cmd
+    putsys "gem push pkg/leap_web-#{LeapWeb::VERSION}.gem"
   end
 end
