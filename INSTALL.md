@@ -15,11 +15,11 @@ For now we are using ruby 1.8.7. The following packages need to be installed:
 
 ### Gems ###
 
-We install most gems we depend upon through [bundler](http://gembundler.com). However the bundler gem needs to be installed and the '''bundle''' command needs to be available to the user used for deploy.
+We install most gems we depend upon through [bundler](http://gembundler.com). However the bundler gem needs to be installed and the `bundle` command needs to be available to the user used for deploy.
 
 ### Bundler ###
 
-Run '''bundle install''' to install all the required gems.
+Run `bundle install` to install all the required gems.
 
 ## Setup ##
 
@@ -31,5 +31,5 @@ We also ship provider information through the webapp. For now please add your ei
 
 ## Running ##
 
-Run '''rails server''' or whatever rack server you prefer.
+Run `rails server` or whatever rack server you prefer.
 

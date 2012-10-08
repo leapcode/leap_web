@@ -18,9 +18,9 @@ The following packages need to be installed:
 We use capistrano to deploy.
 We ship an example deploy.rb in config/deploy.rb.example. Edit it to match your needs.
 
-run '''cap deploy:setup''' to create the directory structure.
+run `cap deploy:setup` to create the directory structure.
 
-run '''cap deploy''' to deploy to the server.
+run `cap deploy` to deploy to the server.
 
 ## Customized Files ##
 
