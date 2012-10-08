@@ -11,6 +11,7 @@ PATH
     leap_web_core (0.1.0)
       couchrest (~> 1.1.3)
       couchrest_model (~> 2.0.0.beta2)
+      couchrest_session_store (~> 0.0.1)
       rails (~> 3.2.8)
 
 PATH
@@ -18,7 +19,6 @@ PATH
   specs:
     leap_web_users (0.1.0)
       bootstrap-sass (~> 2.0.4)
-      couchrest_session_store (~> 0.0.1)
       haml (~> 3.1.7)
       jquery-rails
       leap_web_core (= 0.1.0)
