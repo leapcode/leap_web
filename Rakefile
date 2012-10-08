@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-LeapWebDemo::Application.load_tasks
+LeapWeb::Application.load_tasks
