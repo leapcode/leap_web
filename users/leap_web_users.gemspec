@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "User registration and authorization for the leap platform"
   s.description = "This this plugin for the leap platform provides user signup and login. It uses Secure Remote Password for the authentication."
   
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "Readme.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"

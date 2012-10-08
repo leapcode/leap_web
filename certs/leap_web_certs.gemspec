@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "Cert distribution for the leap platform"
   s.description = "This plugin for the leap platform distributes certs for the EIP client. It fetches the certs from a pool in CouchDB that is filled by leap-ca."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "Readme.md"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "Readme.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"

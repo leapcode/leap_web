@@ -7,13 +7,13 @@ require File.expand_path('../../lib/leap_web/version.rb', __FILE__)
 Gem::Specification.new do |s|
   s.name        = "leap_web_help"
   s.version     = LeapWeb::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of LeapWebHelp."
-  s.description = "TODO: Description of LeapWebHelp."
+  s.authors     = ["Jessib"]
+  s.email       = ["jessib@leap.se"]
+  s.homepage    = "http://www.leap.se"
+  s.summary     = "Help Desk for LeapWeb"
+  s.description = "Managing Tickets for a Leap provider"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "Readme.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"

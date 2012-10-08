@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary = 'Leap web framework for Ruby on Rails.'
   s.description = 'Leap is the Leap Encryption Access Project. This is a framework for the web administrative interface. Its components live in separate gems. You can find out more about leap on www.leap.se'
 
-  s.files = Dir['README.md', 'lib/leap_web.rb', 'lib/leap_web/*']
+  s.files = Dir['*.md', 'lib/leap_web.rb', 'lib/leap_web/*']
   s.require_path = 'lib'
   s.requirements << 'none'
   s.required_ruby_version = '>= 1.8.7'
