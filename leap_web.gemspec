@@ -1,7 +1,6 @@
 $:.push File.expand_path("../lib", __FILE__)
 
-# Maintain your gem's version:
-require "leap_web/version"
+require 'leap_web/version.rb'
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
@@ -21,6 +20,6 @@ Gem::Specification.new do |s|
   s.homepage = 'http://leap.se'
 
   # s.add_dependency 'leap_web_core'
-  s.add_dependency 'leap_web_certs'
-  s.add_dependency 'leap_web_users'
+  s.add_dependency 'leap_web_certs', LeapWeb::VERSION
+  s.add_dependency 'leap_web_users', LeapWeb::VERSION
 end

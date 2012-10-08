@@ -1,13 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
-# Maintain your gem's version:
-require "leap_web_users/version"
 require "leap_web_core/dependencies"
+require File.expand_path('../../lib/leap_web/version.rb', __FILE__)
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "leap_web_users"
-  s.version     = LeapWebUsers::VERSION
+  s.version     = LeapWeb::VERSION
   s.authors     = ["Azul"]
   s.email       = ["azul@leap.se"]
   s.homepage    = "http://www.leap.se"
@@ -18,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
-  s.add_dependency "leap_web_core", "~> 0.0.1"
+  s.add_dependency "leap_web_core", LeapWeb::VERSION
   s.add_dependency "couchrest_session_store", "~> 0.0.1"
   s.add_dependency "ruby-srp", "~> 0.1.1"
 

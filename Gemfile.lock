@@ -1,14 +1,14 @@
 PATH
   remote: certs
   specs:
-    leap_web_certs (0.0.4)
-      leap_web_core (~> 0.0.1)
+    leap_web_certs (0.1.0)
+      leap_web_core (= 0.1.0)
       rails (~> 3.2.8)
 
 PATH
   remote: core
   specs:
-    leap_web_core (0.0.1)
+    leap_web_core (0.1.0)
       couchrest (~> 1.1.3)
       couchrest_model (~> 2.0.0.beta2)
       rails (~> 3.2.8)
@@ -16,12 +16,12 @@ PATH
 PATH
   remote: users
   specs:
-    leap_web_users (0.0.1)
+    leap_web_users (0.1.0)
       bootstrap-sass (~> 2.0.4)
       couchrest_session_store (~> 0.0.1)
       haml (~> 3.1.7)
       jquery-rails
-      leap_web_core (~> 0.0.1)
+      leap_web_core (= 0.1.0)
       rails (~> 3.2.8)
       ruby-srp (~> 0.1.1)
       simple_form

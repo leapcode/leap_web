@@ -1,4 +1,8 @@
 #!/usr/bin/env rake
+
+require 'rake/packagetask'
+require 'rubygems/package_task'
+
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -20,8 +24,10 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-
-
+spec = eval(File.read('leap_web_users.gemspec'))
+Gem::PackageTask.new(spec) do |p|
+    p.gem_spec = spec
+end
 
 Bundler::GemHelper.install_tasks
 
