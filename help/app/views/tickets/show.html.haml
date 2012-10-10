@@ -5,6 +5,7 @@ code:
 = @ticket.code
 = render(:partial => "comment", :collection => @ticket.comments)
 
-= simple_form_for @ticket do |f|
+= simple_form_for (@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
   = render :partial => 'new_comment'
   = f.button :submit
+  = link_to t(:cancel), root_url, :class => :btn

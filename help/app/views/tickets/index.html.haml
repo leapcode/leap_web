@@ -2,4 +2,7 @@
 - @tickets.each do |ticket|
   %p
   = link_to ticket.title, ticket
+%p 
+Create a 
+= link_to "new ticket", new_ticket_path
 = #render(:partial => "ticket", :collection => @tickets)

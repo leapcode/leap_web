@@ -8,6 +8,8 @@ class TicketComment
   #property :posted_verified, TrueClass, :protected => true #should be true if current_user is set when the comment is created
   property :body, String
 
+
+  validates :body, :presence => true
   #before_validation :set_time#, :set_posted_by
 
   #design do

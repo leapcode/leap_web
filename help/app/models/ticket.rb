@@ -15,8 +15,8 @@ class Ticket < CouchRest::Model::Base
 =end
 
   #belongs_to :user #from leap_web_users. doesn't necessarily belong to a user though
-  property :created_by, Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
-  property :regarding_user, Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
+  property :created_by, String#Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
+  property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
   #also, both created_by and regarding_user could be nil---say user forgets username, or has general question
   property :title, String
   property :email, String #verify
@@ -29,6 +29,8 @@ class Ticket < CouchRest::Model::Base
 
   timestamps!
   
+  #accepts_nested_attributes_for :ticketcomments #??
+  
   #before_validation :set_created_by, :set_code, :set_email, :on => :create
   before_validation :set_code, :set_email, :on => :create
 
@@ -36,7 +38,11 @@ class Ticket < CouchRest::Model::Base
     view :by_title
   end
 
+  validates :title, :presence => true
+  validates :comments, :presence => true #do we want it like this?
 
+
+  # html5 has built-in validation which isn't ideal, as it says 'please enter an email address' for invalid email addresses, which implies an email address is required, and it is not.
   validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :if => :email #email address is optional
   
   #TODO:
@@ -55,6 +61,7 @@ class Ticket < CouchRest::Model::Base
 
 
   def set_email
+    self.email = nil if self.email == ""
     #self.email = current users email if is_creator_validated?
   end
 
@@ -66,6 +73,11 @@ class Ticket < CouchRest::Model::Base
   def reopen
     self.is_open = true
     save
+  end
+
+  #probably not useful, but trying it:
+  def ticket_comment_attributes=(attributes)
+    @ticket_comment =  TicketComment.new(attributes)
   end
 
 =begin
