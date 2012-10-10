@@ -4,13 +4,14 @@ class TicketsController < ApplicationController
 
   def new
     @ticket = Ticket.new
+    @ticket.comments.build
   end
 
   def create
     @ticket = Ticket.new #:created_by => User.current_test.id
     @ticket.attributes = params[:ticket]#.except(:comments)
     @ticket.created_by = User.current_test.id if User.current_test
-    add_comment
+    #instead of calling add_comment, we are using comment_attributes= from the Ticket model
 
     if @ticket.save
       respond_with(@ticket)
@@ -22,13 +23,14 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
+    # build ticket comments?
   end
   
   def update
     @ticket = Ticket.find(params[:id])
-    add_comment
+    add_comment #or should we use ticket attributes?
     @ticket.save
-    redirect_to @ticket
+    redirect_to @ticket #difft behavior on failure?
   end
 
   def index
@@ -38,6 +40,8 @@ class TicketsController < ApplicationController
 
   private
   
+  # not using now when creating tickets, we are using comment_attributes= from the Ticket model
+  #not yet sure about updating tickets
   def add_comment
     comment = TicketComment.new(params[:comment])
     comment.posted_by = User.current_test.id if User.current_test #could be nil

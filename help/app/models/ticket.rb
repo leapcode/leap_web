@@ -29,8 +29,6 @@ class Ticket < CouchRest::Model::Base
 
   timestamps!
   
-  #accepts_nested_attributes_for :ticketcomments #??
-  
   #before_validation :set_created_by, :set_code, :set_email, :on => :create
   before_validation :set_code, :set_email, :on => :create
 
@@ -75,9 +73,12 @@ class Ticket < CouchRest::Model::Base
     save
   end
 
-  #probably not useful, but trying it:
-  def ticket_comment_attributes=(attributes)
-    @ticket_comment =  TicketComment.new(attributes)
+  def comments_attributes=(attributes)
+    comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
+    comment.posted_by = User.current_test.id if User.current_test
+    comment.posted_at = Time.now
+    comments << comment
+    
   end
 
 =begin
