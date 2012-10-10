@@ -1,16 +1,23 @@
 class TicketsController < ApplicationController
 
+  respond_to :html #, :json
+
   def new
     @ticket = Ticket.new
   end
 
   def create
-    # @ticket = Ticket.new :posted_by => current_user
-    @ticket = Ticket.new :created_by => User.current_test.id
-    @ticket.attributes = params[:ticket]
-
+    @ticket = Ticket.new #:created_by => User.current_test.id
+    @ticket.attributes = params[:ticket]#.except(:comments)
+    @ticket.created_by = User.current_test.id if User.current_test
     add_comment
-    redirect_to @ticket
+
+    if @ticket.save
+      respond_with(@ticket)
+    else
+      respond_with(@ticket, :location => new_ticket_path  )
+    end
+
   end
 
   def show
@@ -20,22 +27,22 @@ class TicketsController < ApplicationController
   def update
     @ticket = Ticket.find(params[:id])
     add_comment
+    @ticket.save
     redirect_to @ticket
   end
 
   def index
-    @tickets = Ticket.by_title #not actually what we will want
+    # @tickets = Ticket.by_title #not actually what we will want
+    respond_with(@tickets = Ticket.all)
   end
 
   private
   
   def add_comment
     comment = TicketComment.new(params[:comment])
-    #comment.posted_by = current_user #could be nil
-    comment.posted_by = User.current_test.id #could be nil
-    comment.posted_at = Time.now # TODO: it seems strange to have this here, and not in model. 
+    comment.posted_by = User.current_test.id if User.current_test #could be nil
+    comment.posted_at = Time.now # TODO: it seems strange to have this here, and not in model
     @ticket.comments << comment
-    @ticket.save
   end
 
 end
