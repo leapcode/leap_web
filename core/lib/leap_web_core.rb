@@ -1,4 +1,4 @@
-require "rails/all"
+require "rails"
 
 require "couchrest"
 require "couchrest_model"
