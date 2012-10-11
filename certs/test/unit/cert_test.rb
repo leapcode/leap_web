@@ -17,8 +17,9 @@ class CertTest < ActiveSupport::TestCase
   end
 
   test "cert.zipped returns the actual data" do
-    @sample.save # This is required!
+    @sample.save # This is required !
     assert lines = @sample.zipped.split("\n")
+    assert_equal 56, lines.count
     assert_equal "-----BEGIN RSA PRIVATE KEY-----", lines.first.chomp
     assert_equal "-----END CERTIFICATE-----", lines.last.chomp
   end

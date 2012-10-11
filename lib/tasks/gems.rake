@@ -12,7 +12,7 @@ namespace :gem do
     putsys "bundle exec rake gem"
   end
   
-  desc "run rake gem for all gems"
+  desc "clear pkg directory for all gems"
   task :clear do
     each_gem do |gem_name|
       putsys "rm -rf #{gem_name}/pkg"

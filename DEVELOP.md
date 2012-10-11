@@ -25,20 +25,28 @@ rails plugin new ENGINE_NAME -O --full
 
 See http://guides.rubyonrails.org/engines.html for more general info about engines.
 
-### Require Leap Web Core ###
+### Require Leap Web Core and dependencies ###
 
-You need to add leap_web_core to your .gemspec:
+Leap Web Core provides a common set of dependencies for the engines with CouchRest Model etc.
+It also comes with an optional set of UI gems like haml, sass, coffeescript, uglifier, bootstrap-sass, jquery and simple_form.
+
+In order to use the core dependencies you need to add leap_web_core to your .gemspec:
 ```ruby
+# make sure LeapWeb::VERSION is available
+require File.expand_path('../../lib/leap_web/version.rb', __FILE__)
+# ...
   Gem::Specification.new do |s|
     # ...
     s.add_dependency "rails" 
-    s.add_dependency "leap_web_core", "~> 0.0.1"
+    s.add_dependency "leap_web_core", LeapWeb::Version
   end
 ```
 
 You also need to require it before you define your engine in lib/my_engine/engine.rb:
 ```ruby
 require "leap_web_core"
+# uncomment if you want the ui gems:
+# require "leap_web_core/ui_dependencies"
 
 module MyEngine
   class Engine < ::Rails::Engine
@@ -47,40 +55,13 @@ module MyEngine
 end
 ```
 
-### Require UI Gems ###
-
-Leap Web Core provides a basic set of UI gems that should be used accross the engines. These include haml, sass, coffeescript, uglifier, bootstrap-sass, jquery and simple_form.
-
-Do you want to add views, javascript and the like to your engine? Then you should use the common gems. In order to do so you need to add them to your gemspec:
+Some development and UI dependencies can not be loaded via leap_web_core. To make them available add the following lines to your engines Gemfile
 
 ```ruby
-  require "my_engine/version"
-  require "leap_web_core/dependencies"
- 
-  # ...
-
-  Gem::Specification.new do |s|
-    # ...
-    s.add_dependency "rails" 
-    s.add_dependency "leap_web_core", "~> 0.0.1"
-
-    LeapWebCore::Dependencies.add_ui_gems_to_spec(s)
-  end
+  eval(File.read(File.dirname(__FILE__) + '/../common_dependencies.rb'))
+  # uncomment if you want the ui gems:
+  # eval(File.read(File.dirname(__FILE__) + '/../ui_dependencies.rb'))
 ```
-
-You also need to require them before you define your engine in lib/my_engine/engine.rb:
-
-```ruby
-require "leap_web_core"
-LeapWebCore::Dependencies.require_ui_gems
-
-module MyEngine
-  class Engine < ::Rails::Engine
-    # ...
-  end
-end
-```
-
 
 ## Creating Models ##
 

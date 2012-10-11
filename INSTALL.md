@@ -23,6 +23,15 @@ Run `bundle install` to install all the required gems.
 
 ## Setup ##
 
+### SRP submodule ###
+
+We currently use a git submodule to include srp-js. This will soon be replaced by a ruby gem. but for now you need to run
+
+```
+  git submodules init
+  git submodules update
+```
+
 ### Cert Distribution ###
 
 The Webapp can hand out certs for the EIP client. These certs are either picked from a pool in CouchDB or from a file. For now you can either run [Leap CA](http://github.com/leapcode/leap_ca) to fill the pool or you can put your certs file in config/cert.

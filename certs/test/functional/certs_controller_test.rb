@@ -10,6 +10,5 @@ class CertsControllerTest < ActionController::TestCase
     get :show
     assert_response :success
     assert_equal cert.zipped, @response.body
-    assert_attachement_filename "cert_stub.zip"
   end
 end
