@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-LeapWebDemo::Application.config.session_store = CouchRestSessionStore
+LeapWeb::Application.config.session_store = CouchRestSessionStore
