@@ -3,6 +3,7 @@ require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
 
   def setup
+    @user = stub :login => "me", :id => 123
     @client_hex = 'a123'
     @client_rnd = @client_hex.hex
     @server_hex = 'b123'
@@ -19,14 +20,13 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should perform handshake" do
-    user = stub :login => "me", :id => 123
-    user.expects(:initialize_auth).
+    @user.expects(:initialize_auth).
       with(@client_rnd).
       returns(@server_handshake)
     @server_handshake.expects(:to_json).
      returns({'B' => @server_hex, 'salt' => @salt}.to_json)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :create, :login => user.login, 'A' => @client_hex
+    User.expects(:find_by_param).with(@user.login).returns(@user)
+    post :create, :login => @user.login, 'A' => @client_hex
     assert_equal @server_handshake, session[:handshake]
     assert_response :success
     assert_json_response :B => @server_hex, :salt => @salt
@@ -42,27 +42,23 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should authorize" do
     session[:handshake] = @server_handshake
-    user = stub :login => "me", :id => 123
     @server_handshake.expects(:authenticate!).
       with(@client_rnd).
-      returns(@server_auth)
+      returns(@user)
     @server_handshake.expects(:to_json).
       returns({:M2 => @server_auth}.to_json)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :update, :id => user.login, :client_auth => @client_hex
+    post :update, :id => @user.login, :client_auth => @client_hex
     assert_nil session[:handshake]
     assert_json_response :M2 => @server_auth
-    assert_equal user.id, session[:user_id]
+    assert_equal @user.id, session[:user_id]
   end
 
   test "should report wrong password" do
     session[:handshake] = @server_handshake
-    user = stub :login => "me", :id => 123
     @server_handshake.expects(:authenticate!).
       with(@client_rnd).
       raises(WRONG_PASSWORD)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :update, :id => user.login, :client_auth => @client_hex
+    post :update, :id => @user.login, :client_auth => @client_hex
     assert_nil session[:handshake]
     assert_nil session[:user_id]
     assert_json_response :errors => {"password" => ["wrong password"]}
