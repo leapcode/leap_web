@@ -1,0 +1,14 @@
+{
+  "serial": 1,
+  "version": "0.1.0",
+  "capabilities": {
+    "transport": ["openvpn"],
+    "ports": ["80","53", "443", "1194"],
+    "protocols": ["udp"],
+    "static_ips": false,
+    "adblock": false
+  },
+  "gateways": [
+    {"country_code": "tr", "name": "turkey", "label": {"en":"Ankara, Turkey"}, "capabilities": {}, "hosts": ["94.103.43.4"]}
+  ]
+}

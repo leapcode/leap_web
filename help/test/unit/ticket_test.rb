@@ -14,6 +14,11 @@ class TicketTest < ActiveSupport::TestCase
     assert t.valid?
     assert_equal t.title, 'test title'
 
+    assert t.is_open
+    t.close
+    assert !t.is_open
+    t.reopen
+    assert t.is_open
     #user = LeapWebHelp::User.new(User.valid_attributes_hash)
     #user = LeapWebUsers::User.create
 
@@ -41,7 +46,8 @@ class TicketTest < ActiveSupport::TestCase
     assert_not_nil t1.code
     assert_nil t1.created_by
 
-    t2 = Ticket.create :title => 'test title', :created_by => 4
+    User.current = 4
+    t2 = Ticket.create :title => 'test title'
     assert_nil t2.code
     assert_not_nil t2.created_by
     

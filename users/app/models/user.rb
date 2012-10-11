@@ -1,14 +1,23 @@
 class User < CouchRest::Model::Base
 
-  include SRP::Authentication
-
   property :login, String, :accessible => true
   property :email, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
 
-  validates :login, :password_salt, :password_verifier, :presence => true
-  validates :login, :uniqueness => true
+  validates :login, :password_salt, :password_verifier,
+    :presence => true
+
+  validates :login,
+    :uniqueness => true
+
+  validates :login,
+    :format => { :with => /\A[A-Za-z\d_]+\z/,
+      :message => "Only letters, digits and _ allowed" }
+
+  validates :password_salt, :password_verifier,
+    :format => { :with => /\A[\dA-Fa-f]+\z/,
+      :message => "Only hex numbers allowed" }
 
   timestamps!
 
@@ -24,8 +33,8 @@ class User < CouchRest::Model::Base
     # valid set of attributes for testing
     def valid_attributes_hash
       { :login => "me",
-        :password_verifier => "1234",
-        :password_salt => "4321" }
+        :password_verifier => "1234ABC",
+        :password_salt => "4321AB" }
     end
 
   end
@@ -38,12 +47,27 @@ class User < CouchRest::Model::Base
     super(options.merge(:only => ['login', 'password_salt']))
   end
 
+  def initialize_auth(aa)
+    return SRP::Session.new(self, aa)
+  end
+
   def salt
     password_salt.hex
   end
 
   def verifier
     password_verifier.hex
+  end
+
+  def username
+    login
+  end
+
+  def self.current
+    Thread.current[:user]
+  end
+  def self.current=(user)
+    Thread.current[:user] = user
   end
 
 end
