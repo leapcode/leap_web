@@ -30,40 +30,39 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
       :password_verifier => @srp.verifier.to_s(16),
       :password_salt => @srp.salt.to_s(16)
     }
+    post '/users.json', :user => @user_params
+    @user = User.find_by_param(@login)
   end
 
   def teardown
     @user.destroy if @user # make sure we can run this test again
   end
 
-  test "signup and login with srp via api" do
-    post '/users.json', :user => @user_params
-    @user = User.find_by_param(@login)
+  test "signup response" do
     assert_json_response @user_params.slice(:login, :password_salt)
     assert_response :success
-    server_auth = @srp.authenticate(self, @login, @password)
+  end
+
+  test "signup and login with srp via api" do
+    server_auth = @srp.authenticate(self)
     assert_nil server_auth["errors"]
     assert server_auth["M2"]
   end
 
   test "signup and wrong password login attempt" do
-    post '/users.json', :user => @user_params
-    @user = User.find_by_param(@login)
-    assert_json_response @user_params.slice(:login, :password_salt)
-    assert_response :success
-    server_auth = @srp.authenticate(self, @login, "wrong password")
+    srp = SRP::Client.new(@login, "wrong password")
+    server_auth = srp.authenticate(self)
     assert_equal ["wrong password"], server_auth["errors"]['password']
     assert_nil server_auth["M2"]
   end
 
   test "signup and wrong username login attempt" do
-    post '/users.json', :user => @user_params
-    @user = User.find_by_param(@login)
-    assert_json_response @user_params.slice(:login, :password_salt)
-    assert_response :success
+    srp = SRP::Client.new("wrong_login", @password)
+    server_auth = nil
     assert_raises RECORD_NOT_FOUND do
-      server_auth = @srp.authenticate(self, "wronglogin", @password)
+      server_auth = srp.authenticate(self)
     end
+    assert_nil server_auth
   end
 
 end
