@@ -17,3 +17,5 @@
 /*/pkg
 /log
 */Gemfile.lock
+test/dummy/log/*
+test/dummy/tmp/*
