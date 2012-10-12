@@ -13,24 +13,39 @@ class TicketsController < ApplicationController
     @ticket.created_by = User.current_test.id if User.current_test
     #instead of calling add_comment, we are using comment_attributes= from the Ticket model
 
-    if @ticket.save
-      respond_with(@ticket)
-    else
-      respond_with(@ticket, :location => new_ticket_path  )
-    end
+    flash[:notice] = 'Ticket was successfully created.' if @ticket.save
+    respond_with(@ticket)
 
   end
 
+=begin
+  def edit
+    @ticket = Ticket.find(params[:id])
+    @ticket.comments.build
+    # build ticket comments?
+  end
+=end
+
   def show
     @ticket = Ticket.find(params[:id])
+    # @ticket.comments.build
     # build ticket comments?
   end
   
   def update
     @ticket = Ticket.find(params[:id])
-    add_comment #or should we use ticket attributes?
-    @ticket.save
-    redirect_to @ticket #difft behavior on failure?
+    @ticket.attributes = params[:ticket]
+    #add_comment #or should we use ticket attributes?
+    # @ticket.save
+    if @ticket.save
+      flash[:notice] = 'Ticket was successfully updated.'
+      respond_with @ticket
+    else
+      #redirect_to [:show, @ticket] #
+      flash[:alert] = 'Ticket has not been changed'
+      redirect_to @ticket
+      #respond_with(@ticket) # why does this go to edit?? redirect???
+    end
   end
 
   def index
@@ -40,8 +55,7 @@ class TicketsController < ApplicationController
 
   private
   
-  # not using now when creating tickets, we are using comment_attributes= from the Ticket model
-  #not yet sure about updating tickets
+  # not using now, as we are using comment_attributes= from the Ticket model
   def add_comment
     comment = TicketComment.new(params[:comment])
     comment.posted_by = User.current_test.id if User.current_test #could be nil

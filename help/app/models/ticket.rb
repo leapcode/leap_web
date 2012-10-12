@@ -37,7 +37,7 @@ class Ticket < CouchRest::Model::Base
   end
 
   validates :title, :presence => true
-  validates :comments, :presence => true #do we want it like this?
+  #validates :comments, :presence => true #do we want it like this?
 
 
   # html5 has built-in validation which isn't ideal, as it says 'please enter an email address' for invalid email addresses, which implies an email address is required, and it is not.

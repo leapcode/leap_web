@@ -1,4 +1,5 @@
-%div
+- # style is super ugly but just for now
+%div{:style => "border: solid 1px"}
   - if User.find(comment.posted_by)
     Posted by
     = User.find(comment.posted_by).login 
