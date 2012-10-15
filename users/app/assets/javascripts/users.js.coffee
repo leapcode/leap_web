@@ -27,7 +27,7 @@ validate_password = (event) ->
 
 insert_verifier = (event) ->
   # TODO: verify password confimation
-  srp = new SRP
+  srp = new SRP(jqueryRest())
   salt = srp.session.getSalt()
   $('#srp_salt').val(salt)
   $('#srp_password_verifier').val(srp.session.getV().toString(16))
@@ -35,7 +35,14 @@ insert_verifier = (event) ->
   $('#srp_password').val('cleared out - use verifier instead')
   $('#srp_password_confirmation').val('using srp - store verifier')
 
+login = (event) ->
+  srp = new SRP(jqueryRest())
+  srp.identify()
+  false
+
+
 $(document).ready ->
   $('#new_user').submit validate_password
   $('#new_user').submit insert_verifier
+  $('#new_session').submit login
 
