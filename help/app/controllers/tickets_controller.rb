@@ -1,6 +1,7 @@
 class TicketsController < ApplicationController
 
   respond_to :html #, :json
+  #has_scope :open, :type => boolean
 
   def new
     @ticket = Ticket.new
@@ -8,9 +9,9 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = Ticket.new #:created_by => User.current_test.id
-    @ticket.attributes = params[:ticket]#.except(:comments)
+    @ticket = Ticket.new(params[:ticket])
     @ticket.created_by = User.current_test.id if User.current_test
+    @ticket.email = User.current_test.email if User.current_test.email
     #instead of calling add_comment, we are using comment_attributes= from the Ticket model
 
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
@@ -35,6 +36,7 @@ class TicketsController < ApplicationController
   def update
     @ticket = Ticket.find(params[:id])
     @ticket.attributes = params[:ticket]
+    
     #add_comment #or should we use ticket attributes?
     # @ticket.save
     if @ticket.save

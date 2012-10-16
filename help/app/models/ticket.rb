@@ -15,8 +15,8 @@ class Ticket < CouchRest::Model::Base
 =end
 
   #belongs_to :user #from leap_web_users. doesn't necessarily belong to a user though
-  property :created_by, String#Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
-  property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
+  property :created_by, String, :protected => true #Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
+  #property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
   #also, both created_by and regarding_user could be nil---say user forgets username, or has general question
   property :title, String
   property :email, String #verify
@@ -31,6 +31,9 @@ class Ticket < CouchRest::Model::Base
   
   #before_validation :set_created_by, :set_code, :set_email, :on => :create
   before_validation :set_code, :set_email, :on => :create
+
+
+  #named_scope :open, :conditions => {:is_open => true} #??
 
   design do
     view :by_title
@@ -60,7 +63,7 @@ class Ticket < CouchRest::Model::Base
 
   def set_email
     self.email = nil if self.email == ""
-    #self.email = current users email if is_creator_validated?
+    # in controller set to be current users email if that exists
   end
 
   def close
@@ -74,8 +77,9 @@ class Ticket < CouchRest::Model::Base
   end
 
   def comments_attributes=(attributes)
+
     comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
-    comment.posted_by = User.current_test.id if User.current_test
+    comment.posted_by = User.current_test.id if User.current_test #should we not access User.current here?
     comment.posted_at = Time.now
     comments << comment
     

@@ -1,5 +1,5 @@
 %h2=t :new_ticket
-= simple_form_for (@ticket, :html => {:novalidate => true})  do |f| #turn off html5 validations to test
+= simple_form_for(@ticket, :html => {:novalidate => true})  do |f| #turn off html5 validations to test
   = #@ticket.errors.messages
   = f.input :title
   = #f.input :email #if there is no current_user

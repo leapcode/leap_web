@@ -3,6 +3,8 @@
   - if User.find(comment.posted_by)
     Posted by
     = User.find(comment.posted_by).login 
+  - else
+    Unauthenticated post
     %p
   Posted at
   = comment.posted_at

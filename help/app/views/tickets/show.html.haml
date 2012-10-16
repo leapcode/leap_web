@@ -5,8 +5,17 @@
 %h2= @ticket.title
 is open?
 = @ticket.is_open
-code:
-= @ticket.code
+- if @ticket.code
+  code:
+  = @ticket.code
+- if @ticket.email
+  email:
+  = @ticket.email
+- if User.find(@ticket.created_by)
+  Created by
+  = User.find(@ticket.created_by).login 
+- else
+  Unauthenticated ticket creator
 = render(:partial => "comment", :collection => @ticket.comments)
 
 = simple_form_for (@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
