@@ -1,15 +1,3 @@
-%h1 Leap Web Demo
 
 Try to fetch a 
 = link_to "cert", cert_path
-
--if current_user
-  %p 
-    logged in as
-    = current_user.login
-    = link_to "logout", logout_path
--else
-  %p
-    = link_to "login", login_path
-    or 
-    = link_to "signup", signup_path

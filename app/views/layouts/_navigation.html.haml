@@ -1,0 +1,10 @@
+= link_to "Leap Web", root_path, :class => 'brand'
+%ul.nav
+  - if current_user
+    %li
+      = link_to t(:logout), logout_path
+  - else
+    %li
+      = link_to t(:login), login_path
+    %li
+      = link_to t(:signup), signup_path

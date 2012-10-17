@@ -15,3 +15,4 @@
 //= require srp
 //= require users
 //= require_tree .
+//= require bootstrap
