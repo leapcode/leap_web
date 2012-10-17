@@ -15,6 +15,12 @@ PATH
       rails (~> 3.2.8)
 
 PATH
+  remote: help
+  specs:
+    leap_web_help (0.1.0)
+      leap_web_core (= 0.1.0)
+
+PATH
   remote: users
   specs:
     leap_web_users (0.1.0)
@@ -173,6 +179,7 @@ DEPENDENCIES
   jquery-rails
   leap_web_certs!
   leap_web_core!
+  leap_web_help!
   leap_web_users!
   mocha
   ruby-debug
