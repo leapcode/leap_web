@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "leap_web_core", LeapWeb::VERSION
 
-  s.add_dependency "ruby-srp", "~> 0.1.1"
+  s.add_dependency "ruby-srp", "~> 0.1.3"
 end
