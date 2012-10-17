@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-  get "log_in" => "sessions#new", :as => "log_in"
-  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "login" => "sessions#new", :as => "login"
+  get "logout" => "sessions#destroy", :as => "logout"
   resources :sessions, :only => [:new, :create, :update, :destroy]
 
-  get "sign_up" => "users#new", :as => "sign_up"
+  get "signup" => "users#new", :as => "signup"
   resources :users, :only => [:new, :create]
 
 end

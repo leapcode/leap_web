@@ -53,7 +53,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
-    bootstrap-sass (2.0.4.2)
+    bootstrap-sass (2.1.0.0)
     builder (3.0.3)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -166,7 +166,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass (~> 2.0.4)
+  bootstrap-sass (~> 2.1.0)
   coffee-rails (~> 3.2.2)
   haml (~> 3.1.7)
   haml-rails (~> 0.3.4)
