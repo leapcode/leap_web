@@ -28,8 +28,8 @@ Run `bundle install` to install all the required gems.
 We currently use a git submodule to include srp-js. This will soon be replaced by a ruby gem. but for now you need to run
 
 ```
-  git submodules init
-  git submodules update
+  git submodule init
+  git submodule update
 ```
 
 ### Cert Distribution ###
@@ -40,5 +40,5 @@ We also ship provider information through the webapp. For now please add your ei
 
 ## Running ##
 
-Run `rails server` or whatever rack server you prefer.
+Run `rails server`, `bundle exec rails server` or whatever rack server you prefer.
 
