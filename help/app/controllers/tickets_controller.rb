@@ -10,9 +10,13 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = Ticket.new(params[:ticket])
-    @ticket.created_by = User.current_test.id if User.current_test
-    @ticket.email = User.current_test.email if User.current_test.email
-    #instead of calling add_comment, we are using comment_attributes= from the Ticket model
+    if current_user
+      @ticket.created_by = current_user.id
+      @ticket.email = current_user.email if current_user.email
+      @ticket.comments.last.posted_by = current_user.id
+    else 
+      @ticket.comments.last.posted_by = nil #hacky, but protecting this attribute doesn't work right, so this should make sure it isn't set.
+    end
 
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
     respond_with(@ticket)
@@ -37,8 +41,8 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
     @ticket.attributes = params[:ticket]
     
-    #add_comment #or should we use ticket attributes?
-    # @ticket.save
+    @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
+
     if @ticket.save
       flash[:notice] = 'Ticket was successfully updated.'
       respond_with @ticket
@@ -52,17 +56,18 @@ class TicketsController < ApplicationController
 
   def index
     # @tickets = Ticket.by_title #not actually what we will want
-    respond_with(@tickets = Ticket.all)
+    respond_with(@tickets = Ticket.all) #we'll want only tickets that this user can access
   end
 
   private
   
   # not using now, as we are using comment_attributes= from the Ticket model
+=begin
   def add_comment
     comment = TicketComment.new(params[:comment])
-    comment.posted_by = User.current_test.id if User.current_test #could be nil
+    comment.posted_by = User.current.id if User.current #could be nil
     comment.posted_at = Time.now # TODO: it seems strange to have this here, and not in model
     @ticket.comments << comment
   end
-
+=end
 end

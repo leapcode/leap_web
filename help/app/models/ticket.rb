@@ -79,7 +79,7 @@ class Ticket < CouchRest::Model::Base
   def comments_attributes=(attributes)
 
     comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
-    comment.posted_by = User.current_test.id if User.current_test #should we not access User.current here?
+    #comment.posted_by = User.current.id if User.current #we want to avoid User.current, and current_user won't work here. instead will set in tickets_controller
     comment.posted_at = Time.now
     comments << comment
     

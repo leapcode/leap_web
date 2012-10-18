@@ -3,7 +3,7 @@
   = #@ticket.errors.messages
   = f.input :title
   = #f.input :email #if there is no current_user
-  = f.input :email if !User.current_test #hmm--might authenticated users want to submit an alternate email?
+  = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
 
   = f.simple_fields_for :comments do |c|
     = c.input :body, :label => 'Comment', :as => :text

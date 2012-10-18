@@ -15,7 +15,7 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
 
-  test "should create authenticated ticket" do
+  test "should create unauthenticated ticket" do
     params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     assert_difference('Ticket.count') do
@@ -23,8 +23,30 @@ class TicketsControllerTest < ActionController::TestCase
     end
     
     assert_response :redirect
-    assert_equal assigns(:ticket).email, User.current_test.email
-    assert_equal User.find(assigns(:ticket).created_by).login, User.current_test.login
+    #assert_equal assigns(:ticket).email, User.current.email
+    #assert_equal User.find(assigns(:ticket).created_by).login, User.current.login
+    assert_nil assigns(:ticket).created_by
+
+    assert_equal assigns(:ticket).comments.count, 1
+  end
+
+
+  test "should create authenticated ticket" do
+
+    params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+
+    #todo: should redo this and actually authorize
+    user = User.last
+    session[:user_id] = user.id
+
+    assert_difference('Ticket.count') do
+      post :create, :ticket => params
+    end
+
+    assert_response :redirect
+    assert_equal assigns(:ticket).created_by, user.id
+    assert_equal assigns(:ticket).email, user.email
+
     assert_equal assigns(:ticket).comments.count, 1
   end
 
