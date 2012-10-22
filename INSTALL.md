@@ -1,10 +1,13 @@
 # Installation #
 
+Please see TROUBLESHOOT.md if you run into any issues during install.
+
 ## TL;DR ##
 
-Install git, ruby, rubygems, bundler and couchdb on your system. Then run
+Install git, ruby 1.9, rubygems and couchdb on your system. Then run
 
 ```
+gem install bundler
 git clone git://github.com/leapcode/leap_web.git
 cd leap_web
 bundle install
@@ -12,6 +15,8 @@ git submodule init
 git submodule update
 bundle exec rails server
 ```
+
+You will find Leap Web running on `localhost:3000`. Check out the Cert Distribution section below for setting up the cert and server config.
 
 ## Requirements ##
 
@@ -37,11 +42,13 @@ Simply clone the git repository:
 
 ### Gems ###
 
-We install most gems we depend upon through [bundler](http://gembundler.com). However the bundler gem needs to be installed and the `bundle` command needs to be available to the user used for deploy.
+We install most gems we depend upon through [bundler](http://gembundler.com). First install bundler
 
-### Bundler ###
+```
+  gem install bundler
+```
 
-Install all the required gems:
+Then install all the required gems:
 ```
   bundle install
 ```
@@ -68,3 +75,4 @@ If you want to use that functionality please add your provider files the public/
 bundle exec rails server
 ```
 
+You'll find Leap Web running on `localhost:3000`
