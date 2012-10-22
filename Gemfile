@@ -13,7 +13,8 @@ gem 'leap_web_help', :path => 'help'
 
 # To use debugger
 gem 'debugger', :platforms => :mri_19
-gem 'ruby-debug', :platforms => :mri_18
+# ruby 1.8 is not supported anymore
+# gem 'ruby-debug', :platforms => :mri_18
 
 # unreleased so far ... but leap_web_certs need it
 
