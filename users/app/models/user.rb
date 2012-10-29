@@ -63,11 +63,8 @@ class User < CouchRest::Model::Base
     login
   end
 
-  def self.current
-    Thread.current[:user]
-  end
-  def self.current=(user)
-    Thread.current[:user] = user
+  def is_admin?
+    APP_CONFIG['admins'].include? self.id
   end
 
 end
