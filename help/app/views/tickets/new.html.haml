@@ -1,0 +1,16 @@
+%h2=t :new_ticket
+= simple_form_for(@ticket, :html => {:novalidate => true})  do |f| #turn off html5 validations to test
+  = #@ticket.errors.messages
+  = f.input :title
+  = #f.input :email #if there is no current_user
+  = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
+
+  = f.simple_fields_for :comments do |c|
+    = c.input :body, :label => 'Comment', :as => :text
+
+  = #render :partial => 'new_comment' #what we were using
+  = # regarding_user if not logged in
+  = # email if not logged in
+  = #f.button :submit, :value => t(:submit), :class => 'btn-primary' 
+  = f.button :submit
+  = link_to t(:cancel), tickets_path, :class => :btn

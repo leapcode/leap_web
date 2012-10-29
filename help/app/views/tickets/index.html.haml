@@ -1,0 +1,10 @@
+%h2 tickets index (just as space)
+Create a 
+= link_to "new ticket", new_ticket_path
+= # below shouldn't be unless logged in
+%h2 Tickets
+= # want to have selection option to see tickets, that are open, closed or all
+- @tickets.each do |ticket|
+  %p
+  = link_to ticket.title, ticket
+= #render(:partial => "ticket", :collection => @tickets)

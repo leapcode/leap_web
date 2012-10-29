@@ -63,11 +63,13 @@ class User < CouchRest::Model::Base
     login
   end
 
+=begin
   def self.current
     Thread.current[:user]
   end
   def self.current=(user)
     Thread.current[:user] = user
   end
+=end
 
 end
