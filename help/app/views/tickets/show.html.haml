@@ -1,0 +1,17 @@
+- if flash[:notice]
+  =flash[:notice]
+- if flash[:alert]
+  =flash[:alert]
+%h2= @ticket.title
+is open?
+= @ticket.is_open
+code:
+= @ticket.code
+= render(:partial => "comment", :collection => @ticket.comments)
+
+= simple_form_for (@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
+  = f.simple_fields_for :comments, TicketComment.new do |c|
+    = c.input :body, :label => 'Comment', :as => :text
+  = #render :partial => 'new_comment'
+  = f.button :submit
+  = link_to t(:cancel), tickets_path, :class => :btn

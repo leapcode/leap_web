@@ -70,4 +70,8 @@ class User < CouchRest::Model::Base
     Thread.current[:user] = user
   end
 
+  def self.current_test
+    User.first
+  end
+
 end
