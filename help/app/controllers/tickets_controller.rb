@@ -41,6 +41,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
     @ticket.attributes = params[:ticket]
     
+    # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by
     @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
 
     if @ticket.save
