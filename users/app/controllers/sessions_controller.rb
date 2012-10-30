@@ -3,14 +3,17 @@ class SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def new
+    if warden.winning_strategy
+      @errors = warden.winning_strategy.message
+    end
   end
 
   def create
-    env['warden'].authenticate!
+    authenticate!
   end
 
   def update
-    env['warden'].authenticate!
+    authenticate!
   end
 
   def destroy

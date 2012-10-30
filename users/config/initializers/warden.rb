@@ -1,9 +1,9 @@
 Rails.configuration.middleware.use RailsWarden::Manager do |config|
   config.default_strategies :secure_remote_password
   config.failure_app = SessionsController
-  config.default_scope = :user
-  config.scope_defaults :user, :action => :new
 end
+
+RailsWarden.unauthenticated_action = :new
 
 # Setup Session Serialization
 class Warden::SessionSerializer
@@ -44,7 +44,7 @@ Warden::Strategies.add(:secure_remote_password) do
   def validate!
     srp_session = session.delete(:handshake)
     user = srp_session.authenticate(params['client_auth'].hex)
-    user.nil? ? fail!("Could not log in") : success!(user)
+    user ? success!(user) : fail!(:password => "Could not log in")
   end
 
   def initialize!
@@ -52,7 +52,7 @@ Warden::Strategies.add(:secure_remote_password) do
     session[:handshake] = user.initialize_auth(params['A'].hex)
     custom! json_response(session[:handshake])
   rescue RECORD_NOT_FOUND
-    fail! "User not found!"
+    fail! :login => "User not found!"
   end
 
   def json_response(object)
