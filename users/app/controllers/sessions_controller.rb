@@ -6,12 +6,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    debugger
     env['warden'].authenticate!
   end
 
   def update
-    debugger
     env['warden'].authenticate!
   end
 

@@ -1,6 +1,8 @@
-Rails.configuration.middleware.use Warden::Manager do |manager|
-  manager.default_strategies :secure_remote_password
-  manager.failure_app = SessionsController
+Rails.configuration.middleware.use RailsWarden::Manager do |config|
+  config.default_strategies :secure_remote_password
+  config.failure_app = SessionsController
+  config.default_scope = :user
+  config.scope_defaults :user, :action => :new
 end
 
 # Setup Session Serialization
@@ -18,31 +20,46 @@ end
 Warden::Strategies.add(:secure_remote_password) do
 
   def valid?
-    id && ( params['A'] || params['client_auth'] )
+    handshake? || authentication?
   end
 
   def authenticate!
-    if params['client_auth'] && session[:handshake]
+    if authentication?
       validate!
-    else
+    else  # handshake
       initialize!
     end
   end
 
   protected
 
+  def handshake?
+    params['A'] && params['login']
+  end
+
+  def authentication?
+    params['client_auth'] && session[:handshake]
+  end
+
   def validate!
     srp_session = session.delete(:handshake)
     user = srp_session.authenticate(params['client_auth'].hex)
-    user.nil? ? fail!("Could not log in") : success!(u)
+    user.nil? ? fail!("Could not log in") : success!(user)
   end
 
   def initialize!
     user = User.find_by_param(id)
     session[:handshake] = user.initialize_auth(params['A'].hex)
-    custom! [200, {}, [session[:handshake].to_json]]
+    custom! json_response(session[:handshake])
   rescue RECORD_NOT_FOUND
-    fail! "User not found"
+    fail! "User not found!"
+  end
+
+  def json_response(object)
+    [ 200,
+      {"Content-Type" => "application/json; charset=utf-8"},
+      [object.to_json]
+    ]
   end
 
   def id

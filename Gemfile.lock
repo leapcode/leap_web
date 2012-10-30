@@ -19,8 +19,8 @@ PATH
   specs:
     leap_web_users (0.1.0)
       leap_web_core (= 0.1.0)
+      rails_warden
       ruby-srp (~> 0.1.3)
-      warden
 
 GEM
   remote: https://rubygems.org/
@@ -120,6 +120,8 @@ GEM
       activesupport (= 3.2.8)
       bundler (~> 1.0)
       railties (= 3.2.8)
+    rails_warden (0.5.7)
+      warden (>= 1.0.0)
     railties (3.2.8)
       actionpack (= 3.2.8)
       activesupport (= 3.2.8)
