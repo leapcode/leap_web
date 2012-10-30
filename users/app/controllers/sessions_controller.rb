@@ -6,21 +6,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_param(params[:login])
-    session[:handshake] = @user.initialize_auth(params['A'].hex)
-    render :json => session[:handshake]
-  rescue RECORD_NOT_FOUND
-    render :json => {:errors => {:login => ["unknown user"]}}
+    debugger
+    env['warden'].authenticate!
   end
 
   def update
-    @srp_session = session.delete(:handshake)
-    @user = @srp_session.authenticate!(params[:client_auth].hex)
-    session[:user_id] = @user.id
-    render :json => @srp_session
-  rescue WRONG_PASSWORD
-    session[:handshake] = nil
-    render :json => {:errors => {"password" => ["wrong password"]}}
+    debugger
+    env['warden'].authenticate!
   end
 
   def destroy
