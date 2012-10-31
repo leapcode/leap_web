@@ -9,7 +9,7 @@ eval(File.read(File.dirname(__FILE__) + '/ui_dependencies.rb'))
 gem "leap_web_core", :path => 'core'
 gem 'leap_web_users', :path => 'users'
 gem 'leap_web_certs', :path => 'certs'
-# gem 'leap_web_help', :path => 'help'
+gem 'leap_web_help', :path => 'help'
 
 # To use debugger
 gem 'ruby-debug'
