@@ -36,6 +36,7 @@ On Debian Wheezy or later, there is a Debian package for bundler, so you can alt
 ### Download source
 
     git clone git://leap.se/leap_web
+    cd leap_web
     git submodule update --init
 
 ### Install required ruby libraries
