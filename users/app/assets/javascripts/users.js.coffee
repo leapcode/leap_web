@@ -27,7 +27,8 @@ validate_password = (event) ->
 
 signup = (event) ->
   srp = new SRP(jqueryRest())
-  srp.register()
+  srp.register ->
+    window.location = '/'
   false
 
 login = (event) ->
