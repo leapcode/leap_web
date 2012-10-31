@@ -44,7 +44,10 @@ class User < CouchRest::Model::Base
   end
 
   def to_json(options={})
-    super(options.merge(:only => ['login', 'password_salt']))
+    {
+      :login => login,
+      :ok => valid?
+    }.to_json(options)
   end
 
   def initialize_auth(aa)
