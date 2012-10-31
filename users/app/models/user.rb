@@ -66,8 +66,9 @@ class User < CouchRest::Model::Base
     login
   end
 
+  # Since we are storing admins by login, we cannot allow admins to change their login.
   def is_admin?
-    APP_CONFIG['admins'].include? self.id
+    APP_CONFIG['admins'].include? self.login
   end
 
 end
