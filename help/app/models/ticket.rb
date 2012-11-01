@@ -37,6 +37,7 @@ class Ticket < CouchRest::Model::Base
 
   design do
     view :by_title
+    view :by_is_open
   end
 
   validates :title, :presence => true

@@ -41,7 +41,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
     @ticket.attributes = params[:ticket]
     
-    # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by
+    # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by. will @tickets.comments_changed? work?
     @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
 
     if @ticket.save
@@ -57,7 +57,16 @@ class TicketsController < ApplicationController
 
   def index
     # @tickets = Ticket.by_title #not actually what we will want
-    respond_with(@tickets = Ticket.all) #we'll want only tickets that this user can access
+    #we'll want only tickets that this user can access
+    # @tickets = Ticket.by_is_open.key(params[:status])
+    if params[:status] == 'open'
+      @tickets = Ticket.by_is_open.key(true)
+    elsif params[:status] == 'closed'
+      @tickets = Ticket.by_is_open.key(false)
+    else
+      @tickets = Ticket.all
+    end
+    respond_with(@tickets) 
   end
 
   private

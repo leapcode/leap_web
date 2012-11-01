@@ -3,7 +3,9 @@ Create a
 = link_to "new ticket", new_ticket_path
 = # below shouldn't be unless logged in
 %h2 Tickets
-= # want to have selection option to see tickets, that are open, closed or all
+= form_tag (tickets_path, :method => :get) do # want to redo as ajax, and make sure it displays the selected option
+  = select_tag :status, options_for_select(["open", "closed", "all"])
+  = submit_tag "filter"
 - @tickets.each do |ticket|
   %p
   = link_to ticket.title, ticket
