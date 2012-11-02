@@ -12,4 +12,5 @@ gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
 
 # To use debugger
-gem 'ruby-debug'
+gem 'debugger', :platforms => :mri_19
+gem 'ruby-debug', :platforms => :mri_18
