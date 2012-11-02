@@ -38,6 +38,9 @@ class Ticket < CouchRest::Model::Base
   design do
     view :by_title
     view :by_is_open
+    view :by_created_by
+    view :by_is_open_and_created_by
+
   end
 
   validates :title, :presence => true
@@ -78,7 +81,6 @@ class Ticket < CouchRest::Model::Base
   end
 
   def comments_attributes=(attributes)
-
     comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
     #comment.posted_by = User.current.id if User.current #we want to avoid User.current, and current_user won't work here. instead will set in tickets_controller
     # what about: comment.posted_by = self.updated_by  (will need to add ticket.updated_by)

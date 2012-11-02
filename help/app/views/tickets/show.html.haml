@@ -1,10 +1,10 @@
+%h1 tickets show (just as space)
+%h1 tickets show (just as space)
 - if flash[:notice]
   =flash[:notice]
 - if flash[:alert]
   =flash[:alert]
 %h2= @ticket.title
-is open?
-= @ticket.is_open
 - if @ticket.code
   code:
   = @ticket.code
@@ -22,5 +22,8 @@ is open?
   = f.simple_fields_for :comments, TicketComment.new do |c|
     = c.input :body, :label => 'Comment', :as => :text
   = #render :partial => 'new_comment'
-  = f.button :submit
+  = f.label :is_open
+  = f.select :is_open, [true, false]
+  = f.button :submit # have button to close
+  = # want to ahve button to close
   = link_to t(:cancel), tickets_path, :class => :btn

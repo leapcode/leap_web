@@ -20,7 +20,8 @@ module ControllerExtension::Authentication
   end
 
   def access_denied
-    redirect_to login_url, :alert => "Not authorized"
+    redirect_to login_url, :alert => "Not authorized" if !logged_in?
+    redirect_to root_url, :alert => "Not authorized"
   end
 
   def admin?
