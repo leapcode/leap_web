@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class AccountFlowTest < ActionDispatch::IntegrationTest
+  include Warden::Test::Helpers
+
+  def teardown
+    Warden.test_reset!
+  end
 
   # this test wraps the api and implements the interface the ruby-srp client.
   def handshake(login, aa)
@@ -52,7 +57,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new(@login, "wrong password")
     server_auth = srp.authenticate(self)
-    assert_equal ["wrong password"], server_auth["errors"]['password']
+    assert_equal "Could not log in", server_auth["errors"]['password']
     assert_nil server_auth["M2"]
   end
 

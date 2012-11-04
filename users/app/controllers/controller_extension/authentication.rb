@@ -7,8 +7,8 @@ module ControllerExtension::Authentication
     helper_method :current_user, :logged_in?, :admin?
   end
 
-  def current_user
-    @current_user ||= request.env['warden'].user
+  def authentication_error
+    warden.winning_strategy.try(:message)
   end
 
   def logged_in?

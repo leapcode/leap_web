@@ -3,9 +3,7 @@ class SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def new
-    if warden.winning_strategy
-      @errors = warden.winning_strategy.message
-    end
+    @errors = authentication_error
   end
 
   def create
@@ -17,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    logout
     redirect_to root_path
   end
 end
