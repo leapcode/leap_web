@@ -53,6 +53,9 @@ The webapp can hand out certs for the EIP client. These certs are either picked 
 
 We also ship provider information through the webapp. For now please add your eip-service.json to the public/config directory.
 
+Copy the example configuration file and customize as appropriate:
+     cp config/config.yml.example config/config.yml
+
 Running
 -----------------------------
 
