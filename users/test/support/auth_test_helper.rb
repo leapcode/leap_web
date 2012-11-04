@@ -23,3 +23,7 @@ module AuthTestHelper
     end
   end
 end
+
+class ActionController::TestCase
+  include AuthTestHelper
+end
