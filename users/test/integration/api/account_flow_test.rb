@@ -4,7 +4,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
 
   # this test wraps the api and implements the interface the ruby-srp client.
   def handshake(login, aa)
-    post "sessions", :login => login, 'A' => aa.to_s(16)
+    post "sessions", :login => login, 'A' => aa.to_s(16), :format => :json
     assert_response :success
     response = JSON.parse(@response.body)
     if response['errors']
@@ -15,7 +15,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   end
 
   def validate(m)
-    put "sessions/" + @login, :client_auth => m.to_s(16)
+    put "sessions/" + @login, :client_auth => m.to_s(16), :format => :json
     assert_response :success
     return JSON.parse(@response.body)
   end

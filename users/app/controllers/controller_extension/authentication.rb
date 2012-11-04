@@ -8,7 +8,7 @@ module ControllerExtension::Authentication
   end
 
   def current_user
-    @current_user ||= env['warden'].user
+    @current_user ||= request.env['warden'].user
   end
 
   def logged_in?

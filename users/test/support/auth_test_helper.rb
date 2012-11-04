@@ -1,17 +1,18 @@
 module AuthTestHelper
+  extend ActiveSupport::Concern
 
-  def stub_logged_in
-    @user_id = stub
-    @user = stub
-    session[:user_id] = @user_id
-    User.expects(:find).once.with(@user_id).returns(@user)
-    return @user
+  # Controller will fetch current user from warden.
+  # Make it pick up our current_user
+  included do
+    setup do
+      request.env['warden'] ||= stub :user => nil
+    end
   end
 
-  def stub_logged_out
-    @user_id = stub
-    session[:user_id] = @user_id
-    User.expects(:find).once.with(@user_id).returns(nil)
+  def login(user = nil)
+    @current_user = user || stub
+    request.env['warden'] = stub :user => @current_user
+    return @current_user
   end
 
   def assert_access_denied(denied = true)
