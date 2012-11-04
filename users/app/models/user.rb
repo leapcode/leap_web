@@ -66,11 +66,9 @@ class User < CouchRest::Model::Base
     login
   end
 
-  def self.current
-    Thread.current[:user]
-  end
-  def self.current=(user)
-    Thread.current[:user] = user
+  # Since we are storing admins by login, we cannot allow admins to change their login.
+  def is_admin?
+    APP_CONFIG['admins'].include? self.login
   end
 
 end

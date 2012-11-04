@@ -19,7 +19,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "test require alphanumerical for login" do
-    @user.login = "qwär"
+    @user.login = "qw#r"
     assert !@user.valid?
   end
 
