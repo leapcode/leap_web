@@ -5,9 +5,6 @@
 - if flash[:alert]
   =flash[:alert]
 %h2= @ticket.title
-- if @ticket.code
-  code:
-  = @ticket.code
 - if @ticket.email
   email:
   = @ticket.email
@@ -24,6 +21,6 @@
   = #render :partial => 'new_comment'
   = f.label :is_open
   = f.select :is_open, [true, false]
-  = f.button :submit # have button to close
-  = # want to ahve button to close
+  = f.button :submit
+  = # TODO want to have button to close
   = link_to t(:cancel), tickets_path, :class => :btn

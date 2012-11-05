@@ -23,14 +23,14 @@ class Ticket < CouchRest::Model::Base
   
   #property :user_verified, TrueClass, :default => false #will be true exactly when user is set
   #admins
-  property :code, String, :protected => true # only should be set if created_by is nil
+  #property :code, String, :protected => true # only should be set if created_by is nil #instead we will just use couchdb ID
   property :is_open, TrueClass, :default => true
   property :comments, [TicketComment]
 
   timestamps!
   
   #before_validation :set_created_by, :set_code, :set_email, :on => :create
-  before_validation :set_code, :set_email, :on => :create
+  before_validation :set_email, :on => :create
 
 
   #named_scope :open, :conditions => {:is_open => true} #??
@@ -59,10 +59,12 @@ class Ticket < CouchRest::Model::Base
     !!created_by
   end
 
-  def set_code
+=begin
+  def set_code #let's not use this---can use same show url
     # ruby 1.9 provides url-safe option---this is not necessarily url-safe
     self.code = SecureRandom.hex(8) if !is_creator_validated?
   end
+=end
 
 
   def set_email

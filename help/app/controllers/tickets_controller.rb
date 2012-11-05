@@ -41,7 +41,7 @@ class TicketsController < ApplicationController
   def update
     
     @ticket = Ticket.find(params[:id])
-    if !ticket_access_denied?
+    if !ticket_access_denied? #can update w/out logging in if the ticket was created unauthenticated
 
       #below is excessively complicated. issue is that we don't need a new comment if we have changed anything else (currently, is_open is the only other thing to change.) However, if we don't change anything else, then we want to try to add a new comment (and possibly fail.) Likely this should all be redone.
       @ticket.is_open = params[:ticket][:is_open]
@@ -93,9 +93,10 @@ class TicketsController < ApplicationController
 
   private
   
+  
   def ticket_access_denied?
-    # TODO---we will allow unauthenticated users to view tickets with a code
-    if !admin? and current_user.id != @ticket.created_by
+    # allow access if user is admin, the ticket was created without unauthentication (thus anybody with URL can access ticket where created_by is nil), or if there is a non-admin user and they created the ticket
+    if !admin? and @ticket.created_by and (!current_user or current_user.id != @ticket.created_by)
       @ticket = nil
       access_denied
     end
