@@ -39,7 +39,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "signup response" do
-    assert_json_response @user_params.slice(:login, :password_salt)
+    assert_json_response :login => @login, :ok => true
     assert_response :success
   end
 

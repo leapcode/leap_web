@@ -4,5 +4,5 @@ development:
 test:
   admins: [admin, admin2]
 
-production
+production:
   admins: []
