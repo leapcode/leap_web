@@ -20,6 +20,7 @@ module ControllerExtension::Authentication
   end
 
   def access_denied
+    # TODO: should we redirect to the root_url in either case, and have the root_url include the login screen (and also ability to create unauthenticated tickets) when no user is logged in?
     redirect_to login_url, :alert => "Not authorized" if !logged_in?
     redirect_to root_url, :alert => "Not authorized" if logged_in?
   end

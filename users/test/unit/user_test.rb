@@ -48,4 +48,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal client_rnd, srp_session.aa
   end
 
+  test 'is user an admin' do
+    admin_login = APP_CONFIG['admins'].first
+    attribs = User.valid_attributes_hash
+    attribs[:login] = admin_login
+    admin_user = User.new(attribs)
+    assert admin_user.is_admin?
+    assert !@user.is_admin?
+
+  end
+
+
 end
