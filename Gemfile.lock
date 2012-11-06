@@ -81,13 +81,6 @@ GEM
     couchrest_session_store (0.0.1)
       couchrest
       couchrest_model
-    debugger (1.2.1)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.4)
-    debugger-linecache (1.1.2)
-      debugger-ruby_core_source (>= 1.1.1)
-    debugger-ruby_core_source (1.1.4)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -181,7 +174,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 2.1.0)
   coffee-rails (~> 3.2.2)
-  debugger
   haml (~> 3.1.7)
   haml-rails (~> 0.3.4)
   jquery-rails
