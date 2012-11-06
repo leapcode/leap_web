@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def update
+    debugger
     authenticate!
   end
 
