@@ -83,12 +83,13 @@ class Ticket < CouchRest::Model::Base
   end
 
   def comments_attributes=(attributes)
-    comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
-    #comment.posted_by = User.current.id if User.current #we want to avoid User.current, and current_user won't work here. instead will set in tickets_controller
-    # what about: comment.posted_by = self.updated_by  (will need to add ticket.updated_by)
-    comment.posted_at = Time.now
-    comments << comment
-    
+    if attributes # could be empty as we will empty if nothing was typed in
+      comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)
+      #comment.posted_by = User.current.id if User.current #we want to avoid User.current, and current_user won't work here. instead will set in tickets_controller
+      # what about: comment.posted_by = self.updated_by  (will need to add ticket.updated_by)
+      comment.posted_at = Time.now
+      comments << comment
+    end
   end
 
 =begin

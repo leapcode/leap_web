@@ -21,6 +21,8 @@
   = #render :partial => 'new_comment'
   = f.label :is_open
   = f.select :is_open, [true, false]
-  = f.button :submit
+  = f.button :submit, @post_reply_str
+  = f.button :submit, @reply_close_str
   = # TODO want to have button to close
+  = # TODO if admin, have  button to delete
   = link_to t(:cancel), tickets_path, :class => :btn
