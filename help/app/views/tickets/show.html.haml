@@ -35,9 +35,9 @@
   = f.button :submit, @post_reply_str
   - if @ticket.is_open
     = f.button :submit, @reply_close_str
-  = #link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => :btn if admin? # for link_to to work with delete, need to figure out jquery interaction correctly. see  http://stackoverflow.com/questions/3774925/delete-link-sends-get-instead-of-delete-in-rails-3-view etc..
-  = button_to 'destroy', ticket_path, :confirm => 'are you sure?', :method => :delete  if admin? #TODO---confirmation not working
-  = # button_to("test destroy", {}, {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}) #this works but is ugly
-  = # TODO want to have button to close
-  = # TODO if admin, have  button to delete
-  = link_to t(:cancel), tickets_path, :class => :btn
+= #link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => :btn if admin? # for link_to to work with delete, need to figure out jquery interaction correctly. see  http://stackoverflow.com/questions/3774925/delete-link-sends-get-instead-of-delete-in-rails-3-view etc..
+= button_to 'destroy', ticket_path, :confirm => 'are you sure?', :method => :delete  if admin? #TODO---confirmation not working
+= # button_to("test destroy", {}, {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}) #this works but is ugly
+= # TODO want to have button to close
+= # TODO if admin, have  button to delete
+= link_to t(:cancel), tickets_path, :class => :btn
