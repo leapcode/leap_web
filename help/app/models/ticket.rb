@@ -72,14 +72,15 @@ class Ticket < CouchRest::Model::Base
     # in controller set to be current users email if that exists
   end
 
+  #not saving with close and reopen, as we will save in update when they are called.
   def close
     self.is_open = false
-    save
+    #save
   end
 
   def reopen
     self.is_open = true
-    save
+    #save
   end
 
   def comments_attributes=(attributes)

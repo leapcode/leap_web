@@ -39,24 +39,31 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
-    redirect_to tickets_path, :alert => "No such ticket" if !@ticket
+    if !@ticket
+      redirect_to tickets_path, :alert => "No such ticket"
+      return
+    end
     authorize_ticket_access
     # @ticket.comments.build
     # build ticket comments?
   end
   
   def update
-
     @ticket = Ticket.find(params[:id])
     
     if ticket_access?
-      params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
-      @ticket.attributes = params[:ticket] #this will call comments_attributes=
-      
-      @ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
-
-      # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
-      @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) if @ticket.comments_changed? #protecting posted_by isn't working, so this should protect it.
+      if status = params[:change_status] #close or open button was pressed
+        @ticket.close if params[:change_status] == 'close'
+        @ticket.reopen if params[:change_status] == 'open'
+      else   
+        params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
+        @ticket.attributes = params[:ticket] #this will call comments_attributes=       
+        #@ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
+        @ticket.close if params[:commit] == @reply_close_str #this overrides is_open selection
+        
+        # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
+        @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) if @ticket.comments_changed? #protecting posted_by isn't working, so this should protect it.
+      end
       if @ticket.changed? and @ticket.save
         flash[:notice] = 'Ticket was successfully updated.'
         respond_with @ticket

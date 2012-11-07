@@ -8,21 +8,33 @@
 - if @ticket.email
   email:
   = @ticket.email
-- if User.find(@ticket.created_by)
-  Created by
-  = User.find(@ticket.created_by).login 
-- else
-  Unauthenticated ticket creator
+%li
+  - if User.find(@ticket.created_by)
+    Created by
+    = User.find(@ticket.created_by).login 
+  - else
+    Unauthenticated ticket creator
+%li
+  = "status:" 
+  - if @ticket.is_open
+    = 'open'
+    = #link_to 'close', ticket_path, :method => :put
+    = #button_to 'close', ticket_path, :method => :put
+    = button_to 'close', {:change_status => :close}, :method => :put
+  - else 
+    = 'closed'
+    = button_to 'open', {:change_status => :open}, :method => :put
 = render(:partial => "comment", :collection => @ticket.comments)
 
 = simple_form_for (@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
   = f.simple_fields_for :comments, TicketComment.new do |c|
     = c.input :body, :label => 'Comment', :as => :text
   = #render :partial => 'new_comment'
-  = f.label :is_open
-  = f.select :is_open, [true, false]
+  = #f.label :is_open
+  = #f.select :is_open, [true, false] #remove
   = f.button :submit, @post_reply_str
-  = f.button :submit, @reply_close_str
+  - if @ticket.is_open
+    = f.button :submit, @reply_close_str
   = #link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => :btn if admin? # for link_to to work with delete, need to figure out jquery interaction correctly. see  http://stackoverflow.com/questions/3774925/delete-link-sends-get-instead-of-delete-in-rails-3-view etc..
   = button_to 'destroy', ticket_path, :confirm => 'are you sure?', :method => :delete  if admin? #TODO---confirmation not working
   = # button_to("test destroy", {}, {:onclick => "return confirm('Are you sure?')", :method => :delete, :remote => true}) #this works but is ugly
