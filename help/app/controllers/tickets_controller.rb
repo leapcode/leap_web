@@ -39,17 +39,17 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
-    ticket_access_denied?
-    redirect_to root_url, :alert => "No such ticket" if !@ticket
+    redirect_to tickets_path, :alert => "No such ticket" if !@ticket
+    authorize_ticket_access
     # @ticket.comments.build
     # build ticket comments?
   end
   
   def update
-    
-    @ticket = Ticket.find(params[:id])
-    if !ticket_access_denied? #can update w/out logging in if the ticket was created unauthenticated
 
+    @ticket = Ticket.find(params[:id])
+    
+    if ticket_access?
       params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
       @ticket.attributes = params[:ticket] #this will call comments_attributes=
       
@@ -100,16 +100,20 @@ class TicketsController < ApplicationController
     respond_with(@tickets) 
   end
 
+  def destroy
+    @ticket = Ticket.find(params[:id])
+    @ticket.destroy if admin?
+    redirect_to tickets_path
+  end
+
   private
   
-  
-  def ticket_access_denied?
-    # allow access if user is admin, the ticket was created without unauthentication (thus anybody with URL can access ticket where created_by is nil), or if there is a non-admin user and they created the ticket
-    if !admin? and @ticket.created_by and (!current_user or current_user.id != @ticket.created_by)
-      @ticket = nil
-      access_denied
-    end
-   
+  def ticket_access?
+    @ticket and (admin? or !@ticket.created_by or (current_user and current_user.id == @ticket.created_by)) 
+  end
+
+  def authorize_ticket_access
+    access_denied unless ticket_access?
   end
 
   # not using now, as we are using comment_attributes= from the Ticket model
