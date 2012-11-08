@@ -84,6 +84,10 @@ class TicketsController < ApplicationController
         @tickets = Ticket.by_is_open.key(true)
       elsif params[:status] == 'closed'
         @tickets = Ticket.by_is_open.key(false)
+      elsif params[:status] == 'open tickets I admin' #TODO: obviously temp hack
+        @tickets = tickets_by_admin(current_user.id)
+      elsif params[:status] == 'all tickets I admin' #TODO: obviously temp hack
+        @tickets = tickets_by_admin(current_user.id, false)
       else
         @tickets = Ticket.all
       end
@@ -120,6 +124,19 @@ class TicketsController < ApplicationController
     access_denied unless ticket_access?
   end
 
+  def tickets_by_admin(id=current_user.id, just_open=true)
+    admin_tickets = []
+    tickets = Ticket.all
+    tickets.each do |ticket|
+      ticket.comments.each do |comment| 
+        if comment.posted_by == id and (!just_open or ticket.is_open)
+          admin_tickets << ticket
+          break
+        end 
+      end
+    end
+    admin_tickets
+  end
 
   def set_strings
     @post_reply_str = 'Post reply' #t :post_reply

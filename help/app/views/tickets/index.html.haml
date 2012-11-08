@@ -4,7 +4,11 @@ Create a
 = # below shouldn't be unless logged in
 %h2 Tickets
 = form_tag (tickets_path, :method => :get) do # want to redo as ajax, and make sure it displays the selected option
-  = select_tag :status, options_for_select(["open", "closed", "all"])
+  - options = ["open", "closed", "all"]
+  - if admin?
+    - options << "open tickets I admin" # obviously not what we will want
+    - options << "all tickets I admin" # obviously not what we will want
+  = select_tag :status, options_for_select(options) # TODO
   = submit_tag "filter"
 - @tickets.each do |ticket|
   %p

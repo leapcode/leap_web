@@ -21,6 +21,7 @@
     = 'closed'
     = button_to 'open', {:change_status => :open}, :method => :put
 = render(:partial => "comment", :collection => @ticket.comments)
+= #render @ticket.comments should work if view is in /app/views/comments/_comment
 
 = simple_form_for(@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
   = f.simple_fields_for :comments, TicketComment.new do |c|
