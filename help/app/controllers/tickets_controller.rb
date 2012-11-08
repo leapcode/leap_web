@@ -3,11 +3,7 @@ class TicketsController < ApplicationController
   respond_to :html #, :json
   #has_scope :open, :type => boolean
 
-  def initialize
-    @post_reply_str = 'Post reply' #t :post_reply
-    # @close_str = 'Close ticket' #t :close_ticket
-    @reply_close_str = 'Reply and close' #t :reply_and_close
-  end
+  before_filter :set_strings
 
   def new
     @ticket = Ticket.new
@@ -58,7 +54,7 @@ class TicketsController < ApplicationController
       else   
         params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
         @ticket.attributes = params[:ticket] #this will call comments_attributes=       
-        #@ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
+        # @ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
         @ticket.close if params[:commit] == @reply_close_str #this overrides is_open selection
         
         # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
@@ -83,6 +79,7 @@ class TicketsController < ApplicationController
 
     #below is obviously too messy and not what we want, but wanted to get basic functionality there
     if admin?
+      # todo: for admins, might want option to see tickets they have already posted to. want to use something like tickets_by_admin
       if params[:status] == 'open'
         @tickets = Ticket.by_is_open.key(true)
       elsif params[:status] == 'closed'
@@ -123,6 +120,11 @@ class TicketsController < ApplicationController
     access_denied unless ticket_access?
   end
 
+
+  def set_strings
+    @post_reply_str = 'Post reply' #t :post_reply
+    @reply_close_str = 'Reply and close' #t :reply_and_close
+  end
   # not using now, as we are using comment_attributes= from the Ticket model
 =begin
   def add_comment
