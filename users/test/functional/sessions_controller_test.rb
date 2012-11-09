@@ -1,5 +1,8 @@
 require 'test_helper'
 
+# This is a simple controller unit test.
+# We're stubbing out both warden and srp.
+# There's an integration test testing the full rack stack and srp
 class SessionsControllerTest < ActionController::TestCase
 
   setup do
@@ -30,23 +33,23 @@ class SessionsControllerTest < ActionController::TestCase
     assert_json_response :errors => strategy.message
   end
 
+  # Warden takes care of parsing the params and
+  # rendering the response. So not much to test here.
   test "should perform handshake" do
-    assert_raises ActionView::MissingTemplate do
-      request.env['warden'].expects(:authenticate!)
-      post :create, :login => @user.login, 'A' => @client_hex
-      assert params['A']
-      assert params['login']
-    end
+    request.env['warden'].expects(:authenticate!)
+    # make sure we don't get a template missing error:
+    @controller.stubs(:render)
+    post :create, :login => @user.login, 'A' => @client_hex
   end
 
   test "should authorize" do
-    assert_raises ActionView::MissingTemplate do
-      request.env['warden'].expects(:authenticate!)
-      session[:handshake] = stub
-      post :update, :id => @user.login, :client_auth => @client_hex
-      assert params['client_auth']
-      assert session[:handshake]
-    end
+    request.env['warden'].expects(:authenticate!)
+    handshake = stub(:to_json => "JSON")
+    session[:handshake] = handshake
+    post :update, :id => @user.login, :client_auth => @client_hex
+    assert_nil session[:handshake]
+    assert_response :success
+    assert_equal handshake.to_json, @response.body
   end
 
   test "logout should reset warden user" do
