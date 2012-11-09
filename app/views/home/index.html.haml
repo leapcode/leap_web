@@ -1,11 +1,14 @@
+%h1 spacer for firefox
+%h1 spacer for firefox
 
 Try to fetch a 
 = link_to "cert", cert_path
 
 %p 
-Try to create a 
+Create a 
 = link_to "ticket", new_ticket_path
 
-%p
-See all 
-= link_to "tickets", tickets_path
+- if logged_in?
+  %p
+  See all 
+  = link_to "tickets", tickets_path

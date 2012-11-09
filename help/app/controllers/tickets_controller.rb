@@ -19,8 +19,10 @@ class TicketsController < ApplicationController
     else 
       @ticket.comments.last.posted_by = nil #hacky, but protecting this attribute doesn't work right, so this should make sure it isn't set.
     end
-
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
+    if !logged_in?
+      flash[:notice] = flash[:notice] + ' You can later access this ticket at the url ' + request.protocol + request.host_with_port + ticket_path(@ticket.id) + '. You might want to bookmark this page to find it again. Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to remove it from the browser history' #todo
+    end
     respond_with(@ticket)
 
   end
@@ -62,7 +64,11 @@ class TicketsController < ApplicationController
       end
       if @ticket.changed? and @ticket.save
         flash[:notice] = 'Ticket was successfully updated.'
-        respond_with @ticket
+        if @ticket.is_open
+          respond_with @ticket
+        else #for closed tickets, redirect to index.
+          redirect_to tickets_path
+        end
       else
         #redirect_to [:show, @ticket] #
         flash[:alert] = 'Ticket has not been changed'
@@ -76,6 +82,8 @@ class TicketsController < ApplicationController
     # @tickets = Ticket.by_title #not actually what we will want
     #we'll want only tickets that this user can access
     # @tickets = Ticket.by_is_open.key(params[:status])
+
+    #TODO: we will need pagination
 
     #below is obviously too messy and not what we want, but wanted to get basic functionality there
     if admin?
