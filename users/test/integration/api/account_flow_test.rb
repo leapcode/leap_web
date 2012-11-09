@@ -29,7 +29,6 @@ class AccountFlowTest < ActiveSupport::TestCase
   end
 
   def validate(m)
-    debugger
     put "/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
     assert last_response.successful?
     return JSON.parse(last_response.body)

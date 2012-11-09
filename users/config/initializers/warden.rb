@@ -13,7 +13,7 @@ class Warden::SessionSerializer
 
   def deserialize(keys)
     klass, id = keys
-    klass.find(id)
+    klass.constantize.find(id)
   end
 end
 
@@ -42,8 +42,7 @@ Warden::Strategies.add(:secure_remote_password) do
   end
 
   def validate!
-    srp_session = session.delete(:handshake)
-    user = srp_session.authenticate(params['client_auth'].hex)
+    user = session[:handshake].authenticate(params['client_auth'].hex)
     user ? success!(user) : fail!(:password => "Could not log in")
   end
 

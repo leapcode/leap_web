@@ -11,8 +11,8 @@ class SessionsController < ApplicationController
   end
 
   def update
-    debugger
     authenticate!
+    render :json => session.delete(:handshake)
   end
 
   def destroy
