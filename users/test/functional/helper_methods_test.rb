@@ -16,26 +16,23 @@ class HelperMethodsTest < ActionController::TestCase
     @controller
   end
 
-  def test_current_user_with_caching
-    @user = stub_logged_in
-    assert_equal @user, current_user
-    assert_equal @user, current_user # tests caching
+  def test_current_user
+    login
+    assert_equal @current_user, current_user
   end
 
   def test_logged_in
-    @user = stub_logged_in
+    login
     assert logged_in?
   end
 
   def test_logged_out
-    stub_logged_out
     assert !logged_in?
   end
 
   def test_admin
-    bool = stub
-    @user = stub_logged_in
-    @user.expects(:is_admin?).returns(bool)
+    login
+    @current_user.expects(:is_admin?).returns(bool = stub)
     assert_equal bool, admin?
   end
 

@@ -22,4 +22,4 @@ test/dummy/log/*
 test/dummy/tmp/*
 
 # Ignore configuration file.
-config/config.yml
+config/config.ymlGemfile.lock
