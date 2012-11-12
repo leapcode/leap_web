@@ -3,43 +3,50 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 #
 
-validate_password = (event) ->
+preventDefault = (event) ->
+  event.preventDefault()
 
-  password = $('#srp_password').val()
-  confirmation = $('#srp_password_confirmation').val()
-  login = $('#srp_username').val()
-
-  if password != confirmation
-    alert "Password and Confirmation do not match!"
-    $('#srp_password').focus()
-    return false
-  if password == login
-    alert "Password and Login may not match!"
-    $('#srp_password').focus()
-    return false
-  if password.length < 8
-    alert "Password needs to be at least 8 characters long!"
-    $('#srp_password').focus()
-    return false
+validOrAbort = (event) ->
+  errors = {}
   
-  return true
+  abortIfErrors = ->
+    return if $.isEmptyObject(errors)
+    $.each errors, (field, error) ->
+      alert(error) 
+      $('#srp_password').focus()
+    event.stopImmediatePropagation()
+    
+  validatePassword = ->
+    password = $('#srp_password').val()
+    confirmation = $('#srp_password_confirmation').val()
+    login = $('#srp_username').val()
   
+    if password != confirmation
+      errors.password_confirmation = "Confirmation does not match!"
+    if password == login
+      errors.password = "Password and Login may not match!"
+    if password.length < 8
+      errors.password = "Password needs to be at least 8 characters long!"
 
+  validatePassword()
+  abortIfErrors()
+  
+  
 signup = (event) ->
   srp = new SRP(jqueryRest())
   srp.register ->
     window.location = '/'
-  false
 
 login = (event) ->
   srp = new SRP(jqueryRest())
   srp.identify ->
     window.location = '/'
-  false
 
 
 $(document).ready ->
-  $('#new_user').submit validate_password
+  $('#new_user').submit preventDefault
+  $('#new_user').submit validOrAbort
   $('#new_user').submit signup
+  $('#new_session').submit preventDefault
   $('#new_session').submit login
 
