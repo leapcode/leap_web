@@ -61,6 +61,10 @@ GEM
     arel (3.0.2)
     bootstrap-sass (2.1.0.0)
     builder (3.0.3)
+    client_side_validations (3.2.1)
+    client_side_validations-simple_form (2.0.0)
+      client_side_validations (~> 3.2.0)
+      simple_form (~> 2.0.3)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -173,6 +177,8 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (~> 2.1.0)
+  client_side_validations
+  client_side_validations-simple_form
   coffee-rails (~> 3.2.2)
   haml (~> 3.1.7)
   haml-rails (~> 0.3.4)

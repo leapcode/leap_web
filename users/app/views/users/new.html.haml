@@ -1,6 +1,6 @@
 .span8.offset2
   %h2=t :signup
-  = simple_form_for @user, :html => {:class => 'form-horizontal'} do |f|
+  = simple_form_for @user, :validate => true, :html => {:class => 'form-horizontal'} do |f|
     %legend=t :signup_message
     = f.input :login, :input_html => { :id => :srp_username }
     = f.input :password, :required => true, :input_html => { :id => :srp_password }
