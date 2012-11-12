@@ -8,20 +8,19 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   def test_authorize_redirect
-    stub_logged_out
     @controller.send(:authorize)
     assert_access_denied
   end
 
   def test_authorized
-    @user = stub_logged_in
+    login
     @controller.send(:authorize)
     assert_access_denied(false)
   end
 
   def test_authorize_admin
-    @user = stub_logged_in
-    @user.expects(:is_admin?).returns(false)
+    login
+    @current_user.expects(:is_admin?).returns(false)
     @controller.send(:authorize_admin)
     assert_access_denied
   end

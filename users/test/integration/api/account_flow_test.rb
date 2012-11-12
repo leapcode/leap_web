@@ -1,12 +1,26 @@
 require 'test_helper'
 
-class AccountFlowTest < ActionDispatch::IntegrationTest
+CONFIG_RU = (Rails.root + 'config.ru').to_s
+OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
+
+class AccountFlowTest < ActiveSupport::TestCase
+  include Rack::Test::Methods
+  include Warden::Test::Helpers
+  include LeapWebCore::AssertResponses
+
+  def app
+    OUTER_APP
+  end
+
+  def teardown
+    Warden.test_reset!
+  end
 
   # this test wraps the api and implements the interface the ruby-srp client.
   def handshake(login, aa)
-    post "sessions", :login => login, 'A' => aa.to_s(16)
-    assert_response :success
-    response = JSON.parse(@response.body)
+    post "/sessions.json", :login => login, 'A' => aa.to_s(16), :format => :json
+    assert last_response.successful?
+    response = JSON.parse(last_response.body)
     if response['errors']
       raise RECORD_NOT_FOUND.new(response['errors'])
     else
@@ -15,9 +29,9 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   end
 
   def validate(m)
-    put "sessions/" + @login, :client_auth => m.to_s(16)
-    assert_response :success
-    return JSON.parse(@response.body)
+    put "/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
+    assert last_response.successful?
+    return JSON.parse(last_response.body)
   end
 
   def setup
@@ -40,7 +54,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
 
   test "signup response" do
     assert_json_response :login => @login, :ok => true
-    assert_response :success
+    assert last_response.successful?
   end
 
   test "signup and login with srp via api" do
@@ -52,7 +66,7 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new(@login, "wrong password")
     server_auth = srp.authenticate(self)
-    assert_equal ["wrong password"], server_auth["errors"]['password']
+    assert_equal "Could not log in", server_auth["errors"]['password']
     assert_nil server_auth["M2"]
   end
 
