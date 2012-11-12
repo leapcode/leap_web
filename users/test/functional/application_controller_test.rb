@@ -8,9 +8,9 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   def test_authorize_redirect
-    stub_logged_out
+    stub_logged_out #broken?
     @controller.send(:authorize)
-    assert_access_denied
+    assert_access_denied(true, false)
   end
 
   def test_authorized
