@@ -3,9 +3,7 @@ require 'test_helper'
 class TicketsControllerTest < ActionController::TestCase
 
   test "should get index if logged in" do 
-    #todo: should redo this and actually authorize
-    user = User.last
-    session[:user_id] = user.id
+    login(User.last)
     get :index
     assert_response :success
     assert_not_nil assigns(:tickets)
@@ -16,7 +14,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal Ticket, assigns(:ticket).class
     assert_response :success
   end
-
 
   test "should create unauthenticated ticket" do
     params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
@@ -57,45 +54,82 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "add comment to unauthenticated ticket" do
-
     ticket = Ticket.last
     ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one 
     ticket.save
-#    comment_count = t.comments.count
-#    put :update, :id => t.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
-#    assert_equal(comment_count + 1, assigns(:ticket).comments.count)
-    #assert_difference block isn't working
     assert_difference('Ticket.last.comments.count') do
       put :update, :id => ticket.id,
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
-    assert_equal ticket, assigns(:ticket)
+
+    assert_not_equal ticket.comments, assigns(:ticket).comments # ticket == assigns(:ticket), but they have different comments (which we want)
+
+  end
 
 
-  test "add comment to authenticated ticket" do
+  test "add comment to own authenticated ticket" do
+
+    login(User.last)
+
+    ticket = Ticket.last
+    ticket.created_by = User.last.id # TODO: hacky, but confirms it is their ticket
+    ticket.save
+    #they should be able to comment if it is their ticket:
+    assert_difference('Ticket.last.comments.count') do
+      put :update, :id => ticket.id,
+        :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    end
+    assert_not_equal ticket.comments, assigns(:ticket).comments
+
+  end
 
 
-    params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+  test "cannot comment if it is not your ticket" do
 
-    #todo: should redo this and actually authorize
-    user = User.last
-    session[:user_id] = user.id
-    
-    post :create, :ticket => params
-    t = assigns(:ticket)
+    login(User.last) # assumes User.last is not admin
+    assert !@current_user.is_admin?
 
-    comment_count = t.comments.count
-    debugger
-    put :update, :id => t.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} } # this isn't working
-    assert_equal(comment_count + 1, t.comments.count) 
+    ticket = Ticket.last
 
-    #comment_count = t.comments.count
-    # now log out: and retry
-    #session[:user_id] = nil
-    #put :update, :id => t.id, :ticket => {:comments_attributes => {"0" => {"body" =>"EVEN NEWER comment"}} } # should fail
-#    assert_equal(comment_count, t.comments.count)
-    #assert_difference block isn't working
-    t.destroy
+    ticket.created_by = User.first.id #assumes User.first != User.last
+    assert_not_equal User.first, User.last
+    ticket.save
+    # they should *not* be able to comment if it is not their ticket
+    put :update, :id => ticket.id,
+        :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    assert_response :redirect
+    assert_access_denied
+    assert_equal ticket.comments, assigns(:ticket).comments
+   
+  end
+
+
+  test "admin add comment to authenticated ticket" do
+
+    admin_login = APP_CONFIG['admins'].first
+    attribs = User.valid_attributes_hash
+    attribs[:login] = admin_login
+    admin_user = User.new(attribs)
+    login(admin_user)
+
+    ticket = Ticket.last
+    ticket.created_by = User.last.id # TODO: hacky, but confirms it somebody elses ticket
+    assert_not_equal User.last, admin_user
+    ticket.save
+
+    #admin should be able to comment:
+    assert_difference('Ticket.last.comments.count') do
+      put :update, :id => ticket.id,
+        :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    end
+    assert_not_equal ticket.comments, assigns(:ticket).comments
+
+  end
+
+
+  test "test_tickets_by_admin" do
+    #TODO
   end
 
 end
+

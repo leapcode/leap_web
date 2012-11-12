@@ -41,7 +41,7 @@ class TicketsController < ApplicationController
       redirect_to tickets_path, :alert => "No such ticket"
       return
     end
-    authorize_ticket_access
+    ticket_access_denied? #authorize_ticket_access
     # @ticket.comments.build
     # build ticket comments?
   end
@@ -49,7 +49,7 @@ class TicketsController < ApplicationController
   def update
     @ticket = Ticket.find(params[:id])
     
-    if ticket_access?
+    if !ticket_access_denied?
       if status = params[:change_status] #close or open button was pressed
         @ticket.close if params[:change_status] == 'close'
         @ticket.reopen if params[:change_status] == 'open'
@@ -128,7 +128,7 @@ class TicketsController < ApplicationController
     @ticket and (admin? or !@ticket.created_by or (current_user and current_user.id == @ticket.created_by)) 
   end
 
-  def authorize_ticket_access
+  def ticket_access_denied?
     access_denied unless ticket_access?
   end
 
