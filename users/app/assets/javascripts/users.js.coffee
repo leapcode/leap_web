@@ -1,8 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-#
-
 preventDefault = (event) ->
   event.preventDefault()
 
@@ -11,9 +6,9 @@ validOrAbort = (event) ->
   
   abortIfErrors = ->
     return if $.isEmptyObject(errors)
-    $.each errors, (field, error) ->
-      alert(error) 
-      $('#srp_password').focus()
+    # we're relying on client_side_validations here instead of printing
+    # our own errors. This gets us translatable error messages.
+    $('.control-group.error input, .control-group.error select, control-group.error textarea').first().focus()
     event.stopImmediatePropagation()
     
   validatePassword = ->

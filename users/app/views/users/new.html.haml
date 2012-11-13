@@ -3,7 +3,7 @@
   = simple_form_for @user, :validate => true, :html => {:class => 'form-horizontal'} do |f|
     %legend=t :signup_message
     = f.input :login, :input_html => { :id => :srp_username }
-    = f.input :password, :required => true, :input_html => { :id => :srp_password }
+    = f.input :password, :required => true, :validate => true, :input_html => { :id => :srp_password }
     = f.input :password_confirmation, :required => true, :input_html => { :id => :srp_password_confirmation }
     = f.button :submit, :value => t(:signup), :class => 'btn-primary' 
     = link_to t(:cancel), root_url, :class => :btn
