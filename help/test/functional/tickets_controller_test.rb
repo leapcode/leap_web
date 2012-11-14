@@ -16,41 +16,40 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "should create unauthenticated ticket" do
-    params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+    params = {:title => "unauth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     assert_difference('Ticket.count') do
       post :create, :ticket => params
     end
 
     assert_response :redirect
-    #assert_equal assigns(:ticket).email, User.current.email
-    #assert_equal User.find(assigns(:ticket).created_by).login, User.current.login
     assert_nil assigns(:ticket).created_by
 
     assert_equal 1, assigns(:ticket).comments.count
+    assert_nil assigns(:ticket).comments.first.posted_by
     assigns(:ticket).destroy # destroys without checking permission. is that okay?
 
   end
 
-
   test "should create authenticated ticket" do
 
-    params = {:title => "ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+    params = {:title => "auth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     login User.last
-
     assert_difference('Ticket.count') do
       post :create, :ticket => params
     end
 
     assert_response :redirect
-    ticket = assigns(:ticket)
-    assert ticket
-    assert_equal @current_user.id, ticket.created_by
-    assert_equal @current_user.email, ticket.email
 
+    assert_not_nil assigns(:ticket).created_by 
+    assert_equal assigns(:ticket).created_by, @current_user.id
+    assert_equal assigns(:ticket).email, @current_user.email
+    
     assert_equal 1, assigns(:ticket).comments.count
-    assigns(:ticket).destroy # ?
+    assert_not_nil assigns(:ticket).comments.first.posted_by
+    assert_equal assigns(:ticket).comments.first.posted_by, @current_user.id
+    assigns(:ticket).destroy
   end
 
   test "add comment to unauthenticated ticket" do
@@ -62,6 +61,7 @@ class TicketsControllerTest < ActionController::TestCase
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
 
+    assert_equal ticket, assigns(:ticket) # still same ticket, with different comments
     assert_not_equal ticket.comments, assigns(:ticket).comments # ticket == assigns(:ticket), but they have different comments (which we want)
 
   end
@@ -70,7 +70,6 @@ class TicketsControllerTest < ActionController::TestCase
   test "add comment to own authenticated ticket" do
 
     login(User.last)
-
     ticket = Ticket.last
     ticket.created_by = User.last.id # TODO: hacky, but confirms it is their ticket
     ticket.save
@@ -80,6 +79,8 @@ class TicketsControllerTest < ActionController::TestCase
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
     assert_not_equal ticket.comments, assigns(:ticket).comments
+    assert_not_nil assigns(:ticket).comments.last.posted_by
+    assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
   end
 
@@ -91,7 +92,8 @@ class TicketsControllerTest < ActionController::TestCase
 
     ticket = Ticket.last
 
-    ticket.created_by = User.first.id #assumes User.first != User.last
+    assert_not_nil User.first.id
+    ticket.created_by = User.first.id #assumes User.first != User.last:
     assert_not_equal User.first, User.last
     ticket.save
     # they should *not* be able to comment if it is not their ticket
@@ -107,13 +109,12 @@ class TicketsControllerTest < ActionController::TestCase
   test "admin add comment to authenticated ticket" do
 
     admin_login = APP_CONFIG['admins'].first
-    attribs = User.valid_attributes_hash
-    attribs[:login] = admin_login
-    admin_user = User.new(attribs)
-    login(admin_user)
+    admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
+    login(admin_user) 
 
     ticket = Ticket.last
-    ticket.created_by = User.last.id # TODO: hacky, but confirms it somebody elses ticket
+    assert_not_nil User.last.id
+    ticket.created_by = User.last.id # TODO: hacky, but confirms it somebody elses ticket. assumes last user is not admin user:
     assert_not_equal User.last, admin_user
     ticket.save
 
@@ -123,13 +124,51 @@ class TicketsControllerTest < ActionController::TestCase
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
     assert_not_equal ticket.comments, assigns(:ticket).comments
+    assert_not_nil assigns(:ticket).comments.last.posted_by
+    assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
   end
-
 
   test "test_tickets_by_admin" do
-    #TODO
+
+    admin_login = APP_CONFIG['admins'].first
+    admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
+    login(admin_user)
+    
+    post :create, :ticket => {:title => "test tick", :comments_attributes => {"0" => {"body" =>"body of test tick"}}}
+    post :create, :ticket => {:title => "another test tick", :comments_attributes => {"0" => {"body" =>"body of another test tick"}}}
+
+    assert_not_nil assigns(:ticket).created_by
+    assert_equal assigns(:ticket).created_by, admin_user.id
+
+    get :index, {:status => "open tickets I admin"}
+    assert assigns(:tickets).count > 1 # at least 2 tickets
+
+    # if we close one ticket, the admin should have 1 less open ticket they admin
+    assert_difference('assigns[:tickets].count', -1) do
+      assigns(:ticket).close
+      assigns(:ticket).save
+      get :index, {:status => "open tickets I admin"}
+    end
+    assigns(:ticket).destroy
+
+    testticket = Ticket.create :title => 'testytest'
+    assert !assigns(:tickets).include?(testticket)
+
+    # admin should have one more ticket if a new tick gets an admin comment
+    assert_difference('assigns[:tickets].count') do
+      put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}} 
+      get :index, {:status => "open tickets I admin"}
+    end
+
+    assert assigns(:tickets).include?(assigns(:ticket))
+    assert_not_nil assigns(:ticket).comments.last.posted_by
+    assert_equal assigns(:ticket).comments.last.posted_by, admin_user.id
+
+    assigns(:ticket).destroy
+    
   end
+
 
 end
 

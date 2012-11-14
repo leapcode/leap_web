@@ -12,7 +12,7 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = Ticket.new(params[:ticket])
-    if current_user
+    if logged_in?
       @ticket.created_by = current_user.id
       @ticket.email = current_user.email if current_user.email
       @ticket.comments.last.posted_by = current_user.id
@@ -48,7 +48,7 @@ class TicketsController < ApplicationController
   
   def update
     @ticket = Ticket.find(params[:id])
-    
+
     if !ticket_access_denied?
       if status = params[:change_status] #close or open button was pressed
         @ticket.close if params[:change_status] == 'close'
