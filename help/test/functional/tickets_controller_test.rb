@@ -15,6 +15,31 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "ticket show access" do
+    ticket = Ticket.first
+    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one 
+    ticket.save
+    get :show, :id => ticket.id
+    assert_response :success
+
+    ticket.created_by = User.last.id
+    ticket.save
+    get :show, :id => ticket.id
+    assert_response :redirect
+    assert_redirected_to login_url
+
+    login(User.last) 
+    get :show, :id => ticket.id
+    assert_response :success
+
+    login(User.first) #assumes User.first != User.last:
+    assert_not_equal User.first, User.last
+    get :show, :id => ticket.id
+    assert_response :redirect
+    assert_redirected_to root_url
+    
+  end
+
   test "should create unauthenticated ticket" do
     params = {:title => "unauth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
@@ -129,7 +154,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   end
 
-  test "test_tickets_by_admin" do
+  test "tickets by admin" do
 
     admin_login = APP_CONFIG['admins'].first
     admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
@@ -168,7 +193,6 @@ class TicketsControllerTest < ActionController::TestCase
     assigns(:ticket).destroy
     
   end
-
 
 end
 
