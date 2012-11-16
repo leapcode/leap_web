@@ -19,5 +19,6 @@
           .row
             .span12
               = render 'layouts/messages' # TODO: In firefox, these are hidden by header
-              = yield
+              %div{"data-pjax-container" => ""}
+                = yield
           %footer

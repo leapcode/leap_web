@@ -2,6 +2,7 @@ gem "haml", "~> 3.1.7"
 gem "bootstrap-sass", "~> 2.1.0"
 gem "jquery-rails"
 gem "simple_form"
+gem "pjax_rails"
 
 group :assets do
   gem "haml-rails", "~> 0.3.4"
