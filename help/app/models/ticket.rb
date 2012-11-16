@@ -83,6 +83,19 @@ class Ticket < CouchRest::Model::Base
     #save
   end
 
+  def commenters 
+    commenters = []
+    self.comments.each do |comment|
+      if comment.posted_by
+        user = User.find(comment.posted_by) 
+        commenters << user.login if user and !commenters.include?(user.login)
+      else
+        commenters << 'unauthenticated user' if !commenters.include?('unauthenticated user') #todo don't hardcode string 'unauthenticated user' 
+      end
+    end
+    commenters.join(', ')
+  end
+
   def comments_attributes=(attributes)
     if attributes # could be empty as we will empty if nothing was typed in
       comment = TicketComment.new(attributes.values.first) #TicketComment.new(attributes)

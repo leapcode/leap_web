@@ -79,31 +79,23 @@ class TicketsController < ApplicationController
   end
 
   def index
-    # @tickets = Ticket.by_title #not actually what we will want
-    #we'll want only tickets that this user can access
-    # @tickets = Ticket.by_is_open.key(params[:status])
-
     #TODO: we will need pagination
 
-    #below is obviously too messy and not what we want, but wanted to get basic functionality there
     if admin?
-      # todo: for admins, might want option to see tickets they have already posted to. want to use something like tickets_by_admin
-      if params[:status] == 'open'
-        @tickets = Ticket.by_is_open.key(true)
-      elsif params[:status] == 'closed'
-        @tickets = Ticket.by_is_open.key(false)
-      elsif params[:status] == 'open tickets I admin' #TODO: obviously temp hack
+      if params[:admin_status] == 'mine'
         @tickets = tickets_by_admin(current_user.id)
-      elsif params[:status] == 'all tickets I admin' #TODO: obviously temp hack
-        @tickets = tickets_by_admin(current_user.id, false)
-      else
+      elsif params[:open_status] == 'open'
+        @tickets = Ticket.by_is_open.key(true)
+      elsif params[:open_status] == 'closed'
+        @tickets = Ticket.by_is_open.key(false)
+      else 
         @tickets = Ticket.all
       end
     elsif logged_in?
       #TODO---if, when logged in, user accessed unauthenticated ticket, then seems okay to list it in their list of tickets. Thus, include all tickets that the user has posted to, not just those that they created.
-      if params[:status] == 'open'
+      if params[:open_status] == 'open'
         @tickets = Ticket.by_is_open_and_created_by.key([true, current_user.id]).all
-      elsif params[:status] == 'closed'
+      elsif params[:open_status] == 'closed'
         @tickets = Ticket.by_is_open_and_created_by.key([false, current_user.id]).all
       else
         @tickets = Ticket.by_created_by.key(current_user.id).all
@@ -132,12 +124,12 @@ class TicketsController < ApplicationController
     access_denied unless ticket_access?
   end
 
-  def tickets_by_admin(id=current_user.id, just_open=true)
+  def tickets_by_admin(id=current_user.id)
     admin_tickets = []
     tickets = Ticket.all
     tickets.each do |ticket|
       ticket.comments.each do |comment| 
-        if comment.posted_by == id and (!just_open or ticket.is_open)
+        if comment.posted_by == id and (params[:open_status] != 'open' or ticket.is_open) and (params[:open_status] != 'closed' or !ticket.is_open) #limit based on whether the ticket is open if open_status is set to open or closed
           admin_tickets << ticket
           break
         end 
