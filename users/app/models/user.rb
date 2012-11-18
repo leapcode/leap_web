@@ -16,8 +16,11 @@ class User < CouchRest::Model::Base
       :message => "Only letters, digits and _ allowed" }
 
   validates :password_salt, :password_verifier,
-    :format => { :with => /\A[\dA-Fa-f]+\z/,
-      :message => "Only hex numbers allowed" }
+    :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
+
+  validates :password, :presence => true,
+    :confirmation => true,
+    :format => { :with => /.{8}.*/, :message => "needs to be at least 8 characters long" }
 
   timestamps!
 
@@ -71,4 +74,8 @@ class User < CouchRest::Model::Base
     APP_CONFIG['admins'].include? self.login
   end
 
+  protected
+  def password
+    password_verifier
+  end
 end
