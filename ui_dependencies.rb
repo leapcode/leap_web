@@ -3,6 +3,8 @@ gem "bootstrap-sass", "~> 2.1.0"
 gem "jquery-rails"
 gem "simple_form"
 gem "pjax_rails"
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
 
 group :assets do
   gem "haml-rails", "~> 0.3.4"

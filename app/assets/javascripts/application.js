@@ -21,3 +21,5 @@
 $(function() {
   $('a:not([data-remote]):not([data-behavior]):not([data-skip-pjax])').pjax('[data-pjax-container]');
 });
+//= require rails.validations
+//= require rails.validations.simple_form
