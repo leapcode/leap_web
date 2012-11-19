@@ -6,11 +6,11 @@ The webapp only depends on very basic ruby packages and installs the other requi
 
 ### Packages ###
 
-For now we are using ruby 1.8.7. The following packages need to be installed:
+The following packages need to be installed:
 
 * git
-* ruby1.8
-* rubygems1.8
+* ruby (1.8.7 and 1.9.3 work)
+* rubygems
 * couchdb
 
 ### Gems ###
