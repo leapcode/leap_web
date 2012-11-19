@@ -2,7 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
-require 'mocha'
+require 'mocha/setup'
 
 # Load support files from all engines
 Dir["#{File.dirname(__FILE__)}/../*/test/support/**/*.rb"].each { |f| require f }
