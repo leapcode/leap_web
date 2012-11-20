@@ -1,5 +1,7 @@
 class CertsController < ApplicationController
 
+  before_filter :authorize
+
   # GET /cert
   def show
     @cert = Cert.pick_from_pool
