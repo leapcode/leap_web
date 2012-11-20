@@ -1,6 +1,4 @@
-%h1 tickets index (just as space)
-%h1 tickets index (just as space)
-%h1 tickets index (just as space)
+%h1 tickets index
 
 Create a 
 = link_to "new ticket", new_ticket_path
@@ -10,11 +8,11 @@ Create a
   .span2
     - if admin?
       %h4 whose tickets    
-      %ul.nav.nav-pills
+      %ul.nav.nav-pills.nav-stacked
         %li{:class => ("active" if params[:admin_status] == 'mine')}
-          = link_to 'only tickets i admin', {:admin_status => 'mine', :open_status => params[:open_status]}
+          = link_to 'tickets i admin', {:admin_status => 'mine', :open_status => params[:open_status]}
         %li{:class => ("active" if params[:admin_status] != 'mine')} 
-          = link_to 'all', {:admin_status => 'all', :open_status => params[:open_status]}
+          = link_to 'all tickets', {:admin_status => 'all', :open_status => params[:open_status]}
   .span10
     %ul.nav.nav-tabs
       %li{:class => ("active" if params[:open_status] != 'closed' and params[:open_status] != 'all')}
