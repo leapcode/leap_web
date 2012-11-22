@@ -27,21 +27,21 @@ validOrAbort = (event) ->
   abortIfErrors()
   
   
-signup = (event) ->
-  srp = new SRP(jqueryRest())
-  srp.register ->
-    window.location = '/'
 
-login = (event) ->
-  srp = new SRP(jqueryRest())
-  srp.identify ->
-    window.location = '/'
+srp.session = new srp.Session()
+srp.signedUp = ->
+  window.location = '/'
 
+srp.loggedIn = ->
+  window.location = '/'
+
+srp.error = (message) ->
+  alert(message)
 
 $(document).ready ->
   $('#new_user').submit preventDefault
   $('#new_user').submit validOrAbort
-  $('#new_user').submit signup
+  $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault
-  $('#new_session').submit login
+  $('#new_session').submit srp.login
 
