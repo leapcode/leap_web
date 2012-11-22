@@ -16,24 +16,6 @@ class AccountFlowTest < ActiveSupport::TestCase
     Warden.test_reset!
   end
 
-  # this test wraps the api and implements the interface the ruby-srp client.
-  def handshake(login, aa)
-    post "/sessions.json", :login => login, 'A' => aa.to_s(16), :format => :json
-    assert last_response.successful?
-    response = JSON.parse(last_response.body)
-    if response['errors']
-      raise RECORD_NOT_FOUND.new(response['errors'])
-    else
-      return response['B'].hex
-    end
-  end
-
-  def validate(m)
-    put "/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
-    assert last_response.successful?
-    return JSON.parse(last_response.body)
-  end
-
   def setup
     @login = "integration_test_user"
     User.find_by_login(@login).tap{|u| u.destroy if u}
@@ -52,6 +34,22 @@ class AccountFlowTest < ActiveSupport::TestCase
     @user.destroy if @user # make sure we can run this test again
   end
 
+  # this test wraps the api and implements the interface the ruby-srp client.
+  def handshake(login, aa)
+    post "/sessions.json", :login => login, 'A' => aa.to_s(16), :format => :json
+    response = JSON.parse(last_response.body)
+    if response['errors']
+      raise RECORD_NOT_FOUND.new(response['errors'])
+    else
+      return response['B'].hex
+    end
+  end
+
+  def validate(m)
+    put "/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
+    return JSON.parse(last_response.body)
+  end
+
   test "signup response" do
     assert_json_response :login => @login, :ok => true
     assert last_response.successful?
@@ -59,6 +57,7 @@ class AccountFlowTest < ActiveSupport::TestCase
 
   test "signup and login with srp via api" do
     server_auth = @srp.authenticate(self)
+    assert last_response.successful?
     assert_nil server_auth["errors"]
     assert server_auth["M2"]
   end
@@ -66,7 +65,8 @@ class AccountFlowTest < ActiveSupport::TestCase
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new(@login, "wrong password")
     server_auth = srp.authenticate(self)
-    assert_equal "Could not log in", server_auth["errors"]['password']
+    assert !last_response.successful?
+    assert_equal "wrong password", server_auth["errors"]['password']
     assert_nil server_auth["M2"]
   end
 
@@ -76,6 +76,7 @@ class AccountFlowTest < ActiveSupport::TestCase
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
     end
+    assert !last_response.successful?
     assert_nil server_auth
   end
 
