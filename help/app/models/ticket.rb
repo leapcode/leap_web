@@ -36,10 +36,32 @@ class Ticket < CouchRest::Model::Base
   #named_scope :open, :conditions => {:is_open => true} #??
 
   design do
-    view :by_title
+    #TODO--clean this all up
     view :by_is_open
     view :by_created_by
+    
+    view :by_updated_at #
+
+    view :by_title, #test
+      :map => 
+      "function(doc) {
+        emit(doc._id, doc);
+       }"
     view :by_is_open_and_created_by
+    view :by_updated_at_and_is_open,
+      :map => 
+      "function(doc) {
+        if (doc['type'] == 'Ticket' && doc.is_open == true) {
+          emit(doc.updated_at, doc);
+        }
+       }"
+    view :by_updated_at_and_is_closed,
+      :map => 
+      "function(doc) {
+        if (doc['type'] == 'Ticket' && doc.is_open == false) {
+          emit(doc.updated_at, doc);
+        }
+       }"
 
   end
 
@@ -87,8 +109,11 @@ class Ticket < CouchRest::Model::Base
     commenters = []
     self.comments.each do |comment|
       if comment.posted_by
-        user = User.find(comment.posted_by) 
-        commenters << user.login if user and !commenters.include?(user.login)
+        if user = User.find(comment.posted_by) 
+          commenters << user.login if user and !commenters.include?(user.login)
+        else
+          commenters << 'unknown user' if !commenters.include?('unknown user') #todo don't hardcode string 'unknown user' 
+        end
       else
         commenters << 'unauthenticated user' if !commenters.include?('unauthenticated user') #todo don't hardcode string 'unauthenticated user' 
       end

@@ -83,29 +83,38 @@ class TicketsController < ApplicationController
 
     if admin?
       if params[:admin_status] == 'mine'
-        @tickets = tickets_by_admin(current_user.id)
+        @tickets = tickets_by_admin(current_user.id) #returns Array so pagination does not work
       elsif params[:open_status] == 'open'
-        @tickets = Ticket.by_is_open.key(true)
+        @tickets = Ticket.by_updated_at_and_is_open
+        # @tickets = Ticket.by_is_open.key(true) #returns CouchRest::Model::Designs::View
       elsif params[:open_status] == 'closed'
-        @tickets = Ticket.by_is_open.key(false)
+        @tickets = Ticket.by_updated_at_and_is_closed
+        # @tickets = Ticket.by_is_open.key(false)   #returns CouchRest::Model::Designs::View
       else 
-        @tickets = Ticket.all
+        # @tickets = Ticket.all  #returns CouchRest::Model::Designs::View
+        @tickets = Ticket.by_updated_at
       end
     elsif logged_in?
       #TODO---if, when logged in, user accessed unauthenticated ticket, then seems okay to list it in their list of tickets. Thus, include all tickets that the user has posted to, not just those that they created.
       if params[:open_status] == 'open'
-        @tickets = Ticket.by_is_open_and_created_by.key([true, current_user.id]).all
+        @tickets = Ticket.by_is_open_and_created_by.key([true, current_user.id])
       elsif params[:open_status] == 'closed'
-        @tickets = Ticket.by_is_open_and_created_by.key([false, current_user.id]).all
+        @tickets = Ticket.by_is_open_and_created_by.key([false, current_user.id])
       else
-        @tickets = Ticket.by_created_by.key(current_user.id).all
+        @tickets = Ticket.by_created_by(:key => current_user.id)
       end
     else
       access_denied
       return
     end      
 
-    respond_with(@tickets) 
+    # todo. presumably quite inefficent. sorts by updated_at increasing. would also make it an array, so pagination wouldn't work
+    # @tickets = @tickets.sort{|x,y| x.updated_at <=> y.updated_at}
+
+    #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
+    @tickets = @tickets.page(params[:page]).per(10) #TEST 
+
+    #respond_with(@tickets) 
   end
 
   def destroy
@@ -124,7 +133,7 @@ class TicketsController < ApplicationController
     access_denied unless ticket_access?
   end
 
-  def tickets_by_admin(id=current_user.id)
+  def tickets_by_admin(id=current_user.id) #returns Array which doesn't work for pagination, as it is now.
     admin_tickets = []
     tickets = Ticket.all
     tickets.each do |ticket|
@@ -135,7 +144,9 @@ class TicketsController < ApplicationController
         end 
       end
     end
-    admin_tickets
+    # TODO. is this inefficent?:
+    # this sorts by updated at increasing:
+    admin_tickets.sort{|x,y| x.updated_at <=> y.updated_at}
   end
 
   def set_strings
