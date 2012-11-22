@@ -1,6 +1,6 @@
 - if logged_in?
   %li
-    = 'logged in as ' + current_user.login
+    = link_to current_user.login, edit_user_path(current_user)
   %li
     = link_to t(:logout), logout_path
   - if admin?
