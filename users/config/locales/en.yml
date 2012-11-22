@@ -4,3 +4,5 @@ en:
   cancel: "Cancel"
   login: "Login"
   login_message: "Please login with your account."
+  wrong_password: "wrong password"
+  user_not_found: "could not be found"

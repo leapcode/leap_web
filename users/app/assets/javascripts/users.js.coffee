@@ -27,21 +27,27 @@ validOrAbort = (event) ->
   abortIfErrors()
   
   
-signup = (event) ->
-  srp = new SRP(jqueryRest())
-  srp.register ->
-    window.location = '/'
 
-login = (event) ->
-  srp = new SRP(jqueryRest())
-  srp.identify ->
-    window.location = '/'
+srp.session = new srp.Session()
+srp.signedUp = ->
+  window.location = '/'
 
+srp.loggedIn = ->
+  window.location = '/'
+
+srp.error = (message) ->
+  if $.isPlainObject(message) && message.errors
+    for field, error of message.errors
+      element = $('form input[name="session['+field+']"]')
+      next unless element
+      element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
+  else
+    alert(message)
 
 $(document).ready ->
   $('#new_user').submit preventDefault
   $('#new_user').submit validOrAbort
-  $('#new_user').submit signup
+  $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault
-  $('#new_session').submit login
+  $('#new_session').submit srp.login
 

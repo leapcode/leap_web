@@ -36,7 +36,7 @@ class User < CouchRest::Model::Base
     # valid set of attributes for testing
     def valid_attributes_hash
       { :login => "me",
-        :password_verifier => "1234ABC",
+        :password_verifier => "1234ABCD",
         :password_salt => "4321AB" }
     end
 
