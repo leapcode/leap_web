@@ -36,7 +36,13 @@ srp.loggedIn = ->
   window.location = '/'
 
 srp.error = (message) ->
-  alert(message)
+  if $.isPlainObject(message) && message.errors
+    for key, value of message.errors
+      element = $('form input[name="session['+key+']"]')
+      next unless element
+      element.trigger('element:validate:fail.ClientSideValidations', value).data('valid', false)
+  else
+    alert(message)
 
 $(document).ready ->
   $('#new_user').submit preventDefault
