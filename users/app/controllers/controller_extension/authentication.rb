@@ -7,8 +7,12 @@ module ControllerExtension::Authentication
     helper_method :current_user, :logged_in?, :admin?
   end
 
-  def authentication_error
-    warden.winning_strategy.try(:message)
+  def authentication_errors
+    return unless errors = warden.winning_strategy.try(:message)
+    errors.inject({}) do |translated,err|
+      translated[err.first] = I18n.t(err.last)
+      translated
+    end
   end
 
   def logged_in?

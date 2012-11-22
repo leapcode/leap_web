@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
 
   def new
     @session = Session.new
-    if @errors = authentication_error
+    if authentication_errors
+      @errors = authentication_errors
       render :status => 422
     end
   end

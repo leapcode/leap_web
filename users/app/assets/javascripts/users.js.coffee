@@ -37,10 +37,10 @@ srp.loggedIn = ->
 
 srp.error = (message) ->
   if $.isPlainObject(message) && message.errors
-    for key, value of message.errors
-      element = $('form input[name="session['+key+']"]')
+    for field, error of message.errors
+      element = $('form input[name="session['+field+']"]')
       next unless element
-      element.trigger('element:validate:fail.ClientSideValidations', value).data('valid', false)
+      element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
   else
     alert(message)
 
