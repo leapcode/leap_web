@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  include StubRecordHelper
+
   test "should get new" do
     get :new
     assert_equal User, assigns(:user).class
@@ -8,11 +10,9 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should create new user" do
-    params = User.valid_attributes_hash
-    user = stub params.merge(:id => 123)
-    params.stringify_keys!
-    User.expects(:create!).with(params).returns(user)
-    post :create, :user => params
+    user = stub_record User
+    User.expects(:create!).with(user.params).returns(user)
+    post :create, :user => user.params
     assert_nil session[:user_id]
     assert_response :redirect
     assert_redirected_to root_url
@@ -30,4 +30,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to new_user_path
   end
 
+  test "should get edit view" do
+    user = stub_record User
+    login user
+    get :edit, :id => user.id
+    assert_equal user, assigns[:user]
+  end
+
+  test "should process updated params" do
+    user = stub_record User
+    user.expects(:update).with(user.params).returns(user)
+    login user
+    post :update, :user => user.params, :id => user.id
+    assert_equal user, assigns[:user]
+    assert_response :redirect
+    assert_redirected_to edit_user_path(user)
+  end
 end

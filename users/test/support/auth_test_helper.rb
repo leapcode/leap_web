@@ -11,6 +11,9 @@ module AuthTestHelper
 
   def login(user = nil)
     @current_user = user || stub
+    unless @current_user.respond_to? :is_admin?
+      @current_user.stubs(:is_admin?).returns(false)
+    end
     request.env['warden'] = stub :user => @current_user
     return @current_user
   end
