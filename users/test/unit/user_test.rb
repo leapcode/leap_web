@@ -23,14 +23,14 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.valid?
   end
 
-  test "find_by_param gets User by login" do
+  test "find_by_param gets User by id" do
     @user.save
-    assert_equal @user, User.find_by_param(@user.login)
+    assert_equal @user, User.find_by_param(@user.id)
     @user.destroy
   end
 
-  test "to_param gives user login" do
-    assert_equal @user.login, @user.to_param
+  test "to_param gives user id" do
+    assert_equal @user.id, @user.to_param
   end
 
   test "verifier returns number for the hex in password_verifier" do

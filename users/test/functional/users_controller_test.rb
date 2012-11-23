@@ -32,6 +32,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should get edit view" do
     user = stub_record User
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
     login user
     get :edit, :id => user.id
     assert_equal user, assigns[:user]
@@ -39,7 +40,8 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should process updated params" do
     user = stub_record User
-    user.expects(:update).with(user.params).returns(user)
+    user.expects(:update_attributes).with(user.params).returns(true)
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
     login user
     post :update, :user => user.params, :id => user.id
     assert_equal user, assigns[:user]

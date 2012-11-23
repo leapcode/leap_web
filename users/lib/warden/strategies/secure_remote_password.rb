@@ -30,7 +30,7 @@ module Warden
       end
 
       def initialize!
-        user = User.find_by_param(id)
+        user = User.find_by_login(id)
         session[:handshake] = user.initialize_auth(params['A'].hex)
         custom! json_response(session[:handshake])
       rescue RECORD_NOT_FOUND

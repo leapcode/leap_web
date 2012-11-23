@@ -29,9 +29,7 @@ class User < CouchRest::Model::Base
   end
 
   class << self
-    def find_by_param(login)
-      return find_by_login(login) || raise(RECORD_NOT_FOUND)
-    end
+    alias_method :find_by_param, :find
 
     # valid set of attributes for testing
     def valid_attributes_hash
@@ -42,9 +40,7 @@ class User < CouchRest::Model::Base
 
   end
 
-  def to_param
-    self.login
-  end
+  alias_method :to_param, :id
 
   def to_json(options={})
     {
