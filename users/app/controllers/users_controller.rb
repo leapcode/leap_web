@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    @user.update!(params[:user])
+    @user.update(params[:user])
     respond_with(@user, :location => edit_user_path(@user))
   end
 end
