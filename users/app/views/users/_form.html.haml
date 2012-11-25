@@ -1,4 +1,5 @@
-= simple_form_for @user, :validate => true, :html => {:class => 'form-horizontal'} do |f|
+- html = {:class => 'form-horizontal user form ' + (@user.new_record? ? 'new' : 'edit')}
+= simple_form_for @user, :validate => true, :html => html do |f|
   %legend
     = @user.new_record? ? t(:signup_message) : t(:edit_settings)
   = f.input :login, :input_html => { :id => :srp_username }
