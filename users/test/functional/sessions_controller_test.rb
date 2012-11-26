@@ -22,7 +22,7 @@ class SessionsControllerTest < ActionController::TestCase
     request.env['warden'].expects(:winning_strategy)
     get :new, :format => :json
     assert_response :success
-    assert_json_response :errors => nil
+    assert_json_error nil
   end
 
   test "renders warden errors" do
@@ -31,7 +31,7 @@ class SessionsControllerTest < ActionController::TestCase
     I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
     get :new, :format => :json
     assert_response 422
-    assert_json_response :errors => {"field" => "translation stub"}
+    assert_json_error :field => "translation stub"
   end
 
   # Warden takes care of parsing the params and

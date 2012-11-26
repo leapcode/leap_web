@@ -15,10 +15,18 @@ module LeapWebCore
     end
 
     def assert_json_response(object)
-      object.stringify_keys! if object.respond_to? :stringify_keys!
-      assert_equal object, JSON.parse(get_response.body)
+      if object.is_a? Hash
+        object.stringify_keys! if object.respond_to? :stringify_keys!
+        assert_equal object, JSON.parse(get_response.body)
+      else
+        assert_equal object.to_json, get_response.body
+      end
     end
 
+    def assert_json_error(object)
+      object.stringify_keys! if object.respond_to? :stringify_keys!
+      assert_json_response :errors => object
+    end
   end
 end
 

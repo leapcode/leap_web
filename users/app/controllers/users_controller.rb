@@ -11,11 +11,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create!(params[:user])
-    respond_with(@user, :location => root_url, :notice => "Signed up!")
-  rescue VALIDATION_FAILED => e
-    @user = e.document
-    respond_with(@user, :location => new_user_path)
+    @user = User.create(params[:user])
+    respond_with @user
   end
 
   def edit
@@ -23,7 +20,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update_attributes(params[:user])
-    respond_with(@user, :location => edit_user_path(@user))
+    respond_with @user
   end
 
   protected

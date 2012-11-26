@@ -5,6 +5,7 @@ class UserTest < ActiveSupport::TestCase
   include SRP::Util
   setup do
     @attribs = User.valid_attributes_hash
+    User.find_by_login(@attribs[:login]).try(:destroy)
     @user = User.new(@attribs)
   end
 
