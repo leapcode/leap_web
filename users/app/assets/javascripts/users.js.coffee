@@ -22,7 +22,7 @@ srp.error = (message) ->
     alert(message)
 
 pollUsers = (query, process) ->
-  $.get( "/users.json", query: query).done(process);
+  $.get( "/users.json", query: query).done(process)
 
 $(document).ready ->
   $('#new_user').submit preventDefault

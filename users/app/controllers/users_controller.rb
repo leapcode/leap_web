@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     else
       @users = User.by_created_at.descending
     end
-    @users = @users.limit(5)
+    @users = @users.limit(10)
     respond_with @users.map(&:login).sort
   end
 
