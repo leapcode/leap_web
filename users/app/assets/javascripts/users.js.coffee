@@ -1,44 +1,21 @@
 preventDefault = (event) ->
   event.preventDefault()
 
-validOrAbort = (event) ->
-  errors = {}
-  
-  abortIfErrors = ->
-    return if $.isEmptyObject(errors)
-    # we're relying on client_side_validations here instead of printing
-    # our own errors. This gets us translatable error messages.
-    $('.control-group.error input, .control-group.error select, control-group.error textarea').first().focus()
-    event.stopImmediatePropagation()
-    
-  validatePassword = ->
-    password = $('#srp_password').val()
-    confirmation = $('#srp_password_confirmation').val()
-    login = $('#srp_username').val()
-  
-    if password != confirmation
-      errors.password_confirmation = "Confirmation does not match!"
-    if password == login
-      errors.password = "Password and Login may not match!"
-    if password.length < 8
-      errors.password = "Password needs to be at least 8 characters long!"
-
-  validatePassword()
-  abortIfErrors()
-  
-  
-
 srp.session = new srp.Session()
 srp.signedUp = ->
-  window.location = '/'
+  srp.login
 
 srp.loggedIn = ->
+  window.location = '/'
+
+#// TODO: not sure this is what we want.
+srp.updated = ->
   window.location = '/'
 
 srp.error = (message) ->
   if $.isPlainObject(message) && message.errors
     for field, error of message.errors
-      element = $('form input[name="session['+field+']"]')
+      element = $('form input[name$="['+field+']"]')
       next unless element
       element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
   else
@@ -46,8 +23,9 @@ srp.error = (message) ->
 
 $(document).ready ->
   $('#new_user').submit preventDefault
-  $('#new_user').submit validOrAbort
   $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault
   $('#new_session').submit srp.login
+  $('.user.form.edit').submit srp.update
+  $('.user.form.edit').submit preventDefault
 

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_authenticity_token, :only => [:create]
+
+  before_filter :fetch_user, :only => [:edit, :update]
 
   respond_to :json, :html
 
@@ -9,20 +11,22 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create!(params[:user])
-    respond_with(@user, :location => root_url, :notice => "Signed up!")
-  rescue VALIDATION_FAILED => e
-    @user = e.document
-    respond_with(@user, :location => new_user_path)
+    @user = User.create(params[:user])
+    respond_with @user
   end
 
   def edit
-    @user = current_user
   end
 
   def update
-    @user = current_user
-    @user.update(params[:user])
-    respond_with(@user, :location => edit_user_path(@user))
+    @user.update_attributes(params[:user])
+    respond_with @user
+  end
+
+  protected
+
+  def fetch_user
+    @user = User.find_by_param(params[:id])
+    access_denied unless @user == current_user
   end
 end

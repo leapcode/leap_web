@@ -10,6 +10,7 @@ module StubRecordHelper
     params.reverse_merge! :id => 123,
       :class => klass,
       :to_key => ['123'],
+      :to_json => %Q({"stub":"#{klass.name}"}),
       :new_record? => !persisted,
       :persisted? => persisted
     stub params

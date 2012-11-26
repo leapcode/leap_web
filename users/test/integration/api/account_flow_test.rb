@@ -65,8 +65,8 @@ class AccountFlowTest < ActiveSupport::TestCase
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new(@login, "wrong password")
     server_auth = srp.authenticate(self)
+    assert_json_error :password => "wrong password"
     assert !last_response.successful?
-    assert_equal "wrong password", server_auth["errors"]['password']
     assert_nil server_auth["M2"]
   end
 
@@ -76,6 +76,7 @@ class AccountFlowTest < ActiveSupport::TestCase
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
     end
+    assert_json_error :login => "could not be found"
     assert !last_response.successful?
     assert_nil server_auth
   end

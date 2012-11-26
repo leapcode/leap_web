@@ -32,7 +32,7 @@ class WardenStrategySecureRemotePasswordTest < ActiveSupport::TestCase
     User.expects(:find_by_param).with(unknown).raises(RECORD_NOT_FOUND)
     post :create, :login => unknown
     assert_response :success
-    assert_json_response :errors => {"login" => ["unknown user"]}
+    assert_json_error "login" => ["unknown user"]
   end
 
   test "should authorize" do
@@ -56,7 +56,7 @@ class WardenStrategySecureRemotePasswordTest < ActiveSupport::TestCase
     post :update, :id => @user.login, :client_auth => @client_hex
     assert_nil session[:handshake]
     assert_nil session[:user_id]
-    assert_json_response :errors => {"password" => ["wrong password"]}
+    assert_json_error "password" => ["wrong password"]
   end
 
 =end

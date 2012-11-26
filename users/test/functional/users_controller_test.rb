@@ -11,27 +11,27 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create new user" do
     user = stub_record User
-    User.expects(:create!).with(user.params).returns(user)
-    post :create, :user => user.params
+    User.expects(:create).with(user.params).returns(user)
+    post :create, :user => user.params, :format => :json
     assert_nil session[:user_id]
-    assert_response :redirect
-    assert_redirected_to root_url
+    assert_json_response user
+    assert_response :success
   end
 
   test "should redirect to signup form on failed attempt" do
     params = User.valid_attributes_hash.slice(:login)
     user = User.new(params)
     params.stringify_keys!
-    User.expects(:create!).with(params).raises(VALIDATION_FAILED.new(user))
-    post :create, :user => params
-    assert_nil session[:user_id]
-    assert_equal user, assigns[:user]
-    assert_response :redirect
-    assert_redirected_to new_user_path
+    assert !user.valid?
+    User.expects(:create).with(params).returns(user)
+    post :create, :user => params, :format => :json
+    assert_json_error user.errors.messages
+    assert_response 422
   end
 
   test "should get edit view" do
     user = stub_record User
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
     login user
     get :edit, :id => user.id
     assert_equal user, assigns[:user]
@@ -39,11 +39,12 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should process updated params" do
     user = stub_record User
-    user.expects(:update).with(user.params).returns(user)
+    user.expects(:update_attributes).with(user.params).returns(true)
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
     login user
-    post :update, :user => user.params, :id => user.id
+    put :update, :user => user.params, :id => user.id, :format => :json
     assert_equal user, assigns[:user]
-    assert_response :redirect
-    assert_redirected_to edit_user_path(user)
+    assert_equal " ", @response.body
+    assert_response 204
   end
 end
