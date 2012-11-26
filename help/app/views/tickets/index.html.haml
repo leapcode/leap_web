@@ -14,34 +14,35 @@ Create a
         %li{:class => ("active" if params[:admin_status] != 'mine')} 
           = link_to 'all tickets', {:admin_status => 'all', :open_status => params[:open_status]}
   .span10
-    .table-bordered 
-      = #TODO not sure if want table, but playing around with layout here.
-      %ul.nav.nav-tabs
-        %li{:class => ("active" if params[:open_status] != 'closed' and params[:open_status] != 'all')}
-          = link_to 'open issues', {:open_status => 'open', :admin_status => params[:admin_status]}
-        %li{:class => ("active" if params[:open_status] == 'closed')}
-          = link_to 'closed issues', {:open_status => 'closed', :admin_status => params[:admin_status]}
-          = #%a{:href => "#"} closed issue
-        %li{:class => ("active" if params[:open_status] == 'all')}
-          = link_to 'open & closed issues', {:open_status => 'all', :admin_status => params[:admin_status]}
-      %ul.nav.nav-pills
-        = #TODO-pull-right isn't working as i want, but want this to the right of tabs within the same div/table
-        %li
-          = link_to 'created at'  
-        %li{:class=> ("active" if true)}
-          = link_to 'updated at'
-
-    .table-bordered
+    .row
+      .span6
+        %ul.nav.nav-tabs
+          %li{:class => ("active" if params[:open_status] != 'closed' and params[:open_status] != 'all')}
+            = link_to 'open issues', {:open_status => 'open', :admin_status => params[:admin_status]}
+            %li{:class => ("active" if params[:open_status] == 'closed')}
+              = link_to 'closed issues', {:open_status => 'closed', :admin_status => params[:admin_status]}
+              = #%a{:href => "#"} closed issue
+            %li{:class => ("active" if params[:open_status] == 'all')}
+              = link_to 'open & closed issues', {:open_status => 'all', :admin_status => params[:admin_status]}
+      .span4
+        %ul.nav.nav-pills.pull-right
+          %li
+            = link_to 'created at'  
+          %li{:class=> ("active" if true)}
+            = link_to 'updated at'
+    %table.table-striped.table-bordered.table-hover
+      %tbody
       - @tickets.each do |ticket|
-        %p
-        = link_to ticket.title, ticket
-        created:
-        = ticket.created_at.to_s(:short)
-        updated:
-        = ticket.updated_at.to_s(:short)
-        comments by:
-        = ticket.commenters 
-      = paginate @tickets
+        %tr
+          %td
+            = link_to ticket.title, ticket
+            created:
+            = ticket.created_at.to_s(:short)
+            updated:
+            = ticket.updated_at.to_s(:short)
+            comments by:
+            = ticket.commenters 
+    = paginate @tickets
 
 %div{"data-pjax-container" => ""}
   / PJAX updates will go here
