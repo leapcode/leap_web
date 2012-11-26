@@ -6,3 +6,9 @@ en:
   login_message: "Please login with your account."
   wrong_password: "wrong password"
   user_not_found: "could not be found"
+
+  activemodel:
+    models:
+      user: 
+        one: User
+        other: "%{count} Users"

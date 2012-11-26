@@ -1,11 +1,11 @@
 - if logged_in?
+  - if admin?
+    %li.dropdown
+      = render 'sessions/admin_nav'
   %li
     = link_to current_user.login, edit_user_path(current_user)
   %li
     = link_to t(:logout), logout_path
-  - if admin?
-    %li
-      = 'ADMIN' # obviously not like this
 - else
   %li
     = link_to t(:login), login_path
