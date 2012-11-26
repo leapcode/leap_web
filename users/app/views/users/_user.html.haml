@@ -1,0 +1,7 @@
+%tr
+  %td= user.login
+  %td= time_ago_in_words(user.created_at) + " ago"
+  %td
+    = link_to user_path(user), :method => :delete, :class => "btn btn-danger btn-mini" do
+      %i.icon-remove.icon-white
+      Remove
