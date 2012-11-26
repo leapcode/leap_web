@@ -15,7 +15,7 @@ srp.updated = ->
 srp.error = (message) ->
   if $.isPlainObject(message) && message.errors
     for field, error of message.errors
-      element = $('form input[name="session['+field+']"]')
+      element = $('form input[name$="['+field+']"]')
       next unless element
       element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
   else

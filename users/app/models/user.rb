@@ -9,7 +9,8 @@ class User < CouchRest::Model::Base
     :presence => true
 
   validates :login,
-    :uniqueness => true
+    :uniqueness => true,
+    :if => :serverside?
 
   validates :login,
     :format => { :with => /\A[A-Za-z\d_]+\z/,
@@ -73,5 +74,10 @@ class User < CouchRest::Model::Base
   protected
   def password
     password_verifier
+  end
+
+  # used as a condition for validations that are server side only
+  def serverside?
+    true
   end
 end
