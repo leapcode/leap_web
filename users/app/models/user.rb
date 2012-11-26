@@ -27,6 +27,7 @@ class User < CouchRest::Model::Base
 
   design do
     view :by_login
+    view :by_created_at
   end
 
   class << self

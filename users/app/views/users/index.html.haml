@@ -1,1 +1,17 @@
-%h1= User.model_name.human(:count =>@users.count)
+.page-header
+  %h1= User.model_name.human(:count =>User.count)
+.row
+  .span8
+    %h2 Last users who signed up
+    %table.table.table-hover
+      %tr
+        %th Login
+        %th Created
+        %th Action
+      = render @users.all
+  .span4
+    %h4 Find user
+    %form.form-search
+      .input-append
+        %input.user.typeahead.span2.search-query{:type => :text}
+          %button.btn{:type => :submit} Search

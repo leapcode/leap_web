@@ -21,6 +21,9 @@ srp.error = (message) ->
   else
     alert(message)
 
+pollUsers = (query, process) ->
+  $.get( "/users.json", query: query).done(process);
+
 $(document).ready ->
   $('#new_user').submit preventDefault
   $('#new_user').submit srp.signup
@@ -28,4 +31,5 @@ $(document).ready ->
   $('#new_session').submit srp.login
   $('.user.form.edit').submit srp.update
   $('.user.form.edit').submit preventDefault
+  $('.user.typeahead').typeahead({source: pollUsers});
 

@@ -8,7 +8,13 @@ class UsersController < ApplicationController
   respond_to :json, :html
 
   def index
-    @users = User.all
+    if params[:query]
+      @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+    else
+      @users = User.by_created_at.descending
+    end
+    @users = @users.limit(5)
+    respond_with @users.map(&:login).sort
   end
 
   def new
