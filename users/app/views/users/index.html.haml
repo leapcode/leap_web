@@ -1,1 +1,17 @@
-%h1= User.model_name.human(:count =>@users.count)
+.page-header
+  %h1= User.model_name.human(:count =>User.count)
+.row
+  .span8
+    %h2= params[:query] ? "Users starting with '#{params[:query]}'" : "Last users who signed up"
+    %table.table.table-hover
+      %tr
+        %th Login
+        %th Created
+        %th Action
+      = render @users.all
+  .span4
+    %h4 Find user
+    = form_tag users_path, :method => :get, :class => "form-search" do
+      .input-append
+        = text_field_tag :query, "", :class => "user typeahead span2 search-query", :autocomplete => :off
+        %button.btn{:type => :submit} Search
