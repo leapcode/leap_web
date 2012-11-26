@@ -1,6 +1,6 @@
 .span8.offset2
   %h2=t :login
-  = simple_form_for :session, :url => sessions_path, :html => { :id => :new_session, :class => 'form-horizontal' } do |f|
+  = simple_form_for @session, :validate => true, :html => { :id => :new_session, :class => 'form-horizontal' } do |f|
     %legend=t :login_message
     = f.input :login, :input_html => { :id => :srp_username }
     = f.input :password, :required => true, :input_html => { :id => :srp_password }

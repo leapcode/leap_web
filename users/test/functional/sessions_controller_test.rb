@@ -22,15 +22,16 @@ class SessionsControllerTest < ActionController::TestCase
     request.env['warden'].expects(:winning_strategy)
     get :new, :format => :json
     assert_response :success
-    assert_json_response :errors => nil
+    assert_json_error nil
   end
 
   test "renders warden errors" do
-    strategy = stub :message => "Warden auth did not work"
-    request.env['warden'].expects(:winning_strategy).returns(strategy)
+    strategy = stub :message => {:field => :translate_me}
+    request.env['warden'].stubs(:winning_strategy).returns(strategy)
+    I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
     get :new, :format => :json
-    assert_response :success
-    assert_json_response :errors => strategy.message
+    assert_response 422
+    assert_json_error :field => "translation stub"
   end
 
   # Warden takes care of parsing the params and

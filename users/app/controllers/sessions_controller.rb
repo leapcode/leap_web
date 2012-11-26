@@ -3,7 +3,11 @@ class SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def new
-    @errors = authentication_error
+    @session = Session.new
+    if authentication_errors
+      @errors = authentication_errors
+      render :status => 422
+    end
   end
 
   def create

@@ -1,0 +1,6 @@
+%a#admin-menu{"data-toggle" => "dropdown", :role => :button}
+  Admin
+%ul.dropdown-menu{:role => "menu", "aria-labelledby" => "admin-menu"}
+  %li
+    = link_to Ticket.model_name.human(:count => ""), tickets_path, {:tabindex => -1}
+    = link_to User.model_name.human(:count => ""), users_path, {:tabindex => -1}
