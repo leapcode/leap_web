@@ -93,7 +93,7 @@ class Ticket < CouchRest::Model::Base
   #  self.created_by = User.current if User.current
   #end
 
-  def self.for_user(user, options)
+  def self.for_user(user, options = {})
     if options[:open_status] == 'open'
       Ticket.by_is_open_and_created_by.key([true, user.id])
     elsif options[:open_status] == 'closed'
@@ -106,9 +106,9 @@ class Ticket < CouchRest::Model::Base
     # @tickets = @tickets.sort{|x,y| x.updated_at <=> y.updated_at}
   end
 
-  def self.for_admin(user, options)
+  def self.for_admin(user, options = {})
     if options[:admin_status] == 'mine'
-      self.tickets_by_admin(user.id) #returns Array so pagination does not work
+      self.tickets_by_admin(user.id, options) #returns Array so pagination does not work
     elsif options[:open_status] == 'open'
       Ticket.by_updated_at_and_is_open
       # Ticket.by_is_open.key(true) #returns CouchRest::Model::Designs::View
@@ -122,12 +122,12 @@ class Ticket < CouchRest::Model::Base
   end
 
   #returns Array which doesn't work for pagination, as it is now.
-  def self.tickets_by_admin(id)
+  def self.tickets_by_admin(id, options = {})
     admin_tickets = []
     tickets = Ticket.all
     tickets.each do |ticket|
       ticket.comments.each do |comment|
-        if comment.posted_by == id and (params[:open_status] != 'open' or ticket.is_open) and (params[:open_status] != 'closed' or !ticket.is_open) #limit based on whether the ticket is open if open_status is set to open or closed
+        if comment.posted_by == id and (options[:open_status] != 'open' or ticket.is_open) and (options[:open_status] != 'closed' or !ticket.is_open) #limit based on whether the ticket is open if open_status is set to open or closed
           admin_tickets << ticket
           break
         end

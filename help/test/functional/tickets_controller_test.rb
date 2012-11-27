@@ -2,7 +2,17 @@ require 'test_helper'
 
 class TicketsControllerTest < ActionController::TestCase
 
-  test "should get index if logged in" do 
+  setup do
+    User.create(User.valid_attributes_hash.merge({:login => 'first_test'}))
+    User.create(User.valid_attributes_hash.merge({:login => 'different'}))
+  end
+
+  teardown do
+    User.find_by_login('first_test').destroy
+    User.find_by_login('different').destroy
+  end
+
+  test "should get index if logged in" do
     login(User.last)
     get :index
     assert_response :success
@@ -17,7 +27,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "ticket show access" do
     ticket = Ticket.first
-    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one 
+    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one
     ticket.save
     get :show, :id => ticket.id
     assert_response :success
@@ -28,7 +38,7 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to login_url
 
-    login(User.last) 
+    login(User.last)
     get :show, :id => ticket.id
     assert_response :success
 
@@ -37,7 +47,7 @@ class TicketsControllerTest < ActionController::TestCase
     get :show, :id => ticket.id
     assert_response :redirect
     assert_redirected_to root_url
-    
+
   end
 
   test "should create unauthenticated ticket" do
@@ -67,10 +77,10 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert_response :redirect
 
-    assert_not_nil assigns(:ticket).created_by 
+    assert_not_nil assigns(:ticket).created_by
     assert_equal assigns(:ticket).created_by, @current_user.id
     assert_equal assigns(:ticket).email, @current_user.email
-    
+
     assert_equal 1, assigns(:ticket).comments.count
     assert_not_nil assigns(:ticket).comments.first.posted_by
     assert_equal assigns(:ticket).comments.first.posted_by, @current_user.id
@@ -79,7 +89,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "add comment to unauthenticated ticket" do
     ticket = Ticket.last
-    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one 
+    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one
     ticket.save
     assert_difference('Ticket.last.comments.count') do
       put :update, :id => ticket.id,
@@ -127,7 +137,7 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_access_denied
     assert_equal ticket.comments, assigns(:ticket).comments
-   
+
   end
 
 
@@ -135,7 +145,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     admin_login = APP_CONFIG['admins'].first
     admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
-    login(admin_user) 
+    login(admin_user)
 
     ticket = Ticket.last
     assert_not_nil User.last.id
@@ -159,21 +169,21 @@ class TicketsControllerTest < ActionController::TestCase
     admin_login = APP_CONFIG['admins'].first
     admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
     login(admin_user)
-    
+
     post :create, :ticket => {:title => "test tick", :comments_attributes => {"0" => {"body" =>"body of test tick"}}}
     post :create, :ticket => {:title => "another test tick", :comments_attributes => {"0" => {"body" =>"body of another test tick"}}}
 
     assert_not_nil assigns(:ticket).created_by
     assert_equal assigns(:ticket).created_by, admin_user.id
 
-    get :index, {:status => "open tickets I admin"}
+    get :index, {:admin_status => "mine", :open_status => "open"}
     assert assigns(:tickets).count > 1 # at least 2 tickets
 
     # if we close one ticket, the admin should have 1 less open ticket they admin
     assert_difference('assigns[:tickets].count', -1) do
       assigns(:ticket).close
       assigns(:ticket).save
-      get :index, {:status => "open tickets I admin"}
+      get :index, {:admin_status => "mine", :open_status => "open"}
     end
     assigns(:ticket).destroy
 
@@ -182,8 +192,8 @@ class TicketsControllerTest < ActionController::TestCase
 
     # admin should have one more ticket if a new tick gets an admin comment
     assert_difference('assigns[:tickets].count') do
-      put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}} 
-      get :index, {:status => "open tickets I admin"}
+      put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
+      get :index, {:admin_status => "mine", :open_status => "open"}
     end
 
     assert assigns(:tickets).include?(assigns(:ticket))
@@ -191,7 +201,7 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal assigns(:ticket).comments.last.posted_by, admin_user.id
 
     assigns(:ticket).destroy
-    
+
   end
 
 end
