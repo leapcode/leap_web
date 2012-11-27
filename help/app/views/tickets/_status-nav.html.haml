@@ -1,0 +1,7 @@
+%ul.nav.nav-tabs
+  %li{:class => ("active" if status == 'open')}
+    = link_to_status 'open'
+  %li{:class => ("active" if status == 'closed')}
+    = link_to_status 'closed'
+  %li{:class => ("active" if status == 'all')}
+    = link_to_status 'all'

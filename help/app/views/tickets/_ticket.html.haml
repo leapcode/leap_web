@@ -1,0 +1,13 @@
+%tr
+  %td
+    %b
+      = link_to ticket.title, ticket
+    %br
+    %small
+      created:
+      = ticket.created_at.to_s(:short)
+      updated:
+      = ticket.updated_at.to_s(:short)
+    %small.pull-right
+      comments by:
+      = ticket.commenters 

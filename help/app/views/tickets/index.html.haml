@@ -7,41 +7,12 @@ Create a
 .row
   .span2
     - if admin?
-      %h4 whose tickets    
-      %ul.nav.nav-pills.nav-stacked
-        %li{:class => ("active" if params[:admin_status] == 'mine')}
-          = link_to 'tickets i admin', {:admin_status => 'mine', :open_status => params[:open_status]}
-        %li{:class => ("active" if params[:admin_status] != 'mine')} 
-          = link_to 'all tickets', {:admin_status => 'all', :open_status => params[:open_status]}
+      = render 'tickets/admin-nav'
   .span10
-    .row
-      .span6
-        %ul.nav.nav-tabs
-          %li{:class => ("active" if params[:open_status] != 'closed' and params[:open_status] != 'all')}
-            = link_to 'open issues', {:open_status => 'open', :admin_status => params[:admin_status]}
-            %li{:class => ("active" if params[:open_status] == 'closed')}
-              = link_to 'closed issues', {:open_status => 'closed', :admin_status => params[:admin_status]}
-              = #%a{:href => "#"} closed issue
-            %li{:class => ("active" if params[:open_status] == 'all')}
-              = link_to 'open & closed issues', {:open_status => 'all', :admin_status => params[:admin_status]}
-      .span4
-        %ul.nav.nav-pills.pull-right
-          %li
-            = link_to 'created at'  
-          %li{:class=> ("active" if true)}
-            = link_to 'updated at'
-    %table.table-striped.table-bordered.table-hover
+    = render 'tickets/table-nav'
+    %table.table-striped.table-bordered.table-hover{:style => "width:100%;"}
       %tbody
-      - @tickets.each do |ticket|
-        %tr
-          %td
-            = link_to ticket.title, ticket
-            created:
-            = ticket.created_at.to_s(:short)
-            updated:
-            = ticket.updated_at.to_s(:short)
-            comments by:
-            = ticket.commenters 
+        = render @tickets.all
     = paginate @tickets
 
 %div{"data-pjax-container" => ""}
