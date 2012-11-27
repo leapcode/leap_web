@@ -5,6 +5,8 @@ class TicketsController < ApplicationController
 
   before_filter :set_strings
 
+  before_filter :authorize, :only => [:index]
+
   def new
     @ticket = Ticket.new
     @ticket.comments.build
@@ -16,7 +18,7 @@ class TicketsController < ApplicationController
       @ticket.created_by = current_user.id
       @ticket.email = current_user.email if current_user.email
       @ticket.comments.last.posted_by = current_user.id
-    else 
+    else
       @ticket.comments.last.posted_by = nil #hacky, but protecting this attribute doesn't work right, so this should make sure it isn't set.
     end
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
@@ -45,7 +47,7 @@ class TicketsController < ApplicationController
     # @ticket.comments.build
     # build ticket comments?
   end
-  
+
   def update
     @ticket = Ticket.find(params[:id])
 
@@ -53,12 +55,12 @@ class TicketsController < ApplicationController
       if status = params[:change_status] #close or open button was pressed
         @ticket.close if params[:change_status] == 'close'
         @ticket.reopen if params[:change_status] == 'open'
-      else   
+      else
         params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
-        @ticket.attributes = params[:ticket] #this will call comments_attributes=       
+        @ticket.attributes = params[:ticket] #this will call comments_attributes=
         # @ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
         @ticket.close if params[:commit] == @reply_close_str #this overrides is_open selection
-        
+
         # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
         @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) if @ticket.comments_changed? #protecting posted_by isn't working, so this should protect it.
       end
@@ -90,11 +92,11 @@ class TicketsController < ApplicationController
       elsif params[:open_status] == 'closed'
         @tickets = Ticket.by_updated_at_and_is_closed
         # @tickets = Ticket.by_is_open.key(false)   #returns CouchRest::Model::Designs::View
-      else 
+      else
         # @tickets = Ticket.all  #returns CouchRest::Model::Designs::View
         @tickets = Ticket.by_updated_at
       end
-    elsif logged_in?
+    else
       #TODO---if, when logged in, user accessed unauthenticated ticket, then seems okay to list it in their list of tickets. Thus, include all tickets that the user has posted to, not just those that they created.
       if params[:open_status] == 'open'
         @tickets = Ticket.by_is_open_and_created_by.key([true, current_user.id])
@@ -103,18 +105,15 @@ class TicketsController < ApplicationController
       else
         @tickets = Ticket.by_created_by(:key => current_user.id)
       end
-    else
-      access_denied
-      return
-    end      
+    end
 
     # todo. presumably quite inefficent. sorts by updated_at increasing. would also make it an array, so pagination wouldn't work
     # @tickets = @tickets.sort{|x,y| x.updated_at <=> y.updated_at}
 
     #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
-    @tickets = @tickets.page(params[:page]).per(10) #TEST 
+    @tickets = @tickets.page(params[:page]).per(10) #TEST
 
-    #respond_with(@tickets) 
+    #respond_with(@tickets)
   end
 
   def destroy
@@ -124,9 +123,9 @@ class TicketsController < ApplicationController
   end
 
   private
-  
+
   def ticket_access?
-    @ticket and (admin? or !@ticket.created_by or (current_user and current_user.id == @ticket.created_by)) 
+    @ticket and (admin? or !@ticket.created_by or (current_user and current_user.id == @ticket.created_by))
   end
 
   def ticket_access_denied?
@@ -137,11 +136,11 @@ class TicketsController < ApplicationController
     admin_tickets = []
     tickets = Ticket.all
     tickets.each do |ticket|
-      ticket.comments.each do |comment| 
+      ticket.comments.each do |comment|
         if comment.posted_by == id and (params[:open_status] != 'open' or ticket.is_open) and (params[:open_status] != 'closed' or !ticket.is_open) #limit based on whether the ticket is open if open_status is set to open or closed
           admin_tickets << ticket
           break
-        end 
+        end
       end
     end
     # TODO. is this inefficent?:
