@@ -63,7 +63,22 @@ class TicketTest < ActiveSupport::TestCase
     assert_equal Ticket.by_is_open.key(true).count, tickets.count
   end
 
+  test "find tickets user commented on" do
+    # clear old tickets just in case
+    Ticket.by_commented_by.key('123').each {|t| t.destroy}
+
+    testticket = Ticket.create :title => "test retrieving commented tickets"
+    comment = TicketComment.new :body => "my email broke", :posted_by => "123"
+    assert_equal 0, testticket.comments.count
+    assert_equal [], Ticket.by_commented_by.key('123').all;
+
+    testticket.comments << comment
+    testticket.save
+    assert_equal 1, testticket.reload.comments.count
+    assert_equal [testticket], Ticket.by_commented_by.key('123').all;
+
+    testticket.destroy
+    assert_equal [], Ticket.by_commented_by.key('123').all;
+  end
 
 end
-
-
