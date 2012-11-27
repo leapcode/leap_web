@@ -23,7 +23,7 @@ class TicketTest < ActiveSupport::TestCase
     #user = LeapWebUsers::User.create
 
     #t.user = user
-    
+
     #t.email = '' #invalid
     #assert !t.valid?
     #t.email = 'blah@blah.com, bb@jjj.org'
@@ -40,7 +40,7 @@ class TicketTest < ActiveSupport::TestCase
     @sample.created_by = 22 #current_user
     assert @sample.is_creator_validated?
   end
-  
+
 =begin
 # TODO: do once have current_user stuff in order
   test "code if & only if not creator-validated" do
@@ -55,6 +55,14 @@ class TicketTest < ActiveSupport::TestCase
     assert_not_nil t2.created_by
   end
 =end
+
+  test "finds open tickets sorted by created_at" do
+    tickets = Ticket.by_is_open_and_created_at.
+      startkey([true, 0]).
+      endkey([true, Time.now])
+    assert_equal Ticket.by_is_open.key(true).count, tickets.count
+  end
+
 
 end
 

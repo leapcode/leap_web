@@ -48,6 +48,7 @@ class Ticket < CouchRest::Model::Base
         emit(doc._id, doc);
        }"
     view :by_is_open_and_created_by
+    view :by_is_open_and_created_at
     view :by_updated_at_and_is_open,
       :map =>
       "function(doc) {
@@ -62,6 +63,21 @@ class Ticket < CouchRest::Model::Base
           emit(doc.updated_at, doc);
         }
        }"
+    view :by_commented_by,
+      :map =>
+        "function(doc) {
+          doc.comments.forEach(function(comment){
+            emit(comment.posted_by, doc);
+          });
+        }"
+
+    view :by_commented_by_and_commented_at,
+      :map =>
+        "function(doc) {
+          doc.comments.forEach(function(comment){
+            emit([comment.posted_by, comment.posted_at], doc);
+          });
+        }"
 
   end
 
