@@ -59,7 +59,7 @@ class TicketTest < ActiveSupport::TestCase
   test "finds open tickets sorted by created_at" do
     tickets = Ticket.by_is_open_and_created_at.
       startkey([true, 0]).
-      endkey([true, Time.now])
+      endkey([true, Time.now + 10.hours]) # some tickets were created in the future
     assert_equal Ticket.by_is_open.key(true).count, tickets.count
   end
 
@@ -75,6 +75,12 @@ class TicketTest < ActiveSupport::TestCase
     testticket.comments << comment
     testticket.save
     assert_equal 1, testticket.reload.comments.count
+    assert_equal [testticket], Ticket.by_commented_by.key('123').all;
+
+    comment = TicketComment.new :body => "another comment", :posted_by => "123"
+    testticket.comments << comment
+    testticket.save
+    #this will now fail, as Ticket.by_commented_by will return 2 copies of the same ticket as both of the ticket's comments match
     assert_equal [testticket], Ticket.by_commented_by.key('123').all;
 
     testticket.destroy
