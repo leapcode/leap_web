@@ -47,4 +47,49 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal " ", @response.body
     assert_response 204
   end
+
+  test "admin can destroy user" do
+    login :is_admin? => true
+    user = stub_record User
+    user.expects(:destroy)
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
+    delete :destroy, :id => user.id
+    assert_response :redirect
+    # assert_redirected_to users_path
+  end
+
+  test "non-admin can't destroy user" do
+    login
+    user = stub_record User
+    delete :destroy, :id => user.id
+    assert_access_denied
+  end
+
+  test "admin can list users" do
+    login :is_admin? => true
+    get :index
+    assert_response :success
+    assert assigns(:users)
+  end
+
+  test "non-admin can't list users" do
+    login
+    get :index
+    assert_access_denied
+  end
+
+  test "admin can autocomplete users" do
+    login :is_admin? => true
+    get :index, :format => :json
+    assert_response :success
+    assert assigns(:users)
+  end
+
+  test "admin can search users" do
+    login :is_admin? => true
+    get :index, :query => "a"
+    assert_response :success
+    assert assigns(:users)
+  end
+
 end
