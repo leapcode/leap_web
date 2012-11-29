@@ -82,11 +82,8 @@ class TicketsController < ApplicationController
 
   def index
     #TODO: we will need pagination
-    if admin?
-      @tickets = Ticket.for_admin(current_user, params)
-    else
-      @tickets = Ticket.for_user(current_user, params)
-    end
+    @tickets = Ticket.for_user(current_user, params, admin?)
+
     #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
     @tickets = @tickets.page(params[:page]).per(10) #TEST
     #respond_with(@tickets)

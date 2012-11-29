@@ -64,27 +64,30 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "find tickets user commented on" do
+
     # clear old tickets just in case
-    Ticket.by_commented_by.key('123').each {|t| t.destroy}
+    # this will cause RestClient::ResourceNotFound errors if there are multiple copies of the same ticket returned
+    Ticket.includes_post_by.key('123').each {|t| t.destroy}
 
     testticket = Ticket.create :title => "test retrieving commented tickets"
     comment = TicketComment.new :body => "my email broke", :posted_by => "123"
     assert_equal 0, testticket.comments.count
-    assert_equal [], Ticket.by_commented_by.key('123').all;
+    assert_equal [], Ticket.includes_post_by.key('123').all
 
     testticket.comments << comment
     testticket.save
     assert_equal 1, testticket.reload.comments.count
-    assert_equal [testticket], Ticket.by_commented_by.key('123').all;
+    assert_equal [testticket], Ticket.includes_post_by.key('123').all
 
     comment = TicketComment.new :body => "another comment", :posted_by => "123"
     testticket.comments << comment
     testticket.save
-    #this will now fail, as Ticket.by_commented_by will return 2 copies of the same ticket as both of the ticket's comments match
-    assert_equal [testticket], Ticket.by_commented_by.key('123').all;
+
+    # this will ensure that the ticket is only included once, even though the user has commented on the ticket twice:
+    assert_equal [testticket], Ticket.includes_post_by.key('123').all
 
     testticket.destroy
-    assert_equal [], Ticket.by_commented_by.key('123').all;
+    assert_equal [], Ticket.includes_post_by.key('123').all;
   end
 
 end

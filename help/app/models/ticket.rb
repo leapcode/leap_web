@@ -42,42 +42,55 @@ class Ticket < CouchRest::Model::Base
 
     view :by_updated_at #
 
-    view :by_title, #test
-      :map =>
-      "function(doc) {
-        emit(doc._id, doc);
-       }"
     view :by_is_open_and_created_by
     view :by_is_open_and_created_at
-    view :by_updated_at_and_is_open,
-      :map =>
-      "function(doc) {
-        if (doc['type'] == 'Ticket' && doc.is_open == true) {
-          emit(doc.updated_at, doc);
-        }
-       }"
-    view :by_updated_at_and_is_closed,
-      :map =>
-      "function(doc) {
-        if (doc['type'] == 'Ticket' && doc.is_open == false) {
-          emit(doc.updated_at, doc);
-        }
-       }"
-    view :by_commented_by,
-      :map =>
-        "function(doc) {
-          doc.comments.forEach(function(comment){
-            emit(comment.posted_by, doc);
-          });
-        }"
+    view :by_is_open_and_updated_at
 
-    view :by_commented_by_and_commented_at,
+    view :includes_post_by,
       :map =>
-        "function(doc) {
+      "function(doc) {
+        var arr = {}
+        if (doc['type'] == 'Ticket' && doc.comments) {
           doc.comments.forEach(function(comment){
-            emit([comment.posted_by, comment.posted_at], doc);
+          if (comment.posted_by && !arr[comment.posted_by]) {
+             //don't add duplicates
+             arr[comment.posted_by] = true;
+             emit(comment.posted_by, doc);
+          }
           });
-        }"
+        }
+      }"
+
+    view :includes_post_by_and_open_status_and_updated_at,
+      :map =>
+      "function(doc) {
+        var arr = {}
+        if (doc['type'] == 'Ticket' && doc.comments) {
+          doc.comments.forEach(function(comment){
+          if (comment.posted_by && !arr[comment.posted_by]) {
+            //don't add duplicates
+            arr[comment.posted_by] = true;
+            emit([comment.posted_by, doc.is_open, doc.updated_at], doc);
+          }
+          });
+        }
+      }"
+
+    view :includes_post_by_and_updated_at,
+      :map =>
+      "function(doc) {
+        var arr = {}
+        if (doc['type'] == 'Ticket' && doc.comments) {
+          doc.comments.forEach(function(comment){
+          if (comment.posted_by && !arr[comment.posted_by]) {
+            //don't add duplicates
+            arr[comment.posted_by] = true;
+            emit([comment.posted_by, doc.updated_at], doc);
+          }
+          });
+        }
+      }"
+
 
   end
 
@@ -93,49 +106,29 @@ class Ticket < CouchRest::Model::Base
   #  self.created_by = User.current if User.current
   #end
 
-  def self.for_user(user, options = {})
-    if options[:open_status] == 'open'
-      Ticket.by_is_open_and_created_by.key([true, user.id])
-    elsif options[:open_status] == 'closed'
-      Ticket.by_is_open_and_created_by.key([false, user.id])
+  def self.for_user(user, options = {}, is_admin = false)
+    # TODO: sorting
+    # TODO: do these correctly default to showing open?
+    # TODO: Time.now + 2.days is to catch tickets created in future. shouldn't happen but does on my computer now, so this at least catches for now.
+    if (is_admin && (options[:admin_status] != 'mine'))
+      # show all (selected) tickets to admin
+      if options[:open_status] == 'all'
+        Ticket.by_updated_at
+      else
+        Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'), Time.now + 2.days]) 
+      end
     else
-      Ticket.by_created_by(:key => user.id)
-    end
-      #TODO---if, when logged in, user accessed unauthenticated ticket, then seems okay to list it in their list of tickets. Thus, include all tickets that the user has posted to, not just those that they created.
-    # todo. presumably quite inefficent. sorts by updated_at increasing. would also make it an array, so pagination wouldn't work
-    # @tickets = @tickets.sort{|x,y| x.updated_at <=> y.updated_at}
-  end
-
-  def self.for_admin(user, options = {})
-    if options[:admin_status] == 'mine'
-      self.tickets_by_admin(user.id, options) #returns Array so pagination does not work
-    elsif options[:open_status] == 'open'
-      Ticket.by_updated_at_and_is_open
-      # Ticket.by_is_open.key(true) #returns CouchRest::Model::Designs::View
-    elsif options[:open_status] == 'closed'
-      Ticket.by_updated_at_and_is_closed
-      # Ticket.by_is_open.key(false)   #returns CouchRest::Model::Designs::View
-    else
-      # Ticket.all  #returns CouchRest::Model::Designs::View
-      Ticket.by_updated_at
-    end
-  end
-
-  #returns Array which doesn't work for pagination, as it is now.
-  def self.tickets_by_admin(id, options = {})
-    admin_tickets = []
-    tickets = Ticket.all
-    tickets.each do |ticket|
-      ticket.comments.each do |comment|
-        if comment.posted_by == id and (options[:open_status] != 'open' or ticket.is_open) and (options[:open_status] != 'closed' or !ticket.is_open) #limit based on whether the ticket is open if open_status is set to open or closed
-          admin_tickets << ticket
-          break
-        end
+      # only show tickets this user has commented on, as user is non-admin or admin viewing only their tickets
+      if options[:open_status] == 'all'
+        Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
+      else
+        Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
       end
     end
-    # TODO. is this inefficent?:
-    # this sorts by updated at increasing:
-    admin_tickets.sort{|x,y| x.updated_at <=> y.updated_at}
+  end
+
+  def self.tickets_by_commenter(user_id)#, options = {})
+    Ticket.includes_post_by_and_updated_at.startkey([user_id, 0]).endkey([user_id, Time.now])
   end
 
   def is_creator_validated?
