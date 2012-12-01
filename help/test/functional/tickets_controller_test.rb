@@ -143,14 +143,12 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "admin add comment to authenticated ticket" do
 
-    admin_login = APP_CONFIG['admins'].first
-    admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
-    login(admin_user)
+    login :is_admin? => true
 
     ticket = Ticket.last
     assert_not_nil User.last.id
     ticket.created_by = User.last.id # TODO: hacky, but confirms it somebody elses ticket. assumes last user is not admin user:
-    assert_not_equal User.last, admin_user
+    assert_not_equal User.last.id, @current_user.id
     ticket.save
 
     #admin should be able to comment:
@@ -166,15 +164,13 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "tickets by admin" do
 
-    admin_login = APP_CONFIG['admins'].first
-    admin_user = User.find_by_login(admin_login) #assumes that there is an admin login
-    login(admin_user)
+    login :is_admin? => true, :email => nil
 
     post :create, :ticket => {:title => "test tick", :comments_attributes => {"0" => {"body" =>"body of test tick"}}}
     post :create, :ticket => {:title => "another test tick", :comments_attributes => {"0" => {"body" =>"body of another test tick"}}}
 
     assert_not_nil assigns(:ticket).created_by
-    assert_equal assigns(:ticket).created_by, admin_user.id
+    assert_equal assigns(:ticket).created_by, @current_user.id
 
     get :index, {:admin_status => "mine", :open_status => "open"}
     assert assigns(:tickets).count > 1 # at least 2 tickets
@@ -198,7 +194,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert assigns(:tickets).include?(assigns(:ticket))
     assert_not_nil assigns(:ticket).comments.last.posted_by
-    assert_equal assigns(:ticket).comments.last.posted_by, admin_user.id
+    assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
     assigns(:ticket).destroy
 
