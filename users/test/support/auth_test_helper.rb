@@ -1,4 +1,5 @@
 module AuthTestHelper
+  include StubRecordHelper
   extend ActiveSupport::Concern
 
   # Controller will fetch current user from warden.
@@ -9,8 +10,8 @@ module AuthTestHelper
     end
   end
 
-  def login(user = nil)
-    @current_user = user || stub
+  def login(user_or_method_hash = nil)
+    @current_user = stub_user(user_or_method_hash)
     unless @current_user.respond_to? :is_admin?
       @current_user.stubs(:is_admin?).returns(false)
     end
@@ -26,6 +27,20 @@ module AuthTestHelper
       assert_redirected_to root_path if logged_in 
     else
       assert flash[:alert].blank?
+    end
+  end
+
+  protected
+
+  # Will create a stub user for logging in from either
+  # * a hash of methods to stub
+  # * a user record
+  # * nil -> create a user record stub
+  def stub_user(user_or_method_hash)
+    if user_or_method_hash.is_a?(Hash)
+      stub_record User, user_or_method_hash
+    else
+      user_or_method_hash || stub_record(User)
     end
   end
 end
