@@ -63,10 +63,19 @@ class UsersControllerTest < ActionController::TestCase
     login :is_admin? => true
     user = stub_record User
     user.expects(:destroy)
-    User.expects(:find_by_param).with(user.id.to_s).returns(user)
+    User.expects(:find_by_param).with(user.id).returns(user)
     delete :destroy, :id => user.id
     assert_response :redirect
-    # assert_redirected_to users_path
+    assert_redirected_to users_path
+  end
+
+  test "user can cancel account" do
+    login
+    @current_user.expects(:destroy)
+    User.expects(:find_by_param).with(@current_user.id).returns(@current_user)
+    delete :destroy, :id => @current_user.id
+    assert_response :redirect
+    assert_redirected_to login_path
   end
 
   test "non-admin can't destroy user" do

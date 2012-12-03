@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_path
+    redirect_to admin? ? users_path : login_path
   end
 
   protected
