@@ -14,7 +14,7 @@ class TicketsController < ApplicationController
       @ticket.created_by = current_user.id
       @ticket.email = current_user.email if current_user.email
       @ticket.comments.last.posted_by = current_user.id
-    else 
+    else
       @ticket.comments.last.posted_by = nil #hacky, but protecting this attribute doesn't work right, so this should make sure it isn't set.
     end
 
@@ -36,11 +36,11 @@ class TicketsController < ApplicationController
     # @ticket.comments.build
     # build ticket comments?
   end
-  
+
   def update
     @ticket = Ticket.find(params[:id])
     @ticket.attributes = params[:ticket]
-    
+
     @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
 
     if @ticket.save
@@ -60,7 +60,7 @@ class TicketsController < ApplicationController
   end
 
   private
-  
+
   # not using now, as we are using comment_attributes= from the Ticket model
 =begin
   def add_comment

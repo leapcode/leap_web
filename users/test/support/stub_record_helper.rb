@@ -7,7 +7,7 @@ module StubRecordHelper
       params.reverse_merge!(klass.valid_attributes_hash)
     end
     params[:params] = params.stringify_keys
-    params.reverse_merge! :id => 123,
+    params.reverse_merge! :id => "A123",
       :class => klass,
       :to_key => ['123'],
       :to_json => %Q({"stub":"#{klass.name}"}),
