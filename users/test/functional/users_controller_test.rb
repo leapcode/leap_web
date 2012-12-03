@@ -44,8 +44,19 @@ class UsersControllerTest < ActionController::TestCase
     login user
     put :update, :user => user.params, :id => user.id, :format => :json
     assert_equal user, assigns[:user]
-    assert_equal " ", @response.body
     assert_response 204
+    assert_equal " ", @response.body
+  end
+
+  test "admin can edit user" do
+    user = stub_record User
+    user.expects(:update_attributes).with(user.params).returns(true)
+    User.expects(:find_by_param).with(user.id.to_s).returns(user)
+    login :is_admin? => true
+    put :update, :user => user.params, :id => user.id, :format => :json
+    assert_equal user, assigns[:user]
+    assert_response 204
+    assert_equal " ", @response.body
   end
 
   test "admin can destroy user" do
