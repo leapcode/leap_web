@@ -82,10 +82,10 @@ class TicketsController < ApplicationController
 
   def index
     #TODO: we will need pagination
-    @tickets = Ticket.for_user(current_user, params, admin?)
+    @all_tickets = Ticket.for_user(current_user, params, admin?) #for tests, useful to have as separate variable
 
     #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
-    @tickets = @tickets.page(params[:page]).per(10) #TEST
+    @tickets = @all_tickets.page(params[:page]).per(10) #TEST
     #respond_with(@tickets)
   end
 

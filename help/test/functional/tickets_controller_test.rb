@@ -122,20 +122,17 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "cannot comment if it is not your ticket" do
 
-    login(User.last) # assumes User.last is not admin
-    assert !@current_user.is_admin?
-
-    ticket = Ticket.last
+    login :is_admin? => false, :email => nil
+    ticket = Ticket.first
 
     assert_not_nil User.first.id
-    ticket.created_by = User.first.id #assumes User.first != User.last:
-    assert_not_equal User.first, User.last
+    ticket.created_by = User.first.id
     ticket.save
     # they should *not* be able to comment if it is not their ticket
-    put :update, :id => ticket.id,
-        :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    put :update, :id => ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"TEST NEWER comment"}} }
     assert_response :redirect
     assert_access_denied
+
     assert_equal ticket.comments, assigns(:ticket).comments
 
   end
@@ -173,26 +170,25 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal assigns(:ticket).created_by, @current_user.id
 
     get :index, {:admin_status => "mine", :open_status => "open"}
-    assert assigns(:tickets).count > 1 # at least 2 tickets
+    assert assigns(:all_tickets).count > 1 # at least 2 tickets
 
     # if we close one ticket, the admin should have 1 less open ticket they admin
-    assert_difference('assigns[:tickets].count', -1) do
-      assigns(:ticket).close
-      assigns(:ticket).save
+    assert_difference('assigns[:all_tickets].all.count', -1) do #not clear why do we need .all
+      assigns(:tickets).all.first.close
+      assigns(:tickets).all.first.save
       get :index, {:admin_status => "mine", :open_status => "open"}
     end
-    assigns(:ticket).destroy
 
     testticket = Ticket.create :title => 'testytest'
-    assert !assigns(:tickets).include?(testticket)
+    assert !assigns(:all_tickets).all.include?(testticket)
 
     # admin should have one more ticket if a new tick gets an admin comment
-    assert_difference('assigns[:tickets].count') do
+    assert_difference('assigns[:all_tickets].all.count') do
       put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
       get :index, {:admin_status => "mine", :open_status => "open"}
     end
 
-    assert assigns(:tickets).include?(assigns(:ticket))
+    assert assigns(:all_tickets).all.include?(assigns(:ticket))
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
