@@ -194,6 +194,18 @@ class TicketsControllerTest < ActionController::TestCase
 
     assigns(:ticket).destroy
 
+    # test ordering
+
+    get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_desc'}
+    first_tick = assigns(:all_tickets).all.first
+    last_tick = assigns(:all_tickets).all.last
+    # and now reverse order:
+    get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_asc'}
+    assert_equal first_tick, assigns(:all_tickets).all.last
+    assert_equal last_tick, assigns(:all_tickets).all.first
+    assert_not_equal first_tick, assigns(:all_tickets).all.first
+    assert_not_equal last_tick, assigns(:all_tickets).all.last
+
   end
 
 end
