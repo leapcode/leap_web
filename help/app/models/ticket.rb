@@ -40,7 +40,8 @@ class Ticket < CouchRest::Model::Base
     view :by_is_open
     view :by_created_by
 
-    view :by_updated_at #
+    view :by_updated_at
+    view :by_created_at
 
     view :by_is_open_and_created_by
     view :by_is_open_and_created_at
@@ -76,6 +77,22 @@ class Ticket < CouchRest::Model::Base
         }
       }"
 
+
+    view :includes_post_by_and_open_status_and_created_at,
+      :map =>
+      "function(doc) {
+        var arr = {}
+        if (doc['type'] == 'Ticket' && doc.comments) {
+          doc.comments.forEach(function(comment){
+          if (comment.posted_by && !arr[comment.posted_by]) {
+            //don't add duplicates
+            arr[comment.posted_by] = true;
+            emit([comment.posted_by, doc.is_open, doc.created_at], doc);
+          }
+          });
+        }
+      }"
+
     view :includes_post_by_and_updated_at,
       :map =>
       "function(doc) {
@@ -92,6 +109,21 @@ class Ticket < CouchRest::Model::Base
       }"
 
 
+    view :includes_post_by_and_created_at,
+      :map =>
+      "function(doc) {
+        var arr = {}
+        if (doc['type'] == 'Ticket' && doc.comments) {
+          doc.comments.forEach(function(comment){
+          if (comment.posted_by && !arr[comment.posted_by]) {
+            //don't add duplicates
+            arr[comment.posted_by] = true;
+            emit([comment.posted_by, doc.created_at], doc);
+          }
+          });
+        }
+      }"
+
   end
 
   validates :title, :presence => true
@@ -107,22 +139,58 @@ class Ticket < CouchRest::Model::Base
   #end
 
   def self.for_user(user, options = {}, is_admin = false)
-    # TODO: sorting
-    # TODO: do these correctly default to showing open?
+
+    # TODO: This is obviously super tedious. we will refactor later.
+    # TODO: thought i  should reverse keys for descending, but that didn't work. look into whether that should be tweaked, and whether it works okay with pagination (seems to now...)
     # TODO: Time.now + 2.days is to catch tickets created in future. shouldn't happen but does on my computer now, so this at least catches for now.
+    # TODO handle default values correctly:
+    options[:open_status] = 'open' if !options[:open_status] #hacky. redo this when handling defaults correctly
+
     if (is_admin && (options[:admin_status] != 'mine'))
       # show all (selected) tickets to admin
       if options[:open_status] == 'all'
-        Ticket.by_updated_at
+        if options[:sort_order] == 'created_at_desc'
+          Ticket.by_created_at.startkey(0).endkey(Time.now + 2.days).descending
+        elsif options[:sort_order] == 'updated_at_asc'
+          Ticket.by_updated_at.startkey(0).endkey(Time.now + 2.days)
+        elsif options[:sort_order] == 'created_at_asc'
+          Ticket.by_created_at.startkey(0).endkey(Time.now + 2.days)
+        else
+          Ticket.by_updated_at.startkey(0).endkey(Time.now + 2.days).descending
+        end
       else
-        Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'), Time.now + 2.days]) 
+        if options[:sort_order] == 'created_at_desc'
+          Ticket.by_is_open_and_created_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days]).descending
+        elsif options[:sort_order] == 'updated_at_asc'
+          Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days])
+        elsif options[:sort_order] == 'created_at_asc'
+          Ticket.by_is_open_and_created_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days])
+        else
+          Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days]).descending
+        end
       end
     else
       # only show tickets this user has commented on, as user is non-admin or admin viewing only their tickets
       if options[:open_status] == 'all'
-        Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
+        if options[:sort_order] == 'created_at_desc'
+          Ticket.includes_post_by_and_created_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days]).descending
+        elsif options[:sort_order] == 'updated_at_asc'
+          Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
+        elsif options[:sort_order] == 'created_at_asc'
+          Ticket.includes_post_by_and_created_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
+        else
+          Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id,  Time.now + 2.days]).descending
+        end
       else
-        Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
+        if options[:sort_order] == 'created_at_desc'
+          Ticket.includes_post_by_and_open_status_and_created_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]).descending
+        elsif options[:sort_order] == 'updated_at_asc'
+          Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
+        elsif options[:sort_order] == 'created_at_asc'
+          Ticket.includes_post_by_and_open_status_and_created_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
+        else
+          Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]).descending
+        end
       end
     end
   end
