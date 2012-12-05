@@ -11,10 +11,8 @@ group :assets do
   gem "coffee-rails", "~> 3.2.2"
   gem "uglifier", "~> 1.2.7"
 
-  # seems to be required for therubyracer:
-  gem 'libv8', '~> 3.11.8'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
+  gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
 
 end
 
