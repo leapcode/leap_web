@@ -22,7 +22,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(params[:user])
+    if @user = User.create(params[:user])
+      flash[:notice] = t(:user_created_successfully)
+    end
     respond_with @user
   end
 
@@ -30,7 +32,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])
+      flash[:notice] = t(:user_updated_successfully)
+    end
     respond_with @user, :location => edit_user_path(@user)
   end
 
