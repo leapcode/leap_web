@@ -70,7 +70,8 @@ class TicketsControllerTest < ActionController::TestCase
 
     params = {:title => "auth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
-    login User.last
+    login :email => "test@email.net"
+
     assert_difference('Ticket.count') do
       post :create, :ticket => params
     end

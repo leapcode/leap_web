@@ -1,9 +1,11 @@
+- only = local_assigns[:only]
 - html = {:class => 'form-horizontal user form ' + (@user.new_record? ? 'new' : 'edit')}
 = simple_form_for @user, :validate => true, :format => :json, :html => html do |f|
   %legend
-    = @user.new_record? ? t(:signup_message) : t(:edit_settings)
-  = f.input :login, :input_html => { :id => :srp_username }
-  = f.input :password, :required => true, :validate => true, :input_html => { :id => :srp_password }
-  = f.input :password_confirmation, :required => true, :input_html => { :id => :srp_password_confirmation }
-  = f.button :submit, :class => 'btn-primary' 
-  = link_to t(:cancel), root_url, :class => :btn
+    = t(only || :signup_message)
+  = yield
+  .pull-right
+    = f.button :submit
+    - unless only
+      = link_to t(:cancel), root_url, :class => :btn
+  .clearfix

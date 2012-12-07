@@ -30,13 +30,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update_attributes(params[:user])
-    respond_with @user
+    if @user.update_attributes(params[:user])
+      flash[:notice] = t(:user_updated_successfully)
+    end
+    respond_with @user, :location => edit_user_path(@user)
   end
 
   def destroy
     @user.destroy
-    redirect_to users_path
+    redirect_to admin? ? users_path : login_path
   end
 
   protected

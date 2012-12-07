@@ -110,6 +110,7 @@ class TicketsController < ApplicationController
     @post_reply_str = 'Post reply' #t :post_reply
     @reply_close_str = 'Reply and close' #t :reply_and_close
   end
+
   # not using now, as we are using comment_attributes= from the Ticket model
 =begin
   def add_comment
