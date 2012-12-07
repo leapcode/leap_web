@@ -9,7 +9,7 @@ module UsersHelper
     end
   end
 
-  def user_form(options)
+  def user_form(options = {})
     simple_form_for @user,
       :html => user_form_html_options(options),
       :validate => true do |f|

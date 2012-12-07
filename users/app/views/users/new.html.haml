@@ -1,3 +1,11 @@
 .span8.offset2
   %h2=t :signup
-  = user_form_with 'signup', :legend => :signup_message, :with_cancel => true
+  = user_form do |f|
+    %legend= t(:signup_message)
+    = render :partial => 'login_field', :locals => {:f => f}
+    = render :partial => 'password_fields', :locals => {:f => f}
+    .pull-right
+      = f.button :submit, :class => 'btn-primary'
+      = link_to t(:cancel), root_url, :class => :btn
+    .clearfix
+

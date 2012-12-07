@@ -1,10 +1,4 @@
-%legend
-  = t(legend)
-= yield
-.pull-right
-  - if local_assigns[:with_cancel]
-    = f.button :submit, :class => 'btn-primary'
-    = link_to t(:cancel), root_url, :class => :btn
-  - else
-    = f.button :submit
+%legend= t(legend)
+=yield
+.pull-right= f.button :submit
 .clearfix
