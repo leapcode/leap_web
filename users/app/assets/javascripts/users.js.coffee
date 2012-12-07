@@ -3,7 +3,7 @@ preventDefault = (event) ->
 
 srp.session = new srp.Session()
 srp.signedUp = ->
-  srp.login
+  srp.login()
 
 srp.loggedIn = ->
   window.location = '/'
@@ -29,7 +29,6 @@ $(document).ready ->
   $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault
   $('#new_session').submit srp.login
-  $('.user.form.edit').submit srp.update
-  $('.user.form.edit').submit preventDefault
+  $('.user.form.change_password').submit srp.update
+  $('.user.form.change_password').submit preventDefault
   $('.user.typeahead').typeahead({source: pollUsers});
-

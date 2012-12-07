@@ -2,6 +2,7 @@ class User < CouchRest::Model::Base
 
   property :login, String, :accessible => true
   property :email, String, :accessible => true
+  property :email_forward, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
 
