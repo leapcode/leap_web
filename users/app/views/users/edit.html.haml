@@ -1,10 +1,5 @@
 .span8.offset2
   %h2=t :settings
-  = render 'form'
-  - if @user == current_user
-    %legend
-      =t :cancel_account
-      %small You will not be able to login anymore.
-    = link_to user_path(@user), :method => :delete, :class => "btn btn-danger" do
-      %i.icon-remove.icon-white
-      Remove my Account
+  = render :partial => 'form', :locals => {:only => :change_login}
+  = render :partial => 'form', :locals => {:only => :change_password}
+  = render 'cancel_account' if @user == current_user
