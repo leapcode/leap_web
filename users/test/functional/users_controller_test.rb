@@ -35,7 +35,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get edit view" do
-    user = find_record User
+    user = find_record User, :email => nil, :email_forward => nil
 
     login user
     get :edit, :id => user.id
