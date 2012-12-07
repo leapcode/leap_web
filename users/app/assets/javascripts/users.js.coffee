@@ -3,7 +3,7 @@ preventDefault = (event) ->
 
 srp.session = new srp.Session()
 srp.signedUp = ->
-  srp.login
+  srp.login()
 
 srp.loggedIn = ->
   window.location = '/'

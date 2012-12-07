@@ -22,9 +22,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    if @user = User.create(params[:user])
-      flash[:notice] = t(:user_created_successfully)
-    end
+    @user = User.create(params[:user])
     respond_with @user
   end
 
