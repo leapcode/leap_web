@@ -56,11 +56,11 @@ class Ticket < CouchRest::Model::Base
           if (comment.posted_by && !arr[comment.posted_by]) {
              //don't add duplicates
              arr[comment.posted_by] = true;
-             emit(comment.posted_by, doc);
+             emit(comment.posted_by, 1);
           }
           });
         }
-      }"
+      }", :reduce => "function(k,v,r) { return sum(v); }"
 
     view :includes_post_by_and_open_status_and_updated_at,
       :map =>
@@ -71,12 +71,11 @@ class Ticket < CouchRest::Model::Base
           if (comment.posted_by && !arr[comment.posted_by]) {
             //don't add duplicates
             arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.is_open, doc.updated_at], doc);
+            emit([comment.posted_by, doc.is_open, doc.updated_at], 1);
           }
           });
         }
-      }"
-
+      }", :reduce => "function(k,v,r) { return sum(v); }"
 
     view :includes_post_by_and_open_status_and_created_at,
       :map =>
@@ -87,11 +86,11 @@ class Ticket < CouchRest::Model::Base
           if (comment.posted_by && !arr[comment.posted_by]) {
             //don't add duplicates
             arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.is_open, doc.created_at], doc);
+            emit([comment.posted_by, doc.is_open, doc.created_at], 1);
           }
           });
         }
-      }"
+      }", :reduce => "function(k,v,r) { return sum(v); }"
 
     view :includes_post_by_and_updated_at,
       :map =>
@@ -102,11 +101,11 @@ class Ticket < CouchRest::Model::Base
           if (comment.posted_by && !arr[comment.posted_by]) {
             //don't add duplicates
             arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.updated_at], doc);
+            emit([comment.posted_by, doc.updated_at], 1);
           }
           });
         }
-      }"
+      }", :reduce => "function(k,v,r) { return sum(v); }"
 
 
     view :includes_post_by_and_created_at,
@@ -118,11 +117,11 @@ class Ticket < CouchRest::Model::Base
           if (comment.posted_by && !arr[comment.posted_by]) {
             //don't add duplicates
             arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.created_at], doc);
+            emit([comment.posted_by, doc.created_at], 1);
           }
           });
         }
-      }"
+      }", :reduce => "function(k,v,r) { return sum(v); }"
 
   end
 

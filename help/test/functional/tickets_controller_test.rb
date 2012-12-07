@@ -180,9 +180,9 @@ class TicketsControllerTest < ActionController::TestCase
     assert assigns(:all_tickets).count > 1 # at least 2 tickets
 
     # if we close one ticket, the admin should have 1 less open ticket they admin
-    assert_difference('assigns[:all_tickets].all.count', -1) do #not clear why do we need .all
-      assigns(:tickets).all.first.close
-      assigns(:tickets).all.first.save
+    assert_difference('assigns[:all_tickets].count', -1) do
+      assigns(:tickets).first.close
+      assigns(:tickets).first.save
       get :index, {:admin_status => "mine", :open_status => "open"}
     end
 
@@ -190,17 +190,17 @@ class TicketsControllerTest < ActionController::TestCase
 
     # test admin_status 'mine' vs 'all'
     get :index, {:admin_status => "all", :open_status => "open"}
-    assert assigns(:all_tickets).all.include?(testticket)
+    assert assigns(:all_tickets).include?(testticket)
     get :index, {:admin_status => "mine", :open_status => "open"}
-    assert !assigns(:all_tickets).all.include?(testticket)
+    assert !assigns(:all_tickets).include?(testticket)
 
     # admin should have one more ticket if a new tick gets an admin comment
-    assert_difference('assigns[:all_tickets].all.count') do
+    assert_difference('assigns[:all_tickets].count') do
       put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
       get :index, {:admin_status => "mine", :open_status => "open"}
     end
 
-    assert assigns(:all_tickets).all.include?(assigns(:ticket))
+    assert assigns(:all_tickets).include?(assigns(:ticket))
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
@@ -209,6 +209,8 @@ class TicketsControllerTest < ActionController::TestCase
     # test ordering
 
     get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_desc'}
+
+    # this will consider all tickets, not just those on first page
     first_tick = assigns(:all_tickets).all.first
     last_tick = assigns(:all_tickets).all.last
     assert first_tick.created_at > last_tick.created_at
@@ -216,11 +218,11 @@ class TicketsControllerTest < ActionController::TestCase
     # and now reverse order:
     get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_asc'}
 
-    assert_equal first_tick, assigns(:all_tickets).all.last
-    assert_equal last_tick, assigns(:all_tickets).all.first
+    assert_equal first_tick, assigns(:all_tickets).last
+    assert_equal last_tick, assigns(:all_tickets).first
 
-    assert_not_equal first_tick, assigns(:all_tickets).all.first
-    assert_not_equal last_tick, assigns(:all_tickets).all.last
+    assert_not_equal first_tick, assigns(:all_tickets).first
+    assert_not_equal last_tick, assigns(:all_tickets).last
 
   end
 
@@ -233,53 +235,38 @@ class TicketsControllerTest < ActionController::TestCase
 
     get :index, {:open_status => "open"}
     assert assigns(:all_tickets).count > 0
-    assert assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid'))
+    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
 
-    assert !assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid2'))
+    assert !assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
 
     # user should have one more ticket if a new tick gets a comment by this user
-    assert_difference('assigns[:all_tickets].all.count') do
+    assert_difference('assigns[:all_tickets].count') do
       put :update, :id => 'stubtestticketid2' , :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
       get :index, {:open_status => "open"}
     end
-    assert assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid2'))
+    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
 
    # if we close one ticket, the user should have 1 less open ticket
-    assert_difference('assigns[:all_tickets].all.count', -1) do #not clear why do we need .all
+    assert_difference('assigns[:all_tickets].count', -1) do
       t = Ticket.find('stubtestticketid2')
       t.close
       t.save
       get :index, {:open_status => "open"}
     end
 
-    number_open_tickets = assigns(:all_tickets).all.count
+    number_open_tickets = assigns(:all_tickets).count
 
     # look at closed tickets:
     get :index, {:open_status => "closed"}
-    assert assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid2'))
-    assert !assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid'))
-    number_closed_tickets = assigns(:all_tickets).all.count
+    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
+    assert !assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
+    number_closed_tickets = assigns(:all_tickets).count
 
     # all tickets should equal closed + open
     get :index, {:open_status => "all"}
-    assert assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid2'))
-    assert assigns(:all_tickets).all.include?(Ticket.find('stubtestticketid'))
-    assert_equal assigns(:all_tickets).all.count, number_closed_tickets + number_open_tickets
-
-    # test ordering
-    get :index, {:open_status => "all", :sort_order => 'created_at_desc'}
-    first_tick = assigns(:all_tickets).all.first
-    last_tick = assigns(:all_tickets).all.last
-    assert first_tick.created_at > last_tick.created_at
-
-    # and now reverse order:
-    get :index, {:open_status => "all", :sort_order => 'created_at_asc'}
-
-    assert_equal first_tick, assigns(:all_tickets).all.last
-    assert_equal last_tick, assigns(:all_tickets).all.first
-
-    assert_not_equal first_tick, assigns(:all_tickets).all.first
-    assert_not_equal last_tick, assigns(:all_tickets).all.last
+    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
+    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
+    assert_equal assigns(:all_tickets).count, number_closed_tickets + number_open_tickets
 
   end
 
