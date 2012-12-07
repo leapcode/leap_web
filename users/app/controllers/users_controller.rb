@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update_attributes(params[:user])
-    respond_with @user
+    respond_with @user, :location => edit_user_path(@user)
   end
 
   def destroy
