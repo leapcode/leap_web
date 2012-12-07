@@ -9,42 +9,46 @@ class User < CouchRest::Model::Base
     :presence => true
 
   validates :login,
-    :uniqueness => true
+    :uniqueness => true,
+    :if => :serverside?
 
   validates :login,
     :format => { :with => /\A[A-Za-z\d_]+\z/,
       :message => "Only letters, digits and _ allowed" }
 
   validates :password_salt, :password_verifier,
-    :format => { :with => /\A[\dA-Fa-f]+\z/,
-      :message => "Only hex numbers allowed" }
+    :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
+
+  validates :password, :presence => true,
+    :confirmation => true,
+    :format => { :with => /.{8}.*/, :message => "needs to be at least 8 characters long" }
 
   timestamps!
 
   design do
     view :by_login
+    view :by_created_at
   end
 
   class << self
-    def find_by_param(login)
-      return find_by_login(login) || raise(RECORD_NOT_FOUND)
-    end
+    alias_method :find_by_param, :find
 
     # valid set of attributes for testing
     def valid_attributes_hash
       { :login => "me",
-        :password_verifier => "1234ABC",
+        :password_verifier => "1234ABCD",
         :password_salt => "4321AB" }
     end
 
   end
 
-  def to_param
-    self.login
-  end
+  alias_method :to_param, :id
 
   def to_json(options={})
-    super(options.merge(:only => ['login', 'password_salt']))
+    {
+      :login => login,
+      :ok => valid?
+    }.to_json(options)
   end
 
   def initialize_auth(aa)
@@ -63,11 +67,18 @@ class User < CouchRest::Model::Base
     login
   end
 
-  def self.current
-    Thread.current[:user]
-  end
-  def self.current=(user)
-    Thread.current[:user] = user
+  # Since we are storing admins by login, we cannot allow admins to change their login.
+  def is_admin?
+    APP_CONFIG['admins'].include? self.login
   end
 
+  protected
+  def password
+    password_verifier
+  end
+
+  # used as a condition for validations that are server side only
+  def serverside?
+    true
+  end
 end

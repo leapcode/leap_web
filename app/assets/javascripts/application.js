@@ -15,3 +15,6 @@
 //= require srp
 //= require users
 //= require_tree .
+//= require bootstrap
+//= require rails.validations
+//= require rails.validations.simple_form

@@ -1,79 +1,72 @@
 require 'test_helper'
 
+# This is a simple controller unit test.
+# We're stubbing out both warden and srp.
+# There's an integration test testing the full rack stack and srp
 class SessionsControllerTest < ActionController::TestCase
 
-  def setup
+  setup do
+    @user = stub :login => "me", :id => 123
     @client_hex = 'a123'
-    @client_rnd = @client_hex.hex
-    @server_hex = 'b123'
-    @server_rnd = @server_hex.hex
-    @server_rnd_exp = 'e123'.hex
-    @salt = 'stub user salt'
-    @server_handshake = stub :aa => @client_rnd, :bb => @server_rnd, :b => @server_rnd_exp
-    @server_auth = 'adfe'
   end
 
   test "should get login screen" do
+    request.env['warden'].expects(:winning_strategy)
     get :new
     assert_response :success
+    assert_equal "text/html", response.content_type
+    assert_template "sessions/new"
   end
 
+  test "renders json" do
+    request.env['warden'].expects(:winning_strategy)
+    get :new, :format => :json
+    assert_response :success
+    assert_json_error nil
+  end
+
+  test "renders warden errors" do
+    strategy = stub :message => {:field => :translate_me}
+    request.env['warden'].stubs(:winning_strategy).returns(strategy)
+    I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
+    get :new, :format => :json
+    assert_response 422
+    assert_json_error :field => "translation stub"
+  end
+
+  # Warden takes care of parsing the params and
+  # rendering the response. So not much to test here.
   test "should perform handshake" do
-    user = stub :login => "me", :id => 123
-    user.expects(:initialize_auth).
-      with(@client_rnd).
-      returns(@server_handshake)
-    @server_handshake.expects(:to_json).
-     returns({'B' => @server_hex, 'salt' => @salt}.to_json)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :create, :login => user.login, 'A' => @client_hex
-    assert_equal @server_handshake, session[:handshake]
-    assert_response :success
-    assert_json_response :B => @server_hex, :salt => @salt
-  end
-
-  test "should report user not found" do
-    unknown = "login_that_does_not_exist"
-    User.expects(:find_by_param).with(unknown).raises(RECORD_NOT_FOUND)
-    post :create, :login => unknown
-    assert_response :success
-    assert_json_response :errors => {"login" => ["unknown user"]}
+    request.env['warden'].expects(:authenticate!)
+    # make sure we don't get a template missing error:
+    @controller.stubs(:render)
+    post :create, :login => @user.login, 'A' => @client_hex
   end
 
   test "should authorize" do
-    session[:handshake] = @server_handshake
-    user = stub :login => "me", :id => 123
-    @server_handshake.expects(:authenticate!).
-      with(@client_rnd).
-      returns(@server_auth)
-    @server_handshake.expects(:to_json).
-      returns({:M2 => @server_auth}.to_json)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :update, :id => user.login, :client_auth => @client_hex
+    request.env['warden'].expects(:authenticate!)
+    handshake = stub(:to_json => "JSON")
+    session[:handshake] = handshake
+    post :update, :id => @user.login, :client_auth => @client_hex
     assert_nil session[:handshake]
-    assert_json_response :M2 => @server_auth
-    assert_equal user.id, session[:user_id]
+    assert_response :success
+    assert_equal handshake.to_json, @response.body
   end
 
-  test "should report wrong password" do
-    session[:handshake] = @server_handshake
-    user = stub :login => "me", :id => 123
-    @server_handshake.expects(:authenticate!).
-      with(@client_rnd).
-      raises(WRONG_PASSWORD)
-    User.expects(:find_by_param).with(user.login).returns(user)
-    post :update, :id => user.login, :client_auth => @client_hex
-    assert_nil session[:handshake]
-    assert_nil session[:user_id]
-    assert_json_response :errors => {"password" => ["wrong password"]}
-  end
-
-  test "logout should reset sessions user_id" do
-    session[:user_id] = "set"
+  test "logout should reset warden user" do
+    expect_warden_logout
     delete :destroy
-    assert_nil session[:user_id]
     assert_response :redirect
     assert_redirected_to root_url
   end
+
+  def expect_warden_logout
+    raw = mock('raw session') do
+      expects(:inspect)
+    end
+    request.env['warden'].expects(:raw_session).returns(raw)
+    request.env['warden'].expects(:logout)
+  end
+
 
 end

@@ -1,1 +1,14 @@
 @import "bootstrap";
+body {
+  padding: 40px;
+}
+@import "bootstrap-responsive";
+
+
+table.table-hover .btn {
+  opacity: 0;
+}
+
+table.table-hover tr:hover .btn {
+  opacity: 1;
+}

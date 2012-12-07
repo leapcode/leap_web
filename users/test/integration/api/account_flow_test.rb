@@ -1,23 +1,19 @@
 require 'test_helper'
 
-class AccountFlowTest < ActionDispatch::IntegrationTest
+CONFIG_RU = (Rails.root + 'config.ru').to_s
+OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
 
-  # this test wraps the api and implements the interface the ruby-srp client.
-  def handshake(login, aa)
-    post "sessions", :login => login, 'A' => aa.to_s(16)
-    assert_response :success
-    response = JSON.parse(@response.body)
-    if response['errors']
-      raise RECORD_NOT_FOUND.new(response['errors'])
-    else
-      return response['B'].hex
-    end
+class AccountFlowTest < ActiveSupport::TestCase
+  include Rack::Test::Methods
+  include Warden::Test::Helpers
+  include LeapWebCore::AssertResponses
+
+  def app
+    OUTER_APP
   end
 
-  def validate(m)
-    put "sessions/" + @login, :client_auth => m.to_s(16)
-    assert_response :success
-    return JSON.parse(@response.body)
+  def teardown
+    Warden.test_reset!
   end
 
   def setup
@@ -38,13 +34,30 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
     @user.destroy if @user # make sure we can run this test again
   end
 
+  # this test wraps the api and implements the interface the ruby-srp client.
+  def handshake(login, aa)
+    post "/sessions.json", :login => login, 'A' => aa.to_s(16), :format => :json
+    response = JSON.parse(last_response.body)
+    if response['errors']
+      raise RECORD_NOT_FOUND.new(response['errors'])
+    else
+      return response['B'].hex
+    end
+  end
+
+  def validate(m)
+    put "/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
+    return JSON.parse(last_response.body)
+  end
+
   test "signup response" do
-    assert_json_response @user_params.slice(:login, :password_salt)
-    assert_response :success
+    assert_json_response :login => @login, :ok => true
+    assert last_response.successful?
   end
 
   test "signup and login with srp via api" do
     server_auth = @srp.authenticate(self)
+    assert last_response.successful?
     assert_nil server_auth["errors"]
     assert server_auth["M2"]
   end
@@ -52,7 +65,8 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new(@login, "wrong password")
     server_auth = srp.authenticate(self)
-    assert_equal ["wrong password"], server_auth["errors"]['password']
+    assert_json_error :password => "wrong password"
+    assert !last_response.successful?
     assert_nil server_auth["M2"]
   end
 
@@ -62,6 +76,8 @@ class AccountFlowTest < ActionDispatch::IntegrationTest
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
     end
+    assert_json_error :login => "could not be found"
+    assert !last_response.successful?
     assert_nil server_auth
   end
 

@@ -1,41 +1,35 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-#
+preventDefault = (event) ->
+  event.preventDefault()
 
-validate_password = (event) ->
+srp.session = new srp.Session()
+srp.signedUp = ->
+  srp.login
 
-  password = $('#srp_password').val()
-  confirmation = $('#srp_password_confirmation').val()
-  login = $('#srp_username').val()
+srp.loggedIn = ->
+  window.location = '/'
 
-  if password != confirmation
-    alert "Password and Confirmation do not match!"
-    $('#srp_password').focus()
-    return false
-  if password == login
-    alert "Password and Login may not match!"
-    $('#srp_password').focus()
-    return false
-  if password.length < 8
-    alert "Password needs to be at least 8 characters long!"
-    $('#srp_password').focus()
-    return false
-  
-  return true
-  
+#// TODO: not sure this is what we want.
+srp.updated = ->
+  window.location = '/'
 
-insert_verifier = (event) ->
-  # TODO: verify password confimation
-  srp = new SRP
-  salt = srp.session.getSalt()
-  $('#srp_salt').val(salt)
-  $('#srp_password_verifier').val(srp.session.getV().toString(16))
-  # clear the password so we do not submit it
-  $('#srp_password').val('cleared out - use verifier instead')
-  $('#srp_password_confirmation').val('using srp - store verifier')
+srp.error = (message) ->
+  if $.isPlainObject(message) && message.errors
+    for field, error of message.errors
+      element = $('form input[name$="['+field+']"]')
+      next unless element
+      element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
+  else
+    alert(message)
+
+pollUsers = (query, process) ->
+  $.get( "/users.json", query: query).done(process)
 
 $(document).ready ->
-  $('#new_user').submit validate_password
-  $('#new_user').submit insert_verifier
+  $('#new_user').submit preventDefault
+  $('#new_user').submit srp.signup
+  $('#new_session').submit preventDefault
+  $('#new_session').submit srp.login
+  $('.user.form.edit').submit srp.update
+  $('.user.form.edit').submit preventDefault
+  $('.user.typeahead').typeahead({source: pollUsers});
 

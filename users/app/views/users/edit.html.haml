@@ -1,0 +1,5 @@
+.span8.offset2
+  %h2=t :settings
+  = render :partial => 'form', :locals => {:only => :change_login}
+  = render :partial => 'form', :locals => {:only => :change_password}
+  = render 'cancel_account' if @user == current_user

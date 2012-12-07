@@ -13,9 +13,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+*~
 /pkg
 /*/pkg
 /log
+Gemfile.lock
 */Gemfile.lock
 test/dummy/log/*
 test/dummy/tmp/*
