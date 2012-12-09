@@ -14,3 +14,4 @@
     .tab-pane#email
       = user_form_with 'email_field', :legend => :set_email_address
       = user_form_with 'email_forward_field', :legend => :forward_email
+      = render 'email_aliases'
