@@ -1,10 +1,6 @@
 .span6
   %ul.unstyled
-    - @user.email_aliases.each do |email_alias|
-      %li.pull-right
-        %code= email_alias.email
-        %i.icon-remove
-      .clearfix
+    =render @user.email_aliases
 .clearfix
-= f.simple_fields_for :email_aliases, EmailAlias.new do |e|
+= f.simple_fields_for :email_aliases, Email.new do |e|
   = e.input :email, :placeholder => "alias@#{request.domain}"

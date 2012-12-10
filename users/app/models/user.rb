@@ -6,7 +6,7 @@ class User < CouchRest::Model::Base
 
   property :email, String, :accessible => true
   property :email_forward, String, :accessible => true
-  property :email_aliases, [EmailAlias]
+  property :email_aliases, [Email]
 
   validates :login, :password_salt, :password_verifier,
     :presence => true
@@ -77,7 +77,7 @@ class User < CouchRest::Model::Base
 
   def email_aliases_attributes=(attrs)
     if attrs
-      email_alias = EmailAlias.new(attrs.values.first)
+      email_alias = Email.new(attrs.values.first)
       email_aliases << email_alias
     end
   end
