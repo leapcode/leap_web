@@ -26,6 +26,13 @@ class User < CouchRest::Model::Base
     :confirmation => true,
     :format => { :with => /.{8}.*/, :message => "needs to be at least 8 characters long" }
 
+  # TODO: write a proper email validator to be used in the different places
+  validates :email,
+    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :message => "needs to be a valid email address"}
+
+  validates :email_forward,
+    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :message => "needs to be a valid email address"}
+
   timestamps!
 
   design do
