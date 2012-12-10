@@ -30,7 +30,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(params[:user])
+    @user.attributes = params[:user]
+    if @user.changed? and @user.save
       flash[:notice] = t(:user_updated_successfully)
     end
     respond_with @user, :location => edit_user_path(@user)

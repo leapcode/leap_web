@@ -1,10 +1,10 @@
-%legend= t(:email_aliases)
-%ul
-  - @user.email_aliases.each do |email|
-    %li= email
-= email_alias_form do |f|
-  =f.input :email, :placeholder => "alias@#{request.domain}"
-  .pull-right
-    %button{:type => :submit, :class => 'btn'}
-      %i.icon-plus
-      Add Email Alias
+.span6
+  %ul.unstyled
+    - @user.email_aliases.each do |email_alias|
+      %li.pull-right
+        %code= email_alias.email
+        %i.icon-remove
+      .clearfix
+.clearfix
+= f.simple_fields_for :email_aliases, EmailAlias.new do |e|
+  = e.input :email, :placeholder => "alias@#{request.domain}"

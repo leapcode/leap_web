@@ -75,6 +75,13 @@ class User < CouchRest::Model::Base
     APP_CONFIG['admins'].include? self.login
   end
 
+  def email_aliases_attributes=(attrs)
+    if attrs
+      email_alias = EmailAlias.new(attrs.values.first)
+      email_aliases << email_alias
+    end
+  end
+
   protected
   def password
     password_verifier
