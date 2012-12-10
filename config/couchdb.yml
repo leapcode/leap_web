@@ -1,0 +1,9 @@
+development:
+  prefix: ""
+
+production:
+  prefix: ""
+
+test:
+  prefix: ""
+  suffix: test
