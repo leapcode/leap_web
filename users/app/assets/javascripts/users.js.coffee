@@ -32,3 +32,7 @@ $(document).ready ->
   $('.user.form.change_password').submit srp.update
   $('.user.form.change_password').submit preventDefault
   $('.user.typeahead').typeahead({source: pollUsers});
+  $('a[data-toggle="tab"]').on('shown', ->
+    $(ClientSideValidations.selectors.forms).validate()
+    )
+
