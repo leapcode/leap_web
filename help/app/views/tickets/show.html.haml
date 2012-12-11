@@ -1,4 +1,10 @@
 %h2= @ticket.title
+
+= #%a#title.editable.editable-click{"data-name" => "title", "data-original-title" => "Enter username", "data-resource" => "post", "data-type" => "text", "data-url" => ticket_path(@ticket.id), "data-pk" => @ticket.id, :href => "#"} test
+
+%a#title.editable.editable-click{:href => "#"} test
+
+%p
 - if @ticket.email
   email:
   = @ticket.email

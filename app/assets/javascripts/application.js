@@ -16,6 +16,9 @@
 //= require users
 //= require_tree .
 //= require bootstrap
+//= require bootstrap-editable
+//= require bootstrap-editable-rails
+//= require bootstrap-editable-inline
 //= require jquery.pjax
 
 $(function() {
