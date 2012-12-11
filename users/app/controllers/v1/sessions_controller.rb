@@ -12,6 +12,7 @@ module V1
     end
 
     def create
+      logout if logged_in?
       authenticate!
     end
 
