@@ -1,6 +1,6 @@
 class Cert < CouchRest::Model::Base
 
-  use_database 'certs'
+  use_database 'client_certificates'
 
   timestamps!
 

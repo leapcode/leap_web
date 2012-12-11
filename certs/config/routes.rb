@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  resource :cert, :only => [:show]
+  scope '/1' do
+    resource :cert, :only => [:show]
+  end
 end

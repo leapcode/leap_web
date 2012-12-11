@@ -1,5 +1,7 @@
 class User < CouchRest::Model::Base
 
+  use_database :users
+
   property :login, String, :accessible => true
   property :email, String, :accessible => true
   property :email_forward, String, :accessible => true
