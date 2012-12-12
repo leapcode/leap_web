@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
 
-  respond_to :html #, :json
+  respond_to :html, :json
   #has_scope :open, :type => boolean
 
   before_filter :set_strings
@@ -52,7 +52,24 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
 
     if !ticket_access_denied?
-      if status = params[:change_status] #close or open button was pressed
+
+      if params[:post][:title] #title was changed with x-editable form
+
+        respond_to do |format|
+          if @ticket.update_attributes(params[:post])
+            format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
+            format.json { head :no_content } # 204 No Content
+          else
+            format.html { render action: "show" }
+            format.json { render json: @ticket.errors, status: :unprocessable_entity }
+          end
+          return
+        end
+        # TODO: do we want to keep the history of title changes? one possibility was adding a comment that said something like 'user changed the title from a to b'
+
+        # TODO: this is throwing a missing template error
+        return
+      elsif status = params[:change_status] #close or open button was pressed
         @ticket.close if params[:change_status] == 'close'
         @ticket.reopen if params[:change_status] == 'open'
       else
