@@ -216,6 +216,7 @@ class Ticket < CouchRest::Model::Base
   end
 
   #not saving with close and reopen, as we will save in update when they are called.
+  #TODO: not sure if we should bother with these:
   def close
     self.is_open = false
     #save

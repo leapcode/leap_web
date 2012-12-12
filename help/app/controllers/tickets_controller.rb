@@ -52,36 +52,21 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
 
     if !ticket_access_denied?
-
-      if params[:post][:title] #title was changed with x-editable form
-
-        respond_to do |format|
-          if @ticket.update_attributes(params[:post])
-            format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
-            format.json { head :no_content } # 204 No Content
-          else
-            format.html { render action: "show" }
-            format.json { render json: @ticket.errors, status: :unprocessable_entity }
-          end
-          return
+      if params[:post] #currently changes to title or is_open status
+        if @ticket.update_attributes(params[:post]) #this saves ticket, so @ticket.changed? will be false
+          tick_updated = true
         end
         # TODO: do we want to keep the history of title changes? one possibility was adding a comment that said something like 'user changed the title from a to b'
 
-        # TODO: this is throwing a missing template error
-        return
-      elsif status = params[:change_status] #close or open button was pressed
-        @ticket.close if params[:change_status] == 'close'
-        @ticket.reopen if params[:change_status] == 'open'
       else
         params[:ticket][:comments_attributes] = nil if params[:ticket][:comments_attributes].values.first[:body].blank? #unset comments hash if no new comment was typed
         @ticket.attributes = params[:ticket] #this will call comments_attributes=
-        # @ticket.is_open = false if params[:commit] == @reply_close_str #this overrides is_open selection
         @ticket.close if params[:commit] == @reply_close_str #this overrides is_open selection
-
         # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
         @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) if @ticket.comments_changed? #protecting posted_by isn't working, so this should protect it.
+        tick_updated = true if @ticket.changed? and @ticket.save
       end
-      if @ticket.changed? and @ticket.save
+      if tick_updated
         flash[:notice] = 'Ticket was successfully updated.'
         if @ticket.is_open
           respond_with @ticket
@@ -95,14 +80,14 @@ class TicketsController < ApplicationController
         #respond_with(@ticket) # why does this go to edit?? redirect???
       end
     end
+
   end
 
   def index
-    #TODO: we will need pagination
     @all_tickets = Ticket.for_user(current_user, params, admin?) #for tests, useful to have as separate variable
 
     #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
-    @tickets = @all_tickets.page(params[:page]).per(10) #TEST
+    @tickets = @all_tickets.page(params[:page]).per(10)
     #respond_with(@tickets)
   end
 
