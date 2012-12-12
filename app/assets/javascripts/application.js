@@ -16,7 +16,11 @@
 //= require users
 //= require_tree .
 //= require bootstrap
+//= require bootstrap-editable
+//= require bootstrap-editable-rails
+//= require bootstrap-editable-inline
 //= require jquery.pjax
+//= require tickets
 
 $(function() {
   $('a:not([data-remote]):not([data-behavior]):not([data-skip-pjax])').pjax('[data-pjax-container]');

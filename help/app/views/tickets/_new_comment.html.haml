@@ -1,3 +1,2 @@
-= #do we want this partial? not using it now
-= simple_fields_for :comment do |c|
+= f.simple_fields_for :comments, comment_object do |c|
   = c.input :body, :label => 'Comment', :as => :text

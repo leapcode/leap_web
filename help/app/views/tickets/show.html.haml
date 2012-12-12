@@ -1,4 +1,9 @@
 %h2= @ticket.title
+
+%a#title.editable.editable-click{"data-name" => "title", "data-resource" => "post", "data-type" => "text", "data-url" => ticket_path(@ticket.id), "data-pk" => @ticket.id, :href => "#"} 
+  = @ticket.title
+
+%p
 - if @ticket.email
   email:
   = @ticket.email
@@ -12,26 +17,18 @@
   = "status:" 
   - if @ticket.is_open
     = 'open'
-    = #link_to 'close', ticket_path, :method => :put
-    = #button_to 'close', ticket_path, :method => :put
-    = button_to 'close', {:change_status => :close}, :method => :put
+    = button_to 'close', {:post => {:is_open => false}}, :method => :put
   - else 
     = 'closed'
-    = button_to 'open', {:change_status => :open}, :method => :put
+    = button_to 'open', {:post => {:is_open => true}}, :method => :put
 = render(:partial => "comment", :collection => @ticket.comments)
 = #render @ticket.comments should work if view is in /app/views/comments/_comment
 
 = simple_form_for(@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
-  = f.simple_fields_for :comments, TicketComment.new do |c|
-    = c.input :body, :label => 'Comment', :as => :text
-  = #render :partial => 'new_comment'
-  = #f.label :is_open
-  = #f.select :is_open, [true, false] #remove
+  = render :partial => 'new_comment', :locals => {:f => f, :comment_object => TicketComment.new}
   = f.button :submit, @post_reply_str
   - if @ticket.is_open
     = f.button :submit, @reply_close_str
 = #link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => :btn if admin? # for link_to to work with delete, need to figure out jquery interaction correctly. see  http://stackoverflow.com/questions/3774925/delete-link-sends-get-instead-of-delete-in-rails-3-view etc..
-= button_to 'destroy', ticket_path, :confirm => 'are you sure?', :method => :delete  if admin?
-= # TODO want to have button to close
-= # TODO if admin, have  button to delete
+= button_to 'destroy', ticket_path, :confirm => 'are you sure?', :method => :delete if admin?
 = link_to t(:cancel), tickets_path, :class => :btn
