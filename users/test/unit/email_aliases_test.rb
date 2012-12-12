@@ -20,11 +20,12 @@ class EmailAliasTest < ActiveSupport::TestCase
     assert_equal email_alias, @user.email_aliases.first.to_s
   end
 
-  test "can retrieve user by email alias" do
+  test "find user by email alias" do
     email_alias = "valid_alias@domain.net"
-    @user.attributes = {:email_aliases => [email_alias]}
-    @user.save
+    @user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    assert @user.save
+    assert_equal @user, User.find_by_email_or_alias(email_alias)
     assert_equal @user, User.find_by_email_alias(email_alias)
-    assert_equal @user, User.find_by_email(email_alias)
+    assert_nil User.find_by_email(email_alias)
   end
 end

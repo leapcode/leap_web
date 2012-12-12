@@ -28,16 +28,42 @@ class User < CouchRest::Model::Base
 
   # TODO: write a proper email validator to be used in the different places
   validates :email,
-    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :message => "needs to be a valid email address"}
+    :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 
   validates :email_forward,
-    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :message => "needs to be a valid email address"}
+    :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 
   timestamps!
 
   design do
     view :by_login
     view :by_created_at
+    view :by_email
+    view :by_email_alias,
+      :map => <<-EOJS
+    function(doc) {
+      if (doc.type != 'User') {
+        return;
+      }
+      doc.email_aliases.forEach(function(alias){
+        emit(alias.email, doc);
+      });
+    }
+    EOJS
+    view :by_email_or_alias,
+      :map => <<-EOJS
+    function(doc) {
+      if (doc.type != 'User') {
+        return;
+      }
+      if (doc.email) {
+        emit(doc.email, doc);
+      }
+      doc.email_aliases.forEach(function(alias){
+        emit(alias.email, doc);
+      });
+    }
+    EOJS
   end
 
   class << self
