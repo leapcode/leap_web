@@ -113,16 +113,15 @@ class User < CouchRest::Model::Base
   end
 
   def add_email(email)
-    email = LocalEmail.new({:email => email}) unless email.is_a? Email
+    email = LocalEmail.new(email) unless email.is_a? Email
     email_aliases << email
   end
 
   # this currently only adds the first email address submitted.
   # All the ui needs for now.
   def email_aliases_attributes=(attrs)
-    if attrs
-      email_alias = LocalEmail.new(attrs.values.first)
-      email_aliases << email_alias
+    if attrs && attrs.values.first
+      add_email attrs.values.first
     end
   end
 
