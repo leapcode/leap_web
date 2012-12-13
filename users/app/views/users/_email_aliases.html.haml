@@ -1,0 +1,6 @@
+.span6
+  %ul.unstyled
+    =render @user.email_aliases
+.clearfix
+= f.simple_fields_for :email_aliases, Email.new do |e|
+  = e.input :email, :placeholder => "alias@#{request.domain}"

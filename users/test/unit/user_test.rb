@@ -59,5 +59,12 @@ class UserTest < ActiveSupport::TestCase
 
   end
 
-
+  test "find user by email" do
+    email = "tryto@find.me"
+    @user.email = email
+    @user.save
+    assert_equal @user, User.find_by_email(email)
+    assert_equal @user, User.find_by_email_or_alias(email)
+    assert_nil User.find_by_email_alias(email)
+  end
 end

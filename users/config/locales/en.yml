@@ -12,6 +12,7 @@ en:
   set_email_address: "Set email address"
   forward_email: "Forward email"
   email_aliases: "Email aliases"
+  add_email_alias: "Add email alias"
   user_updated_successfully: "Settings have been updated successfully."
   user_created_successfully: "Successfully created your account."
 
