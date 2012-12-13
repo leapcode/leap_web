@@ -33,6 +33,10 @@ class User < CouchRest::Model::Base
   validates :email_forward,
     :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 
+  validate :no_duplicate_email_aliases
+
+  validate :email_aliases_differ_from_email
+
   timestamps!
 
   design do
@@ -112,6 +116,23 @@ class User < CouchRest::Model::Base
     if attrs
       email_alias = Email.new(attrs.values.first)
       email_aliases << email_alias
+    end
+  end
+
+  ##
+  #  Validation Functions
+  ##
+
+  # TODO: How do we handle these errors?
+  def no_duplicate_email_aliases
+    if email_aliases.count != email_aliases.map(&:email).uniq.count
+      errors.add(:email_aliases, "include a duplicate")
+    end
+  end
+
+  def email_aliases_differ_from_email
+    if email_aliases.map(&:email).include?(email)
+      errors.add(:email_aliases, "include the original email address")
     end
   end
 
