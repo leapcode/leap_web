@@ -6,7 +6,7 @@ class User < CouchRest::Model::Base
 
   property :email, String, :accessible => true
   property :email_forward, String, :accessible => true
-  property :email_aliases, [Email]
+  property :email_aliases, [LocalEmail]
 
   validates :login, :password_salt, :password_verifier,
     :presence => true

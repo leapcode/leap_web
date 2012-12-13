@@ -1,33 +1,39 @@
 require 'test_helper'
 
-class EmailAliasTest < ActiveSupport::TestCase
+class EmailTest < ActiveSupport::TestCase
 
   setup do
+    # TODO build helper for this ... make_record(User)
     @attribs = User.valid_attributes_hash
     User.find_by_login(@attribs[:login]).try(:destroy)
     @user = User.new(@attribs)
+    @attribs.merge!(:login => "other_user")
+    User.find_by_login(@attribs[:login]).try(:destroy)
+    @other_user = User.create(@attribs)
   end
 
+  teardown do
+    @user.destroy if @user.persisted? # just in case
+    @other_user.destroy
+  end
+
+
   test "email aliases need to be unique" do
-    # TODO build helper for this ... make_record(User)
     email_alias = "valid_alias@domain.net"
-    attribs = User.valid_attributes_hash.merge(:login => "other_user")
-    User.find_by_login(attribs[:login]).try(:destroy)
-    other_user = User.new(attribs)
-    other_user.attributes = {:email_aliases => [email_alias]}
-    other_user.save
-    @user.attributes = {:email_aliases => [email_alias]}
-    assert !@user.valid?
+    @other_user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    @other_user.save
+    @user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    assert @user.changed?
+    assert !@user.save
     # TODO handle errors
   end
 
   test "email aliases may not conflict with emails" do
-    # TODO build helper for this ... make_record(User)
     email_alias = "valid_alias@domain.net"
-    attribs = User.valid_attributes_hash.merge(:login => "other_user", :email => email_alias)
-    User.find_by_login(attribs[:login]).try(:destroy)
-    other_user = User.new(attribs)
-    @user.attributes = {:email_aliases => [email_alias]}
-    assert !@user.valid?
+    @other_user.email = email_alias
+    @other_user.save
+    @user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    assert @user.changed?
+    assert !@user.save
   end
 end
