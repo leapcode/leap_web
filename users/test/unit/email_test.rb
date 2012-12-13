@@ -20,9 +20,9 @@ class EmailTest < ActiveSupport::TestCase
 
   test "email aliases need to be unique" do
     email_alias = "valid_alias@domain.net"
-    @other_user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    @other_user.add_email_alias email_alias
     @other_user.save
-    @user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    @user.add_email_alias email_alias
     assert @user.changed?
     assert !@user.save
     # TODO handle errors
@@ -32,7 +32,7 @@ class EmailTest < ActiveSupport::TestCase
     email_alias = "valid_alias@domain.net"
     @other_user.email = email_alias
     @other_user.save
-    @user.attributes = {:email_aliases_attributes => {"0" => {:email => email_alias}}}
+    @user.add_email_alias email_alias
     assert @user.changed?
     assert !@user.save
   end
