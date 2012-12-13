@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :sessions, :only => [:new, :create, :update, :destroy]
 
   get "signup" => "users#new", :as => "signup"
-  resources :users
+  resources :users do
+    resources :email_aliases
+  end
 
 end
