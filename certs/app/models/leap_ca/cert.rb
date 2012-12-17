@@ -21,7 +21,8 @@ module LeapCA
 
     validates :key, :presence => true
     validates :cert, :presence => true
-    validates :random, :presence => true, :numericality => {:greater_than_or_equal_to => 0, :less_than => 1}
+    validates :random, :presence => true
+    validates :random, :numericality => {:greater_than => 0, :less_than => 1}
 
     design do
       view :by_random
