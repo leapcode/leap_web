@@ -176,14 +176,14 @@ class TicketsControllerTest < ActionController::TestCase
 
     login :is_admin? => true, :email => nil
 
-    get :index, {:admin_status => "mine", :open_status => "open"}
+    get :index, {:admin_status => "all", :open_status => "open"}
     assert assigns(:all_tickets).count > 1 # at least 2 tickets
 
     # if we close one ticket, the admin should have 1 less open ticket they admin
     assert_difference('assigns[:all_tickets].count', -1) do
       assigns(:tickets).first.close
       assigns(:tickets).first.save
-      get :index, {:admin_status => "mine", :open_status => "open"}
+      get :index, {:admin_status => "all", :open_status => "open"}
     end
 
     testticket = Ticket.create :title => 'temp testytest'
