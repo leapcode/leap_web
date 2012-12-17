@@ -1,2 +1,2 @@
-= f.simple_fields_for :comments, comment_object do |c|
+= f.simple_fields_for :comments, @comment do |c|
   = c.input :body, :label => 'Comment', :as => :text

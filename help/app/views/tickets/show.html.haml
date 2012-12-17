@@ -25,7 +25,7 @@
 = #render @ticket.comments should work if view is in /app/views/comments/_comment
 
 = simple_form_for(@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
-  = render :partial => 'new_comment', :locals => {:f => f, :comment_object => TicketComment.new}
+  = render :partial => 'new_comment', :locals => {:f => f}
   = f.button :submit, @post_reply_str
   - if @ticket.is_open
     = f.button :submit, @reply_close_str
