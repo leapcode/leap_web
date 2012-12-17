@@ -1,4 +1,5 @@
 %li.pull-right
   %code= email
-  %i.icon-remove
+  = link_to(user_email_alias_path(@user, email), :method => :delete) do
+    %i.icon-remove
 .clearfix

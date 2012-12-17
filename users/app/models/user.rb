@@ -45,6 +45,7 @@ class User < CouchRest::Model::Base
     view :by_login
     view :by_created_at
     view :by_email
+
     view :by_email_alias,
       :map => <<-EOJS
     function(doc) {
@@ -56,6 +57,7 @@ class User < CouchRest::Model::Base
       });
     }
     EOJS
+
     view :by_email_or_alias,
       :map => <<-EOJS
     function(doc) {
@@ -70,6 +72,7 @@ class User < CouchRest::Model::Base
       });
     }
     EOJS
+
   end
 
   class << self
@@ -126,6 +129,7 @@ class User < CouchRest::Model::Base
       add_email_alias attrs.values.first
     end
   end
+
 
   ##
   #  Validation Functions
