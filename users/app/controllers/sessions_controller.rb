@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    logout if logged_in?
     authenticate!
   end
 

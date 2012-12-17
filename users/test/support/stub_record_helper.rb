@@ -39,3 +39,7 @@ module StubRecordHelper
   end
 
 end
+
+class ActionController::TestCase
+  include StubRecordHelper
+end

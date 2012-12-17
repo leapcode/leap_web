@@ -118,7 +118,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     login User.last
     ticket = Ticket.find('stubtestticketid')
-    ticket.created_by = User.last.id # TODO: hacky, but confirms it is their ticket
+    ticket.created_by = @current_user.id # TODO: hacky, but confirms it is their ticket
     ticket.save
 
     #they should be able to comment if it is their ticket:
@@ -176,25 +176,33 @@ class TicketsControllerTest < ActionController::TestCase
 
     login :is_admin? => true, :email => nil
 
-    get :index, {:admin_status => "mine", :open_status => "open"}
+    get :index, {:admin_status => "all", :open_status => "open"}
     assert assigns(:all_tickets).count > 1 # at least 2 tickets
 
     # if we close one ticket, the admin should have 1 less open ticket they admin
     assert_difference('assigns[:all_tickets].count', -1) do
       assigns(:tickets).first.close
       assigns(:tickets).first.save
-      get :index, {:admin_status => "mine", :open_status => "open"}
+      get :index, {:admin_status => "all", :open_status => "open"}
     end
+  end
 
+
+  test "admin_status mine vs all" do
     testticket = Ticket.create :title => 'temp testytest'
+    login :is_admin? => true, :email => nil
 
-    # test admin_status 'mine' vs 'all'
     get :index, {:admin_status => "all", :open_status => "open"}
     assert assigns(:all_tickets).include?(testticket)
     get :index, {:admin_status => "mine", :open_status => "open"}
     assert !assigns(:all_tickets).include?(testticket)
+  end
 
-    # admin should have one more ticket if a new tick gets an admin comment
+  test "commenting on a ticket adds to tickets that are mine" do
+    testticket = Ticket.create :title => 'temp testytest'
+    login :is_admin? => true, :email => nil
+
+    get :index, {:admin_status => "mine", :open_status => "open"}
     assert_difference('assigns[:all_tickets].count') do
       put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
       get :index, {:admin_status => "mine", :open_status => "open"}
@@ -205,10 +213,12 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
     assigns(:ticket).destroy
+  end
 
-    # test ordering
+  test "admin ticket ordering" do
 
-    get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_desc'}
+    login :is_admin? => true, :email => nil
+    get :index, {:admin_status => "all", :open_status => "open", :sort_order => 'created_at_desc'}
 
     # this will consider all tickets, not just those on first page
     first_tick = assigns(:all_tickets).all.first
@@ -216,7 +226,7 @@ class TicketsControllerTest < ActionController::TestCase
     assert first_tick.created_at > last_tick.created_at
 
     # and now reverse order:
-    get :index, {:admin_status => "mine", :open_status => "open", :sort_order => 'created_at_asc'}
+    get :index, {:admin_status => "all", :open_status => "open", :sort_order => 'created_at_asc'}
 
     assert_equal first_tick, assigns(:all_tickets).last
     assert_equal last_tick, assigns(:all_tickets).first
