@@ -11,7 +11,6 @@ module LeapWebCore
       "haml" =>  "~> 3.1.7",
       "bootstrap-sass" => "~> 2.0.4",
       "jquery-rails" => nil,
-      "pjax_rails" => nil,
       "simple_form" => nil
     }
 
