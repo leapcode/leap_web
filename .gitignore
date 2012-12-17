@@ -21,3 +21,8 @@ Gemfile.lock
 */Gemfile.lock
 test/dummy/log/*
 test/dummy/tmp/*
+config/couchdb.yml
+public/assets/*
+public/ca.crt
+public/config/*
+public/provider.json
