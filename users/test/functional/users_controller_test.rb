@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  include StubRecordHelper
 
   test "should get new" do
     get :new
@@ -35,7 +34,10 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get edit view" do
-    user = find_record User, :email => nil, :email_forward => nil
+    user = find_record User,
+      :email => nil,
+      :email_forward => nil,
+      :email_aliases => []
 
     login user
     get :edit, :id => user.id
@@ -45,7 +47,9 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should process updated params" do
     user = find_record User
-    user.expects(:update_attributes).with(user.params).returns(true)
+    user.expects(:attributes=).with(user.params)
+    user.expects(:changed?).returns(true)
+    user.expects(:save).returns(true)
 
     login user
     put :update, :user => user.params, :id => user.id, :format => :json
@@ -57,7 +61,9 @@ class UsersControllerTest < ActionController::TestCase
 
   test "admin can update user" do
     user = find_record User
-    user.expects(:update_attributes).with(user.params).returns(true)
+    user.expects(:attributes=).with(user.params)
+    user.expects(:changed?).returns(true)
+    user.expects(:save).returns(true)
 
     login :is_admin? => true
     put :update, :user => user.params, :id => user.id, :format => :json
