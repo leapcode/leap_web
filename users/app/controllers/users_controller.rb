@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = @user.errors.full_messages
     end
-    respond_with @user, :location => edit_user_path(@user)
+    respond_with @user, :location => edit_user_path(@user, :anchor => :email)
   end
 
   def destroy

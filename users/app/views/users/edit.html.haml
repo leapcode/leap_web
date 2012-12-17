@@ -1,9 +1,9 @@
 .span8.offset2
   %h2=t :settings
   %ul.nav.nav-tabs
-    %li.active
+    %li{:class => email_settings? ? :inactive : :active}
       %a{:href => '#account', 'data-toggle' => 'tab'}Account
-    %li
+    %li{:class => email_settings? ? :active : :inactive}
       %a{:href => '#email', 'data-toggle' => 'tab'}Email
 
   .tab-content

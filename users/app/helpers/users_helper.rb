@@ -29,4 +29,9 @@ module UsersHelper
     classes << (@user.new_record? ? 'new' : 'edit')
     classes.compact
   end
+
+  def email_settings?
+    params[:user] &&
+    params[:user].keys.detect{|key| key.index('email')}
+  end
 end
