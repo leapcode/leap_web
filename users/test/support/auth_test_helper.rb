@@ -1,5 +1,4 @@
 module AuthTestHelper
-  include StubRecordHelper
   extend ActiveSupport::Concern
 
   # Controller will fetch current user from warden.
@@ -24,7 +23,7 @@ module AuthTestHelper
       assert_equal({:alert => "Not authorized"}, flash.to_hash)
       # todo: eventually probably eliminate separate conditions
       assert_redirected_to login_path if !logged_in
-      assert_redirected_to root_path if logged_in 
+      assert_redirected_to root_path if logged_in
     else
       assert flash[:alert].blank?
     end
