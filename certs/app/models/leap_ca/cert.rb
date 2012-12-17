@@ -17,12 +17,19 @@ module LeapCA
     property :valid_until, Time                    # expiration time of the client certificate
     property :random, Float, :accessible => false  # used to help pick a random cert by the webapp
 
+    before_validation :set_random, :on => :create
+
     validates :key, :presence => true
     validates :cert, :presence => true
-    validates :random, :presence => true, :numericality => {:greater_than_or_equal_to => 0, :less_than => 1}
+    validates :random, :presence => true
+    validates :random, :numericality => {:greater_than => 0, :less_than => 1}
 
     design do
       view :by_random
+    end
+
+    def set_random
+      self.random = rand
     end
 
     class << self
@@ -40,6 +47,9 @@ module LeapCA
         raise RECORD_NOT_FOUND
       end
 
+      def valid_attributes_hash
+        {:key => "ABCD", :cert => "A123"}
+      end
     end
 
   end

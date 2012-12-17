@@ -12,10 +12,10 @@ class CertsControllerTest < ActionController::TestCase
 
   test "should send cert" do
     login
-    cert = stub :zipped => "adsf", :zipname => "cert_stub.zip"
-    Cert.expects(:pick_from_pool).returns(cert)
+    cert = stub :cert => "adsf", :key => "key"
+    LeapCA::Cert.expects(:pick_from_pool).returns(cert)
     get :show
     assert_response :success
-    assert_equal cert.zipped, @response.body
+    assert_equal cert.key + cert.cert, @response.body
   end
 end
