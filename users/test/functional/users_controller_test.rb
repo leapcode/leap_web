@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  include StubRecordHelper
 
   test "should get new" do
     get :new
