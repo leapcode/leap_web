@@ -1,2 +1,4 @@
 services:
   - couchdb
+notifications:
+  email: false
