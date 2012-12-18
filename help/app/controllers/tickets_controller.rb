@@ -39,6 +39,7 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
+    @comment = TicketComment.new
     if !@ticket
       redirect_to tickets_path, :alert => "No such ticket"
       return
@@ -53,9 +54,7 @@ class TicketsController < ApplicationController
 
     if !ticket_access_denied?
       if params[:post] #currently changes to title or is_open status
-        if @ticket.update_attributes(params[:post]) #this saves ticket, so @ticket.changed? will be false
-          tick_updated = true
-        end
+        @ticket.attributes = params[:post]
         # TODO: do we want to keep the history of title changes? one possibility was adding a comment that said something like 'user changed the title from a to b'
 
       else
@@ -64,9 +63,8 @@ class TicketsController < ApplicationController
         @ticket.close if params[:commit] == @reply_close_str #this overrides is_open selection
         # what if there is an update and no new comment? Confirm that there is a new comment to update posted_by:
         @ticket.comments.last.posted_by = (current_user ? current_user.id : nil) if @ticket.comments_changed? #protecting posted_by isn't working, so this should protect it.
-        tick_updated = true if @ticket.changed? and @ticket.save
       end
-      if tick_updated
+      if @ticket.changed? and @ticket.save
         flash[:notice] = 'Ticket was successfully updated.'
         if @ticket.is_open
           respond_with @ticket

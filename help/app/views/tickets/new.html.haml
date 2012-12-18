@@ -2,7 +2,7 @@
 = simple_form_for(@ticket, :html => {:novalidate => true})  do |f| #turn off html5 validations to test
   = f.input :title
   = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
-  = render :partial => 'new_comment', :locals => {:f => f, :comment_object => nil}
+  = render :partial => 'new_comment', :locals => {:f => f}
   = # regarding_user if not logged in
   = # email if not logged in
   = f.button :submit
