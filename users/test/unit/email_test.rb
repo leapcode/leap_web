@@ -14,7 +14,7 @@ class EmailTest < ActiveSupport::TestCase
 
   teardown do
     @user.destroy if @user.persisted? # just in case
-    @other_user.destroy
+    @other_user.destroy if @other_user.persisted?
   end
 
 
