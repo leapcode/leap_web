@@ -35,9 +35,7 @@ class User < CouchRest::Model::Base
   validates :email_forward,
     :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 
-  validate :no_duplicate_email_aliases
-
-  validate :email_aliases_differ_from_email
+  validate :email_differs_from_email_aliases
 
   timestamps!
 
@@ -117,34 +115,20 @@ class User < CouchRest::Model::Base
     APP_CONFIG['admins'].include? self.login
   end
 
-  def add_email_alias(email)
-    email = LocalEmail.new(email) unless email.is_a? Email
-    email_aliases << email
-  end
-
   # this currently only adds the first email address submitted.
   # All the ui needs for now.
   def email_aliases_attributes=(attrs)
-    if attrs && attrs.values.first
-      add_email_alias attrs.values.first
-    end
+    email_aliases.build(attrs.values.first) if attrs
   end
-
 
   ##
   #  Validation Functions
   ##
 
-  # TODO: How do we handle these errors?
-  def no_duplicate_email_aliases
-    if email_aliases.count != email_aliases.map(&:email).uniq.count
-      errors.add(:email_aliases, "include a duplicate")
-    end
-  end
-
-  def email_aliases_differ_from_email
+  def email_differs_from_email_aliases
+    return if email_aliases.last.errors.any?
     if email_aliases.map(&:email).include?(email)
-      errors.add(:email_aliases, "include the original email address")
+      errors.add(:email, "may not be the same as an alias")
     end
   end
 
