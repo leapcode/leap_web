@@ -126,7 +126,7 @@ class User < CouchRest::Model::Base
   ##
 
   def email_differs_from_email_aliases
-    return if email_aliases.last.errors.any?
+    return if email_aliases.any? and email_aliases.last.errors.any?
     if email_aliases.map(&:email).include?(email)
       errors.add(:email, "may not be the same as an alias")
     end
