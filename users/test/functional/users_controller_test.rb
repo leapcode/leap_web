@@ -50,7 +50,7 @@ class UsersControllerTest < ActionController::TestCase
     user.expects(:attributes=).with(user.params)
     user.expects(:changed?).returns(true)
     user.expects(:save).returns(true)
-    user.expects(:reload).returns(user)
+    user.stubs(:email_aliases).returns([])
 
     login user
     put :update, :user => user.params, :id => user.id, :format => :json
@@ -65,7 +65,7 @@ class UsersControllerTest < ActionController::TestCase
     user.expects(:attributes=).with(user.params)
     user.expects(:changed?).returns(true)
     user.expects(:save).returns(true)
-    user.expects(:reload).returns(user)
+    user.stubs(:email_aliases).returns([])
 
     login :is_admin? => true
     put :update, :user => user.params, :id => user.id, :format => :json
