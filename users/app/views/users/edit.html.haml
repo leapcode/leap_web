@@ -7,11 +7,11 @@
       %a{:href => '#email', 'data-toggle' => 'tab'}Email
 
   .tab-content
-    .tab-pane.active#account
+    .tab-pane#account{:class => email_settings? ? :inactive : :active}
       = user_form_with 'login_field', :legend => :change_login
       = user_form_with 'password_fields', :legend => :change_password
       = render 'cancel_account' if @user == current_user
-    .tab-pane#email
+    .tab-pane#email{:class => email_settings? ? :active : :inactive}
       = user_form_with 'email_field', :legend => :set_email_address
       = user_form_with 'email_forward_field', :legend => :forward_email
       = user_form_with 'email_aliases', :legend => :add_email_alias

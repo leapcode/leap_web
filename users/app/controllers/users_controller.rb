@@ -34,9 +34,9 @@ class UsersController < ApplicationController
     if @user.changed? and @user.save
       flash[:notice] = t(:user_updated_successfully)
     else
-      flash[:error] = @user.errors.full_messages
+      flash.now[:error] = @user.errors.full_messages.to_sentence
     end
-    respond_with @user, :location => edit_user_path(@user, :anchor => :email)
+    respond_with @user.reload, :location => edit_user_path(@user, :anchor => :email)
   end
 
   def destroy
