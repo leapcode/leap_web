@@ -3,49 +3,50 @@ require 'test_helper'
 class CertPoolTest < ActiveSupport::TestCase
 
   setup do
-    2.times { Cert.create! }
+    2.times { LeapCA::Cert.create(LeapCA::Cert.valid_attributes_hash) }
   end
 
   teardown do
-    Cert.all.each {|c| c.destroy}
+    LeapCA::Cert.all.each {|c| c.destroy}
   end
 
   test "picks random sample" do
-    Cert.create! # with 3 certs chances are pretty low we pick the same one 40 times.
+    # with 3 certs chances are pretty low we pick the same one 40 times.
+    LeapCA::Cert.create! LeapCA::Cert.valid_attributes_hash
     picked = []
-    first = Cert.sample.id
-    current = Cert.sample.id
+    first = LeapCA::Cert.sample.id
+    current = LeapCA::Cert.sample.id
     40.times do
       break if current != first
-      current = Cert.sample.id
+      current = LeapCA::Cert.sample.id
     end
     assert_not_equal current, first
   end
 
   test "picks cert from the pool" do
-    assert_difference "Cert.count", -1 do
-      cert = Cert.pick_from_pool
+    assert_difference "LeapCA::Cert.count", -1 do
+      cert = LeapCA::Cert.pick_from_pool
     end
   end
 
   test "err's out if all certs have been destroyed" do
-    sample = Cert.first.tap{|c| c.destroy}
-    Cert.all.each {|c| c.destroy}
+    sample = LeapCA::Cert.first.tap{|c| c.destroy}
+    LeapCA::Cert.all.each {|c| c.destroy}
     assert_raises RECORD_NOT_FOUND do
-      Cert.expects(:sample).returns(sample)
-      cert = Cert.pick_from_pool
+      LeapCA::Cert.expects(:sample).returns(sample)
+      cert = LeapCA::Cert.pick_from_pool
     end
   end
 
   test "picks other cert if first pick has been destroyed" do
-    first = Cert.first.tap{|c| c.destroy}
-    second = Cert.first
-    Cert.expects(:sample).at_least_once.
+    first = LeapCA::Cert.first.tap{|c| c.destroy}
+    second = LeapCA::Cert.first
+    LeapCA::Cert.expects(:sample).at_least_once.
       returns(first).
       then.returns(second)
-    cert = Cert.pick_from_pool
+    cert = LeapCA::Cert.pick_from_pool
     assert_equal second, cert
-    assert_nil Cert.first
+    assert_nil LeapCA::Cert.first
   end
 
 end
