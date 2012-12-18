@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:create]
 
   before_filter :fetch_user, :only => [:edit, :update, :destroy]
+  before_filter :set_anchor, :only => [:edit, :update]
   before_filter :authorize_admin, :only => [:index]
 
   respond_to :json, :html
@@ -49,5 +50,14 @@ class UsersController < ApplicationController
   def fetch_user
     @user = User.find_by_param(params[:id])
     access_denied unless admin? or (@user == current_user)
+  end
+
+  def set_anchor
+    @anchor = email_settings? ? :email : :account
+  end
+
+  def email_settings?
+    params[:user] &&
+    params[:user].keys.detect{|key| key.index('email')}
   end
 end

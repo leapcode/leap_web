@@ -30,8 +30,4 @@ module UsersHelper
     classes.compact
   end
 
-  def email_settings?
-    params[:user] &&
-    params[:user].keys.detect{|key| key.index('email')}
-  end
 end
