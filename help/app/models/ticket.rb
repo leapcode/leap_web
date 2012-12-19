@@ -37,17 +37,19 @@ class Ticket < CouchRest::Model::Base
 
   design do
     #TODO--clean this all up
-    view :by_is_open
-    view :by_created_by
+    #view :by_is_open
+    #view :by_created_by
 
     view :by_updated_at
     view :by_created_at
 
-    view :by_is_open_and_created_by
+    #view :by_is_open_and_created_by
     view :by_is_open_and_created_at
     view :by_is_open_and_updated_at
 
-    view :includes_post_by,
+
+    #TODO: This view is only used in tests--should we keep it?
+    view :by_includes_post_by,
       :map =>
       "function(doc) {
         var arr = {}
@@ -62,7 +64,7 @@ class Ticket < CouchRest::Model::Base
         }
       }", :reduce => "function(k,v,r) { return sum(v); }"
 
-    view :includes_post_by_and_open_status_and_updated_at,
+    view :by_includes_post_by_and_is_open_and_updated_at,
       :map =>
       "function(doc) {
         var arr = {}
@@ -77,7 +79,7 @@ class Ticket < CouchRest::Model::Base
         }
       }", :reduce => "function(k,v,r) { return sum(v); }"
 
-    view :includes_post_by_and_open_status_and_created_at,
+    view :by_includes_post_by_and_is_open_and_created_at,
       :map =>
       "function(doc) {
         var arr = {}
@@ -92,7 +94,7 @@ class Ticket < CouchRest::Model::Base
         }
       }", :reduce => "function(k,v,r) { return sum(v); }"
 
-    view :includes_post_by_and_updated_at,
+    view :by_includes_post_by_and_updated_at,
       :map =>
       "function(doc) {
         var arr = {}
@@ -108,7 +110,7 @@ class Ticket < CouchRest::Model::Base
       }", :reduce => "function(k,v,r) { return sum(v); }"
 
 
-    view :includes_post_by_and_created_at,
+    view :by_includes_post_by_and_created_at,
       :map =>
       "function(doc) {
         var arr = {}
@@ -139,64 +141,18 @@ class Ticket < CouchRest::Model::Base
 
   def self.for_user(user, options = {}, is_admin = false)
 
-    # TODO: This is obviously super tedious. we will refactor later.
     # TODO: thought i  should reverse keys for descending, but that didn't work. look into whether that should be tweaked, and whether it works okay with pagination (seems to now...)
-    # TODO: Time.now + 2.days is to catch tickets created in future. shouldn't happen but does on my computer now, so this at least catches for now.
-    # TODO handle default values correctly:
-    options[:open_status] = 'open' if !options[:open_status] #hacky. redo this when handling defaults correctly
 
-    if (is_admin && (options[:admin_status] != 'mine'))
-      # show all (selected) tickets to admin
-      if options[:open_status] == 'all'
-        if options[:sort_order] == 'created_at_desc'
-          Ticket.by_created_at.startkey(0).endkey(Time.now + 2.days).descending
-        elsif options[:sort_order] == 'updated_at_asc'
-          Ticket.by_updated_at.startkey(0).endkey(Time.now + 2.days)
-        elsif options[:sort_order] == 'created_at_asc'
-          Ticket.by_created_at.startkey(0).endkey(Time.now + 2.days)
-        else
-          Ticket.by_updated_at.startkey(0).endkey(Time.now + 2.days).descending
-        end
-      else
-        if options[:sort_order] == 'created_at_desc'
-          Ticket.by_is_open_and_created_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days]).descending
-        elsif options[:sort_order] == 'updated_at_asc'
-          Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days])
-        elsif options[:sort_order] == 'created_at_asc'
-          Ticket.by_is_open_and_created_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days])
-        else
-          Ticket.by_is_open_and_updated_at.startkey([(options[:open_status] == 'open'), 0]).endkey([(options[:open_status] == 'open'),  Time.now + 2.days]).descending
-        end
-      end
-    else
-      # only show tickets this user has commented on, as user is non-admin or admin viewing only their tickets
-      if options[:open_status] == 'all'
-        if options[:sort_order] == 'created_at_desc'
-          Ticket.includes_post_by_and_created_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days]).descending
-        elsif options[:sort_order] == 'updated_at_asc'
-          Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
-        elsif options[:sort_order] == 'created_at_asc'
-          Ticket.includes_post_by_and_created_at.startkey([user.id, 0]).endkey([user.id, Time.now + 2.days])
-        else
-          Ticket.includes_post_by_and_updated_at.startkey([user.id, 0]).endkey([user.id,  Time.now + 2.days]).descending
-        end
-      else
-        if options[:sort_order] == 'created_at_desc'
-          Ticket.includes_post_by_and_open_status_and_created_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]).descending
-        elsif options[:sort_order] == 'updated_at_asc'
-          Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
-        elsif options[:sort_order] == 'created_at_asc'
-          Ticket.includes_post_by_and_open_status_and_created_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]) 
-        else
-          Ticket.includes_post_by_and_open_status_and_updated_at.startkey([user.id, (options[:open_status] == 'open'), 0]).endkey([user.id, (options[:open_status] == 'open'), Time.now + 2.days]).descending
-        end
-      end
-    end
+    options[:user_id] = user.id
+    options[:is_admin] = is_admin
+
+    @selection = TicketSelection.new(options)
+    @selection.tickets
   end
 
-  def self.tickets_by_commenter(user_id)#, options = {})
-    Ticket.includes_post_by_and_updated_at.startkey([user_id, 0]).endkey([user_id, Time.now])
-  end
+  #def self.tickets_by_commenter(user_id)#, options = {})
+  #  Ticket.includes_post_by_and_updated_at.startkey([user_id, 0]).endkey([user_id, Time.now])
+  #end
 
   def is_creator_validated?
     !!created_by
