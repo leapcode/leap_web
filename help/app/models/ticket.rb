@@ -141,25 +141,13 @@ class Ticket < CouchRest::Model::Base
 
   def self.for_user(user, options = {}, is_admin = false)
 
-    # TODO: This is obviously super tedious. we will refactor later.
     # TODO: thought i  should reverse keys for descending, but that didn't work. look into whether that should be tweaked, and whether it works okay with pagination (seems to now...)
-    # TODO: Time.now + 2.days is to catch tickets created in future. shouldn't happen but does on my computer now, so this at least catches for now.
-    # TODO handle default values correctly:
-    options[:open_status] = 'open' if !options[:open_status] #hacky. redo this when handling defaults correctly
-    options[:sort_order] = 'updated_at_desc' if !options[:sort_order] #hacky. redo this when handling defaults correctly
 
     options[:user_id] = user.id
     options[:is_admin] = is_admin
 
     @selection = TicketSelection.new(options)
-
-    #TODO: can this be more succinct?
-    if @selection.order
-      @tickets = Ticket.send(@selection.finder_method).startkey(@selection.startkey).endkey(@selection.endkey).send(@selection.order)
-    else
-      @tickets = Ticket.send(@selection.finder_method).startkey(@selection.startkey).endkey(@selection.endkey)
-    end
-
+    @selection.tickets
   end
 
   #def self.tickets_by_commenter(user_id)#, options = {})
