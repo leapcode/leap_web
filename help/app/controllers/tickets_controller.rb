@@ -66,9 +66,9 @@ class TicketsController < ApplicationController
       end
       if @ticket.changed? and @ticket.save
         flash[:notice] = 'Ticket was successfully updated.'
-        if @ticket.is_open
+        if @ticket.is_open || !logged_in?
           respond_with @ticket
-        else #for closed tickets, redirect to index.
+        else #for closed tickets with authenticated users, redirect to index.
           redirect_to tickets_path
         end
       else
@@ -83,13 +83,11 @@ class TicketsController < ApplicationController
 
   def index
     @all_tickets = Ticket.for_user(current_user, params, admin?) #for tests, useful to have as separate variable
-
-    #below works if @tickets is a CouchRest::Model::Designs::View, but not if it is an Array
     @tickets = @all_tickets.page(params[:page]).per(10)
-    #respond_with(@tickets)
   end
 
   def destroy
+    # should we allow non-admins to delete their own tickets? i don't think necessary.
     @ticket = Ticket.find(params[:id])
     @ticket.destroy if admin?
     redirect_to tickets_path
