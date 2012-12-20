@@ -26,3 +26,4 @@ public/assets/*
 public/ca.crt
 public/config/*
 public/provider.json
+config/config.yml
