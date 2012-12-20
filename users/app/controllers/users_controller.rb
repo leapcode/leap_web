@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     if @user.changed? and @user.save
       flash[:notice] = t(:user_updated_successfully)
     end
-    respond_with @user, :location => edit_user_path(@user, :anchor => :email)
+    respond_with @user, :location => edit_user_path(@user, :anchor => @anchor)
   end
 
   def destroy
