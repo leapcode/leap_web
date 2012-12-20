@@ -1,17 +1,11 @@
 .span8.offset2
   %h2=t :settings
-  %ul.nav.nav-tabs
-    %li.active
-      %a{:href => '#account', 'data-toggle' => 'tab'}Account
-    %li
-      %a{:href => '#email', 'data-toggle' => 'tab'}Email
-
-  .tab-content
-    .tab-pane.active#account
-      = user_form_with 'login_field', :legend => :change_login
-      = user_form_with 'password_fields', :legend => :change_password
-      = render 'cancel_account' if @user == current_user
-    .tab-pane#email
-      = user_form_with 'email_field', :legend => :set_email_address
-      = user_form_with 'email_forward_field', :legend => :forward_email
-      = user_form_with 'email_aliases', :legend => :add_email_alias
+  - content_for :account do
+    = user_form_with 'login_field', :legend => :change_login
+    = user_form_with 'password_fields', :legend => :change_password
+    = render 'cancel_account' if @user == current_user
+  - content_for :email do
+    = user_form_with 'email_field', :legend => :set_email_address
+    = user_form_with 'email_forward_field', :legend => :forward_email
+    = user_form_with 'email_aliases', :legend => :add_email_alias
+  = render 'tabs/tabs', :tabs => [:account, :email]

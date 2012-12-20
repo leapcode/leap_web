@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get "signup" => "users#new", :as => "signup"
   resources :users do
-    resources :email_aliases
+    resources :email_aliases, :only => [:destroy], :id => /.*/
   end
 
 end

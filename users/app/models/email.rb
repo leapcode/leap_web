@@ -14,4 +14,12 @@ class Email
   def to_s
     email
   end
+
+  def ==(other)
+    other.is_a?(String) ? self.email == other : super
+  end
+
+  def to_param
+    email
+  end
 end

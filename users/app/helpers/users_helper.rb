@@ -29,4 +29,5 @@ module UsersHelper
     classes << (@user.new_record? ? 'new' : 'edit')
     classes.compact
   end
+
 end

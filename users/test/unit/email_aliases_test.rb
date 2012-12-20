@@ -22,7 +22,7 @@ class EmailAliasTest < ActiveSupport::TestCase
 
   test "adding email alias directly" do
     email_alias = "valid_alias@domain.net"
-    @user.add_email_alias(email_alias)
+    @user.email_aliases.build :email => email_alias
     assert @user.changed?
     assert @user.save
     assert_equal email_alias, @user.reload.email_aliases.first.to_s
@@ -30,10 +30,11 @@ class EmailAliasTest < ActiveSupport::TestCase
 
   test "duplicated email aliases are invalid" do
     email_alias = "valid_alias@domain.net"
-    @user.add_email_alias(email_alias)
+    @user.email_aliases.build :email => email_alias
     @user.save
     # add again
-    @user.add_email_alias(email_alias)
+    email_alias = @user.email_aliases.build :email => email_alias
+    assert !email_alias.valid?
     assert @user.changed?
     assert !@user.valid?
   end
@@ -41,14 +42,14 @@ class EmailAliasTest < ActiveSupport::TestCase
   test "email is invalid as email alias" do
     email_alias = "valid_alias@domain.net"
     @user.email = email_alias
-    @user.add_email_alias(email_alias)
+    @user.email_aliases.build :email => email_alias
     assert @user.changed?
     assert !@user.valid?
   end
 
   test "find user by email alias" do
     email_alias = "valid_alias@domain.net"
-    @user.add_email_alias(email_alias)
+    @user.email_aliases.build :email => email_alias
     assert @user.save
     assert_equal @user, User.find_by_email_or_alias(email_alias)
     assert_equal @user, User.find_by_email_alias(email_alias)
