@@ -24,7 +24,15 @@ srp.error = (message) ->
 pollUsers = (query, process) ->
   $.get( "/users.json", query: query).done(process)
 
+followLocationHash = ->
+  location = window.location.hash
+  if location
+    href_select = 'a[href="' + location + '"]'
+    link = $(href_select)
+    link.tab('show') if link
+
 $(document).ready ->
+  followLocationHash()
   $('#new_user').submit preventDefault
   $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault

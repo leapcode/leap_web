@@ -14,15 +14,15 @@ class EmailTest < ActiveSupport::TestCase
 
   teardown do
     @user.destroy if @user.persisted? # just in case
-    @other_user.destroy
+    @other_user.destroy if @other_user.persisted?
   end
 
 
   test "email aliases need to be unique" do
     email_alias = "valid_alias@domain.net"
-    @other_user.add_email_alias email_alias
+    @other_user.email_aliases.build :email => email_alias
     @other_user.save
-    @user.add_email_alias email_alias
+    @user.email_aliases.build :email => email_alias
     assert @user.changed?
     assert !@user.save
     # TODO handle errors
@@ -32,7 +32,7 @@ class EmailTest < ActiveSupport::TestCase
     email_alias = "valid_alias@domain.net"
     @other_user.email = email_alias
     @other_user.save
-    @user.add_email_alias email_alias
+    @user.email_aliases.build :email => email_alias
     assert @user.changed?
     assert !@user.save
   end
