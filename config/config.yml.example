@@ -1,8 +1,0 @@
-development:
-  admins: [admin, admin2]
-
-test:
-  admins: [admin, admin2]
-
-production:
-  admins: []
