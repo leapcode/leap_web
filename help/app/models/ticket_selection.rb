@@ -8,12 +8,7 @@ class TicketSelection
   end
 
   def tickets
-    #TODO: can this be more succinct?
-    if order
-      Ticket.send(finder_method).startkey(startkey).endkey(endkey).send(order)
-    else
-      Ticket.send(finder_method).startkey(startkey).endkey(endkey)
-    end
+    Ticket.send(finder_method).startkey(startkey).endkey(endkey).send(order)
   end
 
   protected
@@ -47,7 +42,8 @@ class TicketSelection
   end
 
   def order
-    'descending' if @options[:sort_order].end_with? 'desc'
+    # we have defined the ascending method to return the view itself:
+    (@options[:sort_order].end_with? 'desc') ? 'descending' : 'ascending'
   end
 
 
