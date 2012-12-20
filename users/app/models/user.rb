@@ -32,6 +32,10 @@ class User < CouchRest::Model::Base
   validates :email,
     :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 
+  validates :email,
+    :format => { :with => /@#{APP_CONFIG[:domain]}\Z/,
+      :message => "needs to end in @#{APP_CONFIG[:domain]}"}
+
   validates :email_forward,
     :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
 

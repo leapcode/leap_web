@@ -3,4 +3,4 @@
     =render @user.email_aliases
 .clearfix
 = f.simple_fields_for :email_aliases, @email_alias do |e|
-  = e.input :email, :placeholder => "alias@#{request.domain}"
+  = e.input :email, :placeholder => "alias@#{APP_CONFIG[:domain]}"

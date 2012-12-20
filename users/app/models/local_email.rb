@@ -3,11 +3,17 @@ class LocalEmail < Email
   validate :unique_on_server
   validate :unique_alias_for_user
   validate :differs_from_main_email
+  before_validation :add_domain_if_needed
+  validates :email,
+    :format => { :with => /@#{APP_CONFIG[:domain]}\Z/,
+      :message => "needs to end in @#{APP_CONFIG[:domain]}"}
   validates :casted_by, :presence => true
 
   def to_partial_path
     "emails/email"
   end
+
+  protected
 
   def unique_on_server
      has_email = User.find_by_email_or_alias(email)
@@ -30,5 +36,8 @@ class LocalEmail < Email
     end
   end
 
+  def add_domain_if_needed
+    self.email = self.email + "@" + APP_CONFIG[:domain] unless self.email.include?("@")
+  end
 
 end
