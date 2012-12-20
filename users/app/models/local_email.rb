@@ -5,6 +5,7 @@ class LocalEmail < Email
   validate :differs_from_main_email
   before_validation :add_domain_if_needed
   validates :email,
+    :presence => true,
     :format => { :with => /@#{APP_CONFIG[:domain]}\Z/,
       :message => "needs to end in @#{APP_CONFIG[:domain]}"}
   validates :casted_by, :presence => true
@@ -16,8 +17,8 @@ class LocalEmail < Email
   protected
 
   def unique_on_server
-     has_email = User.find_by_email_or_alias(email)
-     if has_email && has_email != self.base_doc
+    has_email = User.find_by_email_or_alias(email)
+    if has_email && has_email != self.base_doc
       errors.add :email, "has already been taken"
     end
   end
@@ -30,6 +31,8 @@ class LocalEmail < Email
   end
 
   def differs_from_main_email
+    # If this has not changed but the email let's mark the email invalid instead.
+    return if self.persisted?
     user = self.casted_by
     if user.email == self.email
       errors.add :email, "may not be the same as your email address"
@@ -37,6 +40,9 @@ class LocalEmail < Email
   end
 
   def add_domain_if_needed
+    if email.blank?
+      errors.add :email, "may not be empty."
+    end
     self.email += "@" + APP_CONFIG[:domain] unless self.email.include?("@")
   end
 
