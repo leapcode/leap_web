@@ -37,7 +37,7 @@ class LocalEmail < Email
   end
 
   def add_domain_if_needed
-    self.email = self.email + "@" + APP_CONFIG[:domain] unless self.email.include?("@")
+    self.email += "@" + APP_CONFIG[:domain] unless self.email.include?("@")
   end
 
 end
