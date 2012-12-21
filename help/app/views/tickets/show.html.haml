@@ -1,34 +1,18 @@
-%h2= @ticket.title
+.spam12
+  %h2
+    %a#title.editable.editable-click{"data-name" => "title", "data-resource" => "post", "data-type" => "text", "data-url" => ticket_path(@ticket.id), "data-pk" => @ticket.id, :href => "#"} 
+      = @ticket.title
+  = render 'tickets/ticket_data'
+  %table.table-striped.table-bordered.table-hover{:style => "width:100%;"}
+    %tbody
+    = render(:partial => "comment", :collection => @ticket.comments)
+  = #render @ticket.comments should work if view is in /app/views/comments/_comment
 
-%a#title.editable.editable-click{"data-name" => "title", "data-resource" => "post", "data-type" => "text", "data-url" => ticket_path(@ticket.id), "data-pk" => @ticket.id, :href => "#"} 
-  = @ticket.title
-
-%p
-- if @ticket.email
-  email:
-  = @ticket.email
-%li
-  - if User.find(@ticket.created_by)
-    Created by
-    = User.find(@ticket.created_by).login 
-  - else
-    Unauthenticated ticket creator
-%li
-  = "status:" 
-  - if @ticket.is_open
-    = 'open'
-    = button_to 'close', {:post => {:is_open => false}}, :method => :put
-  - else 
-    = 'closed'
-    = button_to 'open', {:post => {:is_open => true}}, :method => :put
-= render(:partial => "comment", :collection => @ticket.comments)
-= #render @ticket.comments should work if view is in /app/views/comments/_comment
-
-= simple_form_for(@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
-  = render :partial => 'new_comment', :locals => {:f => f}
-  = f.button :submit, @post_reply_str
-  - if @ticket.is_open
-    = f.button :submit, @reply_close_str, :class => 'btn-primary'
-= #link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => :btn if admin? # for link_to to work with delete, need to figure out jquery interaction correctly. see  http://stackoverflow.com/questions/3774925/delete-link-sends-get-instead-of-delete-in-rails-3-view etc..
-= button_to 'Destroy', ticket_path, :confirm => 'are you sure?', :class => 'btn btn-danger', :method => :delete if admin?
-= link_to t(:cancel), tickets_path, :class => :btn
+  = simple_form_for(@ticket, :html => {:novalidate => true}) do |f| #turn off html5 validations to test
+    = render :partial => 'new_comment', :locals => {:f => f}
+    .span10.offset3
+      = f.button :submit, @post_reply_str, :class => 'btn-primary'
+      - if @ticket.is_open
+        = f.button :submit, @reply_close_str
+        = link_to t(:Destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => 'btn btn-danger' if admin?
+      = link_to t(:cancel), tickets_path, :class => :btn

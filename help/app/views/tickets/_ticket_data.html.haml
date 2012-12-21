@@ -1,0 +1,25 @@
+.spam12
+  %b
+    Created by:
+  - if User.find(@ticket.created_by)
+    = User.find(@ticket.created_by).login
+  - else
+    Unauthenticated ticket creator
+  - if @ticket.email
+    %b
+      email:
+    = @ticket.email
+  %b
+    Created at:
+  = @ticket.created_at.to_s(:short)
+  %b
+    Updated at:
+  = @ticket.updated_at.to_s(:short)
+  %b
+    = "Status:"
+  - if @ticket.is_open
+    = 'open'
+    = button_to 'Close', {:post => {:is_open => false}}, :method => :put, :class => 'btn btn-small'
+  - else
+    = 'closed'
+    = button_to 'Open', {:post => {:is_open => true}}, :method => :put, :class => 'btn btn-small'
