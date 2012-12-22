@@ -56,15 +56,6 @@ class UserTest < ActiveSupport::TestCase
     admin_user = User.new(attribs)
     assert admin_user.is_admin?
     assert !@user.is_admin?
-
   end
 
-  test "find user by email" do
-    email = "tryto@find.me"
-    @user.email = email
-    @user.save
-    assert_equal @user, User.find_by_email(email)
-    assert_equal @user, User.find_by_email_or_alias(email)
-    assert_nil User.find_by_email_alias(email)
-  end
 end
