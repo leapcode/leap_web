@@ -1,8 +1,11 @@
 development:
   admins: [admin, admin2]
+  domain: develop.me
 
 test:
   admins: [admin, admin2]
+  domain: test.me
 
 production:
   admins: []
+  domain: deploy.me
