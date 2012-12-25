@@ -1,8 +1,11 @@
 .spam12
   %b
     Created by:
-  - if User.find(@ticket.created_by)
-    = User.find(@ticket.created_by).login
+  - if creator = User.find(@ticket.created_by)
+    - if !creator.is_admin?
+      = link_to creator.login, edit_user_path(creator)
+    - else
+      = creator.login
   - else
     Unauthenticated ticket creator
   - if @ticket.regarding_user
