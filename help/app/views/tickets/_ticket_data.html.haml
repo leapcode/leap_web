@@ -5,6 +5,13 @@
     = User.find(@ticket.created_by).login
   - else
     Unauthenticated ticket creator
+  - if @ticket.regarding_user
+    %b
+      Regarding user:
+    - if regarding_user = User.find_by_login(@ticket.regarding_user)
+      = link_to @ticket.regarding_user, edit_user_path(regarding_user)
+    - else
+      = @ticket.regarding_user + '(no such user)'
   - if @ticket.email
     %b
       email:

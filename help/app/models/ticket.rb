@@ -16,7 +16,7 @@ class Ticket < CouchRest::Model::Base
 
   #belongs_to :user #from leap_web_users. doesn't necessarily belong to a user though
   property :created_by, String, :protected => true #Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
-  #property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
+  property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
   #also, both created_by and regarding_user could be nil---say user forgets username, or has general question
   property :title, String
   property :email, String #verify
