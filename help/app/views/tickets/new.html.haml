@@ -5,8 +5,6 @@
     = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
     = f.input :regarding_user if !current_user
     = render :partial => 'new_comment', :locals => {:f => f}
-    = # regarding_user if not logged in
-    = # email if not logged in
     .form-actions
       = f.button :submit, :class => 'btn-primary'
       = link_to t(:cancel), tickets_path, :class => :btn
