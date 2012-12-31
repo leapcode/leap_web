@@ -6,7 +6,8 @@
         = 'Posted by' + (commenter.is_admin? ? ' admin' : '') + ':'
       = commenter.login
     - else
-      Unauthenticated post
+      %b
+        Unauthenticated post
     .pull-right
       %b
         Posted at:
