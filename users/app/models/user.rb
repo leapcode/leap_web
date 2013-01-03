@@ -46,37 +46,10 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
+    load_views(Rails.root.join('users', 'app', 'designs', 'user'))
     view :by_login
     view :by_created_at
     view :by_email
-
-    view :by_email_alias,
-      :map => <<-EOJS
-    function(doc) {
-      if (doc.type != 'User') {
-        return;
-      }
-      doc.email_aliases.forEach(function(alias){
-        emit(alias.email, doc);
-      });
-    }
-    EOJS
-
-    view :by_email_or_alias,
-      :map => <<-EOJS
-    function(doc) {
-      if (doc.type != 'User') {
-        return;
-      }
-      if (doc.email) {
-        emit(doc.email, doc);
-      }
-      doc.email_aliases.forEach(function(alias){
-        emit(alias.email, doc);
-      });
-    }
-    EOJS
-
   end
 
   class << self
