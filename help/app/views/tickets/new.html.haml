@@ -1,6 +1,6 @@
 .span12
   %h2=t :new_ticket
-  = simple_form_for(@ticket, :html => {:novalidate => true})  do |f| #turn off html5 validations to test
+  = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'}  do |f|
     = f.input :title
     = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
     = render :partial => 'new_comment', :locals => {:f => f}

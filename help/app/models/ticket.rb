@@ -55,7 +55,7 @@ class Ticket < CouchRest::Model::Base
 
 
   # html5 has built-in validation which isn't ideal, as it says 'please enter an email address' for invalid email addresses, which implies an email address is required, and it is not.
-  validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :if => :email #email address is optional
+  validates :email, :allow_blank => true, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ #email address is optional
 
   #TODO:
   #def set_created_by
