@@ -3,6 +3,6 @@ function(doc) {
     return;
   }
   doc.email_aliases.forEach(function(alias){
-    emit(alias.email, doc);
+    emit(alias.email, 1);
   });
 }
