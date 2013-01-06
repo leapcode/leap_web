@@ -3,9 +3,9 @@ function(doc) {
     return;
   }
   if (doc.email) {
-    emit(doc.email, doc);
+    emit(doc.email, 1);
   }
   doc.email_aliases.forEach(function(alias){
-    emit(alias.email, doc);
+    emit(alias.email, 1);
   });
 }
