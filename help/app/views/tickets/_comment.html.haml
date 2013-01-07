@@ -1,15 +1,18 @@
 - # style is super ugly but just for now
-%tr
-  %td
-    - if commenter = User.find(comment.posted_by)
-      %b
-        = 'Posted by' + (commenter.is_admin? ? ' admin' : '') + ':'
-      = commenter.login
-    - else
-      Unauthenticated post
-    .pull-right
-      %b
-        Posted at:
-      = comment.posted_at.to_s(:short)
-    %br
-    = comment.body
+- if admin? or !comment.private # only show comment if user is admin or comment is not private
+  %tr
+    %td
+      - if commenter = User.find(comment.posted_by)
+        %b
+          = 'Posted by' + (commenter.is_admin? ? ' admin' : '') + ':'
+        = commenter.login
+      - else
+        Unauthenticated post
+      - if comment.private
+        (Private comment)
+      .pull-right
+        %b
+          Posted at:
+        = comment.posted_at.to_s(:short)
+      %br
+      = comment.body
