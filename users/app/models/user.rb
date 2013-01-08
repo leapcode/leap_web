@@ -100,6 +100,10 @@ class User < CouchRest::Model::Base
     email_aliases.build(attrs.values.first) if attrs
   end
 
+  def most_recent_tickets(count=3)
+    Ticket.for_user(self).limit(count) #defaults to having most recent updated first
+  end
+
   protected
 
   ##

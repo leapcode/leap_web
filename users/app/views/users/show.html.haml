@@ -1,0 +1,32 @@
+.span8.offset1
+  %h2= @user.login
+  %dl.offset1
+    - fields = ['login', 'email', 'created_at', 'updated_at', 'email_forward']
+    - fields.each do |field|
+      %dt
+        = field.titleize
+      %dd
+        = user_field(field)
+    %dt
+      =t :email_aliases
+    %dd
+      - aliases = @user.email_aliases
+      - if aliases.empty?
+        none set
+      - else
+        %ul.unstyled
+          - aliases.each do |al|
+            %li
+              = al.email
+    %dt
+      =t :most_recently_updated_tickets
+    %dd
+      %ul
+        - @user.most_recent_tickets.each do |ticket|
+          %li
+            = link_to ticket.title, ticket
+            %small
+              updated:
+              = ticket.updated_at.to_s(:long)
+
+
