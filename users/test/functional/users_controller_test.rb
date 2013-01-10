@@ -9,12 +9,31 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "failed show without login" do
+    user = find_record User
+    get :show, :id => user.id
+    assert_response :redirect
+    assert_redirected_to login_path
+  end
+
+  test "user can see user" do
+    user = find_record User,
+      :email => nil,
+      :email_forward => nil,
+      :email_aliases => [],
+      :created_at => Time.now,
+      :updated_at => Time.now,
+      :most_recent_tickets => []
+    login user
+    get :show, :id => user.id
+    assert_response :success
+  end
+
   test "should create new user" do
     user = stub_record User
     User.expects(:create).with(user.params).returns(user)
 
     post :create, :user => user.params, :format => :json
-
     assert_nil session[:user_id]
     assert_json_response user
     assert_response :success
