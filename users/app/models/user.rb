@@ -18,8 +18,8 @@ class User < CouchRest::Model::Base
     :if => :serverside?
 
   validates :login,
-    :format => { :with => /\A[A-Za-z\d_]+\z/,
-      :message => "Only letters, digits and _ allowed" }
+    :format => { :with => /\A[A-Za-z\d_\.]+\z/,
+      :message => "Only letters, digits, . and _ allowed" }
 
   validates :password_salt, :password_verifier,
     :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
@@ -57,7 +57,7 @@ class User < CouchRest::Model::Base
 
     # valid set of attributes for testing
     def valid_attributes_hash
-      { :login => "me",
+      { :login => Faker::Name.first_name.downcase,
         :password_verifier => "1234ABCD",
         :password_salt => "4321AB" }
     end
