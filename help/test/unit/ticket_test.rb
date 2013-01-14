@@ -32,6 +32,7 @@ class TicketTest < ActiveSupport::TestCase
     #p t.email_address
     #p t.email_address.strip =~ RFC822::EmailAddress
     assert !t.valid?
+    t.reload.destroy
   end
 
   test "creation validated" do

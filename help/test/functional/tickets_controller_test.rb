@@ -274,6 +274,8 @@ class TicketsControllerTest < ActionController::TestCase
     assert assigns(:all_tickets).include?(other_ticket)
     assert_equal assigns(:all_tickets).count, number_closed_tickets + number_open_tickets
 
+    assigns(:all_tickets).each {|t| t.destroy}
+
   end
 
 end
