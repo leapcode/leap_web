@@ -4,9 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   include SRP::Util
   setup do
-    @attribs = User.valid_attributes_hash
-    User.find_by_login(@attribs[:login]).try(:destroy)
-    @user = User.new(@attribs)
+    @user = FactoryGirl.build(:user)
   end
 
   test "test set of attributes should be valid" do
@@ -49,13 +47,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal client_rnd, srp_session.aa
   end
 
-  test 'is user an admin' do
-    admin_login = APP_CONFIG['admins'].first
-    attribs = User.valid_attributes_hash
-    attribs[:login] = admin_login
-    admin_user = User.new(attribs)
-    assert admin_user.is_admin?
+  test 'normal user is no admin' do
     assert !@user.is_admin?
+  end
+
+  test 'user with login in APP_CONFIG is an admin' do
+    admin_login = APP_CONFIG['admins'].first
+    @user.login = admin_login
+    assert @user.is_admin?
   end
 
 end
