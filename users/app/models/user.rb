@@ -18,8 +18,8 @@ class User < CouchRest::Model::Base
     :if => :serverside?
 
   validates :login,
-    :format => { :with => /\A[A-Za-z\d_]+\z/,
-      :message => "Only letters, digits and _ allowed" }
+    :format => { :with => /\A[A-Za-z\d_\.]+\z/,
+      :message => "Only letters, digits, . and _ allowed" }
 
   validates :password_salt, :password_verifier,
     :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
@@ -54,17 +54,11 @@ class User < CouchRest::Model::Base
 
   class << self
     alias_method :find_by_param, :find
-
-    # valid set of attributes for testing
-    def valid_attributes_hash
-      { :login => "me",
-        :password_verifier => "1234ABCD",
-        :password_salt => "4321AB" }
-    end
-
   end
 
-  alias_method :to_param, :id
+  def to_param
+    self.id
+  end
 
   def to_json(options={})
     {

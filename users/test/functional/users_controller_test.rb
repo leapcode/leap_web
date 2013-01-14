@@ -10,14 +10,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "failed show without login" do
-    user = find_record User
+    user = find_record :user
     get :show, :id => user.id
     assert_response :redirect
     assert_redirected_to login_path
   end
 
   test "user can see user" do
-    user = find_record User,
+    user = find_record :user,
       :email => nil,
       :email_forward => nil,
       :email_aliases => [],
@@ -29,34 +29,64 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create new user" do
-    user = stub_record User
-    User.expects(:create).with(user.params).returns(user)
+  test "admin can see other user" do
+    user = find_record :user,
+      :email => nil,
+      :email_forward => nil,
+      :email_aliases => [],
+      :created_at => Time.now,
+      :updated_at => Time.now,
+      :most_recent_tickets => []
+    login :is_admin? => true
+    get :show, :id => user.id
+    assert_response :success
 
-    post :create, :user => user.params, :format => :json
+  end
+  
+  test "user cannot see other user" do
+    user = find_record :user,
+      :email => nil,
+      :email_forward => nil,
+      :email_aliases => [],
+      :created_at => Time.now,
+      :updated_at => Time.now,
+      :most_recent_tickets => []
+    login
+    get :show, :id => user.id
+    assert_response :redirect
+    assert_access_denied
+  end
+
+
+  test "should create new user" do
+    user_attribs = record_attributes_for :user
+    user = User.new(user_attribs)
+    User.expects(:create).with(user_attribs).returns(user)
+
+
+    post :create, :user => user_attribs, :format => :json
+
+
     assert_nil session[:user_id]
     assert_json_response user
     assert_response :success
   end
 
   test "should redirect to signup form on failed attempt" do
-    params = User.valid_attributes_hash.slice(:login)
-    user = User.new(params)
-    params.stringify_keys!
+    user_attribs = record_attributes_for :user
+    user_attribs.slice!('login')
+    user = User.new(user_attribs)
     assert !user.valid?
-    User.expects(:create).with(params).returns(user)
+    User.expects(:create).with(user_attribs).returns(user)
 
-    post :create, :user => params, :format => :json
+    post :create, :user => user_attribs, :format => :json
 
     assert_json_error user.errors.messages
     assert_response 422
   end
 
   test "should get edit view" do
-    user = find_record User,
-      :email => nil,
-      :email_forward => nil,
-      :email_aliases => []
+    user = find_record :user
 
     login user
     get :edit, :id => user.id
@@ -65,14 +95,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "user can change settings" do
-    user = find_record User
-    user.expects(:attributes=).with(user.params)
+    user = find_record :user
+    changed_attribs = record_attributes_for :user_with_settings
+    user.expects(:attributes=).with(changed_attribs)
     user.expects(:changed?).returns(true)
     user.expects(:save).returns(true)
-    user.stubs(:email_aliases).returns([])
 
     login user
-    put :update, :user => user.params, :id => user.id, :format => :json
+    put :update, :user => changed_attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204
@@ -80,14 +110,15 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "admin can update user" do
-    user = find_record User
-    user.expects(:attributes=).with(user.params)
+    user = find_record :user
+    changed_attribs = record_attributes_for :user_with_settings
+    user.expects(:attributes=).with(changed_attribs.stringify_keys)
     user.expects(:changed?).returns(true)
     user.expects(:save).returns(true)
     user.stubs(:email_aliases).returns([])
 
     login :is_admin? => true
-    put :update, :user => user.params, :id => user.id, :format => :json
+    put :update, :user => changed_attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204
@@ -95,7 +126,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "admin can destroy user" do
-    user = find_record User
+    user = find_record :user
     user.expects(:destroy)
 
     login :is_admin? => true
@@ -106,7 +137,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "user can cancel account" do
-    user = find_record User
+    user = find_record :user
     user.expects(:destroy)
 
     login user
@@ -117,7 +148,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "non-admin can't destroy user" do
-    user = stub_record User
+    user = find_record :user
 
     login
     delete :destroy, :id => user.id
