@@ -22,6 +22,10 @@ class TicketComment
     !!posted_by
   end
 
+  def posted_by_user
+    User.find(self.posted_by)
+  end
+
 =begin
   #TODO. 
   #this is resetting all comments associated with the ticket:

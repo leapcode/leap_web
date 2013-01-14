@@ -2,10 +2,10 @@
 - if admin? or !comment.private # only show comment if user is admin or comment is not private
   %tr
     %td
-      - if commenter = User.find(comment.posted_by)
+      - if comment.posted_by_user
         %b
-          = 'Posted by' + (commenter.is_admin? ? ' admin' : '') + ':'
-        = commenter.login
+          = 'Posted by' + (comment.posted_by_user.is_admin? ? ' admin' : '') + ':'
+        = comment.posted_by_user.login
       - else
         Unauthenticated post
       - if comment.private
