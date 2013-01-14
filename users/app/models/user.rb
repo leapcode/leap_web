@@ -95,7 +95,7 @@ class User < CouchRest::Model::Base
   end
 
   def most_recent_tickets(count=3)
-    Ticket.for_user(self).limit(count) #defaults to having most recent updated first
+    Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
   protected

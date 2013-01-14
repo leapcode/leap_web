@@ -1,3 +1,4 @@
+= # TODO---this is now used in 2 places, and not sure we want the same CSS in both places
 %tr
   %td
     %b
@@ -5,9 +6,9 @@
     %br
     %small
       created:
-      = ticket.created_at.to_s(:short)
+      = ticket.created_at.to_s(:short) #todo doesn't show year
       updated:
-      = ticket.updated_at.to_s(:short)
+      = ticket.updated_at.to_s(:short) # doesn't show year
     %small.pull-right
       comments by:
       = ticket.commenters 
