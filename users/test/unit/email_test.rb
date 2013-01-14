@@ -3,13 +3,8 @@ require 'test_helper'
 class EmailTest < ActiveSupport::TestCase
 
   setup do
-    # TODO build helper for this ... make_record(User)
-    @attribs = User.valid_attributes_hash
-    User.find_by_login(@attribs[:login]).try(:destroy)
-    @user = User.new(@attribs)
-    @attribs.merge!(:login => "other_user")
-    User.find_by_login(@attribs[:login]).try(:destroy)
-    @other_user = User.create(@attribs)
+    @user = FactoryGirl.build :user
+    @other_user = FactoryGirl.build :user
     @email_string = "valid_alias@#{APP_CONFIG[:domain]}"
     User.find_by_email_or_alias(@email_string).try(:destroy)
   end

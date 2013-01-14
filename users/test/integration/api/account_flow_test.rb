@@ -12,10 +12,6 @@ class AccountFlowTest < ActiveSupport::TestCase
     OUTER_APP
   end
 
-  def teardown
-    Warden.test_reset!
-  end
-
   def setup
     @login = "integration_test_user"
     User.find_by_login(@login).tap{|u| u.destroy if u}
@@ -31,7 +27,8 @@ class AccountFlowTest < ActiveSupport::TestCase
   end
 
   def teardown
-    @user.destroy if @user # make sure we can run this test again
+    @user.destroy if @user
+    Warden.test_reset!
   end
 
   # this test wraps the api and implements the interface the ruby-srp client.
