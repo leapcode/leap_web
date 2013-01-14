@@ -10,10 +10,10 @@ module AuthTestHelper
   end
 
   def login(user_or_method_hash = {})
-    @current_user = stub_record(User, user_or_method_hash)
-    unless @current_user.respond_to? :is_admin?
-      @current_user.stubs(:is_admin?).returns(false)
+    if user_or_method_hash.respond_to?(:reverse_merge)
+      user_or_method_hash.reverse_merge! :is_admin? => false
     end
+    @current_user = stub_record(:user, user_or_method_hash, true)
     request.env['warden'] = stub :user => @current_user
     return @current_user
   end
