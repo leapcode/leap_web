@@ -4,10 +4,11 @@ module StubRecordHelper
   # return the record given.
   # If no record is given but a hash or nil will create a stub based on
   # that instead and returns the stub.
-  def find_record(klass, record_or_method_hash = {})
-    record = stub_record(klass, record_or_method_hash)
+  def find_record(factory)
+    record = stub_record factory
+    klass = record.class
     finder = klass.respond_to?(:find_by_param) ? :find_by_param : :find_by_id
-    klass.expects(finder).with(record.to_param).returns(record)
+    klass.expects(finder).with(record.to_param.to_s).returns(record)
     return record
   end
 
@@ -17,25 +18,24 @@ module StubRecordHelper
   # If the second parameter is a record we return the record itself.
   # This way you can build functions that either take a record or a
   # method hash to stub from. See find_record for an example.
-  def stub_record(klass, record_or_method_hash = {}, persisted = true)
+  def stub_record(factory, record_or_method_hash = {})
     if record_or_method_hash && !record_or_method_hash.is_a?(Hash)
       return record_or_method_hash
     end
-    stub record_params_for(klass, record_or_method_hash, persisted)
+    FactoryGirl.build_stubbed(factory).tap do |record|
+      record.stubs(record_or_method_hash) if record_or_method_hash.present?
+    end
   end
 
-  def record_params_for(klass, params = {}, persisted = true)
-    if klass.respond_to?(:valid_attributes_hash)
-      params.reverse_merge!(klass.valid_attributes_hash)
+  # returns deep stringified attributes so they can be compared to
+  # what the controller receives as params
+  def record_attributes_for(factory, attribs_hash = nil)
+    FactoryGirl.attributes_for(factory, attribs_hash).tap do |attribs|
+      attribs.keys.each do |key|
+        val = attribs.delete(key)
+        attribs[key.to_s] = val.is_a?(Hash) ? val.stringify_keys! : val
+      end
     end
-    params[:params] = params.stringify_keys
-    params.reverse_merge! :id => "A123",
-      :to_param => "A123",
-      :class => klass,
-      :to_key => ['123'],
-      :to_json => %Q({"stub":"#{klass.name}"}),
-      :new_record? => !persisted,
-      :persisted? => persisted
   end
 
 end
