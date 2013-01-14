@@ -3,21 +3,17 @@ require 'test_helper'
 class TicketsControllerTest < ActionController::TestCase
 
   setup do
-    User.create(User.valid_attributes_hash.merge({:login => 'first_test'}))
-    User.create(User.valid_attributes_hash.merge({:login => 'different'}))
-    Ticket.create( {:title => "stub test ticket", :id => 'stubtestticketid', :comments_attributes => {"0" => {"body" =>"body of stubbed test ticket"}}})
-    Ticket.create( {:title => "stub test ticket two", :id => 'stubtestticketid2', :comments_attributes => {"0" => {"body" =>"body of second stubbed test ticket"}}})
+    @user = FactoryGirl.create :user
+    @other_user = FactoryGirl.create :user
   end
 
   teardown do
-    User.find_by_login('first_test').destroy
-    User.find_by_login('different').destroy
-    Ticket.find('stubtestticketid').destroy
-    Ticket.find('stubtestticketid2').destroy
+    @user.destroy
+    @other_user.destroy
   end
 
   test "should get index if logged in" do
-    login :is_admin? => false
+    login
     get :index
     assert_response :success
     assert_not_nil assigns(:tickets)
@@ -35,29 +31,32 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "ticket show access" do
-    ticket = Ticket.first
-    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one
-    ticket.save
+  test "unauthenticated tickets are visible" do
+    ticket = find_record :ticket, :created_by => nil
     get :show, :id => ticket.id
     assert_response :success
+  end
 
-    ticket.created_by = User.last.id
-    ticket.save
+  test "user tickets are not visible without login" do
+    ticket = find_record :ticket, :created_by => @user.id
     get :show, :id => ticket.id
     assert_response :redirect
     assert_redirected_to login_url
+  end
 
-    login(User.last)
+  test "user tickets are visible to creator" do
+    ticket = find_record :ticket, :created_by => @user.id
+    login @user
     get :show, :id => ticket.id
     assert_response :success
+  end
 
-    login(User.first) #assumes User.first != User.last:
-    assert_not_equal User.first, User.last
+  test "user tickets are not visible to other user" do
+    ticket = find_record :ticket, :created_by => @user.id
+    login @other_user
     get :show, :id => ticket.id
     assert_response :redirect
     assert_redirected_to root_url
-
   end
 
   test "should create unauthenticated ticket" do
@@ -80,7 +79,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     params = {:title => "auth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
-    login :email => "test@email.net"
+    login :email => Faker::Internet.user_name + '@' + APP_CONFIG[:domain]
 
     assert_difference('Ticket.count') do
       post :create, :ticket => params
@@ -99,11 +98,9 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "add comment to unauthenticated ticket" do
-    ticket = Ticket.find('stubtestticketid')
-    ticket.created_by = nil # TODO: hacky, but this makes sure this ticket is an unauthenticated one
-    ticket.save
+    ticket = FactoryGirl.create :ticket, :created_by => nil
 
-    assert_difference('Ticket.find("stubtestticketid").comments.count') do
+    assert_difference('Ticket.find(ticket.id).comments.count') do
       put :update, :id => ticket.id,
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
@@ -111,24 +108,24 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal ticket, assigns(:ticket) # still same ticket, with different comments
     assert_not_equal ticket.comments, assigns(:ticket).comments # ticket == assigns(:ticket), but they have different comments (which we want)
 
+    assigns(:ticket).destroy
   end
 
 
   test "add comment to own authenticated ticket" do
 
     login User.last
-    ticket = Ticket.find('stubtestticketid')
-    ticket.created_by = @current_user.id # TODO: hacky, but confirms it is their ticket
-    ticket.save
+    ticket = FactoryGirl.create :ticket, :created_by => @current_user.id
 
     #they should be able to comment if it is their ticket:
-    assert_difference('Ticket.find("stubtestticketid").comments.count') do
+    assert_difference('Ticket.find(ticket.id).comments.count') do
       put :update, :id => ticket.id,
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
     assert_not_equal ticket.comments, assigns(:ticket).comments
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
+    assigns(:ticket).destroy
 
   end
 
@@ -136,17 +133,13 @@ class TicketsControllerTest < ActionController::TestCase
   test "cannot comment if it is not your ticket" do
 
     login :is_admin? => false, :email => nil
-    ticket = Ticket.first
-
-    assert_not_nil User.first.id
-    ticket.created_by = User.first.id
-    ticket.save
+    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
     # they should *not* be able to comment if it is not their ticket
     put :update, :id => ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"not allowed comment"}} }
     assert_response :redirect
     assert_access_denied
 
-    assert_equal ticket.comments, assigns(:ticket).comments
+    assert_equal ticket.comments.map(&:body), assigns(:ticket).comments.map(&:body)
 
   end
 
@@ -155,14 +148,10 @@ class TicketsControllerTest < ActionController::TestCase
 
     login :is_admin? => true
 
-    ticket = Ticket.find('stubtestticketid')
-    assert_not_nil User.last.id
-    ticket.created_by = User.last.id # TODO: hacky, but confirms it somebody elses ticket:
-    assert_not_equal User.last.id, @current_user.id
-    ticket.save
+    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
 
     #admin should be able to comment:
-    assert_difference('Ticket.find("stubtestticketid").comments.count') do
+    assert_difference('Ticket.find(ticket.id).comments.count') do
       put :update, :id => ticket.id,
         :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     end
@@ -170,9 +159,11 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
+    assigns(:ticket).destroy
   end
 
   test "tickets by admin" do
+    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
 
     login :is_admin? => true, :email => nil
 
@@ -189,17 +180,18 @@ class TicketsControllerTest < ActionController::TestCase
 
 
   test "admin_status mine vs all" do
-    testticket = Ticket.create :title => 'temp testytest'
+    testticket = FactoryGirl.create :ticket
     login :is_admin? => true, :email => nil
 
     get :index, {:admin_status => "all", :open_status => "open"}
     assert assigns(:all_tickets).include?(testticket)
     get :index, {:admin_status => "mine", :open_status => "open"}
     assert !assigns(:all_tickets).include?(testticket)
+    testticket.destroy
   end
 
   test "commenting on a ticket adds to tickets that are mine" do
-    testticket = Ticket.create :title => 'temp testytest'
+    testticket = FactoryGirl.create :ticket
     login :is_admin? => true, :email => nil
 
     get :index, {:admin_status => "mine", :open_status => "open"}
@@ -216,6 +208,7 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "admin ticket ordering" do
+    tickets = FactoryGirl.create_list :ticket, 2
 
     login :is_admin? => true, :email => nil
     get :index, {:admin_status => "all", :open_status => "open", :sort_order => 'created_at_desc'}
@@ -234,33 +227,36 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_equal first_tick, assigns(:all_tickets).first
     assert_not_equal last_tick, assigns(:all_tickets).last
 
+    tickets.each {|ticket| ticket.destroy}
   end
 
   test "tickets for regular user" do
-    login :is_admin? => false, :email => nil
+    login
+    ticket = FactoryGirl.create :ticket
+    other_ticket = FactoryGirl.create :ticket
 
-    put :update, :id => 'stubtestticketid',:ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    put :update, :id => ticket.id,
+      :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
 
     get :index, {:open_status => "open"}
     assert assigns(:all_tickets).count > 0
-    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
-
-    assert !assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
+    assert assigns(:all_tickets).include?(ticket)
+    assert !assigns(:all_tickets).include?(other_ticket)
 
     # user should have one more ticket if a new tick gets a comment by this user
     assert_difference('assigns[:all_tickets].count') do
-      put :update, :id => 'stubtestticketid2' , :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
+      put :update, :id => other_ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
       get :index, {:open_status => "open"}
     end
-    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
+    assert assigns(:all_tickets).include?(other_ticket)
 
    # if we close one ticket, the user should have 1 less open ticket
     assert_difference('assigns[:all_tickets].count', -1) do
-      t = Ticket.find('stubtestticketid2')
-      t.close
-      t.save
+      other_ticket.reload
+      other_ticket.close
+      other_ticket.save
       get :index, {:open_status => "open"}
     end
 
@@ -268,15 +264,17 @@ class TicketsControllerTest < ActionController::TestCase
 
     # look at closed tickets:
     get :index, {:open_status => "closed"}
-    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
-    assert !assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
+    assert !assigns(:all_tickets).include?(ticket)
+    assert assigns(:all_tickets).include?(other_ticket)
     number_closed_tickets = assigns(:all_tickets).count
 
     # all tickets should equal closed + open
     get :index, {:open_status => "all"}
-    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid2'))
-    assert assigns(:all_tickets).include?(Ticket.find('stubtestticketid'))
+    assert assigns(:all_tickets).include?(ticket)
+    assert assigns(:all_tickets).include?(other_ticket)
     assert_equal assigns(:all_tickets).count, number_closed_tickets + number_open_tickets
+
+    assigns(:all_tickets).each {|t| t.destroy}
 
   end
 

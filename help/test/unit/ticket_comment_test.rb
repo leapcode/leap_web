@@ -21,11 +21,11 @@ class TicketCommentTest < ActiveSupport::TestCase
 
     #comment.ticket = testticket #Ticket.find_by_title("testing")
     #assert_equal testticket.title, comment.ticket.title
-    
+
     #tc.ticket = Ticket.find_by_title("test title")
     #tc.ticket.title
   end
-  
+
 =begin
   test "create authenticated comment" do
     User.current = 4
@@ -49,6 +49,7 @@ class TicketCommentTest < ActiveSupport::TestCase
     testticket.comments << comment2 #this should validate comment2
     testticket.valid?
     assert_equal testticket.comments.count, 2
+    testticket.reload.destroy
     # where should posted_at be set?
     #assert_not_nil comment.posted_at
     #assert_not_nil testticket.comments.last.posted_at
