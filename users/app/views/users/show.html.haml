@@ -17,11 +17,15 @@
         %ul.pull-left.unstyled
           = render aliases
       - else
-        =t :none_set
+        =t :none
     .clearfix
     %dt
       =t :most_recently_updated_tickets
     %dd
-      %table
-        %tbody
-          = render @user.most_recent_tickets
+      - tix = @user.most_recent_tickets
+      - if tix.present?
+        %table
+          %tbody
+            = render @user.most_recent_tickets
+      - else
+        =t :none
