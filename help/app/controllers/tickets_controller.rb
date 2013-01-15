@@ -99,7 +99,7 @@ class TicketsController < ApplicationController
   def fetch_ticket
     @ticket = Ticket.find(params[:id])
     if !@ticket and admin?
-      redirect_to tickets_path, :alert => "No such ticket"
+      redirect_to tickets_path, :alert => t(:no_such_thing, :thing => 'ticket')
       return
     end
     access_denied unless ticket_access?

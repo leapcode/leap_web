@@ -49,6 +49,10 @@ class UsersController < ApplicationController
 
   def fetch_user
     @user = User.find_by_param(params[:id])
+    if !@user and admin?
+      redirect_to users_path, :alert => t(:no_such_thing, :thing => 'user')
+      return
+    end
     access_denied unless admin? or (@user == current_user)
   end
 
