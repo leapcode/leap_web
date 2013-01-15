@@ -30,4 +30,10 @@ module UsersHelper
     classes.compact
   end
 
+  def user_field(field)
+    value = @user.send(field)
+    value = value.to_s(:long) if field.end_with? '_at'
+    value || 'not set'
+  end
+
 end

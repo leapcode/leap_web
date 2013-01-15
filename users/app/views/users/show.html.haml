@@ -1,0 +1,31 @@
+.span8.offset1
+  %h2= @user.login
+  .small
+    = link_to 'edit', edit_user_path(@user)
+  %dl.offset1
+    - fields = ['login', 'email', 'created_at', 'updated_at', 'email_forward']
+    - fields.each do |field|
+      %dt
+        = field.titleize
+      %dd
+        = user_field(field)
+    %dt
+      =t :email_aliases
+    %dd
+      - aliases = @user.email_aliases
+      - if aliases.present?
+        %ul.pull-left.unstyled
+          = render aliases
+      - else
+        =t :none
+    .clearfix
+    %dt
+      =t :most_recently_updated_tickets
+    %dd
+      - tix = @user.most_recent_tickets
+      - if tix.present?
+        %table
+          %tbody
+            = render @user.most_recent_tickets
+      - else
+        =t :none
