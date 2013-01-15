@@ -12,8 +12,12 @@
     %dt
       =t :email_aliases
     %dd
-      %ul.pull-left.unstyled
-        = render(@user.email_aliases) || t(:none_set)
+      - aliases = @user.email_aliases
+      - if aliases.present?
+        %ul.pull-left.unstyled
+          = render aliases
+      - else
+        =t :none_set
     .clearfix
     %dt
       =t :most_recently_updated_tickets
