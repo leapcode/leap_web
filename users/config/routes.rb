@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
   constraints :subdomain => "api" do
-    namespace "api", :path => nil do
-      scope "/1", :module => "V1", defaults: {format: 'json'} do
-        resources :sessions, :only => [:new, :create, :update, :destroy]
-        resources :users, :only => [:create]
-      end
+    namespace "api", { module: "V1",
+        path: "/1/",
+        defaults: {format: 'json'} } do
+      resources :sessions, :only => [:new, :create, :update, :destroy]
+      resources :users, :only => [:create]
     end
   end
 

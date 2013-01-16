@@ -16,7 +16,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
   return ''.join(random.choice(chars) for x in range(size))
 
 # using globals for a start
-server = 'http://localhost:3000/1'
+server = 'http://api.lvh.me:3000/1'
 login = id_generator()
 password = id_generator() + id_generator()
 
