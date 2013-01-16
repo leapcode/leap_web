@@ -7,7 +7,6 @@ FactoryGirl.define do
 
     factory :user_with_settings do
       email_forward { Faker::Internet.email }
-      email { Faker::Internet.user_name + '@' + APP_CONFIG[:domain] }
       email_aliases_attributes do
         {:a => Faker::Internet.user_name + '@' + APP_CONFIG[:domain]}
       end
