@@ -7,7 +7,8 @@
           = 'Posted by' + (comment.posted_by_user.is_admin? ? ' admin' : '') + ':'
         = comment.posted_by_user.login
       - else
-        Unauthenticated post
+        %b
+          Unauthenticated post
       - if comment.private
         (Private comment)
       .pull-right
@@ -16,3 +17,4 @@
         = comment.posted_at.to_s(:short)
       %br
       = comment.body
+

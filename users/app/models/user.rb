@@ -18,8 +18,8 @@ class User < CouchRest::Model::Base
     :if => :serverside?
 
   validates :login,
-    :format => { :with => /\A[A-Za-z\d_]+\z/,
-      :message => "Only letters, digits and _ allowed" }
+    :format => { :with => /\A[A-Za-z\d_\.]+\z/,
+      :message => "Only letters, digits, . and _ allowed" }
 
   validates :password_salt, :password_verifier,
     :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
@@ -46,52 +46,19 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
+    load_views(Rails.root.join('users', 'app', 'designs', 'user'))
     view :by_login
     view :by_created_at
     view :by_email
-
-    view :by_email_alias,
-      :map => <<-EOJS
-    function(doc) {
-      if (doc.type != 'User') {
-        return;
-      }
-      doc.email_aliases.forEach(function(alias){
-        emit(alias.email, doc);
-      });
-    }
-    EOJS
-
-    view :by_email_or_alias,
-      :map => <<-EOJS
-    function(doc) {
-      if (doc.type != 'User') {
-        return;
-      }
-      if (doc.email) {
-        emit(doc.email, doc);
-      }
-      doc.email_aliases.forEach(function(alias){
-        emit(alias.email, doc);
-      });
-    }
-    EOJS
-
   end
 
   class << self
     alias_method :find_by_param, :find
-
-    # valid set of attributes for testing
-    def valid_attributes_hash
-      { :login => "me",
-        :password_verifier => "1234ABCD",
-        :password_salt => "4321AB" }
-    end
-
   end
 
-  alias_method :to_param, :id
+  def to_param
+    self.id
+  end
 
   def to_json(options={})
     {
@@ -125,6 +92,10 @@ class User < CouchRest::Model::Base
   # All the ui needs for now.
   def email_aliases_attributes=(attrs)
     email_aliases.build(attrs.values.first) if attrs
+  end
+
+  def most_recent_tickets(count=3)
+    Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
   protected

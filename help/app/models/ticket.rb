@@ -47,84 +47,7 @@ class Ticket < CouchRest::Model::Base
     view :by_is_open_and_created_at
     view :by_is_open_and_updated_at
 
-
-    #TODO: This view is only used in tests--should we keep it?
-    view :by_includes_post_by,
-      :map =>
-      "function(doc) {
-        var arr = {}
-        if (doc['type'] == 'Ticket' && doc.comments) {
-          doc.comments.forEach(function(comment){
-          if (comment.posted_by && !arr[comment.posted_by]) {
-             //don't add duplicates
-             arr[comment.posted_by] = true;
-             emit(comment.posted_by, 1);
-          }
-          });
-        }
-      }", :reduce => "function(k,v,r) { return sum(v); }"
-
-    view :by_includes_post_by_and_is_open_and_updated_at,
-      :map =>
-      "function(doc) {
-        var arr = {}
-        if (doc['type'] == 'Ticket' && doc.comments) {
-          doc.comments.forEach(function(comment){
-          if (comment.posted_by && !arr[comment.posted_by]) {
-            //don't add duplicates
-            arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.is_open, doc.updated_at], 1);
-          }
-          });
-        }
-      }", :reduce => "function(k,v,r) { return sum(v); }"
-
-    view :by_includes_post_by_and_is_open_and_created_at,
-      :map =>
-      "function(doc) {
-        var arr = {}
-        if (doc['type'] == 'Ticket' && doc.comments) {
-          doc.comments.forEach(function(comment){
-          if (comment.posted_by && !arr[comment.posted_by]) {
-            //don't add duplicates
-            arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.is_open, doc.created_at], 1);
-          }
-          });
-        }
-      }", :reduce => "function(k,v,r) { return sum(v); }"
-
-    view :by_includes_post_by_and_updated_at,
-      :map =>
-      "function(doc) {
-        var arr = {}
-        if (doc['type'] == 'Ticket' && doc.comments) {
-          doc.comments.forEach(function(comment){
-          if (comment.posted_by && !arr[comment.posted_by]) {
-            //don't add duplicates
-            arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.updated_at], 1);
-          }
-          });
-        }
-      }", :reduce => "function(k,v,r) { return sum(v); }"
-
-
-    view :by_includes_post_by_and_created_at,
-      :map =>
-      "function(doc) {
-        var arr = {}
-        if (doc['type'] == 'Ticket' && doc.comments) {
-          doc.comments.forEach(function(comment){
-          if (comment.posted_by && !arr[comment.posted_by]) {
-            //don't add duplicates
-            arr[comment.posted_by] = true;
-            emit([comment.posted_by, doc.created_at], 1);
-          }
-          });
-        }
-      }", :reduce => "function(k,v,r) { return sum(v); }"
-
+    load_views(Rails.root.join('help', 'app', 'designs', 'ticket'))
   end
 
   validates :title, :presence => true
@@ -132,7 +55,7 @@ class Ticket < CouchRest::Model::Base
 
 
   # html5 has built-in validation which isn't ideal, as it says 'please enter an email address' for invalid email addresses, which implies an email address is required, and it is not.
-  validates :email, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :if => :email #email address is optional
+  validates :email, :allow_blank => true, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
 
   #TODO:
   #def set_created_by

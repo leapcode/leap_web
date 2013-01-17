@@ -1,13 +1,17 @@
+- updated_at_text = 'updated: ' + ticket.updated_at.to_s(:long)
 %tr
   %td
     %b
       = link_to ticket.title, ticket
-    %br
-    %small
-      created:
-      = ticket.created_at.to_s(:short)
-      updated:
-      = ticket.updated_at.to_s(:short)
-    %small.pull-right
-      comments by:
-      = ticket.commenters 
+    - if params[:controller] == 'tickets'
+      %br
+      %small
+        created:
+        = ticket.created_at.to_s(:long)
+        = updated_at_text
+      %small.pull-right
+        comments by:
+        = ticket.commenters
+    - else
+      %small
+        = updated_at_text
