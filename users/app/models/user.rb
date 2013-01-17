@@ -20,7 +20,7 @@ class User < CouchRest::Model::Base
     :format => { :with => /\A[A-Za-z\d_\.]+\z/,
       :message => "Only letters, digits, . and _ allowed" }
 
-  validate :login_differs_from_email_aliases
+  validate :login_is_unique_alias
 
   validates :password_salt, :password_verifier,
     :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
@@ -38,7 +38,6 @@ class User < CouchRest::Model::Base
     load_views(Rails.root.join('users', 'app', 'designs', 'user'))
     view :by_login
     view :by_created_at
-    view :by_email
   end
 
   class << self
@@ -93,11 +92,13 @@ class User < CouchRest::Model::Base
   #  Validation Functions
   ##
 
-  def login_differs_from_email_aliases
-    # If this has not changed but the email aliases let's not mark this invalid.
-    return if email_aliases.any? and email_aliases.last.errors.any?
-    if email_aliases.map(&:email).include?(email_address)
-      errors.add(:login, "may not be the same as an alias")
+  def login_is_unique_alias
+    has_alias = User.find_by_login_or_alias(username)
+    return if has_alias.nil?
+    if has_alias != self
+      errors.add(:login, "has already been taken")
+    elsif has_alias.login != self.login
+      errors.add(:login, "may not be the same as one of your aliases")
     end
   end
 

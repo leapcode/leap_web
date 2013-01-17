@@ -57,4 +57,18 @@ class UserTest < ActiveSupport::TestCase
     assert @user.is_admin?
   end
 
+  test "login needs to be unique" do
+    other_user = FactoryGirl.create :user, login: @user.login
+    assert !@user.valid?
+    other_user.destroy
+  end
+
+  test "login needs to be different from other peoples email aliases" do
+    other_user = FactoryGirl.create :user
+    other_user.email_aliases.build :email => @user.login
+    other_user.save
+    assert !@user.valid?
+    other_user.destroy
+  end
+
 end
