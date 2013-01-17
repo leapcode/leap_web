@@ -22,7 +22,12 @@ module Email
     other.is_a?(Email) ? self.email == other.email : self.email == other
   end
 
+  def to_partial_path
+    "emails/email"
+  end
+
   def to_param
     email
   end
+
 end

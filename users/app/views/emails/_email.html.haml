@@ -1,6 +1,6 @@
-%li.pull-right
-  %code= email
-  - if params[:action] == 'edit'
+= wrapped(email, local_assigns) do
+  = email
+  - if local_assigns[:with].try(:include?, :delete)
     = link_to(user_email_alias_path(@user, email), :method => :delete) do
       %i.icon-remove
 .clearfix
