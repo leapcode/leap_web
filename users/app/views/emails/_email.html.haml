@@ -1,6 +1,5 @@
-- if email.valid?
-  %li.pull-right
-    %code= email
-    = link_to(user_email_alias_path(@user, email), :method => :delete) do
-      %i.icon-remove
-  .clearfix
+%li.pull-right
+  %code= email
+  = link_to(user_email_alias_path(@user, email), :method => :delete) do
+    %i.icon-remove
+.clearfix

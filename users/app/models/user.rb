@@ -72,7 +72,7 @@ class User < CouchRest::Model::Base
   end
 
   def email_address
-    login + '@' + APP_CONFIG[:domain]
+    LocalEmail.new(login)
   end
 
   # Since we are storing admins by login, we cannot allow admins to change their login.

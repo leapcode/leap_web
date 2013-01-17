@@ -7,16 +7,13 @@ class LocalEmail
   before_validation :strip_domain_if_needed
 
   validates :username,
-    :format => { :with => /\A([^@\s]+)(@.*)?\Z/, :message => "needs to be a valid login or email address"}
+    :presence => true,
+    :format => { :with => /\A([^@\s]+)(@#{APP_CONFIG[:domain]})?\Z/i, :message => "needs to be a valid login or email address @#{APP_CONFIG[:domain]}"}
 
   validate :unique_on_server
   validate :unique_alias_for_user
   validate :differs_from_login
 
-  validates :username,
-    :presence => true,
-    :format => { :with => /[^@]*(@#{APP_CONFIG[:domain]})?\Z/i,
-      :message => "may not contain an '@' or needs to end in @#{APP_CONFIG[:domain]}"}
   validates :casted_by, :presence => true
 
   def email
@@ -38,7 +35,7 @@ class LocalEmail
 
   def unique_on_server
     has_email = User.find_by_login_or_alias(username)
-    if has_email && has_email != self.base_doc
+    if has_email && has_email != self.casted_by
       errors.add :username, "has already been taken"
     end
   end
@@ -60,7 +57,7 @@ class LocalEmail
   end
 
   def strip_domain_if_needed
-    self.username.gsub /@#{APP_CONFIG[:domain]}/i, ''
+    self.username.gsub! /@#{APP_CONFIG[:domain]}/i, ''
   end
 
 end
