@@ -10,10 +10,12 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "failed show without login" do
-    user = find_record :user
+    user = FactoryGirl.build(:user)
+    user.save
     get :show, :id => user.id
     assert_response :redirect
     assert_redirected_to login_path
+    user.destroy
   end
 
   test "user can see user" do
@@ -42,7 +44,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
 
   end
-  
+
   test "user cannot see other user" do
     user = find_record :user,
       :email => nil,
@@ -57,6 +59,26 @@ class UsersControllerTest < ActionController::TestCase
     assert_access_denied
   end
 
+  test "show for non-existing user" do
+    nonid = 'thisisnotanexistinguserid'
+
+    # when unauthenticated:
+    get :show, :id => nonid
+    assert_access_denied(true, false)
+
+    # when authenticated but not admin:
+    login
+    get :show, :id => nonid
+    assert_access_denied
+
+    # when authenticated as admin:
+    # TODO: THIS IS failing to login and have admin? return true in users_controller. Will look into it later.
+    login :is_admin => true
+    get :show, :id => nonid
+    assert_response :redirect
+    assert_equal({:alert => "No such user."}, flash.to_hash)
+    assert_redirected_to users_path
+  end
 
   test "should create new user" do
     user_attribs = record_attributes_for :user
