@@ -22,7 +22,7 @@ class AccountFlowTest < ActiveSupport::TestCase
       :password_verifier => @srp.verifier.to_s(16),
       :password_salt => @srp.salt.to_s(16)
     }
-    post '/1/users.json', :user => @user_params
+    post 'http://api.lvh.me:3000/1/users.json', :user => @user_params
     @user = User.find_by_param(@login)
   end
 
@@ -33,7 +33,10 @@ class AccountFlowTest < ActiveSupport::TestCase
 
   # this test wraps the api and implements the interface the ruby-srp client.
   def handshake(login, aa)
-    post "/1/sessions.json", :login => login, 'A' => aa.to_s(16), :format => :json
+    post "http://api.lvh.me:3000/1/sessions.json",
+      :login => login,
+      'A' => aa.to_s(16),
+      :format => :json
     response = JSON.parse(last_response.body)
     if response['errors']
       raise RECORD_NOT_FOUND.new(response['errors'])
@@ -43,7 +46,9 @@ class AccountFlowTest < ActiveSupport::TestCase
   end
 
   def validate(m)
-    put "/1/sessions/" + @login + '.json', :client_auth => m.to_s(16), :format => :json
+    put "http://api.lvh.me:3000/1/sessions/" + @login + '.json',
+      :client_auth => m.to_s(16),
+      :format => :json
     return JSON.parse(last_response.body)
   end
 

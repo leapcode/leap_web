@@ -1,10 +1,20 @@
 .spam12
   %b
     Created by:
-  - if User.find(@ticket.created_by)
-    = User.find(@ticket.created_by).login
+  - if @ticket.created_by_user
+    = link_to @ticket.created_by_user.login, edit_user_path(@ticket.created_by_user) #todo: won't want edit path
   - else
     Unauthenticated ticket creator
+  - if @ticket.regarding_user
+    %b
+      Regarding user:
+    - if admin?
+      - if @ticket.regarding_user_actual_user
+        = link_to @ticket.regarding_user_actual_user.login, edit_user_path(@ticket.regarding_user_actual_user) #todo: won't want edit path
+      - else
+        = @ticket.regarding_user + ' (no such user)'
+    - else # a non-admin is viewing the ticket, so they shouldn't see confirmation of whether the regarding_user exists or not.
+      = @ticket.regarding_user
   - if @ticket.email
     %b
       email:

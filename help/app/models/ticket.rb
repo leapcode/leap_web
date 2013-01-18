@@ -16,7 +16,7 @@ class Ticket < CouchRest::Model::Base
 
   #belongs_to :user #from leap_web_users. doesn't necessarily belong to a user though
   property :created_by, String, :protected => true #Integer #nil unless user was authenticated for ticket creation, #THIS should not be changed after being set
-  #property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
+  property :regarding_user, String#Integer # form cannot be submitted if they type in a username w/out corresponding ID. this field can be nil. for authenticated ticket creation by non-admins, should this just automatically be set to be same as created_by?  or maybe we don't use this field unless created_by is nil?
   #also, both created_by and regarding_user could be nil---say user forgets username, or has general question
   property :title, String
   property :email, String #verify
@@ -30,7 +30,7 @@ class Ticket < CouchRest::Model::Base
   timestamps!
 
   #before_validation :set_created_by, :set_code, :set_email, :on => :create
-  before_validation :set_email, :on => :create
+  before_validation :set_email, :set_regarding_user, :on => :create
 
 
   #named_scope :open, :conditions => {:is_open => true} #??
@@ -94,6 +94,10 @@ class Ticket < CouchRest::Model::Base
     # in controller set to be current users email if that exists
   end
 
+  def set_regarding_user
+    self.regarding_user = nil if self.regarding_user == ""
+  end
+
   #not saving with close and reopen, as we will save in update when they are called.
   #TODO: not sure if we should bother with these:
   def close
@@ -132,6 +136,13 @@ class Ticket < CouchRest::Model::Base
     end
   end
 
+  def created_by_user
+    User.find(self.created_by)
+  end
+
+  def regarding_user_actual_user
+    User.find_by_login(self.regarding_user)
+  end
 =begin
   def validate
     if email_address and not email_address.strip =~ RFC822::EmailAddress

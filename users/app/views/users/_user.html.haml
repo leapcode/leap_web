@@ -1,5 +1,5 @@
 %tr
-  %td= user.login
+  %td= link_to user.login, user
   %td= time_ago_in_words(user.created_at) + " ago"
   %td
     = link_to edit_user_path(user), :class => "btn btn-mini btn-primary" do
