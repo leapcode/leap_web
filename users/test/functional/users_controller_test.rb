@@ -72,8 +72,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_access_denied
 
     # when authenticated as admin:
-    # TODO: THIS IS failing to login and have admin? return true in users_controller. Will look into it later.
-    login :is_admin => true
+    login :is_admin? => true
     get :show, :id => nonid
     assert_response :redirect
     assert_equal({:alert => "No such user."}, flash.to_hash)
