@@ -35,9 +35,10 @@ class UsersController < ApplicationController
 
   def update
     @user.attributes = params[:user]
-    @email_alias = @user.email_aliases.last
     if @user.changed? and @user.save
       flash[:notice] = t(:user_updated_successfully)
+    elsif !@user.email_aliases.last.valid?
+      @email_alias = @user.email_aliases.pop
     end
     respond_with @user, :location => edit_user_path(@user, :anchor => @anchor)
   end

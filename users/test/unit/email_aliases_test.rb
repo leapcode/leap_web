@@ -4,9 +4,9 @@ class EmailAliasTest < ActiveSupport::TestCase
 
   setup do
     @user = FactoryGirl.build :user
-    @other_user = FactoryGirl.build :user
-    @alias = "valid_alias@#{APP_CONFIG[:domain]}"
-    User.find_by_email_or_alias(@alias).try(:destroy)
+    @alias = "valid_alias"
+    # make sure no existing records are in the way...
+    User.find_by_login_or_alias(@alias).try(:destroy)
   end
 
   test "no email aliases set in the beginning" do
@@ -17,13 +17,13 @@ class EmailAliasTest < ActiveSupport::TestCase
     @user.attributes = {:email_aliases_attributes => {"0" => {:email => @alias}}}
     assert @user.changed?
     assert @user.save
-    assert_equal @alias, @user.email_aliases.first.to_s
+    assert_equal @alias, @user.email_aliases.first.username
   end
 
   test "adding email alias directly" do
     @user.email_aliases.build :email => @alias
     assert @user.save
-    assert_equal @alias, @user.reload.email_aliases.first.to_s
+    assert_equal @alias, @user.email_aliases.first.username
   end
 
   test "duplicated email aliases are invalid" do
@@ -32,29 +32,29 @@ class EmailAliasTest < ActiveSupport::TestCase
     assert_invalid_alias @alias
   end
 
-  test "email alias needs to be different from other peoples email" do
-    @other_user.email = @alias
-    @other_user.save
+  test "email alias needs to be different from other peoples login" do
+    other_user = FactoryGirl.create :user, :login => @alias
     assert_invalid_alias @alias
+    other_user.destroy
   end
 
   test "email needs to be different from other peoples email aliases" do
-    @other_user.email_aliases.build :email => @alias
-    @other_user.save
+    other_user = FactoryGirl.create :user, :email_aliases_attributes => {'1' => @alias}
     assert_invalid_alias @alias
+    other_user.destroy
   end
 
-  test "email is invalid as email alias" do
-    @user.email = @alias
+  test "login is invalid as email alias" do
+    @user.login = @alias
     assert_invalid_alias @alias
   end
 
   test "find user by email alias" do
     @user.email_aliases.build :email => @alias
     assert @user.save
-    assert_equal @user, User.find_by_email_or_alias(@alias)
-    assert_equal @user, User.find_by_email_alias(@alias)
-    assert_nil User.find_by_email(@alias)
+    assert_equal @user, User.find_by_login_or_alias(@alias)
+    assert_equal @user, User.find_by_alias(@alias)
+    assert_nil User.find_by_login(@alias)
   end
 
   def assert_invalid_alias(string)

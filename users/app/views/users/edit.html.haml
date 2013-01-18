@@ -5,7 +5,9 @@
     = user_form_with 'password_fields', :legend => :change_password
     = render 'cancel_account' if @user == current_user
   - content_for :email do
-    = user_form_with 'email_field', :legend => :set_email_address
+    %legend=t :email_address
+    Your email address is
+    = render user.email_address
     = user_form_with 'email_forward_field', :legend => :forward_email
     = user_form_with 'email_aliases', :legend => :add_email_alias
   = render 'tabs/tabs', :tabs => [:account, :email]
