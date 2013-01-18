@@ -1,10 +1,13 @@
-class Email
-  include CouchRest::Model::Embeddable
+module Email
+  extend ActiveSupport::Concern
 
-  property :email, String
-
-  validates :email,
-    :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, :message => "needs to be a valid email address"}
+  included do
+    validates :email,
+      :format => {
+        :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/,
+        :message => "needs to be a valid email address"
+      }
+  end
 
   def initialize(attributes = nil, &block)
     attributes = {:email => attributes} if attributes.is_a? String
@@ -16,7 +19,7 @@ class Email
   end
 
   def ==(other)
-    other.is_a?(String) ? self.email == other : super
+    other.is_a?(Email) ? self.email == other.email : self.email == other
   end
 
   def to_param
