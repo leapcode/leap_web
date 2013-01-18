@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
-  scope "/1", :module => "V1", defaults: {format: 'json'} do
-    resources :sessions, :only => [:new, :create, :update, :destroy]
-    resources :users, :only => [:create]
+  constraints :subdomain => "api" do
+    namespace "api", { module: "V1",
+        path: "/1/",
+        defaults: {format: 'json'} } do
+      resources :sessions, :only => [:new, :create, :update, :destroy]
+      resources :users, :only => [:create]
+    end
   end
 
   get "login" => "sessions#new", :as => "login"
