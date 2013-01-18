@@ -1,6 +1,6 @@
 .span6
   %ul.unstyled
-    =render @user.email_aliases
+    = render @user.email_aliases, :as => :li, :with => [:delete]
 .clearfix
 = f.simple_fields_for :email_aliases, @email_alias do |e|
   = e.input :username, :placeholder => "alias"

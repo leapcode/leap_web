@@ -27,8 +27,8 @@ class LocalEmail
     strip_domain_if_needed
   end
 
-  def to_partial_path
-    "emails/email"
+  def to_key
+    [username]
   end
 
   protected
