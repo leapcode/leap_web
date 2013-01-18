@@ -2,6 +2,8 @@ class UsersController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, :only => [:create]
 
+
+  before_filter :authorize, :only => [:show, :edit, :update, :destroy]
   before_filter :fetch_user, :only => [:show, :edit, :update, :destroy]
   before_filter :set_anchor, :only => [:edit, :update]
   before_filter :authorize_admin, :only => [:index]
@@ -48,7 +50,12 @@ class UsersController < ApplicationController
   protected
 
   def fetch_user
+    # authorize filter has been checked first, so won't get here unless authenticated
     @user = User.find_by_param(params[:id])
+    if !@user and admin?
+      redirect_to users_path, :alert => t(:no_such_thing, :thing => 'user')
+      return
+    end
     access_denied unless admin? or (@user == current_user)
   end
 
