@@ -8,8 +8,8 @@ class WebfingerController < ApplicationController
 
   def search
     username = params[:q].split('@')[0].to_s.downcase
-
-    user = User.find_by_login(username)
+    user = User.find_by_login(username) || not_found
     @subject = Webfinger::UserPresenter.new(user, request)
   end
+
 end
