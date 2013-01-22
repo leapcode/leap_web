@@ -21,10 +21,9 @@ class TicketsController < ApplicationController
     @ticket.email = current_user.email if logged_in? and current_user.email
 
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
-    if !logged_in?
-      # cannot set this until ticket has been saved, as @ticket.id will not be set
-      flash[:notice] += " " + t(:access_ticket_text, :full_url => request.protocol + request.host_with_port + ticket_path(@ticket.id))
-    end
+
+    # cannot set this until ticket has been saved, as @ticket.id will not be set
+    flash[:notice] += " " + t(:access_ticket_text, :full_url => request.protocol + request.host_with_port + ticket_path(@ticket.id)) if !logged_in?
     respond_with(@ticket)
 
   end
