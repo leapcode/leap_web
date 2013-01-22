@@ -1,0 +1,11 @@
+ <?xml version='1.0' encoding='UTF-8'?>
+  <XRD xmlns='http://docs.oasis-open.org/ns/xri/xrd-1.0'>
+
+    <Subject><%= @host_meta.subject %></Subject>
+
+
+  <Link rel='lrdd'
+        type='application/xrd+xml'
+        template='<%= @host_meta.webfinger_template %>' />
+
+  </XRD>
