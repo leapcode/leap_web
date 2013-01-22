@@ -24,7 +24,8 @@ class TicketsController < ApplicationController
     end
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
     if !logged_in?
-      flash[:notice] = flash[:notice] + ' You can later access this ticket at the url ' + request.protocol + request.host_with_port + ticket_path(@ticket.id) + '. You might want to bookmark this page to find it again. Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to remove it from the browser history' #todo
+      # cannot set this until ticket has been saved, as @ticket.id will not be set
+      flash[:notice] += " " + t(:access_ticket_text, :full_url => request.protocol + request.host_with_port + ticket_path(@ticket.id))
     end
     respond_with(@ticket)
 
