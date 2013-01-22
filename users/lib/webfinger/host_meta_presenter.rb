@@ -14,4 +14,13 @@ class Webfinger::HostMetaPresenter
   def webfinger_template(path = 'webfinger', query_param='q')
     "#{subject}/#{path}?#{query_param}={uri}"
   end
+
+  def to_json(options)
+    {
+      subject: subject,
+      links: {
+        lrdd: { type: 'application/xrd+xml', template: webfinger_template }
+      }
+    }.to_json(options)
+  end
 end
