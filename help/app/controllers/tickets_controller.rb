@@ -15,13 +15,11 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = Ticket.new(params[:ticket])
-    if logged_in?
-      @ticket.created_by = current_user.id
-      @ticket.email = current_user.email if current_user.email
-      @ticket.comments.last.posted_by = current_user.id
-    else
-      @ticket.comments.last.posted_by = nil #hacky, but protecting this attribute doesn't work right, so this should make sure it isn't set.
-    end
+
+    @ticket.comments.last.posted_by = (logged_in? ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
+    @ticket.created_by = current_user.id if logged_in?
+    @ticket.email = current_user.email if logged_in? and current_user.email
+
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
     if !logged_in?
       # cannot set this until ticket has been saved, as @ticket.id will not be set
