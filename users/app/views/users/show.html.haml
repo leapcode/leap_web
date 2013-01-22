@@ -3,7 +3,7 @@
   .small
     = link_to 'edit', edit_user_path(@user)
   %dl.offset1
-    - fields = ['login', 'email', 'created_at', 'updated_at', 'email_forward']
+    - fields = ['login', 'email_address', 'created_at', 'updated_at', 'email_forward']
     - fields.each do |field|
       %dt
         = field.titleize
