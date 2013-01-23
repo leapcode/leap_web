@@ -7,6 +7,8 @@ require "ruby-srp"
 require "warden/session_serializer"
 require "warden/strategies/secure_remote_password"
 
+require "webfinger"
+
 module LeapWebUsers
   class Engine < ::Rails::Engine
 

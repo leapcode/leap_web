@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+  <XRD xmlns='http://docs.oasis-open.org/ns/xri/xrd-1.0'>
+
+    <Subject><%= @host_meta.subject %></Subject>
+
+  <%- @host_meta.links.each do |rel, link| %>
+    <Link rel='<%= rel %>'
+      type='<%= link[:type] %>'
+      template='<%= link[:template] %>' />
+  <%- end %>
+  </XRD>

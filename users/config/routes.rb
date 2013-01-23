@@ -18,4 +18,6 @@ Rails.application.routes.draw do
     resources :email_aliases, :only => [:destroy], :id => /.*/
   end
 
+  get "/.well-known/host-meta" => 'webfinger#host_meta'
+  get "/webfinger" => 'webfinger#search'
 end
