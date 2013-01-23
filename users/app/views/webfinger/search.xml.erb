@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
-  <Subject>acct:<%= @subject.email_identifier %></Subject>
-  <Alias>"<%= user_url(@subject.subject) %>"</Alias>
-  <%- if @subject.key.present? %>
-    <Link rel="public-key" type = 'PGP' href="<%= @subject.key %>"/>
+  <Subject><%= @presenter.subject %></Subject>
+  <%- @presenter.aliases.each do |user_alias| %>
+    <Alias>"<%= user_alias %>"</Alias>
+  <% end %>
+  <%- @presenter.links.each do |rel, link| %>
+    <Link rel=<%=rel%> type=<%=link[:type]%> href="<%= link[:key] %>"/>
   <% end %>
 </XRD>

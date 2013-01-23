@@ -12,8 +12,8 @@ class WebfingerController < ApplicationController
     username = params[:q].split('@')[0].to_s.downcase
     user = User.find_by_login(username)
     raise RECORD_NOT_FOUND, 'User not found' unless user.present?
-    @subject = Webfinger::UserPresenter.new(user, request)
-    respond_with @subject
+    @presenter = Webfinger::UserPresenter.new(user, request)
+    respond_with @presenter
   end
 
 end

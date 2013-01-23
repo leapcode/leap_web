@@ -15,7 +15,7 @@ class Webfinger::HostMetaPresenter
     "#{subject}/#{path}?#{query_param}={uri}"
   end
 
-  def to_json(options)
+  def to_json(options = {})
     {
       subject: subject,
       links: {

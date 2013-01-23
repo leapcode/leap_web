@@ -1,20 +1,26 @@
 class Webfinger::UserPresenter
   include Rails.application.routes.url_helpers
-  attr_accessor :subject
+  attr_accessor :user
 
-  def initialize(subject, request)
-    @subject = subject
+  def initialize(user, request)
+    @user = user
     @request = request
   end
 
-  def email_identifier
-    "#{@subject.username}@#{@request.host}"
+  def to_json(options = {})
+    {
+      subject: subject,
+      aliases: aliases,
+      links:   links
+    }.to_json(options)
   end
 
-  def key
-    if @subject.public_key.present?
-      Base64.encode64(@subject.public_key.to_s)
-    end
+  def subject
+    "acct:#{@user.email_address}"
+  end
+
+  def aliases
+    [ user_url(@user, :host => @request.host) ]
   end
 
   def links
@@ -23,12 +29,12 @@ class Webfinger::UserPresenter
     return links
   end
 
-  def to_json(options)
-    {
-      subject: "acct:#{email_identifier}",
-      aliases: [ user_url(@subject, :host => @request.host) ],
-      links:   links
-    }.to_json(options)
+  protected
+
+  def key
+    if @user.public_key.present?
+      Base64.encode64(@user.public_key.to_s)
+    end
   end
 
 end
