@@ -3,9 +3,9 @@
 
     <Subject><%= @host_meta.subject %></Subject>
 
-
-  <Link rel='lrdd'
-        type='application/xrd+xml'
-        template='<%= @host_meta.webfinger_template %>' />
-
+  <%- @host_meta.links.each do |rel, link| %>
+    <Link rel='<%= rel %>'
+      type='<%= link[:type] %>'
+      template='<%= link[:template] %>' />
+  <%- end %>
   </XRD>
