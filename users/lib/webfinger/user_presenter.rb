@@ -12,16 +12,22 @@ class Webfinger::UserPresenter
   end
 
   def key
-    Base64.encode64(@subject.public_key.to_s)
+    if @subject.public_key.present?
+      Base64.encode64(@subject.public_key.to_s)
+    end
+  end
+
+  def links
+    links = {}
+    links[:public_key] = { type: 'PGP', href: key } if key
+    return links
   end
 
   def to_json(options)
     {
       subject: "acct:#{email_identifier}",
       aliases: [ user_url(@subject, :host => @request.host) ],
-      links:   {
-        public_key:  { type: 'PGP', href: key }
-      }
+      links:   links
     }.to_json(options)
   end
 
