@@ -10,17 +10,12 @@ class Webfinger::UserPresenter
   def to_json(options = {})
     {
       subject: subject,
-      aliases: aliases,
       links:   links
     }.to_json(options)
   end
 
   def subject
     "acct:#{@user.email_address}"
-  end
-
-  def aliases
-    [ user_url(@user, :host => @request.host) ]
   end
 
   def links

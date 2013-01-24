@@ -39,7 +39,7 @@ class Webfinger::UserPresenterTest < ActiveSupport::TestCase
     @user.stubs :public_key => "here's a key"
     presenter = Webfinger::UserPresenter.new(@user, @request)
     hash = JSON.parse presenter.to_json
-    assert_equal ["subject", "links", "aliases"].sort, hash.keys.sort
+    assert_equal ["subject", "links"].sort, hash.keys.sort
     hash.each do |key, value|
       assert_equal presenter.send(key.to_sym).to_json, value.to_json
     end
