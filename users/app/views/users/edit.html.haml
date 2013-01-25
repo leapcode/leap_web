@@ -8,6 +8,7 @@
     %legend=t :email_address
     The associated email address is
     = render @user.email_address, :as => :span
+    = user_form_with 'public_key_field', :legend => :public_key
     = user_form_with 'email_forward_field', :legend => :forward_email
     = user_form_with 'email_aliases', :legend => :add_email_alias
   = render 'tabs/tabs', :tabs => [:account, :email]
