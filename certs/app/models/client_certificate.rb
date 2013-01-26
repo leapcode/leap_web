@@ -9,41 +9,23 @@ require 'openssl'
 require 'certificate_authority'
 require 'date'
 
-class ClientCertificate < CouchRest::Model::Base
+class ClientCertificate
 
-  timestamps!
-
-  property :key, String                          # the client private RSA key
-  property :cert, String                         # the client x509 certificate, signed by the CA
-  property :valid_until, Time                    # expiration time of the client certificate
-
-  before_validation :generate, :on => :create
-
-  validates :key, :presence => true
-  validates :cert, :presence => true
-
-  design do
-  end
-
-  class << self
-    def valid_attributes_hash
-      {:key => "ABCD", :cert => "A123"}
-    end
-  end
+  attr_accessor :key                          # the client private RSA key
+  attr_accessor :cert                         # the client x509 certificate, signed by the CA
 
   #
   # generate the private key and client certificate
   #
-  def generate
+  def initialize
     cert = CertificateAuthority::Certificate.new
 
     # set subject
     cert.subject.common_name = random_common_name
 
     # set expiration
-    self.valid_until = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
     cert.not_before = yesterday
-    cert.not_after = self.valid_until
+    cert.not_after = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
 
     # generate key
     cert.serial_number.number = cert_serial_number
