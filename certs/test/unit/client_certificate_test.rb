@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class CertTest < ActiveSupport::TestCase
+class ClientCertificateTest < ActiveSupport::TestCase
 
   setup do
-    @sample = LeapCA::Cert.new LeapCA::Cert.valid_attributes_hash
+    @sample = ClientCertificate.new ClientCertificate.valid_attributes_hash
   end
 
   test "stub cert for testing is valid" do
