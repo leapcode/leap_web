@@ -11,8 +11,6 @@ require 'date'
 
 class ClientCertificate < CouchRest::Model::Base
 
-  use_database 'client_certificates'
-
   timestamps!
 
   property :key, String                          # the client private RSA key
