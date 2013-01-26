@@ -1,11 +1,27 @@
+dev_ca: &dev_ca
+  ca_key_path: "./certs/test/files/ca.key"
+  ca_key_password: nil
+  ca_cert_path: "./certs/test/files/ca.crt"
+
+cert_options: &cert_options
+  client_cert_lifespan: 2
+  client_cert_bit_size: 2024
+  client_cert_hash: "SHA256"
+
 development:
+  <<: *dev_ca
+  <<: *cert_options
   admins: [admin, admin2]
   domain: develop.me
 
 test:
+  <<: *dev_ca
+  <<: *cert_options
   admins: [admin, admin2]
   domain: test.me
+  
 
 production:
+  <<: *cert_options
   admins: []
   domain: deploy.me
