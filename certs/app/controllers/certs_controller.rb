@@ -4,7 +4,7 @@ class CertsController < ApplicationController
 
   # GET /cert
   def show
-    @cert = LeapCA::Cert.pick_from_pool
+    @cert = ClientCertificate.create
     render :text => @cert.key + @cert.cert, :content_type => 'text/plain'
   rescue RECORD_NOT_FOUND
     flash[:error] = t(:cert_pool_empty)
