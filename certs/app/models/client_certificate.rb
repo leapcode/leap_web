@@ -11,7 +11,6 @@ require 'date'
 
 class ClientCertificate < CouchRest::Model::Base
 
-  # No config yet.    use_database LeapCA::Config.db_name
   use_database 'client_certificates'
 
   timestamps!
@@ -62,16 +61,16 @@ class ClientCertificate < CouchRest::Model::Base
     cert.subject.common_name = random_common_name
 
     # set expiration
-    self.valid_until = months_from_yesterday(Config.client_cert_lifespan)
+    self.valid_until = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
     cert.not_before = yesterday
     cert.not_after = self.valid_until
 
     # generate key
     cert.serial_number.number = cert_serial_number
-    cert.key_material.generate_key(Config.client_cert_bit_size)
+    cert.key_material.generate_key(APP_CONFIG[:client_cert_bit_size])
 
     # sign
-    cert.parent = Cert.root_ca
+    cert.parent = ClientCertificate.root_ca
     cert.sign! client_signing_profile
 
     self.key = cert.key_material.private_key.to_pem
@@ -86,11 +85,11 @@ class ClientCertificate < CouchRest::Model::Base
 
   def self.root_ca
     @root_ca ||= begin
-                   crt = File.read(Config.ca_cert_path)
-                   key = File.read(Config.ca_key_path)
+                   crt = File.read(APP_CONFIG[:ca_cert_path])
+                   key = File.read(APP_CONFIG[:ca_key_path])
                    openssl_cert = OpenSSL::X509::Certificate.new(crt)
                    cert = CertificateAuthority::Certificate.from_openssl(openssl_cert)
-                   cert.key_material.private_key = OpenSSL::PKey::RSA.new(key, Config.ca_key_password)
+                   cert.key_material.private_key = OpenSSL::PKey::RSA.new(key, APP_CONFIG[:ca_key_password])
                    cert
                  end
   end
@@ -114,7 +113,7 @@ class ClientCertificate < CouchRest::Model::Base
 
   def client_signing_profile
     {
-      "digest" => Config.client_cert_hash,
+      "digest" => APP_CONFIG[:client_cert_hash],
       "extensions" => {
       "keyUsage" => {
       "usage" => ["digitalSignature"]
