@@ -96,7 +96,15 @@ class AccountFlowTest < ActiveSupport::TestCase
     test_public_key = 'asdlfkjslfdkjasd'
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key}, :format => :json
     @user.reload
-    assert_equal @user.public_key, test_public_key
+    assert_equal test_public_key, @user.public_key
+  end
+
+  test "cannot update login via api" do
+    server_auth = @srp.authenticate(self)
+    original_login = @user.login
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:login => 'failed_login_name'}, :format => :json
+    @user.reload
+    assert_equal original_login, @user.login
   end
 
 end
