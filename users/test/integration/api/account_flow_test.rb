@@ -23,7 +23,7 @@ class AccountFlowTest < ActiveSupport::TestCase
       :password_salt => @srp.salt.to_s(16)
     }
     post 'http://api.lvh.me:3000/1/users.json', :user => @user_params
-    @user = User.find_by_param(@login)
+    @user = User.find_by_login(@login)
   end
 
   def teardown
@@ -89,6 +89,14 @@ class AccountFlowTest < ActiveSupport::TestCase
     assert_json_error :login => "could not be found"
     assert !last_response.successful?
     assert_nil server_auth
+  end
+
+  test "update user" do
+    server_auth = @srp.authenticate(self)
+    test_public_key = 'asdlfkjslfdkjasd'
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key}, :format => :json
+    @user.reload
+    assert_equal @user.public_key, test_public_key
   end
 
 end
