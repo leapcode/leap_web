@@ -43,8 +43,8 @@ class ClientCertificate
 
   def self.root_ca
     @root_ca ||= begin
-                   crt = File.read(APP_CONFIG[:ca_cert_path])
-                   key = File.read(APP_CONFIG[:ca_key_path])
+                   crt = File.read(APP_CONFIG[:client_ca_cert])
+                   key = File.read(APP_CONFIG[:client_ca_key])
                    openssl_cert = OpenSSL::X509::Certificate.new(crt)
                    cert = CertificateAuthority::Certificate.from_openssl(openssl_cert)
                    cert.key_material.private_key = OpenSSL::PKey::RSA.new(key, APP_CONFIG[:ca_key_password])
