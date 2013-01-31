@@ -16,5 +16,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "leap_web_core", LeapWeb::VERSION
+  s.add_dependency "certificate_authority"
 
 end
