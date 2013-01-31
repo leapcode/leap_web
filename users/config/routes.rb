@@ -5,7 +5,7 @@ Rails.application.routes.draw do
         path: "/1/",
         defaults: {format: 'json'} } do
       resources :sessions, :only => [:new, :create, :update, :destroy]
-      resources :users, :only => [:create]
+      resources :users, :only => [:create, :update]
     end
   end
 

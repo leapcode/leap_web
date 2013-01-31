@@ -23,7 +23,7 @@ class AccountFlowTest < ActiveSupport::TestCase
       :password_salt => @srp.salt.to_s(16)
     }
     post 'http://api.lvh.me:3000/1/users.json', :user => @user_params
-    @user = User.find_by_param(@login)
+    @user = User.find_by_login(@login)
   end
 
   def teardown
@@ -89,6 +89,26 @@ class AccountFlowTest < ActiveSupport::TestCase
     assert_json_error :login => "could not be found"
     assert !last_response.successful?
     assert_nil server_auth
+  end
+
+  test "update user" do
+    server_auth = @srp.authenticate(self)
+    test_public_key = 'asdlfkjslfdkjasd'
+    original_login = @user.login
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => 'failed_login_name'}, :format => :json
+    @user.reload
+    assert_equal test_public_key, @user.public_key
+    assert_equal original_login, @user.login
+    # eventually probably want to remove most of this into a non-integration functional test
+    # should not overwrite public key:
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
+    @user.reload
+    assert_equal test_public_key, @user.public_key
+    # should overwrite public key:
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => nil}, :format => :json
+    # TODO: not sure why i need this, but when public key is removed, the DB is updated but @user.reload doesn't seem to actually reload.
+    @user = User.find(@user.id) # @user.reload
+    assert_nil @user.public_key
   end
 
 end
