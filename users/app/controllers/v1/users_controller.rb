@@ -14,7 +14,7 @@ module V1
     def update
       # For now, only allow public key to be updated via the API. Eventually we might want to store in a config what attributes can be updated via the API.
       @user = User.find_by_param(params[:id])
-      @user.update_attributes(:public_key => params[:user][:public_key])
+      @user.update_attributes params[:user].slice(:public_key) if params[:user].respond_to?(:slice)
       respond_with @user
     end
 
