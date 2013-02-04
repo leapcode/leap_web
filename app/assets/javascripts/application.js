@@ -16,7 +16,6 @@
 //= require bootstrap
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
-//= require bootstrap-editable-inline
 //= require rails.validations
 //= require rails.validations.simple_form
 
