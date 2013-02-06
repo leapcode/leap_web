@@ -25,13 +25,18 @@ module Warden
       end
 
       def validate!
-        user = session[:handshake].authenticate(params['client_auth'].hex)
-        user ? success!(user) : fail!(:password => "wrong_password")
+        client = session[:handshake].authenticate(params['client_auth'].hex)
+        client ?
+          success!(User.find_by_login(client.username)) :
+          fail!(:password => "wrong_password")
       end
 
       def initialize!
         if user = User.find_by_login(id)
-          session[:handshake] = user.initialize_auth(params['A'].hex)
+          client = SRP::Client.new user.username,
+            :verifier => user.verifier,
+            :salt => user.salt
+          session[:handshake] = SRP::Session.new(client, params['A'].hex)
           custom! json_response(session[:handshake])
         else
           fail! :login => "user_not_found"

@@ -16,7 +16,7 @@ class AccountFlowTest < ActiveSupport::TestCase
     @login = "integration_test_user"
     User.find_by_login(@login).tap{|u| u.destroy if u}
     @password = "srp, verify me!"
-    @srp = SRP::Client.new(@login, @password)
+    @srp = SRP::Client.new @login, :password => @password
     @user_params = {
       :login => @login,
       :password_verifier => @srp.verifier.to_s(16),
@@ -73,7 +73,7 @@ class AccountFlowTest < ActiveSupport::TestCase
   end
 
   test "signup and wrong password login attempt" do
-    srp = SRP::Client.new(@login, "wrong password")
+    srp = SRP::Client.new @login, :password => "wrong password"
     server_auth = srp.authenticate(self)
     assert_json_error :password => "wrong password"
     assert !last_response.successful?
@@ -81,7 +81,7 @@ class AccountFlowTest < ActiveSupport::TestCase
   end
 
   test "signup and wrong username login attempt" do
-    srp = SRP::Client.new("wrong_login", @password)
+    srp = SRP::Client.new "wrong_login", :password => @password
     server_auth = nil
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
