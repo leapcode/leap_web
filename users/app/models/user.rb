@@ -57,10 +57,6 @@ class User < CouchRest::Model::Base
     }.to_json(options)
   end
 
-  def initialize_auth(aa)
-    return SRP::Session.new(self, aa)
-  end
-
   def salt
     password_salt.hex
   end
