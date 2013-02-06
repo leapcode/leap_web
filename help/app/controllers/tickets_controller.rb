@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
 
     @ticket.comments.last.posted_by = (logged_in? ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
     @ticket.created_by = current_user.id if logged_in?
-    @ticket.email = current_user.email if logged_in? and current_user.email
+    @ticket.email = current_user.email_address if logged_in? and current_user.email_address
 
     flash[:notice] = 'Ticket was successfully created.' if @ticket.save
 

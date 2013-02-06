@@ -73,13 +73,13 @@ class ClientCertificate
     {
       "digest" => APP_CONFIG[:client_cert_hash],
       "extensions" => {
-      "keyUsage" => {
-      "usage" => ["digitalSignature"]
-    },
-      "extendedKeyUsage" => {
-      "usage" => ["clientAuth"]
-    }
-    }
+        "keyUsage" => {
+          "usage" => ["digitalSignature"]
+        },
+        "extendedKeyUsage" => {
+          "usage" => ["clientAuth"]
+        }
+      }
     }
   end
 
@@ -91,7 +91,7 @@ class ClientCertificate
   ##
 
   def yesterday
-    t = Time.now - 24*24*60
+    t = Time.now - 24*60*60
     Time.utc t.year, t.month, t.day
   end
 

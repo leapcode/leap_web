@@ -66,3 +66,13 @@ Then open http://localhost:3000 in your web browser.
 
 To peruse the database, visit http://localhost:5984/_utils/
 
+Testing
+--------------------------------
+
+To run all tests
+
+    rake test
+
+To run an individual test:
+
+    rake test TEST=certs/test/unit/client_certificate_test.rb

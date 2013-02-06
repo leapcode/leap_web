@@ -89,7 +89,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:ticket).created_by
     assert_equal assigns(:ticket).created_by, @current_user.id
-    assert_equal assigns(:ticket).email, @current_user.email
+    assert_equal assigns(:ticket).email, @current_user.email_address.email
 
     assert_equal 1, assigns(:ticket).comments.count
     assert_not_nil assigns(:ticket).comments.first.posted_by
