@@ -14,3 +14,7 @@ gem 'leap_web_help', :path => 'help'
 # To use debugger
 gem 'debugger', :platforms => :mri_19
 gem 'ruby-debug', :platforms => :mri_18
+
+# unreleased so far ... but leap_web_certs need it
+
+gem 'certificate_authority', :git => 'git://github.com/cchandler/certificate_authority.git'
