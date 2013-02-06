@@ -40,13 +40,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal @user.password_salt.hex, @user.salt
   end
 
-  test "should include SRP" do
-    client_rnd = bigrand(32).hex
-    srp_session = @user.initialize_auth(client_rnd)
-    assert srp_session.is_a? SRP::Session
-    assert_equal client_rnd, srp_session.aa
-  end
-
   test 'normal user is no admin' do
     assert !@user.is_admin?
   end
