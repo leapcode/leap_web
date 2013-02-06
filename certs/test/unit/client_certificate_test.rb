@@ -11,4 +11,9 @@ class ClientCertificateTest < ActiveSupport::TestCase
     assert @sample.cert
   end
 
+  test "cert issuer matches ca subject" do
+    cert = OpenSSL::X509::Certificate.new(@sample.cert)
+    assert_equal ClientCertificate.root_ca.openssl_body.subject, cert.issuer
+  end
+
 end
