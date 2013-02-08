@@ -15,8 +15,7 @@ The following packages need to be installed:
 
 ### Setup Capistrano ###
 
-We use capistrano to deploy.
-We ship an example deploy.rb in config/deploy.rb.example. Edit it to match your needs.
+We use puppet to deploy. But we also ship an example deploy.rb in config/deploy.rb.example. Edit it to match your needs if you want to use capistrano.
 
 run `cap deploy:setup` to create the directory structure.
 

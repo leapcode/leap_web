@@ -18,3 +18,4 @@ gem 'ruby-debug', :platforms => :mri_18
 # unreleased so far ... but leap_web_certs need it
 
 gem 'certificate_authority', :git => 'git://github.com/cchandler/certificate_authority.git'
+gem 'couchrest_session_store', :git => 'git://github.com/azul/couchrest_session_store.git'
