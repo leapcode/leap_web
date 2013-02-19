@@ -1,8 +1,7 @@
 .span8.offset2
   %h2=t :settings
   - content_for :account do
-    = user_form_with 'login_field', :legend => :change_login
-    = user_form_with 'password_fields', :legend => :change_password
+    = user_form_with 'login_and_password_fields', :legend => :change_login_and_password
     = render 'cancel_account' if @user == current_user
   - content_for :email do
     %legend=t :email_address

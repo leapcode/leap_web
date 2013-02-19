@@ -8,6 +8,7 @@ en:
   wrong_password: "wrong password"
   user_not_found: "could not be found"
   change_login: "Change Login"
+  change_login_and_password: "Change Login and Password"
   change_password: "Change Password"
   cancel_account: "Cancel your account"
   set_email_address: "Set email address"
