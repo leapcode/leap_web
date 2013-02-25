@@ -20,13 +20,20 @@ class CertsControllerTest < ActionController::TestCase
   end
 
   test "login required if free certs disabled" do
-    begin
-      old_setting = APP_CONFIG[:free_certs_enabled]
-      APP_CONFIG[:free_certs_enabled] = false
+    with_config free_certs_enabled: false do
       get :show
       assert_response :redirect
-    ensure
-      APP_CONFIG[:free_certs_enabled] = old_setting
+    end
+  end
+
+  test "get paid cert if free certs disabled" do
+    with_config free_certs_enabled: false do
+      login
+      cert = stub :to_s => "real cert"
+      ClientCertificate.expects(:new).with(free: false).returns(cert)
+      get :show
+      assert_response :success
+      assert_equal cert.to_s, @response.body
     end
   end
 
