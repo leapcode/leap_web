@@ -5,19 +5,19 @@ class CertsControllerTest < ActionController::TestCase
   end
 
   test "should send free cert without login" do
-    cert = stub :cert => "free cert", :key => "key"
+    cert = stub :to_s => "free cert"
     ClientCertificate.expects(:new).with(free: true).returns(cert)
     get :show
     assert_response :success
-    assert_equal cert.key + cert.cert, @response.body
+    assert_equal cert.to_s, @response.body
   end
 
   test "should send cert" do
     login
-    cert = stub :cert => "adsf", :key => "key"
+    cert = stub :to_s => "real cert"
     ClientCertificate.expects(:new).with(free: false).returns(cert)
     get :show
     assert_response :success
-    assert_equal cert.key + cert.cert, @response.body
+    assert_equal cert.to_s, @response.body
   end
 end

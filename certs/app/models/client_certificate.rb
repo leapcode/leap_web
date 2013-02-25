@@ -1,5 +1,5 @@
 #
-# Model for certificates stored in CouchDB.
+# Model for certificates
 #
 # This file must be loaded after Config has been loaded.
 #
@@ -17,11 +17,11 @@ class ClientCertificate
   #
   # generate the private key and client certificate
   #
-  def initialize
+  def initialize(options = {})
     cert = CertificateAuthority::Certificate.new
 
     # set subject
-    cert.subject.common_name = random_common_name
+    cert.subject.common_name = common_name(options[:free])
 
     # set expiration
     cert.not_before = yesterday
@@ -35,8 +35,12 @@ class ClientCertificate
     cert.parent = ClientCertificate.root_ca
     cert.sign! client_signing_profile
 
-    self.key = cert.key_material.private_key.to_pem
-    self.cert = cert.to_pem
+    self.key = cert.key_material.private_key
+    self.cert = cert
+  end
+
+  def to_s
+    self.key.to_pem + self.cert.to_pem
   end
 
   private
@@ -59,6 +63,14 @@ class ClientCertificate
   #
   def cert_serial_number
     Digest::MD5.hexdigest("#{rand(10**10)} -- #{Time.now}").to_i(16)
+  end
+
+  def common_name(for_free_cert = false)
+    if for_free_cert
+      random_common_name + ' ' + APP_CONFIG[:free_cert_postfix]
+    else
+      random_common_name
+    end
   end
 
   #
