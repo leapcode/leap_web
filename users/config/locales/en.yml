@@ -20,6 +20,7 @@ en:
   user_created_successfully: "Successfully created your account."
   email_alias_destroyed_successfully: "Successfully removed the alias '%{alias}'."
   use_ascii_key: "Use ASCII-armored PGP key"
+  can_retype_old_password: "Retype your old password if you would like to keep that"
 
   activemodel:
     models:
