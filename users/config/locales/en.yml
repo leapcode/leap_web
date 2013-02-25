@@ -11,6 +11,8 @@ en:
   change_login_and_password: "Change Login and Password"
   change_password: "Change Password"
   cancel_account: "Cancel your account"
+  remove_account: "Remove Account"
+  admin_cancel_account: "Cancel the account %{username}"
   set_email_address: "Set email address"
   forward_email: "Forward email"
   email_aliases: "Email aliases"
@@ -21,6 +23,7 @@ en:
   email_alias_destroyed_successfully: "Successfully removed the alias '%{alias}'."
   use_ascii_key: "Use ASCII-armored PGP key"
   can_retype_old_password: "Retype your old password if you would like to keep that"
+  associated_email: "The associated email address is"
 
   activemodel:
     models:
