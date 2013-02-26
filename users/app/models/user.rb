@@ -19,8 +19,8 @@ class User < CouchRest::Model::Base
     :if => :serverside?
 
   validates :login,
-    :format => { :with => /\A[A-Za-z\d_\.]+\z/,
-      :message => "Only letters, digits, . and _ allowed" }
+    :format => { :with => /\A[a-z][a-z\d_\.-]*[a-z\d]\z/,
+      :message => "Only lowercase letters, digits, . - and _ allowed. Login must have at least 2 characters, and begin with a letter, and end with a letter or digit" }
 
   validate :login_is_unique_alias
 
