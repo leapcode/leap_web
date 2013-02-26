@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  before_filter :authorize, :only => [:show, :edit, :update, :destroy]
+  before_filter :authorize, :only => [:show, :edit, :destroy, :update]
   before_filter :fetch_user, :only => [:show, :edit, :update, :destroy]
+  before_filter :authorize_self, :only => [:update]
   before_filter :set_anchor, :only => [:edit, :update]
   before_filter :authorize_admin, :only => [:index]
 
@@ -55,6 +56,11 @@ class UsersController < ApplicationController
       return
     end
     access_denied unless admin? or (@user == current_user)
+  end
+
+  def authorize_self
+    # have already checked that authorized
+    access_denied unless (@user == current_user)
   end
 
   def set_anchor

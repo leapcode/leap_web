@@ -1,14 +1,17 @@
 .span8.offset2
   %h2=t :settings
+  - tabs = []
   - content_for :account do
-    = user_form_with 'login_field', :legend => :change_login
-    = user_form_with 'password_fields', :legend => :change_password
-    = render 'cancel_account' if @user == current_user
-  - content_for :email do
-    %legend=t :email_address
-    The associated email address is
-    = render @user.email_address, :as => :span
-    = user_form_with 'public_key_field', :legend => :public_key
-    = user_form_with 'email_forward_field', :legend => :forward_email
-    = user_form_with 'email_aliases', :legend => :add_email_alias
-  = render 'tabs/tabs', :tabs => [:account, :email]
+    = user_form_with 'login_and_password_fields', :legend => :change_login_and_password if @user == current_user
+    = render 'cancel_account'
+    - tabs << :account
+  - if @user == current_user
+    - content_for :email do
+      %legend=t :email_address
+      =t :associated_email
+      = render @user.email_address, :as => :span
+      = user_form_with 'public_key_field', :legend => :public_key
+      = user_form_with 'email_forward_field', :legend => :forward_email
+      = user_form_with 'email_aliases', :legend => :add_email_alias
+      - tabs << :email
+  = render 'tabs/tabs', :tabs => tabs
