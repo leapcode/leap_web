@@ -2,7 +2,7 @@ class Ticket < CouchRest::Model::Base
   #include ActiveModel::Validations
 
   use_database "tickets"
-  require 'securerandom'
+  #require 'securerandom'
 =begin
     title
     created_at
