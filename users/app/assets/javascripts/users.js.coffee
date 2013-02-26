@@ -37,8 +37,8 @@ $(document).ready ->
   $('#new_user').submit srp.signup
   $('#new_session').submit preventDefault
   $('#new_session').submit srp.login
-  $('.user.form.change_login_and_password').submit srp.update
-  $('.user.form.change_login_and_password').submit preventDefault
+  $('.user.form.update_login_and_password').submit srp.update
+  $('.user.form.update_login_and_password').submit preventDefault
   $('.user.typeahead').typeahead({source: pollUsers});
   $('a[data-toggle="tab"]').on('shown', ->
     $(ClientSideValidations.selectors.forms).validate()
