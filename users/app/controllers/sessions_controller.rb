@@ -1,7 +1,5 @@
 class SessionsController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token
-
   def new
     @session = Session.new
     if authentication_errors
