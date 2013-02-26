@@ -130,20 +130,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal " ", @response.body
   end
 
-  test "admin can update user" do
+  # Eventually, admin will be able to update some user fields
+  test "admin cannot update user" do
     user = find_record :user
     changed_attribs = record_attributes_for :user_with_settings
-    user.expects(:attributes=).with(changed_attribs.stringify_keys)
-    user.expects(:changed?).returns(true)
-    user.expects(:save).returns(true)
-    user.stubs(:email_aliases).returns([])
 
     login :is_admin? => true
     put :update, :user => changed_attribs, :id => user.id, :format => :json
 
-    assert_equal user, assigns[:user]
-    assert_response 204
-    assert_equal " ", @response.body
+    assert_response :redirect
+    assert_access_denied
+
   end
 
   test "admin can destroy user" do
