@@ -7,6 +7,7 @@ en:
   login_message: "Please login with your account."
   wrong_password: "wrong password"
   user_not_found: "could not be found"
+  invalid_user_pass: "Not a valid username/password combination"
   update_login_and_password: "Update Login and Password"
   cancel_account: "Cancel your account"
   remove_account: "Remove Account"
