@@ -3,19 +3,12 @@ require 'test_helper'
 # This is a simple controller unit test.
 # We're stubbing out both warden and srp.
 # There's an integration test testing the full rack stack and srp
-class SessionsControllerTest < ActionController::TestCase
+class V1::SessionsControllerTest < ActionController::TestCase
 
   setup do
+    @request.env['HTTP_HOST'] = 'api.lvh.me'
     @user = stub :login => "me", :id => 123
     @client_hex = 'a123'
-  end
-
-  test "should get login screen" do
-    request.env['warden'].expects(:winning_strategy)
-    get :new
-    assert_response :success
-    assert_equal "text/html", response.content_type
-    assert_template "sessions/new"
   end
 
   test "renders json" do
@@ -45,14 +38,15 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should authorize" do
     request.env['warden'].expects(:authenticate!)
-    handshake = stub(:to_json => "JSON")
+    @controller.expects(:current_user).returns(@user)
+    handshake = stub(:to_hash => {h: "ash"})
     session[:handshake] = handshake
 
     post :update, :id => @user.login, :client_auth => @client_hex
 
     assert_nil session[:handshake]
     assert_response :success
-    assert_json_response handshake
+    assert_json_response handshake.to_hash.merge(id: @user.id)
   end
 
   test "logout should reset warden user" do
