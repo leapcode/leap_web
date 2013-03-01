@@ -18,12 +18,20 @@ module V1
 
     def update
       authenticate!
-      render :json => session.delete(:handshake)
+      render :json => login_response
     end
 
     def destroy
       logout
       redirect_to root_path
     end
+
+    protected
+
+    def login_response
+      handshake = session.delete(:handshake)
+      handshake.to_hash.merge(:id => current_user.id)
+    end
+
   end
 end
