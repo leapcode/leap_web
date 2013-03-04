@@ -19,5 +19,5 @@ POST: http://localhost:9292/sessions
  -> {"B":"1778367531e93a4c7713c76f67649f35a4211ebc520926ae8c3848cd66171651"}
 PUT: http://localhost:9292/sessions/SWQ055
     {"M": "123ABC"}
- -> {"field":"password","error":"wrong password"}
+ -> {"errors":[{"login":"Not a valid username/password combination"},{"password":"Not a valid username/password combination"}]}
 ```
