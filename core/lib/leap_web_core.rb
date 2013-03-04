@@ -4,6 +4,8 @@ require "couchrest"
 require "couchrest_model"
 require "couchrest_session_store"
 
+require "strong_parameters"
+
 require "json"
 
 require "extensions/testing"
