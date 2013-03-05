@@ -66,8 +66,7 @@ class ClientCertificate
   end
 
   def common_name(for_free_cert = false)
-    random_common_name +
-      (for_free_cert ? APP_CONFIG[:free_cert_postfix] : '')
+    (for_free_cert ? APP_CONFIG[:free_cert_prefix] : '') + random_common_name
   end
 
   #

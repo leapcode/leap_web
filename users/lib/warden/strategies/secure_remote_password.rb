@@ -25,12 +25,15 @@ module Warden
       end
 
       def validate!
-        client = session[:handshake].authenticate(params['client_auth'].hex)
-        if client
+        if client = validate
           success!(User.find_by_login(client.username))
         else
           fail!({:login => "invalid_user_pass", :password => "invalid_user_pass"})
         end
+      end
+
+      def validate
+        session[:handshake].authenticate(params['client_auth'].hex)
       end
 
       def initialize!

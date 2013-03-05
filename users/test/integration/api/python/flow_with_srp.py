@@ -12,11 +12,11 @@ import binascii
 safe_unhexlify = lambda x: binascii.unhexlify(x) if (len(x) % 2 == 0) else binascii.unhexlify('0'+x)
 
 # let's have some random name
-def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
   return ''.join(random.choice(chars) for x in range(size))
 
 # using globals for a start
-server = 'http://api.lvh.me:3000/1'
+server = 'https://api.bitmask.net:4430/1'
 login = id_generator()
 password = id_generator() + id_generator()
 
@@ -25,9 +25,9 @@ password = id_generator() + id_generator()
 
 # log the server communication
 def print_and_parse(response):
-  # print response.request.method + ': ' + response.url
-  # print "    " + json.dumps(response.request.data)
-  # print " -> " + response.text
+  print response.request.method + ': ' + response.url
+  print "    " + json.dumps(response.request.data)
+  print " -> " + response.text
   return json.loads(response.text)
 
 def signup(session):
@@ -39,7 +39,7 @@ def signup(session):
       'user[password_verifier]': binascii.hexlify(vkey),
       'user[password_salt]': binascii.hexlify(salt)
       }
-  return session.post(server + '/users.json', data = user_params)
+  return session.post(server + '/users.json', data = user_params, verify = False)
 
 usr = srp.User( login, password, srp.SHA256, srp.NG_1024 )
 
@@ -50,12 +50,12 @@ def authenticate(session, login):
       'login': uname,
       'A': binascii.hexlify(A)
       }
-  init = print_and_parse(session.post(server + '/sessions', data = params))
+  init = print_and_parse(session.post(server + '/sessions', data = params, verify=False))
   # print '    b = "' + init['b'] + '"'
   # print '    bb = "' + init['B'] + '"'
   M = usr.process_challenge( safe_unhexlify(init['salt']), safe_unhexlify(init['B']) )
   # print '    m = "' + binascii.hexlify(M) + '"'
-  return session.put(server + '/sessions/' + login, 
+  return session.put(server + '/sessions/' + login, verify = False,
       data = {'client_auth': binascii.hexlify(M)})
 
 session = requests.session()

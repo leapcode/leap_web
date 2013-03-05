@@ -1,5 +1,23 @@
 # Installation #
 
+Please see TROUBLESHOOT.md if you run into any issues during install.
+
+## TL;DR ##
+
+Install git, ruby 1.9, rubygems and couchdb on your system. Then run
+
+```
+gem install bundler
+git clone git://github.com/leapcode/leap_web.git
+cd leap_web
+git submodule init
+git submodule update
+bundle install --binstubs
+bin/rails server
+```
+
+You will find Leap Web running on `localhost:3000`. Check out the Cert Distribution section below for setting up the cert and server config.
+
 ## Requirements ##
 
 The webapp only depends on very basic ruby packages and installs the other requirements as gems through bundler.
@@ -9,17 +27,31 @@ The webapp only depends on very basic ruby packages and installs the other requi
 The following packages need to be installed:
 
 * git
-* ruby (1.8.7 and 1.9.3 work)
+* ruby1.9.3
 * rubygems
 * couchdb
 
+### Code ###
+
+Simply clone the git repository:
+
+```
+  git clone git://github.com/leapcode/leap_web.git
+  cd leap_web
+```
+
 ### Gems ###
 
-We install most gems we depend upon through [bundler](http://gembundler.com). However the bundler gem needs to be installed and the `bundle` command needs to be available to the user used for deploy.
+We install most gems we depend upon through [bundler](http://gembundler.com). First install bundler
 
-### Bundler ###
+```
+  gem install bundler
+```
 
-Run `bundle install` to install all the required gems.
+Then install all the required gems:
+```
+  bundle install --binstubs
+```
 
 ## Setup ##
 
@@ -32,13 +64,15 @@ We currently use a git submodule to include srp-js. This will soon be replaced b
   git submodule update
 ```
 
-### Cert Distribution ###
+### Provider Information ###
 
-The Webapp can hand out certs for the EIP client. These certs are either picked from a pool in CouchDB or from a file. For now you can either run [Leap CA](http://github.com/leapcode/leap_ca) to fill the pool or you can put your certs file in config/cert.
-
-We also ship provider information through the webapp. For now please add your eip-service.json to the public/config directory.
+The leap client fetches provider information via json files from the server.
+If you want to use that functionality please add your provider files the public/config directory.
 
 ## Running ##
 
-Run `rails server`, `bundle exec rails server` or whatever rack server you prefer.
+```
+bin/rails server
+```
 
+You'll find Leap Web running on `localhost:3000`

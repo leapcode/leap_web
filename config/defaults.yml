@@ -8,7 +8,7 @@ cert_options: &cert_options
   client_cert_bit_size: 2024
   client_cert_hash: "SHA256"
   free_certs_enabled: true
-  free_cert_postfix: "*Free Cert*"
+  free_cert_prefix: "FREE"
 
 development:
   <<: *dev_ca
@@ -21,7 +21,6 @@ test:
   <<: *cert_options
   admins: [admin, admin2]
   domain: test.me
-  
 
 production:
   <<: *cert_options

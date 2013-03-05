@@ -9,16 +9,16 @@ class ClientCertificateTest < ActiveSupport::TestCase
     assert sample.to_s
   end
 
-  test "free cert has configured postfix" do
+  test "free cert has configured prefix" do
     sample = ClientCertificate.new(free: true)
-    postfix = APP_CONFIG[:free_cert_postfix]
-    assert sample.cert.subject.common_name.include?(postfix)
+    prefix = APP_CONFIG[:free_cert_prefix]
+    assert sample.cert.subject.common_name.starts_with?(prefix)
   end
 
-  test "real cert has no free cert postfix" do
+  test "real cert has no free cert prefix" do
     sample = ClientCertificate.new
-    postfix = APP_CONFIG[:free_cert_postfix]
-    assert !sample.cert.subject.common_name.include?(postfix)
+    prefix = APP_CONFIG[:free_cert_prefix]
+    assert !sample.cert.subject.common_name.starts_with?(prefix)
   end
 
   test "cert issuer matches ca subject" do
