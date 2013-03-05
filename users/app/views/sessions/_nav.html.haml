@@ -5,7 +5,7 @@
   %li
     = link_to current_user.login, edit_user_path(current_user)
   %li
-    = link_to t(:logout), logout_path
+    = link_to t(:logout), logout_path, :method => :delete
 - else
   %li
     = link_to t(:login), login_path
