@@ -28,7 +28,7 @@ module Warden
         if client = validate
           success!(User.find_by_login(client.username))
         else
-          fail!(:password => "wrong_password")
+          fail!({:login => "invalid_user_pass", :password => "invalid_user_pass"})
         end
       end
 
@@ -44,7 +44,7 @@ module Warden
           session[:handshake] = SRP::Session.new(client, params['A'].hex)
           custom! json_response(session[:handshake])
         else
-          fail! :login => "user_not_found"
+          fail!({:login => "invalid_user_pass", :password => "invalid_user_pass"})
         end
       end
 
