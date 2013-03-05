@@ -2,4 +2,7 @@ services:
   - couchdb
 notifications:
   email: false
-before_script: "bundle exec rake couchrest:migrate_with_proxies"
+before_script: 
+  - "bundle exec rake couchrest:migrate_with_proxies"
+  - 'HOST="http://localhost:5984"'
+  - "curl -X PUT $HOST/_config/admins/anna -d '\"secret\"'"
