@@ -2,3 +2,4 @@ services:
   - couchdb
 notifications:
   email: false
+before_script: "bundle exec rake couchrest:migrate_with_proxies"
