@@ -6,4 +6,5 @@ before_script:
   - "bundle exec rake couchrest:migrate_with_proxies"
   - "bundle exec rake couchrest:migrate_with_proxies"  # looks like this needs to run twice
   - 'HOST="http://localhost:5984"'
+  - "curl -X PUT $HOST/sessions"
   - "curl -X PUT $HOST/_config/admins/anna -d '\"secret\"'"
