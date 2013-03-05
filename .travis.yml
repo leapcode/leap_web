@@ -3,8 +3,14 @@ services:
 notifications:
   email: false
 before_script: 
+  - "mv config/couchdb.yml.admin config/couchdb.yml"
   - "bundle exec rake couchrest:migrate_with_proxies"
   - "bundle exec rake couchrest:migrate_with_proxies"  # looks like this needs to run twice
   - 'HOST="http://localhost:5984"'
+  - "curl -HContent-Type:application/json -vXPUT $HOST/_users/org.couchdb.user:me --data-binary '{\"_id\": \"org.couchdb.user:me\",\"name\": \"me\",\"roles\": [],\"type\": \"user\",\"password\": \"pwd\"}'"
   - "curl -X PUT $HOST/sessions"
+  - "curl -vX PUT $HOST/sessions/_security -Hcontent-type:application/json --data-binary '{\"admins\":{\"names\":[],\"roles\":[]},\"members\":{\"names\":[\"me\"],\"roles\":[]}}'"
+  - "curl -vX PUT $HOST/users/_security -Hcontent-type:application/json --data-binary '{\"admins\":{\"names\":[],\"roles\":[]},\"members\":{\"names\":[\"me\"],\"roles\":[]}}'"
+  - "curl -vX PUT $HOST/tickets/_security -Hcontent-type:application/json --data-binary '{\"admins\":{\"names\":[],\"roles\":[]},\"members\":{\"names\":[\"me\"],\"roles\":[]}}'"
   - "curl -X PUT $HOST/_config/admins/anna -d '\"secret\"'"
+  - "mv config/couchdb.yml.user config/couchdb.yml"
