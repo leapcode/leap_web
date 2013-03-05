@@ -1,26 +1,50 @@
 module CouchRest
-  module Model::Designs
+  module Model
+    module Designs
 
-    class View
+      class View
 
-      # so we can called Ticket.method.descending or Ticket.method.ascending
-      def ascending
-        self
+        # so we can called Ticket.method.descending or Ticket.method.ascending
+        def ascending
+          self
+        end
       end
-    end
 
-    class DesignMapper
-      def load_views(dir)
-        Dir.glob("#{dir}/*.js") do |js|
-          name = File.basename(js, '.js')
-          file = File.open(js, 'r')
-          view name.to_sym,
-            :map => file.read,
-            :reduce => "function(key, values, rereduce) { return sum(values); }"
+      class DesignMapper
+        def load_views(dir)
+          Dir.glob("#{dir}/*.js") do |js|
+            name = File.basename(js, '.js')
+            file = File.open(js, 'r')
+            view name.to_sym,
+              :map => file.read,
+              :reduce => "function(key, values, rereduce) { return sum(values); }"
+          end
         end
       end
     end
 
+    class Migrate
+      def self.load_all_models_with_engines
+        self.load_all_models_without_engines
+        return unless defined?(Rails)
+        Dir[Rails.root + '**/models/**/*.rb'].each do |path|
+          require path
+        end
+      end
+
+      def self.all_models_and_proxies
+        callbacks = migrate_each_model(find_models)
+        callbacks += migrate_each_proxying_model(find_proxying_models)
+        cleanup(callbacks)
+      end
+
+
+
+      class << self
+        alias_method_chain :load_all_models, :engines
+      end
+
+    end
   end
 
   class ModelRailtie
