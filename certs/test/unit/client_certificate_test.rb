@@ -9,16 +9,10 @@ class ClientCertificateTest < ActiveSupport::TestCase
     assert sample.to_s
   end
 
-  test "free cert has configured prefix" do
-    sample = ClientCertificate.new(free: true)
-    prefix = APP_CONFIG[:free_cert_prefix]
+  test "cert has configured prefix" do
+    prefix = "PREFIX"
+    sample = ClientCertificate.new(:prefix => prefix)
     assert sample.cert.subject.common_name.starts_with?(prefix)
-  end
-
-  test "real cert has no free cert prefix" do
-    sample = ClientCertificate.new
-    prefix = APP_CONFIG[:free_cert_prefix]
-    assert !sample.cert.subject.common_name.starts_with?(prefix)
   end
 
   test "cert issuer matches ca subject" do

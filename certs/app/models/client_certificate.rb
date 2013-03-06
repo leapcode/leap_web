@@ -21,7 +21,7 @@ class ClientCertificate
     cert = CertificateAuthority::Certificate.new
 
     # set subject
-    cert.subject.common_name = common_name(options[:free])
+    cert.subject.common_name = common_name(options[:prefix])
 
     # set expiration
     cert.not_before = yesterday
@@ -65,8 +65,8 @@ class ClientCertificate
     Digest::MD5.hexdigest("#{rand(10**10)} -- #{Time.now}").to_i(16)
   end
 
-  def common_name(for_free_cert = false)
-    (for_free_cert ? APP_CONFIG[:free_cert_prefix] : '') + random_common_name
+  def common_name(prefix = nil)
+    [prefix, random_common_name].join
   end
 
   #

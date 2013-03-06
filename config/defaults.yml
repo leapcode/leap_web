@@ -7,8 +7,11 @@ cert_options: &cert_options
   client_cert_lifespan: 2
   client_cert_bit_size: 2024
   client_cert_hash: "SHA256"
-  free_certs_enabled: true
-  free_cert_prefix: "FREE"
+  allow_limited_certs: false
+  allow_unlimited_certs: true
+  allow_anonymous_certs: false
+  limited_cert_prefix: "LIMITED"
+  unlimited_cert_prefix: "UNLIMITED"
 
 development:
   <<: *dev_ca
