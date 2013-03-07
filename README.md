@@ -7,6 +7,7 @@ LEAP Web
 * Admin interface to manage users.
 * Client certificate distribution and renewal.
 * User support help tickets.
+* Billing
 
 This web application is written in Ruby on Rails 3, using CouchDB as the backend data store.
 

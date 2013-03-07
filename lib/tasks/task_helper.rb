@@ -2,7 +2,7 @@ require File.expand_path('../../../lib/leap_web/version', __FILE__)
 
 module TaskHelper
 
-  ENGINES = %w(users certs help)
+  ENGINES = %w(users certs help billing)
 
   def putsys(cmd)
     puts cmd
