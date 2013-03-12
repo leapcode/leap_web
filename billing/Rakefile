@@ -14,14 +14,16 @@ end
 
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Billing'
+  rdoc.title    = 'LeapWebBilling'
   rdoc.options << '--line-numbers'
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-
-
+spec = eval(File.read('leap_web_billing.gemspec'))
+Gem::PackageTask.new(spec) do |p|
+    p.gem_spec = spec
+end
 
 Bundler::GemHelper.install_tasks
 
