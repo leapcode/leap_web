@@ -16,5 +16,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "leap_web_core", LeapWeb::VERSION
-  s.add_dependency "braintree-rails", "~> 0.4.5"
+  # s.add_dependency "braintree-rails", "~> 0.4.5"
+  s.add_dependency "braintree"
+  #s.add_dependency "carmen-rails"
 end
