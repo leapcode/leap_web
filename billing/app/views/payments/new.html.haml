@@ -1,0 +1,25 @@
+%h1
+  Payment: $#{h @amount}
+- if @result
+  %div{:style => "color: red;"}
+    = h @result.errors.size
+    error(s)
+= form_for :transaction, :params => @result && @result.params[:transaction], :errors => @result && @result.errors.for(:transaction), :builder => BraintreeHelper::BraintreeFormBuilder, :url => Braintree::TransparentRedirect.url, :html => {:autocomplete => "off"} do |f|
+  = field_set_tag "Customer" do
+    = f.fields_for :customer do |c|
+      %div= c.label :first_name, "First Name"
+      %div= c.text_field :first_name
+      %div= c.label :last_name, "Last Name"
+      %div= c.text_field :last_name
+      %div= c.label :email, "Email"
+      %div= c.text_field :email
+  = field_set_tag "Credit Card" do
+    = f.fields_for :credit_card do |c|
+      %div= c.label :number, "Number"
+      %div= c.text_field :number
+      %div= c.label :expiration_date, "Expiration Date (MM/YY)"
+      %div= c.text_field :expiration_date
+      %div= c.label :cvv, "CVV"
+      %div= c.text_field :cvv
+  = hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(:redirect_url => confirm_payment_url,:transaction => {:type => "sale", :amount => @amount})
+  = f.submit "Submit"
