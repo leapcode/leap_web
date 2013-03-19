@@ -21,5 +21,5 @@
       %div= c.text_field :expiration_date
       %div= c.label :cvv, "CVV"
       %div= c.text_field :cvv
-  = hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(:redirect_url => confirm_payment_url,:transaction => {:type => "sale", :amount => @amount})
+  = hidden_field_tag :tr_data, Braintree::TransparentRedirect.transaction_data(:redirect_url => confirm_payment_url,:transaction => {:type => "sale", :amount => @amount, :options => {:submit_for_settlement => true } })
   = f.submit "Submit"

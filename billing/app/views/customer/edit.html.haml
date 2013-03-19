@@ -1,0 +1,20 @@
+- if @result
+  #total-errors{:style => "color:red;"}
+    = h(@result.errors.size)
+    error(s)
+= form_for :customer, :url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:customer],:existing => current_user,  :builder => BraintreeHelper::BraintreeFormBuilder, :errors => @result && @result.errors.for(:customer) do |f| |
+  = field_set_tag "Customer" do
+    %dl
+      %dt= f.label :first_name, 'First Name'
+      %dd= f.text_field :first_name
+      %dt= f.label :last_name, 'Last Name'
+      %dd= f.text_field :last_name
+      %dt= f.label :phone, 'Phone'
+      %dd= f.text_field :phone
+  - if @credit_card
+    %ul
+      %li
+        = @credit_card.masked_number
+        (#{link_to @credit_card.token, edit_credit_card_info_path(:id => @credit_card.token)})
+  = hidden_field_tag :tr_data, @tr_data
+  = f.submit 'Save Payment Info'
