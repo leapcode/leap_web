@@ -7,12 +7,14 @@ class CustomerController < ApplicationController
   end
 
   def edit
-    current_customer = Customer.find_by_user_id(current_user.id)
+    customer = Customer.find_by_user_id(current_user.id)
     #current_customer.with_braintree_data!
-    #@credit_card = current_customer.default_credit_card
+    # @credit_card = current_customer.default_credit_card
+    @braintree_data = Braintree::Customer.find(customer.braintree_customer_id)
+    @default_cc = @braintree_data.credit_cards.find { |cc| cc.default? }
     @tr_data = Braintree::TransparentRedirect.
                 update_customer_data(:redirect_url => confirm_customer_url,
-                                     :customer_id => current_customer.braintree_customer_id)
+                                     :customer_id => customer.braintree_customer_id)
   end
 
   def confirm
@@ -26,8 +28,8 @@ class CustomerController < ApplicationController
       #current_user.save!
       render :action => "confirm"
     #elsif current_user.has_payment_info?
-    elsif (current_customer = Customer.find_by_user_id(current_user.id)) and current_customer.has_payment_info?
-      current_customer.with_braintree_data! #todo
+    elsif (customer = Customer.find_by_user_id(current_user.id)) and customer.has_payment_info?
+      customer.with_braintree_data! #todo
       render :action => "edit"
     else
       render :action => "new"
