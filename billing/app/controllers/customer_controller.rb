@@ -2,19 +2,27 @@ class CustomerController < ApplicationController
   before_filter :authorize
 
   def new
-    @tr_data = Braintree::TransparentRedirect.
-                create_customer_data(:redirect_url => confirm_customer_url)
-  end
+    if customer = Customer.find_by_user_id(current_user.id)
+      redirect_to edit_customer_path(customer.braintree_customer_id)
+    else
+      @tr_data = Braintree::TransparentRedirect.
+        create_customer_data(:redirect_url => confirm_customer_url)
+    end
+ end
 
   def edit
-    customer = Customer.find_by_user_id(current_user.id)
-    #current_customer.with_braintree_data!
-    # @credit_card = current_customer.default_credit_card
-    @braintree_data = Braintree::Customer.find(customer.braintree_customer_id)
-    @default_cc = @braintree_data.credit_cards.find { |cc| cc.default? }
-    @tr_data = Braintree::TransparentRedirect.
-                update_customer_data(:redirect_url => confirm_customer_url,
-                                     :customer_id => customer.braintree_customer_id)
+    if (params[:id] == Customer.find_by_user_id(current_user.id).braintree_customer_id)
+      #current_customer.with_braintree_data!
+      # @credit_card = current_customer.default_credit_card
+      @braintree_data = Braintree::Customer.find(params[:id])
+      @default_cc = @braintree_data.credit_cards.find { |cc| cc.default? }
+      @tr_data = Braintree::TransparentRedirect.
+        update_customer_data(:redirect_url => confirm_customer_url,
+                             :customer_id => params[:id])
+    else
+      # TODO: will want to have case for admins, presumably
+      access_denied
+    end
   end
 
   def confirm
