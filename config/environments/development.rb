@@ -28,4 +28,8 @@ LeapWeb::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  #  hacky, but otherwise getting certificate error, and doesn't seem dangerous in development mode:
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 end
