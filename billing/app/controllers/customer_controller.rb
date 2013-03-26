@@ -1,4 +1,4 @@
-class CustomerController < ApplicationController
+class CustomerController < BillingBaseController
   before_filter :authorize
 
   def new
