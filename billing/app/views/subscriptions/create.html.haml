@@ -1,0 +1,8 @@
+- if @result.success?
+  %h1
+    Subscription Status 
+    = @result.subscription.status
+- else
+  %h1
+    Error:
+    = @result.message 

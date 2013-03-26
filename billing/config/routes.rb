@@ -9,8 +9,7 @@ Rails.application.routes.draw do
   match 'customer/confirm' => 'customer#confirm', :as => :confirm_customer
   match 'credit_card_info/confirm' => 'credit_card_info#confirm', :as => :confirm_credit_card_info
 
-  match 'subscription/new' => 'subscription#new', :as => :new_subscription
-  match 'subscription/confirm' => 'subscription#confirm', :as => :confirm_subscription
+  resources :subscriptions, :only => [:new, :create, :index, :show, :update, :destroy]
 
   #match 'transactions/:product_id/new' => 'transactions#new', :as => :new_transaction
   #match 'transactions/confirm/:product_id' => 'transactions#confirm', :as => :confirm_transaction
