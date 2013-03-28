@@ -1,10 +1,12 @@
 %h1
-  Payment: $#{h @amount}
+  Payment
 - if @result
   %div{:style => "color: red;"}
     = h @result.errors.size
     error(s)
-= form_for :transaction, :params => @result && @result.params[:transaction], :errors => @result && @result.errors.for(:transaction), :builder => BraintreeHelper::BraintreeFormBuilder, :url => Braintree::TransparentRedirect.url, :html => {:autocomplete => "off"} do |f|
+= form_for :transaction, :params => @result && @result.params[:transaction], :errors => @result && @result.errors.for(:transaction), :builder => BraintreeFormHelper::BraintreeFormBuilder, :url => Braintree::TransparentRedirect.url, :html => {:autocomplete => "off"} do |f| #TODO: add helper
+  = f.label :amount, "Amount"
+  = f.text_field :amount
   - if !@customer
     = render :partial => 'non_customer_fields', :locals => {:f => f}
   - else
