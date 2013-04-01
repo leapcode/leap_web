@@ -16,21 +16,22 @@ class Customer < CouchRest::Model::Base
   end
 
   # from braintree_ruby_examples/rails3_tr_devise and should be tweaked
+=begin
   def with_braintree_data!
     return self unless has_payment_info?
     braintree_data = Braintree::Customer.find(braintree_customer_id)
 
-    debugger
     #FIELDS.each do |field|
     #  send(:"#{field}=", braintree_data.send(field))
     #end
     self
   end
+=end
 
-  ##??
-  def default_credit_card
+  #slow to get Braintree Customer data, so pass it if have already retrieved it
+  def default_credit_card(braintree_data = nil)
     return unless has_payment_info?
-    braintree_data = Braintree::Customer.find(braintree_customer_id)
+    braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)
     braintree_data.credit_cards.find { |cc| cc.default? }
   end
 

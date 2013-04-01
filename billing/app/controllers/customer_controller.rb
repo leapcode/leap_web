@@ -11,11 +11,11 @@ class CustomerController < BillingBaseController
  end
 
   def edit
-    if (params[:id] == Customer.find_by_user_id(current_user.id).braintree_customer_id)
+    if ((customer = Customer.find_by_user_id(current_user.id)) and
+        (params[:id] == customer.braintree_customer_id))
       #current_customer.with_braintree_data!
-      # @credit_card = current_customer.default_credit_card
-      @braintree_data = Braintree::Customer.find(params[:id])
-      @default_cc = @braintree_data.credit_cards.find { |cc| cc.default? }
+      @braintree_data = Braintree::Customer.find(params[:id]) #used in editing form
+      @default_cc = customer.default_credit_card(@braintree_data)
       @tr_data = Braintree::TransparentRedirect.
         update_customer_data(:redirect_url => confirm_customer_url,
                              :customer_id => params[:id])
@@ -37,7 +37,7 @@ class CustomerController < BillingBaseController
       render :action => "confirm"
     #elsif current_user.has_payment_info?
     elsif (customer = Customer.find_by_user_id(current_user.id)) and customer.has_payment_info?
-      customer.with_braintree_data! #todo
+      #customer.with_braintree_data!
       render :action => "edit"
     else
       render :action => "new"

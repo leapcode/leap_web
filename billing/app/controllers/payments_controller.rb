@@ -3,7 +3,7 @@ class PaymentsController < ApplicationController
     if current_user
       if @customer = Customer.find_by_user_id(current_user.id)
         @braintree_data = Braintree::Customer.find(@customer.braintree_customer_id)
-        @default_cc = @braintree_data.credit_cards.find { |cc| cc.default? }
+        @default_cc = @customer.default_credit_card(@braintree_data)
         @tr_data = transparent_redirect(@customer.braintree_customer_id)
       else
         redirect_to new_customer_path
