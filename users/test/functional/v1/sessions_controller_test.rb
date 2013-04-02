@@ -11,22 +11,6 @@ class V1::SessionsControllerTest < ActionController::TestCase
     @client_hex = 'a123'
   end
 
-  test "renders json" do
-    request.env['warden'].expects(:winning_strategy)
-    get :new, :format => :json
-    assert_response :success
-    assert_json_error nil
-  end
-
-  test "renders warden errors" do
-    strategy = stub :message => {:field => :translate_me}
-    request.env['warden'].stubs(:winning_strategy).returns(strategy)
-    I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
-    get :new, :format => :json
-    assert_response 422
-    assert_json_error :field => "translation stub"
-  end
-
   # Warden takes care of parsing the params and
   # rendering the response. So not much to test here.
   test "should perform handshake" do
