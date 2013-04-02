@@ -7,7 +7,7 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
   setup do
     @request.env['HTTP_HOST'] = 'api.lvh.me'
-    @user = stub :login => "me", :id => 123
+    @user = stub_record :user
     @client_hex = 'a123'
   end
 
@@ -34,6 +34,15 @@ class V1::SessionsControllerTest < ActionController::TestCase
     # make sure we don't get a template missing error:
     @controller.stubs(:render)
     post :create, :login => @user.login, 'A' => @client_hex
+  end
+
+  test "should send salt" do
+    User.expects(:find_by_login).with(@user.login).returns(@user)
+
+    post :create, :login => @user.login
+
+    assert_equal @user, assigns(:user)
+    assert_json_response salt: @user.salt
   end
 
   test "should authorize" do
