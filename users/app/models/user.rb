@@ -47,7 +47,8 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
-    load_views(Rails.root.join('users', 'app', 'designs', 'user'))
+    own_path = Pathname.new(File.dirname(__FILE__))
+    load_views(own_path.join('..', 'designs', 'user'))
     view :by_login
     view :by_created_at
   end
