@@ -1,18 +1,9 @@
 require 'test_helper'
+require_relative 'rack_test'
 
-CONFIG_RU = (Rails.root + 'config.ru').to_s
-OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
+class AccountFlowTest < RackTest
 
-class AccountFlowTest < ActiveSupport::TestCase
-  include Rack::Test::Methods
-  include Warden::Test::Helpers
-  include LeapWebCore::AssertResponses
-
-  def app
-    OUTER_APP
-  end
-
-  def setup
+  setup do
     @login = "integration_test_user"
   end
 
