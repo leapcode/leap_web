@@ -11,7 +11,6 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should get login screen" do
-    request.env['warden'].expects(:winning_strategy)
     get :new
     assert_response :success
     assert_equal "text/html", response.content_type
@@ -19,19 +18,27 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "renders json" do
-    request.env['warden'].expects(:winning_strategy)
     get :new, :format => :json
     assert_response :success
     assert_json_error nil
   end
 
   test "renders warden errors" do
+    request.env['warden.options'] = {attempted_path: '/1/sessions/asdf.json'}
     strategy = stub :message => {:field => :translate_me}
     request.env['warden'].stubs(:winning_strategy).returns(strategy)
     I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
     get :new, :format => :json
     assert_response 422
     assert_json_error :field => "translation stub"
+  end
+
+  test "renders failed attempt message" do
+    request.env['warden.options'] = {attempted_path: '/1/sessions/asdf.json'}
+    request.env['warden'].stubs(:winning_strategy).returns(nil)
+    get :new, :format => :json
+    assert_response 422
+    assert_json_error :login => I18n.t(:all_strategies_failed)
   end
 
   # Warden takes care of parsing the params and

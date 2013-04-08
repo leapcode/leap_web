@@ -8,11 +8,25 @@ module ControllerExtension::Authentication
   end
 
   def authentication_errors
-    return unless errors = warden.winning_strategy.try(:message)
+    return unless attempted_login?
+    errors = get_warden_errors
     errors.inject({}) do |translated,err|
       translated[err.first] = I18n.t(err.last)
       translated
     end
+  end
+
+  def get_warden_errors
+    if strategy = warden.winning_strategy
+      strategy.message
+    else
+      { login: :all_strategies_failed }
+    end
+  end
+
+  def attempted_login?
+    request.env['warden.options'] &&
+      request.env['warden.options'][:attempted_path]
   end
 
   def logged_in?

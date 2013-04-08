@@ -1,18 +1,9 @@
 require 'test_helper'
+require_relative 'rack_test'
 
-CONFIG_RU = (Rails.root + 'config.ru').to_s
-OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
+class AccountFlowTest < RackTest
 
-class AccountFlowTest < ActiveSupport::TestCase
-  include Rack::Test::Methods
-  include Warden::Test::Helpers
-  include LeapWebCore::AssertResponses
-
-  def app
-    OUTER_APP
-  end
-
-  def setup
+  setup do
     @login = "integration_test_user"
     User.find_by_login(@login).tap{|u| u.destroy if u}
     @password = "srp, verify me!"
@@ -26,7 +17,7 @@ class AccountFlowTest < ActiveSupport::TestCase
     @user = User.find_by_login(@login)
   end
 
-  def teardown
+  teardown do
     @user.destroy if @user
     Warden.test_reset!
   end
@@ -75,7 +66,8 @@ class AccountFlowTest < ActiveSupport::TestCase
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new @login, :password => "wrong password"
     server_auth = srp.authenticate(self)
-    assert_json_error({:login => "Not a valid username/password combination", :password => "Not a valid username/password combination"})
+    assert_json_error login: "Not a valid username/password combination",
+      password: "Not a valid username/password combination"
     assert !last_response.successful?
     assert_nil server_auth["M2"]
   end
@@ -86,7 +78,8 @@ class AccountFlowTest < ActiveSupport::TestCase
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
     end
-    assert_json_error({:login => "Not a valid username/password combination", :password => "Not a valid username/password combination"})
+    assert_json_error login: "Not a valid username/password combination",
+      password: "Not a valid username/password combination"
     assert !last_response.successful?
     assert_nil server_auth
   end
