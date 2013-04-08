@@ -23,6 +23,25 @@ module CouchRest
       end
     end
 
+    module Errors
+      class ConnectionFailed < CouchRestModelError; end
+    end
+
+    module Connection
+
+      module ClassMethods
+
+        def use_database(db)
+          @database = prepare_database(db)
+        rescue RestClient::Unauthorized,
+          Errno::EHOSTUNREACH,
+          Errno::ECONNREFUSED => e
+          raise CouchRest::Model::Errors::ConnectionFailed.new(e.to_s)
+        end
+      end
+
+    end
+
     class Migrate
       def self.load_all_models_with_engines
         self.load_all_models_without_engines
