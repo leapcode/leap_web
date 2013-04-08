@@ -4,4 +4,9 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-LeapWeb::Application.config.secret_token = '550df064dbc5052d9e192b324c1c5a1095c85a2195f88bd6f6829c63b74d8dffa4556494a2e8cc44345a1926be8b6cb17aa4b3f3102d826f5679c3fb57bb7100'
+
+if token = APP_CONFIG['secret_token']
+  LeapWeb::Application.config.secret_token = token
+else
+  raise StandartError.new("No secret_token defined in config/config.yml - please provide one.")
+end
