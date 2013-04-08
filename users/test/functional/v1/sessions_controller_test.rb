@@ -7,24 +7,8 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
   setup do
     @request.env['HTTP_HOST'] = 'api.lvh.me'
-    @user = stub :login => "me", :id => 123
+    @user = stub_record :user
     @client_hex = 'a123'
-  end
-
-  test "renders json" do
-    request.env['warden'].expects(:winning_strategy)
-    get :new, :format => :json
-    assert_response :success
-    assert_json_error nil
-  end
-
-  test "renders warden errors" do
-    strategy = stub :message => {:field => :translate_me}
-    request.env['warden'].stubs(:winning_strategy).returns(strategy)
-    I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
-    get :new, :format => :json
-    assert_response 422
-    assert_json_error :field => "translation stub"
   end
 
   # Warden takes care of parsing the params and
@@ -34,6 +18,15 @@ class V1::SessionsControllerTest < ActionController::TestCase
     # make sure we don't get a template missing error:
     @controller.stubs(:render)
     post :create, :login => @user.login, 'A' => @client_hex
+  end
+
+  test "should send salt" do
+    User.expects(:find_by_login).with(@user.login).returns(@user)
+
+    post :create, :login => @user.login
+
+    assert_equal @user, assigns(:user)
+    assert_json_response salt: @user.salt
   end
 
   test "should authorize" do

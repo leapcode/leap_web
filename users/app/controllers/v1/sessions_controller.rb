@@ -13,7 +13,12 @@ module V1
 
     def create
       logout if logged_in?
-      authenticate!
+      if params['A']
+        authenticate!
+      else
+        @user = User.find_by_login(params['login'])
+        render :json => {salt: @user.salt}
+      end
     end
 
     def update

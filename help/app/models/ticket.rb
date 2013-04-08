@@ -47,7 +47,8 @@ class Ticket < CouchRest::Model::Base
     view :by_is_open_and_created_at
     view :by_is_open_and_updated_at
 
-    load_views(Rails.root.join('help', 'app', 'designs', 'ticket'))
+    own_path = Pathname.new(File.dirname(__FILE__))
+    load_views(own_path.join('..', 'designs', 'ticket'))
   end
 
   validates :title, :presence => true
