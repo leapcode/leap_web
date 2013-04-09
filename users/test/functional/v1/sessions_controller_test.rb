@@ -12,13 +12,13 @@ class V1::SessionsControllerTest < ActionController::TestCase
   end
 
   test "renders json" do
-    request.env['warden'].expects(:winning_strategy)
     get :new, :format => :json
     assert_response :success
     assert_json_error nil
   end
 
   test "renders warden errors" do
+    request.env['warden.options'] = {attempted_path: 'path/to/controller'}
     strategy = stub :message => {:field => :translate_me}
     request.env['warden'].stubs(:winning_strategy).returns(strategy)
     I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
@@ -38,7 +38,7 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
   test "should authorize" do
     request.env['warden'].expects(:authenticate!)
-    @controller.expects(:current_user).returns(@user)
+    @controller.stubs(:current_user).returns(@user)
     handshake = stub(:to_hash => {h: "ash"})
     session[:handshake] = handshake
 
@@ -46,7 +46,8 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
     assert_nil session[:handshake]
     assert_response :success
-    assert_json_response handshake.to_hash.merge(id: @user.id)
+    assert json_response.keys.include?("id")
+    assert json_response.keys.include?("token")
   end
 
   test "logout should reset warden user" do
