@@ -19,6 +19,16 @@ class CustomerController < BillingBaseController
       @tr_data = Braintree::TransparentRedirect.
         update_customer_data(:redirect_url => confirm_customer_url,
                              :customer_id => params[:id])
+      @subscriptions = Array.new
+
+      # SUPER SLOW :(
+      # asked question to see about optimizing: http://stackoverflow.com/questions/15910980/retrieving-a-braintree-customers-subscriptions
+      transactions = @braintree_data.transactions
+      transactions.each do |cust_transaction|
+        transaction = Braintree::Transaction.find(cust_transaction.id) if (cust_transaction and cust_transaction.id) # why is cust_transaction nil in cases?
+        subscription = Braintree::Subscription.find(transaction.subscription_id) if (transaction and transaction.subscription_id)
+        @subscriptions << subscription if subscription and subscription.status == 'Active'
+      end
     else
       # TODO: will want to have case for admins, presumably
       access_denied
