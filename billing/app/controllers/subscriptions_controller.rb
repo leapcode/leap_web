@@ -23,4 +23,9 @@ class SubscriptionsController < ApplicationController
     @result = Braintree::Subscription.create( :payment_method_token => params[:payment_method_token], :plan_id => params[:plan_id] )
   end
 
+  def destroy
+    # TODO add permission check
+    @result = Braintree::Subscription.cancel params[:id]
+  end
+
 end

@@ -1,1 +1,2 @@
 = render :partial => "subscription_details",  :locals => {:subscription => @subscription}
+= link_to t(:Cancel), subscription_path,  :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' if @subscription.status == 'Active' # permission check or should that just be on show?
