@@ -5,7 +5,7 @@ class Customer < CouchRest::Model::Base
   use_database "customers"
   belongs_to :user
   property :braintree_customer_id
-  
+
   design do
     view :by_user_id
     view :by_braintree_customer_id
@@ -34,6 +34,23 @@ class Customer < CouchRest::Model::Base
     braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)
     braintree_data.credit_cards.find { |cc| cc.default? }
   end
+
+  #todo will this be plural?
+  def active_subscriptions(braintree_data=nil)
+    subscriptions = Array.new
+    braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)
+    braintree_data.credit_cards.each do |cc|
+      cc.subscriptions.each do |sub|
+        subscriptions << sub if sub.status == 'Active'
+      end
+    end
+    subscriptions
+  end
+
+  def single_subscription(braintree_data=nil)
+    self.active_subscriptions(braintree_data).first
+  end
+
 
 
 end

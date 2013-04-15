@@ -19,7 +19,7 @@ class CustomerController < BillingBaseController
       @tr_data = Braintree::TransparentRedirect.
         update_customer_data(:redirect_url => confirm_customer_url,
                              :customer_id => params[:id])
-      @subscriptions = @braintree_data.credit_cards.map(&:subscriptions).flatten
+      @subscriptions = customer.active_subscriptions(@braintree_data)
     else
       # TODO: will want to have case for admins, presumably
       access_denied

@@ -19,8 +19,7 @@
         = # (#{link_to @default_cc.token, edit_credit_card_info_path(:id => @default_cc.token)})
       - if @subscriptions.any?
         %li
-          Active Subscriptions
+          Active Subscriptions # todo: won't really have multiple subscriptions
           = render(:partial => "subscription", :collection => @subscriptions)
-
   = hidden_field_tag :tr_data, @tr_data
   = f.submit 'Save Payment Info'
