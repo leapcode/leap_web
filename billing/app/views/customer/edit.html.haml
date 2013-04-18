@@ -17,9 +17,13 @@
         Default Credit Card
         = @default_cc.masked_number
         = # (#{link_to @default_cc.token, edit_credit_card_info_path(:id => @default_cc.token)})
+      %li
+        Transaction History
+        = render(:partial => "transaction", :collection => @transactions)
       - if @subscriptions.any?
         %li
-          Active Subscriptions # todo: won't really have multiple subscriptions
+          Active Subscriptions
+          = # todo: won't really have multiple subscriptions
           = render(:partial => "subscription", :collection => @subscriptions)
   = hidden_field_tag :tr_data, @tr_data
-  = f.submit 'Save Payment Info'
+  = f.submit 'Save Customer Info'
