@@ -21,6 +21,14 @@ For more information, see these files in the ``doc`` directory:
 * DEVELOP -- for developer notes.
 * CUSTOM -- how to customize.
 
+Known problems
+---------------------------
+
+* Client certificates are generated without a CSR. The problem is that this makes the web 
+application extremely vulnerable to denial of service attacks. This was not an issue until we 
+started to allow the possibility of anonymously fetching a client certificate without 
+authenticating first.
+
 Installation
 ---------------------------
 
