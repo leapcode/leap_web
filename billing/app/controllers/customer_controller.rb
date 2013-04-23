@@ -1,5 +1,18 @@
 class CustomerController < BillingBaseController
   before_filter :authorize
+  before_filter :fetch_customer_data, :only => [:show, :edit]
+
+
+  def show
+    @subscriptions = @customer.active_subscriptions(@braintree_data)
+
+    # UGLY Braintree::ResourceCollection to array.
+    # might want method
+    @transactions = []
+    @braintree_data.transactions.each do |transaction|
+      @transactions << transaction
+    end
+  end
 
   def new
     if customer = Customer.find_by_user_id(current_user.id)
@@ -8,30 +21,12 @@ class CustomerController < BillingBaseController
       @tr_data = Braintree::TransparentRedirect.
         create_customer_data(:redirect_url => confirm_customer_url)
     end
- end
+  end
 
   def edit
-    if ((customer = Customer.find_by_user_id(current_user.id)) and
-        (params[:id] == customer.braintree_customer_id))
-      #current_customer.with_braintree_data!
-      @braintree_data = Braintree::Customer.find(params[:id]) #used in editing form
-      @default_cc = customer.default_credit_card(@braintree_data)
-      @tr_data = Braintree::TransparentRedirect.
-        update_customer_data(:redirect_url => confirm_customer_url,
-                             :customer_id => params[:id])
-
-      @subscriptions = customer.active_subscriptions(@braintree_data)
-
-      # UGLY Braintree::ResourceCollection to array.
-      # might want method
-      @transactions = []
-      @braintree_data.transactions.each do |transaction|
-        @transactions << transaction
-      end
-    else
-      # TODO: will want to have case for admins, presumably
-      access_denied
-    end
+    @tr_data = Braintree::TransparentRedirect.
+      update_customer_data(:redirect_url => confirm_customer_url,
+                           :customer_id => params[:id])
   end
 
   def confirm
@@ -52,4 +47,19 @@ class CustomerController < BillingBaseController
       render :action => "new"
     end
   end
+
+  private
+
+  def fetch_customer_data
+    if ((@customer = Customer.find_by_user_id(current_user.id)) and
+        (params[:id] == @customer.braintree_customer_id))
+      #current_customer.with_braintree_data!
+      @braintree_data = Braintree::Customer.find(params[:id]) #used in editing form
+      @default_cc = @customer.default_credit_card(@braintree_data)
+    else
+      # TODO will want case for admins, presumably
+      access_denied
+    end
+  end
+
 end

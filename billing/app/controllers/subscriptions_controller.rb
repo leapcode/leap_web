@@ -29,9 +29,9 @@ class SubscriptionsController < ApplicationController
 
   def fetch_subscription
     @subscription = Braintree::Subscription.find params[:id]
-    subscription_customer_id = @subscription.transactions.first.customer_details.id #all of subscriptions transactions should have same customer
+    @subscription_customer_id = @subscription.transactions.first.customer_details.id #all of subscriptions transactions should have same customer
     customer = Customer.find_by_user_id(current_user.id)
-    access_denied unless customer and customer.braintree_customer_id == subscription_customer_id
+    access_denied unless customer and customer.braintree_customer_id == @subscription_customer_id
     # TODO: will presumably want to allow admins to view/cancel subscriptions for all users
   end
 

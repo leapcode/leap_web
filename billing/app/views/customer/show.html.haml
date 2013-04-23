@@ -1,0 +1,8 @@
+= render :partial => 'payments/customer_data'
+= link_to 'Make Payment', new_payment_path, :class => :btn
+%h3 Transaction History
+= render(:partial => "transaction", :collection => @transactions) # show subset with link to see more
+- if @subscriptions.any?
+  %h3 Active Subscriptions
+  = # todo: won't really have multiple subscriptions
+  = render(:partial => "subscription", :collection => @subscriptions)
