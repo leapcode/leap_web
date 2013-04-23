@@ -29,6 +29,7 @@ class Customer < CouchRest::Model::Base
 =end
 
   #slow to get Braintree Customer data, so pass it if have already retrieved it
+  # won't really have multiple credit cards on file
   def default_credit_card(braintree_data = nil)
     return unless has_payment_info?
     braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)

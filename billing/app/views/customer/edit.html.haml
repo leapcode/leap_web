@@ -14,9 +14,9 @@
   - if @default_cc
     %ul
       %li
-        Default Credit Card
+        Stored Credit Card
         = @default_cc.masked_number
-        = # (#{link_to @default_cc.token, edit_credit_card_info_path(:id => @default_cc.token)})
+        = link_to 'Change credit card', edit_credit_card_info_path(:id => @default_cc.token)
       %li
         Transaction History
         = render(:partial => "transaction", :collection => @transactions)

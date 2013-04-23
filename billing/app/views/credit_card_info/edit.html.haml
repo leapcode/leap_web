@@ -1,0 +1,16 @@
+%h1 Change Credit Card
+- if @result
+  #total-errors{:style => "color:red;"}
+    = h(@result.errors.size)
+    error(s)
+= form_for :credit_card,:url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:credit_card], :builder =>  BraintreeFormHelper::BraintreeFormBuilder, :existing => @credit_card, :errors => @result && @result.errors.for(:credit_card) do |f| |
+  = field_set_tag "Credit Card" do
+    %dl
+      %dt= f.label :number, 'Number'
+      %dd= f.text_field :number
+      %dt= f.label :expiration_date, 'Expiration Date (MM/YY)'
+      %dd= f.text_field :expiration_date
+      %dt= f.label :cvv, 'CVV'
+      %dd= f.text_field :cvv
+  = hidden_field_tag :tr_data, @tr_data
+  = f.submit 'Save Payment Info'
