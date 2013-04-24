@@ -51,7 +51,20 @@ class User < CouchRest::Model::Base
     load_views(own_path.join('..', 'designs', 'user'))
     view :by_login
     view :by_created_at
-  end
+    view :pgp_key_by_handle,
+      map: <<-EOJS
+      function(doc) {
+        if (doc.type != 'User') {
+          return;
+        }
+        emit(doc.login, doc.public_key);
+        doc.email_aliases.forEach(function(alias){
+          emit(alias.username, doc.public_key);
+        });
+      }
+    EOJS
+
+  end # end of design
 
   class << self
     alias_method :find_by_param, :find
