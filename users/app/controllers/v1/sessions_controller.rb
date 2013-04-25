@@ -23,6 +23,7 @@ module V1
 
     def update
       authenticate!
+      @token = Token.create(:user_id => current_user.id)
       render :json => login_response
     end
 
@@ -35,7 +36,7 @@ module V1
 
     def login_response
       handshake = session.delete(:handshake)
-      handshake.to_hash.merge(:id => current_user.id)
+      handshake.to_hash.merge(:id => current_user.id, :token => @token.id)
     end
 
   end
