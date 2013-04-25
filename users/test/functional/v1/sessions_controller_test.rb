@@ -11,6 +11,22 @@ class V1::SessionsControllerTest < ActionController::TestCase
     @client_hex = 'a123'
   end
 
+  test "renders json" do
+    get :new, :format => :json
+    assert_response :success
+    assert_json_error nil
+  end
+
+  test "renders warden errors" do
+    request.env['warden.options'] = {attempted_path: 'path/to/controller'}
+    strategy = stub :message => {:field => :translate_me}
+    request.env['warden'].stubs(:winning_strategy).returns(strategy)
+    I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
+    get :new, :format => :json
+    assert_response 422
+    assert_json_error :field => "translation stub"
+  end
+
   # Warden takes care of parsing the params and
   # rendering the response. So not much to test here.
   test "should perform handshake" do
@@ -20,18 +36,9 @@ class V1::SessionsControllerTest < ActionController::TestCase
     post :create, :login => @user.login, 'A' => @client_hex
   end
 
-  test "should send salt" do
-    User.expects(:find_by_login).with(@user.login).returns(@user)
-
-    post :create, :login => @user.login
-
-    assert_equal @user, assigns(:user)
-    assert_json_response salt: @user.salt
-  end
-
   test "should authorize" do
     request.env['warden'].expects(:authenticate!)
-    @controller.expects(:current_user).returns(@user)
+    @controller.stubs(:current_user).returns(@user)
     handshake = stub(:to_hash => {h: "ash"})
     session[:handshake] = handshake
 
@@ -39,7 +46,8 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
     assert_nil session[:handshake]
     assert_response :success
-    assert_json_response handshake.to_hash.merge(id: @user.id)
+    assert json_response.keys.include?("id")
+    assert json_response.keys.include?("token")
   end
 
   test "logout should reset warden user" do

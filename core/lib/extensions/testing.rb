@@ -14,10 +14,17 @@ module LeapWebCore
         get_response.headers["Content-Disposition"]
     end
 
+    def json_response
+      response = JSON.parse(get_response.body)
+      response.respond_to?(:with_indifferent_access) ?
+        response.with_indifferent_access :
+        response
+    end
+
     def assert_json_response(object)
       if object.is_a? Hash
         object.stringify_keys! if object.respond_to? :stringify_keys!
-        assert_equal object, JSON.parse(get_response.body)
+        assert_equal object, json_response
       else
         assert_equal object.to_json, get_response.body
       end
