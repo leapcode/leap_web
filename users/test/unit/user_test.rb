@@ -64,4 +64,15 @@ class UserTest < ActiveSupport::TestCase
     other_user.destroy
   end
 
+  test "pgp key view" do
+    @user.public_key = SecureRandom.base64(4096)
+    @user.save
+
+    view = User.pgp_key_by_handle.key(@user.login)
+
+    assert_equal 1, view.rows.count
+    assert result = view.rows.first
+    assert_equal @user.login, result["key"]
+    assert_equal @user.public_key, result["value"]
+  end
 end
