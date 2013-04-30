@@ -1,4 +1,4 @@
-class CustomerController < BillingBaseController
+class CustomersController < BillingBaseController
   before_filter :authorize
   before_filter :fetch_customer_data, :only => [:show, :edit]
 
