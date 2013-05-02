@@ -16,7 +16,7 @@ class CustomersController < BillingBaseController
 
   def new
     if customer = Customer.find_by_user_id(current_user.id)
-      redirect_to edit_customer_path(customer.braintree_customer_id)
+      redirect_to edit_customer_path(customer.braintree_customer_id), :notice => 'Here is your saved customer data'
     else
       @tr_data = Braintree::TransparentRedirect.
         create_customer_data(:redirect_url => confirm_customer_url)

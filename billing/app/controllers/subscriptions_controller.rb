@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
     customer = Customer.find_by_user_id(current_user.id)
 
     if subscription = customer.single_subscription
-      redirect_to subscription_path(subscription.id)
+      redirect_to subscription_path(subscription.id), :notice => 'You already have an active subscription'
     else
       credit_card = customer.default_credit_card #safe to assume default?
       @payment_method_token = credit_card.token
