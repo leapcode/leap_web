@@ -30,28 +30,28 @@ class Customer < CouchRest::Model::Base
 
   #slow to get Braintree Customer data, so pass it if have already retrieved it
   # won't really have multiple credit cards on file
+  # instead of having method, should just be able to call braintree_data.credit_cards.first if just one is allowed
   def default_credit_card(braintree_data = nil)
     return unless has_payment_info?
     braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)
     braintree_data.credit_cards.find { |cc| cc.default? }
   end
 
-  #todo will this be plural?
-  def active_subscriptions(braintree_data=nil)
-    subscriptions = Array.new
+
+  # based on 2nd parameter, either returns the single active subscription (or nil if there isn't one), or an array of all subsciptions
+  def subscriptions(braintree_data=nil, only_active=true)
+    return unless has_payment_info?
     braintree_data = braintree_data || Braintree::Customer.find(braintree_customer_id)
-    braintree_data.credit_cards.each do |cc|
-      cc.subscriptions.each do |sub|
-        subscriptions << sub if sub.status == 'Active'
+
+    subscriptions = []
+    braintree_data.credit_cards.first.subscriptions.each do |sub|
+      if only_active and sub.status == 'Active'
+        return sub
+      else
+        subscriptions << sub
       end
     end
-    subscriptions
+    only_active ? nil : subscriptions
   end
-
-  def single_subscription(braintree_data=nil)
-    self.active_subscriptions(braintree_data).first
-  end
-
-
 
 end

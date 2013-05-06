@@ -6,7 +6,7 @@ class SubscriptionsController < ApplicationController
     # don't show link to subscribe if they are already subscribed?
     customer = Customer.find_by_user_id(current_user.id)
 
-    if subscription = customer.single_subscription
+    if subscription = customer.subscriptions # will return active subscription, if it exists
       redirect_to subscription_path(subscription.id), :notice => 'You already have an active subscription'
     else
       credit_card = customer.default_credit_card #safe to assume default?
@@ -23,6 +23,11 @@ class SubscriptionsController < ApplicationController
 
   def destroy
     @result = Braintree::Subscription.cancel params[:id]
+  end
+
+  def index
+    customer = Customer.find_by_user_id(current_user.id)
+    @subscriptions = customer.subscriptions(nil, false)
   end
 
   private
