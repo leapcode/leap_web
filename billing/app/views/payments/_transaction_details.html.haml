@@ -1,0 +1,15 @@
+%p
+  = transaction.id
+  Type:
+  = transaction.type
+  Amount:
+  = number_to_currency(transaction.amount)
+  Status:
+  = transaction.status
+  Date
+  = transaction.created_at
+  - if sub_start = transaction.subscription_details.billing_period_start_date
+    From subscription which started
+    = sub_start
+  - else
+    Not paid as part of subscription

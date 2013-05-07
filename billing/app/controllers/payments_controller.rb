@@ -1,4 +1,6 @@
 class PaymentsController < ApplicationController
+  before_filter :authorize, :only => [:index]
+
   def new
     if current_user
       if @customer = Customer.find_by_user_id(current_user.id)
@@ -23,6 +25,12 @@ class PaymentsController < ApplicationController
     else
       render :action => "new"
     end
+  end
+
+  def index
+    customer = Customer.find_by_user_id(current_user.id)
+    braintree_data = Braintree::Customer.find(customer.braintree_customer_id)
+    @transactions = braintree_data.transactions
   end
 
   protected

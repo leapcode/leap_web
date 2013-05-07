@@ -5,12 +5,6 @@ class CustomersController < BillingBaseController
 
   def show
     @active_subscription = @customer.subscriptions(@braintree_data)
-    # UGLY Braintree::ResourceCollection to array.
-    # might want method
-    @transactions = []
-    @braintree_data.transactions.each do |transaction|
-      @transactions << transaction
-    end
   end
 
   def new

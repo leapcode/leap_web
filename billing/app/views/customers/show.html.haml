@@ -1,7 +1,13 @@
 = render :partial => 'payments/customer_data'
 = link_to 'Make Payment', new_payment_path, :class => :btn
-%h3 Transaction History
-= render(:partial => "transaction", :collection => @transactions) # show subset with link to see more
+%h3 Last three transactions
+- counter = 0
+= # asked http://stackoverflow.com/questions/16425475/order-of-transactions-returned-by-braintree-api to confirm order will always be most recent first
+- @braintree_data.transactions.each do |t|
+  - break if counter > 2 # not ruby-like, but object is a Braintree::ResourceCollection so limited methods available
+  = render :partial => "payments/transaction_details", :locals => {:transaction => t}
+  - counter += 1
+= link_to 'Transaction History', payments_path
 - if @active_subscription
   %h3 Active Subscription
   = render :partial => "subscriptions/subscription_details", :locals => {:subscription => @active_subscription}
