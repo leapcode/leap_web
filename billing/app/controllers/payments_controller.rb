@@ -30,6 +30,7 @@ class PaymentsController < ApplicationController
   def index
     customer = Customer.find_by_user_id(current_user.id)
     braintree_data = Braintree::Customer.find(customer.braintree_customer_id)
+    # these will be ordered by created_at descending, per http://stackoverflow.com/questions/16425475/
     @transactions = braintree_data.transactions
   end
 
