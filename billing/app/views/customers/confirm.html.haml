@@ -10,3 +10,5 @@
   %dt Credit Card
   - @result.customer.credit_cards.each do |cc|
     %dd= cc.masked_number
+- customer = Customer.find_by_user_id(current_user.id)
+= link_to 'View Customer Info', customer_path(customer.braintree_customer_id), :class=> :btn

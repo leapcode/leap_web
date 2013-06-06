@@ -24,3 +24,6 @@
   %tr
     %td Card Type:
     %td= h @result.transaction.credit_card_details.card_type
+- if current_user
+  - customer = Customer.find_by_user_id(current_user.id)
+  = link_to 'View Customer Info', customer_path(customer.braintree_customer_id), :class=> :btn
