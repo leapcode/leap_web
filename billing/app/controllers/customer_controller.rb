@@ -1,7 +1,6 @@
-class CustomersController < BillingBaseController
+class CustomerController < BillingBaseController
   before_filter :authorize
-  before_filter :fetch_customer_data, :only => [:show, :edit]
-
+  before_filter :fetch_customer_data, :only => [:show, :edit] #confirm???
 
   def show
     @active_subscription = @customer.subscriptions(@braintree_data)
@@ -12,6 +11,7 @@ class CustomersController < BillingBaseController
       redirect_to edit_customer_path(customer.braintree_customer_id), :notice => 'Here is your saved customer data'
     else
       @tr_data = Braintree::TransparentRedirect.
+        # create_customer_data(:redirect_url => confirm_customer_url(-1))  # trial
         create_customer_data(:redirect_url => confirm_customer_url)
     end
   end
@@ -24,13 +24,13 @@ class CustomersController < BillingBaseController
 
   def confirm
     @result = Braintree::TransparentRedirect.confirm(request.query_string)
-
     if @result.success?
       # customer = Customer.new(:user_id => current_user.id, :braintree_customer_id =>  @result.customer.id)
       customer = Customer.new(:braintree_customer_id =>  @result.customer.id)
       customer.user = current_user
       customer.save
       #current_user.save!
+      #debugger
       render :action => "confirm"
     #elsif current_user.has_payment_info?
     elsif (customer = Customer.find_by_user_id(current_user.id)) and customer.has_payment_info?
@@ -46,7 +46,6 @@ class CustomersController < BillingBaseController
   def fetch_customer_data
     if ((@customer = Customer.find_by_user_id(current_user.id)) and
         (params[:id] == @customer.braintree_customer_id))
-      #current_customer.with_braintree_data!
       @braintree_data = Braintree::Customer.find(params[:id]) #used in editing form
       @default_cc = @customer.default_credit_card(@braintree_data)
     else

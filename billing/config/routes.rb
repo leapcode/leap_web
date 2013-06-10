@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   match 'payments/confirm' => 'payments#confirm', :as => :confirm_payment
   resources :payments, :only => [:index]
 
-  resources :customers, :only => [:new, :edit, :show]
+  resources :customer, :only => [:new, :edit]
   resources :credit_card_info, :only => [:edit]
 
-  match 'customer/confirm' => 'customer#confirm', :as => :confirm_customer
+  match 'customer/confirm/' => 'customer#confirm', :as => :confirm_customer
+  match 'customer/show/:id' => 'customer#show', :as => :show_customer
   match 'credit_card_info/confirm' => 'credit_card_info#confirm', :as => :confirm_credit_card_info
 
   resources :subscriptions, :only => [:new, :create, :index, :show, :update, :destroy]
