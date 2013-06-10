@@ -2,20 +2,7 @@ class PaymentsController < ApplicationController
   before_filter :authorize, :only => [:index]
 
   def new
-    if current_user
-      if @customer = Customer.find_by_user_id(current_user.id)
-        @braintree_data = Braintree::Customer.find(@customer.braintree_customer_id)
-        @default_cc = @customer.default_credit_card(@braintree_data)
-        @tr_data = transparent_redirect(@customer.braintree_customer_id)
-      else
-        # TODO: this requires user to add self to vault before making payment. Is that desired functionality?
-        redirect_to new_customer_path, :notice => 'Before making payment, please add your customer data'
-      end
-    else
-      # anonymous payment not attributed to any user (ie, donation)
-      @tr_data = transparent_redirect
-    end
-
+    fetch_transparent_redirect
   end
 
   def confirm
@@ -23,6 +10,7 @@ class PaymentsController < ApplicationController
     if @result.success?
       render :action => "confirm"
     else
+      fetch_transparent_redirect
       render :action => "new"
     end
   end
@@ -36,10 +24,21 @@ class PaymentsController < ApplicationController
 
   protected
 
-  def transparent_redirect(braintree_customer_id = nil)
-    Braintree::TransparentRedirect.transaction_data(:redirect_url => confirm_payment_url,
-                                                    :transaction => {:type => "sale", :customer_id => braintree_customer_id, :options => {:submit_for_settlement => true } })
-  end
 
+  def fetch_transparent_redirect
+    if current_user
+      if @customer = Customer.find_by_user_id(current_user.id)
+        @braintree_data = Braintree::Customer.find(@customer.braintree_customer_id)
+        @default_cc = @customer.default_credit_card(@braintree_data)
+        braintree_customer_id = @customer.braintree_customer_id
+      else
+        # TODO: this requires user to add self to vault before making payment. Is that desired functionality?
+        redirect_to new_customer_path, :notice => 'Before making payment, please add your customer data'
+      end
+    end
+
+    @tr_data = Braintree::TransparentRedirect.transaction_data(:redirect_url => confirm_payment_url,
+                                                               :transaction => {:type => "sale", :customer_id => braintree_customer_id, :options => {:submit_for_settlement => true } })
+  end
 
 end
