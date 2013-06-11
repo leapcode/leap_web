@@ -8,7 +8,13 @@
   = render :partial => "payments/transaction_details", :locals => {:transaction => t}
   - counter += 1
 = link_to 'Transaction History', payments_path
+%h3 Subscriptions
 - if @active_subscription
-  %h3 Active Subscription
   = render :partial => "subscriptions/subscription_details", :locals => {:subscription => @active_subscription}
+- else
+  %p
+    No active subscription
+  %p
+    = link_to 'subscribe to plan', new_subscription_path, :class => :btn
+%p
   = link_to 'All subscriptions', subscriptions_path

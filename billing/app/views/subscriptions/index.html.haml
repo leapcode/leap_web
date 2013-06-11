@@ -1,2 +1,7 @@
+- active = false
 - @subscriptions.each do |s|
+  - if s.status == 'Active'
+    - active = true
   = render :partial => "subscription_details", :locals => {:subscription => s}
+- if !active
+  = link_to 'subscribe to plan', new_subscription_path, :class => :btn

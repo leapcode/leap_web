@@ -7,7 +7,7 @@
   Status:
   = transaction.status
   Date
-  = transaction.created_at
+  = transaction.created_at.strftime("%Y-%m-%d")
   - if sub_start = transaction.subscription_details.billing_period_start_date
     From subscription which started
     = sub_start

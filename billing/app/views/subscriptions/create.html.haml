@@ -2,6 +2,7 @@
   %h1
     Subscription Status 
     = @result.subscription.status
+  = render :partial => "subscription_details", :locals => {:subscription => @result.subscription}
 - else
   %h1
     Error:

@@ -6,10 +6,14 @@
   = subscription.billing_day_of_month
   Start date:
   = subscription.first_billing_date
-  Paid through
+  Paid through:
   = subscription.paid_through_date
-  Price
+  Plan:
+  = subscription.plan_id
+  Price:
   = subscription.price
-  Status
-  = subscription.status
+  - color = (subscription.status == 'Active') ? "green" : "red"
+  Status:
+  %font{:color => color}
+    = subscription.status
   - # would be good to get plan name but not sure if that is possible?
