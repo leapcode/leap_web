@@ -1,0 +1,65 @@
+
+table.table-hover .btn {
+  opacity: 0;
+}
+table.table-hover tr:hover .btn {
+  opacity: 1;
+}
+
+.debug {
+  outline: 1px solid red;
+}
+
+//
+// Icons
+//
+
+
+// force a black icon, even if bootstrap thinks differently
+.icon-black {
+  background-image: url(/assets/glyphicons-halflings.png) !important;
+}
+
+//
+// Typography
+//
+
+.first {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+//
+// Boring default masthead
+//
+
+#masthead {
+  background: #eee;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  .title {
+    padding: 20px;
+    font-size: 1.25em;
+  }
+  .sitename {
+    font-weight: bold;
+  }
+}
+
+//
+// Side Navigation
+//
+
+.sidenav {
+  @extend .nav-tabs;
+  @extend .nav-stacked;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  li.active {
+    a, a:hover {
+      background-color: $blueDark;
+      color: $white;
+      border-color: darken($blueDark, 10%);
+      cursor: pointer;
+    }
+  }
+}

@@ -4,3 +4,10 @@
 en:
   hello: "Hello world"
   no_such_thing: "No such %{thing}."
+
+  overview: "Overview"
+  user_control_panel: "user control panel"
+
+  created: "Created"
+  updated: "Updated"
+

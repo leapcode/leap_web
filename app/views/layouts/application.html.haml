@@ -9,15 +9,27 @@
         = csrf_meta_tags
         = yield(:head)
   %body
-    %header.navbar.navbar-fixed-top
-      %nav.navbar-inner
-        .container
-          = render 'layouts/navigation'
-    #main{:role => "main"}
-      .container
-        .content
-          .row
+    #masthead
+      - if logged_in?
+        = render 'layouts/masthead'
+      - else
+        = render 'layouts/masthead_large'
+    #main
+      .container-fluid
+        - if logged_in?
+          .row-fluid
+            .span12
+              = render 'layouts/header'
+          .row-fluid
+            .span2
+              = render 'layouts/navigation'
+            .span10
+              = render 'layouts/messages'
+              = yield
+        - else
+          .row-fluid
             .span12
               = render 'layouts/messages'
               = yield
-          %footer
+    #footer
+      = render 'layouts/footer'

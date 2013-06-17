@@ -1,11 +1,16 @@
-Try to fetch a 
-= link_to "cert", cert_path
+.row-fluid
+  .span8
+    = render 'home_text'
+  .span4
+    = render '/login_or_signup'
 
-%p 
-Create a 
-= link_to "ticket", new_ticket_path
+- if Rails.env == 'development'
+  .row-fluid
+    %hr
+    %p
+      Try to fetch a
+      = link_to "cert", cert_path
 
-- if logged_in?
-  %p
-  See all 
-  = link_to "tickets", tickets_path
+    %p
+      Create a
+      = link_to "ticket", new_ticket_path
