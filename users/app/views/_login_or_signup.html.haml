@@ -1,0 +1,25 @@
+//
+// displays a little widget to login or sign up
+//
+
+%ul.nav.nav-tabs
+  %li.active
+    %a{:href => ''}= t(:login)
+  %li
+    = link_to t(:signup), new_user_path
+
+= render 'sessions/new'
+
+//
+// this is nice, but it doesn't work because both forms have the same names for fields.
+//
+// %ul.nav.nav-tabs
+//   %li.active
+//     %a{:href => '#login', 'data-toggle' => 'tab'}= t(:login)
+//   %li
+//     %a{:href => '#signup', 'data-toggle' => 'tab'}= t(:signup)
+// .tab-content
+//   #login.tab-pane.active
+//     = render 'sessions/new'
+//   #signup.tab-pane
+//     = render 'users/new'

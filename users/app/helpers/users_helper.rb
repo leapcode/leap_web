@@ -24,7 +24,7 @@ module UsersHelper
   end
 
   def user_form_html_classes(options)
-    classes = %W/form-horizontal user form/
+    classes = %W/user form/
     classes << options[:legend]
     classes << (@user.new_record? ? 'new' : 'edit')
     classes.compact
