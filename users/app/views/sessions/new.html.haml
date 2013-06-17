@@ -1,15 +1,5 @@
 .span8.offset2
-  %noscript.alert.alert-error=t :js_required
-  #cookie_warning.alert.alert-error{:display => 'none'}
-    =t :cookie_disabled_warning
-  :javascript
-    document.cookie = "testing=cookies_enabled; path=/";
-    if(document.cookie.indexOf("testing=cookies_enabled") < 0)
-    {
-      document.getElementById('cookie_warning').style.display = 'block';
-    } else {
-      document.getElementById('cookie_warning').style.display = 'none';
-    }
+  = render :partial => 'users/warnings'
   %h2=t :login
   = simple_form_for @session, :validate => true, :html => { :id => :new_session, :class => 'form-horizontal' } do |f|
     %legend=t :login_message

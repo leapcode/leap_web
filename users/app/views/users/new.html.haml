@@ -1,15 +1,5 @@
 .span8.offset2
-  %noscript.alert.alert-error=t :js_required
-  #cookie_warning.alert.alert-error{:display => 'none'}
-    =t :cookie_disabled_warning
-  :javascript
-    document.cookie = "testing=cookies_enabled; path=/";
-    if(document.cookie.indexOf("testing=cookies_enabled") < 0)
-    {
-      document.getElementById('cookie_warning').style.display = 'block';
-    } else {
-      document.getElementById('cookie_warning').style.display = 'none';
-    }
+  = render :partial => 'warnings'
   %h2=t :signup
   = user_form do |f|
     %legend= t(:signup_message)
