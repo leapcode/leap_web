@@ -17,7 +17,7 @@ development:
   <<: *dev_ca
   <<: *cert_options
   admins: [admin, admin2]
-  domain: develop.me
+  domain: example.org
   secret_token: '550df064dbc5052d9e192b324c1c5a1095c85a2195f88bd6f6829c63b74d8dffa4556494a2e8cc44345a1926be8b6cb17aa4b3f3102d826f5679c3fb57bb7100'
 
 test:
@@ -30,4 +30,4 @@ test:
 production:
   <<: *cert_options
   admins: []
-  domain: deploy.me
+  domain: example.net
