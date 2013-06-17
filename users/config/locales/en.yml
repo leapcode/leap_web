@@ -1,9 +1,14 @@
 en:
-  none: "None."
-  signup: "Sign up"
+  email_settings: "Email Settings"
+  account_settings: "Account Settings"
+  logout: "Logout"
+  none: "None"
+  signup: "Sign Up"
   signup_message: "Please create an account."
   cancel: "Cancel"
-  login: "Login"
+  login: "Log In"
+  username: "Username"
+  password: "Password"
   login_message: "Please login with your account."
   invalid_user_pass: "Not a valid username/password combination"
   all_strategies_failed: "Could not understand your login attempt. Please first send your login and a SRP ephemeral value A and then send the client_auth in the same session (using cookies)."
@@ -19,13 +24,13 @@ en:
   user_updated_successfully: "Settings have been updated successfully."
   user_created_successfully: "Successfully created your account."
   email_alias_destroyed_successfully: "Successfully removed the alias '%{alias}'."
-  use_ascii_key: "Use ASCII-armored PGP key"
+  use_ascii_key: "Use ASCII-armored OpenPGP key"
   can_retype_old_password: "Retype your old password if you would like to keep that"
   associated_email: "The associated email address is"
 
   activemodel:
     models:
-      user: 
+      user:
         one: User
         other: "%{count} Users"
   simple_form:
@@ -39,4 +44,4 @@ en:
     placeholders:
       user:
         email_forward: "my_other_email@domain.net"
-        
+
