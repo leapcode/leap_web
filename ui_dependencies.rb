@@ -6,6 +6,7 @@ gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem 'kaminari', "0.13.0" # for pagination. trying 0.13.0 as there seem to be issues with 0.14.0 when using couchrest 
 gem 'bootstrap-editable-rails', "~>0.0.4"
+gem "bootswatch-rails", "~> 0.5.0"
 
 group :assets do
   gem "haml-rails", "~> 0.3.4"

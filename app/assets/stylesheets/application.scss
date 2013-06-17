@@ -3,6 +3,9 @@
 //
 @import "tail";
 
+// First import journal variables
+@import "bootswatch/cerulean/variables";
+
 //
 // import bootstrap.
 //
@@ -18,6 +21,9 @@ table.table-hover tr:hover .btn {
   opacity: 1;
 }
 @import "bootstrap-editable";
+
+// And finally bootswatch style itself
+@import "bootswatch/cerulean/bootswatch";
 
 //
 // import custom scss, content to be set in deployment.
