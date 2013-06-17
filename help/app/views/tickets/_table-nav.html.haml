@@ -1,5 +1,4 @@
-.row
-  .span6
-    = render 'tickets/status-nav'
-  .span4
-    = render 'tickets/order-nav'
+- unless action?(:new)
+  = render 'tickets/order-nav'
+= render 'tickets/status-nav'
+
