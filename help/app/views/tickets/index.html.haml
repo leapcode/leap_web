@@ -1,17 +1,12 @@
-%h1 tickets index
+- if admin?
+  = render 'tickets/admin-nav'
 
-Create a 
-= link_to "new ticket", new_ticket_path
+= render 'tickets/table-nav'
 
-= #%div{"data-pjax-container" => ""} # not sure how to get this working right
-.row
-  .span2
-    - if admin?
-      = render 'tickets/admin-nav'
-  .span10
-    = render 'tickets/table-nav'
-    %table.table-striped.table-bordered.table-hover{:style => "width:100%;"}
-      %tbody
-        = render @tickets.all
-    = paginate @tickets
+%table.table-striped.table-bordered.table-hover
+  //{:style => "width:100%;"}
+  %tbody
+    = render @tickets.all
+= paginate @tickets
+
 

@@ -1,7 +1,7 @@
 module TicketsHelper
 
   def status
-    params[:open_status] || 'open'
+    params[:open_status]
   end
 
   def admin
@@ -14,8 +14,14 @@ module TicketsHelper
   end
 
   def link_to_status(new_status)
-    label = new_status + ' issues'
-    link_to label, :open_status => new_status, :admin_status => admin, :sort_order => order
+    if new_status == "open"
+      label = t(:open_tickets)
+    elsif new_status == "closed"
+      label = t(:closed_tickets)
+    elsif new_status == "all"
+      label = t(:all_tickets)
+    end
+    link_to label, tickets_path(:open_status => new_status, :admin_status => admin, :sort_order => order)
   end
 
   def link_to_order(order_field)
@@ -35,8 +41,14 @@ module TicketsHelper
       direction = 'desc'
     end
 
+    if order_field == 'updated'
+      label = t(:updated)
+    elsif order_field == 'created'
+      label = t(:created)
+    end
+
     link_to :sort_order => order_field + '_at_' + direction, :open_status => status, :admin_status => admin do
-      arrow + order_field + ' at'
+      arrow + label
     end
   end
 
