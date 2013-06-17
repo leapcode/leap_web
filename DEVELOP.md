@@ -1,5 +1,11 @@
 # Development #
 
+## Hacking ##
+
+Some tips on modifying the views:
+
+* Many of the forms use [simple_form gem](https://github.com/plataformatec/simple_form)
+
 ## Engines ##
 
 Leap Web consists of different Engines. They live in their own subdirectory and are included through bundler via their path. This way changes to the engines immediately affect the server as if they were in the main `app` directory.
@@ -37,7 +43,7 @@ require File.expand_path('../../lib/leap_web/version.rb', __FILE__)
 # ...
   Gem::Specification.new do |s|
     # ...
-    s.add_dependency "rails" 
+    s.add_dependency "rails"
     s.add_dependency "leap_web_core", LeapWeb::Version
   end
 ```
