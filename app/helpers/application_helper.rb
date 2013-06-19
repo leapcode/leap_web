@@ -1,6 +1,19 @@
 module ApplicationHelper
 
   #
+  # determine title for the page
+  #
+  def html_title
+    if content_for?(:title)
+      yield(:title)
+    elsif @title
+      [@title, ' - ', APP_CONFIG[:domain]].join
+    else
+      APP_CONFIG[:domain]
+    end
+  end
+
+  #
   # markup for bootstrap icon
   #
   # http://twitter.github.io/bootstrap/base-css.html#icons
