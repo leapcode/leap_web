@@ -1,18 +1,10 @@
-.spam12
-  %h2
-    %a#title.editable.editable-click{"data-name" => "title", "data-resource" => "post", "data-type" => "text", "data-url" => ticket_path(@ticket.id), "data-pk" => @ticket.id, :href => "#"} 
-      = @ticket.title
-  = render 'tickets/ticket_data'
-  %table.table-striped.table-bordered.table-hover{:style => "width:100%;"}
+.ticket
+  = render 'tickets/edit_form'
+  %table.table.table-striped.table-bordered
     %tbody
-    = render(:partial => "comment", :collection => @ticket.comments)
-  = #render @ticket.comments should work if view is in /app/views/comments/_comment
-
-  = simple_form_for @ticket, :html => {:class => 'form-horizontal'}  do |f| # don't need validations so long as this is so simple
-    = render :partial => 'new_comment', :locals => {:f => f}
-    .span10.offset3
-      = f.button :submit, @post_reply_str, :class => 'btn-primary'
-      - if @ticket.is_open
-        = f.button :submit, @reply_close_str
-        = link_to t(:Destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => 'btn btn-danger' if admin?
-      = link_to t(:cancel), tickets_path, :class => :btn
+      = render :partial => 'tickets/comment', :collection => @ticket.comments
+      %tr
+        %td.user
+          = logged_in? ? current_user.login : t(:anonymous)
+        %td.comment
+          = render 'tickets/new_comment_form'

@@ -1,20 +1,20 @@
-- # style is super ugly but just for now
 - if admin? or !comment.private # only show comment if user is admin or comment is not private
   %tr
-    %td
-      - if comment.posted_by_user
-        %b
-          = 'Posted by' + (comment.posted_by_user.is_admin? ? ' admin' : '') + ':'
-        = comment.posted_by_user.login
-      - else
-        %b
-          Unauthenticated post
+    %td.user
+      %div
+        %strong
+          - if comment.posted_by_user
+            = comment.posted_by_user.login
+          - else
+            = t(:unknown)
+      %div= comment.posted_at.to_s(:short)
+      - if comment.posted_by_user.is_admin?
+        %div
+          %span.label.label-inverse
+            = t(:admin)
       - if comment.private
-        (Private comment)
-      .pull-right
-        %b
-          Posted at:
-        = comment.posted_at.to_s(:short)
-      %br
+        %div
+          %span.label.label-important
+            = t(:private)
+    %td.comment
       = comment.body
-

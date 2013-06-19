@@ -6,27 +6,80 @@ table.table-hover tr:hover .btn {
   opacity: 1;
 }
 
+.ticket {
+  td.user {
+    white-space: nowrap;
+  }
+  td.comment {
+    width: 100%;
+  }
+}
+
+//
+// UTILITY
+//
+
 .debug {
   outline: 1px solid red;
 }
 
-//
-// Icons
-//
+.full-width {
+  width: 100%;
+}
 
+.slim {
+  margin: 0;
+}
 
-// force a black icon, even if bootstrap thinks differently
-.icon-black {
-  background-image: url(/assets/glyphicons-halflings.png) !important;
+.first {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 //
 // Typography
 //
 
-.first {
-  margin-top: 0;
-  padding-top: 0;
+input.large {
+  font-size: $baseFontSize * 1.25;
+  line-height: $baseLineHeight * 1.5;
+}
+
+//
+// FORMS
+//
+
+//
+// Sometimes we really want full width controls, but this flies in the face of
+// what bootstrap does for control sizes, so we have to step on bootstrap's
+// toes a bit to make this work.
+//
+input, textarea {
+  &.full-width {
+    height: inherit;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+}
+
+//
+// Labels
+//
+
+.label-clear {
+  background-color: $white;
+  text-shadow: none;
+  color: $black;
+}
+
+//
+// Icons
+//
+
+// force a black icon, even if bootstrap thinks differently
+.icon-black {
+  background-image: url(/assets/glyphicons-halflings.png) !important;
 }
 
 //
@@ -56,9 +109,9 @@ table.table-hover tr:hover .btn {
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
   li.active {
     a, a:hover {
-      background-color: $blueDark;
+      background-color: $linkColor;
       color: $white;
-      border-color: darken($blueDark, 10%);
+      border-color: darken($linkColor, 0%);
       cursor: pointer;
     }
   }

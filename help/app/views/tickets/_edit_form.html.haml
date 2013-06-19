@@ -1,0 +1,46 @@
+- # created by user link
+- if @ticket.created_by_user
+  - created_by = link_to(@ticket.created_by_user.login, user_overview_path(@ticket.created_by_user))
+- else
+  - created_by = t(:anonymous)
+
+- # regarding user link
+- if admin?
+  - if @ticket.regarding_user_actual_user
+    - regarding_user_link = link_to @ticket.regarding_user_actual_user.login, user_overview_path(@ticket.regarding_user_actual_user)
+  - else
+    - regarding_user_link = "(#{t(:unknown)})"
+- else
+  - regarding_user_link = ''
+
+= form_for @ticket do |f|
+  %p.first
+    - if @ticket.is_open?
+      %span.label.label-info= t(:open)
+    - else
+      %span.label.label-success= t(:closed)
+    %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
+  = t(:subject)
+  %br
+  = f.text_field :title, :class => 'large full-width'
+  .row-fluid
+    .span4
+      %div= t(:status)
+      = f.select :is_open, [[t(:open), "true"], [t(:closed), "false"]]
+    .span4
+      %div= t(:email)
+      = f.text_field :email
+    .span4
+      %div
+        = t(:regarding)
+        = regarding_user_link
+      = f.text_field :regarding_user
+  = f.submit t(:save), :class => 'btn'
+  - if @ticket.is_open?
+    = f.submit t(:close), :class => 'btn'
+    =# button_to t(:close), {:post => {:is_open => false}}, :method => :put, :class => 'btn'
+  - else
+    = f.submit t(:open), :class => 'btn'
+    =# button_to t(:open), {:post => {:is_open => true}}, :method => :put, :class => 'btn'
+
+

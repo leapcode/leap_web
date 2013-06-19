@@ -1,12 +1,17 @@
-- if admin?
-  = render 'tickets/admin-nav'
-
 = render 'tickets/table-nav'
 
-%table.table-striped.table-bordered.table-hover
-  //{:style => "width:100%;"}
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th= t(:subject)
+      %th= t(:created)
+      %th= t(:updated)
+      %th= t(:voices)
   %tbody
-    = render @tickets.all
+    - if @tickets.any?
+      = render @tickets.all
+    - else
+      %tr
+        %td{:colspan=>4}= t(:none)
+
 = paginate @tickets
-
-
