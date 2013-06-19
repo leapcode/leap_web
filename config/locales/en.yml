@@ -9,5 +9,14 @@ en:
   user_control_panel: "user control panel"
 
   created: "Created"
+  created_by_on: "Created by %{user} on %{time}"
   updated: "Updated"
 
+  none: "None"
+  unknown: "Unknown"
+  admin: "Admin"
+  anonymous: "Anonymous"
+  save: "Save"
+
+  changes_saved: "Changes saved successfully."
+  thing_was_successfully_created: "%{thing} was successfully created."
