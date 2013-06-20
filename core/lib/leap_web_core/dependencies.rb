@@ -11,7 +11,8 @@ module LeapWebCore
       "haml" =>  "~> 3.1.7",
       "bootstrap-sass" => "~> 2.0.4",
       "jquery-rails" => nil,
-      "simple_form" => nil
+      "simple_form" => nil,
+      "bootswatch-rails", "~> 0.5.0"
     }
 
     def self.require_ui_gems
