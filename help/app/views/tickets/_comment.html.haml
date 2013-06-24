@@ -6,9 +6,9 @@
           - if comment.posted_by_user
             = comment.posted_by_user.login
           - else
-            = t(:unknown)
+            = t(:anonymous)
       %div= comment.posted_at.to_s(:short)
-      - if comment.posted_by_user.is_admin?
+      - if comment.posted_by_user && comment.posted_by_user.is_admin?
         %div
           %span.label.label-inverse
             = t(:admin)

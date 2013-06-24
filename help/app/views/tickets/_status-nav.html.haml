@@ -1,9 +1,10 @@
 %ul.nav.nav-tabs
-  %li{:class => ("active" if status == 'open')}
-    = link_to_status 'open'
-  %li{:class => ("active" if status == 'closed')}
-    = link_to_status 'closed'
-  %li{:class => ("active" if status == 'all')}
-    = link_to_status 'all'
+  - if logged_in?
+    %li{:class => ("active" if status == 'open')}
+      = link_to_status 'open'
+    %li{:class => ("active" if status == 'closed')}
+      = link_to_status 'closed'
+    %li{:class => ("active" if status == 'all')}
+      = link_to_status 'all'
   %li{:class => ("active" if action?(:new))}
     = link_to icon(:plus, :black) + t(:new_ticket), new_ticket_path

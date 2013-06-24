@@ -20,8 +20,7 @@
     - else
       %span.label.label-success= t(:closed)
     %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
-  = t(:subject)
-  %br
+  %div= t(:subject)
   = f.text_field :title, :class => 'large full-width'
   .row-fluid
     .span4
@@ -32,15 +31,14 @@
       = f.text_field :email
     .span4
       %div
-        = t(:regarding)
+        = t(:regarding_account)
         = regarding_user_link
       = f.text_field :regarding_user
   = f.submit t(:save), :class => 'btn'
   - if @ticket.is_open?
     = f.submit t(:close), :class => 'btn'
-    =# button_to t(:close), {:post => {:is_open => false}}, :method => :put, :class => 'btn'
   - else
     = f.submit t(:open), :class => 'btn'
-    =# button_to t(:open), {:post => {:is_open => true}}, :method => :put, :class => 'btn'
-
+  - if admin?
+    = link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => 'btn'
 

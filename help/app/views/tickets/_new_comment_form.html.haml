@@ -7,7 +7,6 @@
     - if admin?
       = c.input :private, :as => :boolean, :label => false, :inline_label => true
   = f.button :submit, t(:post_reply), :class => 'btn-primary'
-  - if @ticket.is_open
+  - if logged_in? && @ticket.is_open
     = f.button :submit, t(:reply_and_close)
-  = link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => 'btn btn-danger' if admin?
-  = link_to t(:cancel), tickets_path, :class => :btn
+    = link_to t(:cancel), tickets_path, :class => :btn
