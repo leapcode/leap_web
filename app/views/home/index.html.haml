@@ -1,8 +1,10 @@
-.row-fluid
-  .span8
-    = render 'home_text'
-  .span4
-    = render '/login_or_signup'
+/ .row-fluid
+/   .span8
+/     = render 'home_text'
+/   .span4
+/     = render '/login_or_signup'
+
+= render 'home_text'
 
 - if Rails.env == 'development'
   .row-fluid

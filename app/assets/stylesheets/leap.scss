@@ -45,6 +45,10 @@ input.large {
   line-height: $baseLineHeight * 1.5;
 }
 
+.p {
+  @extend p;
+}
+
 //
 // FORMS
 //
@@ -98,6 +102,24 @@ input, textarea {
     font-weight: bold;
   }
 }
+
+.home-buttons {
+  .span6 {
+    margin-bottom: 20px;
+  }
+  div {
+    a {
+      width: 10em;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .info {
+    }
+    span {
+    }
+  }
+}
+
 
 //
 // Side Navigation

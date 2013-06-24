@@ -1,3 +1,6 @@
-Welcome to the LEAP web application.
+%h1= t(:welcome, :provider => APP_CONFIG[:domain])
 
-For more information, visit #{link_to('leap.se', 'https://leap.se')}
+%p
+  We provide secure communication services, including encrypted internet, email (coming soon), and chat (coming later).
+
+= home_page_buttons
