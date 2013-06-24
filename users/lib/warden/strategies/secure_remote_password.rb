@@ -28,6 +28,9 @@ module Warden
         if client = validate
           success!(User.find_by_login(client.username))
         else
+          Rails.logger.warn "Login attempt failed."
+          Rails.logger.debug debug_info
+          Rails.logger.debug "Received: #{params['client_auth']}"
           fail!(:base => "invalid_user_pass")
         end
       end
@@ -58,6 +61,13 @@ module Warden
       def id
         params["id"] || params["login"]
       end
+
+      protected
+
+      def debug_info
+        JSON.pretty_generate(session[:handshake].internal_state)
+      end
+
     end
   end
   Warden::Strategies.add :secure_remote_password,
