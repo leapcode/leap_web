@@ -1,6 +1,8 @@
 #!/bin/bash
 
 HOST="http://localhost:5984"
+echo "couch version :"
+curl -X GET $HOST
 echo "creating user :"
 curl -HContent-Type:application/json -XPUT $HOST/_users/org.couchdb.user:me --data-binary '{"_id": "org.couchdb.user:me","name": "me","roles": [],"type": "user","password": "pwd"}'
 echo "creating databases :"
