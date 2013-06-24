@@ -42,19 +42,18 @@ class TicketsController < ApplicationController
     if params[:commit] == t(:close)
       @ticket.is_open = false
       @ticket.save
-      redirect_to tickets_path
+      redirect_to_tickets
     elsif params[:commit] == t(:open)
       @ticket.is_open = true
       @ticket.save
       redirect_to @ticket
+    elsif params[:commit] == t(:cancel)
+      redirect_to_tickets
     else
       @ticket.attributes = cleanup_ticket_params(params[:ticket])
 
       if params[:commit] == t(:reply_and_close)
         @ticket.close
-        should_redirect = true
-      else
-        should_redirect = !logged_in?
       end
 
       if @ticket.comments_changed?
@@ -64,11 +63,7 @@ class TicketsController < ApplicationController
       if @ticket.changed?
         if @ticket.save
           flash[:notice] = t(:changes_saved)
-          if should_redirect
-            redirect_to tickets_path
-          else
-            redirect_to @ticket
-          end
+          redirect_to_tickets
         else
           respond_with @ticket
         end
@@ -96,6 +91,23 @@ class TicketsController < ApplicationController
   end
 
   private
+
+  #
+  # redirects to ticket index, if appropriate.
+  # otherwise, just redirects to @ticket
+  #
+  def redirect_to_tickets
+    if logged_in?
+      if params[:commit] == t(:reply_and_close)
+        redirect_to tickets_url
+      else
+        redirect_to @ticket
+      end
+    else
+      # if we are not logged in, there is no index to view
+      redirect_to @ticket
+    end
+  end
 
   # unset comments hash if no new comment was typed
   def cleanup_ticket_params(ticket)
