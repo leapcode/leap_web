@@ -16,6 +16,7 @@ en:
   email_aliases: "Email aliases"
   public_key: "Public Key"
   add_email_alias: "Add email alias"
+  confirm_question: "Are you sure?"
   user_updated_successfully: "Settings have been updated successfully."
   user_created_successfully: "Successfully created your account."
   email_alias_destroyed_successfully: "Successfully removed the alias '%{alias}'."
