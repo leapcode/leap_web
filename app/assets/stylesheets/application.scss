@@ -10,10 +10,10 @@
 // import bootstrap.
 //
 @import "bootstrap";
-body {
-  padding: 40px;
-}
+body { padding-top: 60px; }
+
 @import "bootstrap-responsive";
+
 table.table-hover .btn {
   opacity: 0;
 }
