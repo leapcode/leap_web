@@ -29,3 +29,5 @@ public/provider.json
 config/config.yml
 bin
 .*.swp
+public/1/*
+vendor/bundle/*
