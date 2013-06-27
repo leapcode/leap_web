@@ -14,12 +14,26 @@ srp.updated = ->
 
 srp.error = (message) ->
   if $.isPlainObject(message) && message.errors
-    for field, error of message.errors
-      element = $('form input[name$="['+field+']"]')
-      next unless element
-      element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
+    display_errors(message.errors)
   else
     alert(message)
+
+display_errors = (errors) ->
+  for field, error of errors
+    if field == 'base'
+      display_base_error(error);
+    else
+      display_field_error(field, error);
+
+display_field_error = (field, error) ->
+  element = $('form input[name$="['+field+']"]')
+  return unless element
+  element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false)
+
+display_base_error = (message) ->
+  messages = $('#messages')
+  messages.append "<div class=\"alert alert-error\"><a class=\"close\" \"data-dismiss\"=\"alert\">×</a><div class=\"flash_error\">" + message + "</div></div>"
+
 
 pollUsers = (query, process) ->
   $.get( "/users.json", query: query).done(process)

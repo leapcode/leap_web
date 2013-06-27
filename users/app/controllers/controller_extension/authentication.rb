@@ -10,6 +10,7 @@ module ControllerExtension::Authentication
   def authentication_errors
     return unless attempted_login?
     errors = get_warden_errors
+    #default response to get_warden_errors is not an enumerable, so won't work if default is used
     errors.inject({}) do |translated,err|
       translated[err.first] = I18n.t(err.last)
       translated
