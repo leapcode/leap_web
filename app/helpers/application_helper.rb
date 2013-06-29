@@ -29,4 +29,12 @@ module ApplicationHelper
     "<i class=\"icon-#{name} #{color_class}\"></i> ".html_safe
   end
 
+  def big_icon(name, color=nil)
+    "<i class=\"big-icon-#{name}\"></i> ".html_safe
+  end
+
+  def format_flash(msg)
+    html_escape(msg).gsub('[b]', '<b>').gsub('[/b]', '</b>').html_safe
+  end
+
 end

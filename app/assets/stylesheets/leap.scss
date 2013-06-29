@@ -1,27 +1,24 @@
+//
+// LAYOUT
+//
 
-table.table-hover .btn {
-  opacity: 0;
-}
-table.table-hover tr:hover .btn {
-  opacity: 1;
-}
-
-.ticket {
-  td.user {
-    white-space: nowrap;
-  }
-  td.comment {
-    width: 100%;
-  }
+// This is a trick to be able to use bootstrap fluid layout and also have a max-width.
+// It is like having your cake and eating it too.
+#main {
+  *zoom: 1;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  max-width: 100%;
 }
 
 //
 // UTILITY
 //
 
-.debug {
-  outline: 1px solid red;
-}
+//.debug {
+// outline: 1px solid red;
+//}
 
 .full-width {
   width: 100%;
@@ -36,8 +33,35 @@ table.table-hover tr:hover .btn {
   padding-top: 0;
 }
 
+.last {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 //
-// Typography
+// ICONS
+//
+
+[class^="big-icon-"],
+[class*=" big-icon-"] {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  @include ie7-restore-right-whitespace();
+  line-height: 32px;
+  vertical-align: middle;
+  //background-image: $iconSpritePath;
+  //background-position: 14px 14px;
+  background-repeat: no-repeat;
+  margin-top: 1px;
+}
+
+.big-icon-arrow-down {
+  background-image: url(/img/32/arrow-down.png)
+}
+
+//
+// TYPOGRAPHY
 //
 
 input.large {
@@ -50,7 +74,7 @@ input.large {
 }
 
 //
-// FORMS
+// BOOSTRAP TWEAKS
 //
 
 //
@@ -67,19 +91,12 @@ input, textarea {
   }
 }
 
-//
-// Labels
-//
-
+// like a label, but with no background
 .label-clear {
   background-color: $white;
   text-shadow: none;
   color: $black;
 }
-
-//
-// Icons
-//
 
 // force a black icon, even if bootstrap thinks differently
 .icon-black {
@@ -87,7 +104,20 @@ input, textarea {
 }
 
 //
-// Boring default masthead
+// TICKETS
+//
+
+.ticket {
+  td.user {
+    white-space: nowrap;
+  }
+  td.comment {
+    width: 100%;
+  }
+}
+
+//
+// BORING DEFAULT MASTHEAD
 //
 
 #masthead {
@@ -104,25 +134,25 @@ input, textarea {
 }
 
 .home-buttons {
-  .span6 {
-    margin-bottom: 20px;
+  text-align: center;
+  .first {
+    margin: 20px 0;
   }
-  div {
-    a {
-      width: 10em;
-      margin-bottom: 4px;
-      display: block;
+  .download {
+    a.btn {
+      width: 14em;
     }
-    .info {
-    }
-    span {
-    }
+  }
+  a.btn {
+    font-weight: bold;
+    width: 11em;
+    margin: 10px auto;
+    display: block;
   }
 }
 
-
 //
-// Side Navigation
+// SIDE NAVIGATION
 //
 
 .sidenav {

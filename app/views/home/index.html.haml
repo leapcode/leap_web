@@ -1,10 +1,9 @@
-/ .row-fluid
-/   .span8
-/     = render 'home_text'
-/   .span4
-/     = render '/login_or_signup'
+%h1= t(:welcome, :provider => APP_CONFIG[:domain])
 
-= render 'home_text'
+%p
+  We provide secure communication services, including encrypted internet, email (coming soon), and chat (coming later).
+
+= home_page_buttons
 
 - if Rails.env == 'development'
   .row-fluid
