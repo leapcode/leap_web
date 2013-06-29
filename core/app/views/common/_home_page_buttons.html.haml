@@ -1,18 +1,19 @@
-- link_class = 'btn'
 - icon_color = :black
 
 .home-buttons
   .row-fluid.first
-    .login.span6
-      %span.link= link_to(icon('ok-sign', icon_color) + t(:login), new_session_path, :class => link_class)
-      %span.info= t(:login_info)
-    .signup.span6
-      %span.link= link_to(icon('user', icon_color) + t(:signup), new_user_path, :class => link_class)
-      %span.info= t(:signup_info)
-  .row-fluid.second
+    .span3
     .download.span6
-      %span.link= link_to(icon('arrow-down', icon_color) + t(:download_client), "https://downloads.leap.se/client", :class => link_class)
+      %span.link= link_to(big_icon('arrow-down', icon_color) + t(:download_client), "https://downloads.leap.se/client", :class => 'btn btn-large')
       %span.info= t(:download_client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
-    .help.span6
-      %span.link= link_to(icon('question-sign', icon_color) + t(:get_help), "/tickets/new", :class => link_class)
+    .span3
+  .row-fluid.second
+    .login.span4
+      %span.link= link_to(icon('ok-sign', icon_color) + t(:login), new_session_path, :class => 'btn')
+      %span.info= t(:login_info)
+    .signup.span4
+      %span.link= link_to(icon('user', icon_color) + t(:signup), new_user_path, :class => 'btn')
+      %span.info= t(:signup_info)
+    .help.span4
+      %span.link= link_to(icon('question-sign', icon_color) + t(:get_help), "/tickets/new", :class => 'btn')
       %span.info= t(:help_info)

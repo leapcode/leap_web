@@ -12,8 +12,8 @@
     #masthead
       - if logged_in?
         = render 'layouts/masthead'
-      - else
-        = render 'layouts/masthead_large'
+      - elsif params[:controller] != 'home'
+        = render 'layouts/masthead_noauth'
     #main
       .container-fluid
         - if logged_in?
