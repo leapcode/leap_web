@@ -1,11 +1,21 @@
 FactoryGirl.define do
 
+  TEST_CC_NUMBER = %w(4111 1111 1111 1111).join
+
   factory :customer do
     user
 
-    factory :braintree_customer do
-      braintree_customer_id { 1 }
+    factory :customer_with_payment_info do
+      braintree_customer
     end
+  end
+
+  factory :braintree_customer, class: Braintree::Customer do
+    first_name 'Big'
+    last_name 'Spender'
+    credit_card number: TEST_CC_NUMBER, expiration_date: '04/2016'
+    initialize_with { Braintree::Customer.create(attributes).customer }
+    skip_create
   end
 
 end

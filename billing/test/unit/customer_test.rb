@@ -34,10 +34,4 @@ class CustomerTest < ActiveSupport::TestCase
     assert_nil @customer.default_credit_card
   end
 
-  test "user with braintree id" do
-    @customer = FactoryGirl.build(:braintree_customer)
-    assert @customer.braintree_customer_id
-    assert @customer.has_payment_info?
-  end
-
 end

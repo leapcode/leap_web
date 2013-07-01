@@ -17,6 +17,11 @@ gem 'debugger', :platforms => :mri_19
 # ruby 1.8 is not supported anymore
 # gem 'ruby-debug', :platforms => :mri_18
 
+
+group :test do
+  gem 'fake_braintree', require: false
+end
+
 # unreleased so far ... but leap_web_certs need it
 
 gem 'certificate_authority', :git => 'git://github.com/cchandler/certificate_authority.git'
