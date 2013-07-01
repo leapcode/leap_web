@@ -162,7 +162,7 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, :id => @current_user.id
 
     assert_response :redirect
-    assert_redirected_to login_path
+    assert_redirected_to root_path
   end
 
   test "non-admin can't destroy user" do
