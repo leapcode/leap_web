@@ -1,38 +1,43 @@
 require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
+
   setup do
-    #cannot get this working with FakeBraintree becuase the methods in customer.rb try to find the customer in braintree itself.
-
-    @user = FactoryGirl.build(:user)
-    @user.save
-    @customer = Customer.new(:user_id => @user.id)
-
-    result = Braintree::Customer.create()
-    @customer.braintree_customer_id = result.customer.id
-    @customer.save
-    @braintree_customer_data = Braintree::Customer.find(@customer.braintree_customer_id)
-
-    result = Braintree::Customer.create(:credit_card => { :number => "5105105105105100", :expiration_date => "05/2012"})
+    @customer = FactoryGirl.build(:customer)
   end
 
-  teardown do
-    @user.destroy
-    @customer.destroy
-    Braintree::Customer.delete(@customer.braintree_customer_id)
+  test "test set of attributes should be valid" do
+    @customer.valid?
+    assert_equal Hash.new, @customer.errors.messages
   end
 
-  test "default credit card" do
-    assert_nil @customer.default_credit_card(@braintree_customer_data)
-    Braintree::Customer.update(@customer.braintree_customer_id, :credit_card => { :number => "5105105105105100", :expiration_date => "05/2012" } )
-    assert_not_nil @customer.default_credit_card
-    assert_equal @customer.default_credit_card.expiration_date, "05/2012"
+  test "customer belongs to user" do
+    assert_equal User, @customer.user.class
   end
 
+  test "user validation" do
+    @customer.user = nil
+    assert !@customer.valid?
+  end
 
-  test "single subscription" do
+  test "has no payment info" do
+    assert !@customer.braintree_customer_id
+    assert !@customer.has_payment_info?
+  end
 
+  test "with no braintree data" do
+    skip "this is currently commented out in the model"
+    assert_equal @customer, @customer.with_braintree_data!
+  end
 
+  test "without default credit card" do
+    assert_nil @customer.default_credit_card
+  end
+
+  test "user with braintree id" do
+    @customer = FactoryGirl.build(:braintree_customer)
+    assert @customer.braintree_customer_id
+    assert @customer.has_payment_info?
   end
 
 end

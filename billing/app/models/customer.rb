@@ -6,6 +6,8 @@ class Customer < CouchRest::Model::Base
   belongs_to :user
   property :braintree_customer_id
 
+  validates :user, presence: true
+
   design do
     view :by_user_id
     view :by_braintree_customer_id
