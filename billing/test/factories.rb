@@ -16,6 +16,10 @@ FactoryGirl.define do
     credit_card number: TEST_CC_NUMBER, expiration_date: '04/2016'
     initialize_with { Braintree::Customer.create(attributes).customer }
     skip_create
+
+    factory :broken_customer do
+      credit_card number: '123456', expiration_date: '04/2016'
+    end
   end
 
 end
