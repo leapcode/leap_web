@@ -20,10 +20,10 @@ class CustomerControllerTest < ActionController::TestCase
     assert_redirected_to login_path
   end
 
-  test "edit uses current_user" do
+  test "edit uses params[:id]" do
     customer = FactoryGirl.create :customer_with_payment_info
     login customer.user
-    get :edit, id: :unused
+    get :edit, id: customer.id
 
     assert_response :success
     assert assigns(:tr_data)
@@ -37,12 +37,30 @@ class CustomerControllerTest < ActionController::TestCase
     to_confirm = prepare_confirmation :create_customer_data,
       customer: FactoryGirl.attributes_for(:braintree_customer),
       redirect_url: confirm_customer_url
-    post :confirm, to_confirm
+
+    assert_difference("Customer.count") do
+      post :confirm, to_confirm
+    end
 
     assert_response :success
     assert result = assigns(:result)
     assert result.success?
     assert result.customer.id
+  end
+
+  test "customer update" do
+    @customer = FactoryGirl.create :customer_with_payment_info
+    login @customer.user
+    Braintree::TransparentRedirect.expects(:confirm).returns(success_response)
+
+    assert_no_difference("Customer.count") do
+      post :confirm, query: :from_braintree
+    end
+
+    assert_response :success
+    assert result = assigns(:result)
+    assert result.success?
+    assert_equal @customer, result.customer
   end
 
   test "failed user creation" do
@@ -87,6 +105,11 @@ class CustomerControllerTest < ActionController::TestCase
     stub success?: false,
       errors: stub(for: nil, size: 0),
       params: {}
+  end
+
+  def success_response
+    stub success?: true,
+      customer: @customer.with_braintree_data!
   end
 
   def post_transparent_redirect(type, data)

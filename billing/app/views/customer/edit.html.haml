@@ -2,7 +2,7 @@
   #total-errors{:style => "color:red;"}
     = h(@result.errors.size)
     error(s)
-= form_for :customer, :url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:customer],:existing => @braintree_data, :builder => BraintreeFormHelper::BraintreeFormBuilder, :errors => @result && @result.errors.for(:customer) do |f| |
+= form_for :customer, :url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:customer],:existing => @customer,  :builder => BraintreeHelper::BraintreeFormBuilder, :errors => @result && @result.errors.for(:customer) do |f| |
   = field_set_tag "Customer" do
     %dl
       %dt= f.label :first_name, 'First Name'

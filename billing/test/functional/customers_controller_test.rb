@@ -1,6 +1,8 @@
 require 'test_helper'
+require 'fake_braintree'
 
 class CustomersControllerTest < ActionController::TestCase
+  tests CustomerController
 
   setup do
     @user = FactoryGirl.create :user
@@ -43,7 +45,7 @@ class CustomersControllerTest < ActionController::TestCase
     login @other_user
     get :new
     assert_response :redirect
-    assert_equal edit_customer_url(@customer.braintree_customer_id), response.header['Location']
+    assert_equal edit_customer_url(@customer), response.header['Location']
   end
 
 
