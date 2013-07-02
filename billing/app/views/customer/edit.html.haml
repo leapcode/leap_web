@@ -2,7 +2,7 @@
   #total-errors{:style => "color:red;"}
     = h(@result.errors.size)
     error(s)
-= form_for :customer, :url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:customer],:existing => @customer,  :builder => BraintreeHelper::BraintreeFormBuilder, :errors => @result && @result.errors.for(:customer) do |f| |
+= form_for :customer, url: Braintree::TransparentRedirect.url, params: @result && @result.params[:customer], existing: @customer, builder: BraintreeFormHelper::BraintreeFormBuilder, errors: @result && @result.errors.for(:customer) do |f| |
   = field_set_tag "Customer" do
     %dl
       %dt= f.label :first_name, 'First Name'
@@ -19,4 +19,4 @@
         = link_to 'Change credit card', edit_credit_card_info_path(:id => @default_cc.token), :class => :btn
   = hidden_field_tag :tr_data, @tr_data
   = f.submit 'Save Customer Info', :class => :btn
-= link_to 'Show Customer Information', show_customer_path(@braintree_data.id), :class=> :btn
+= link_to 'Show Customer Information', show_customer_path(@customer), :class=> :btn

@@ -33,7 +33,7 @@ class Customer < CouchRest::Model::Base
     self
   end
 
-  def default_credit_card(braintree_data = nil)
+  def default_credit_card
     return unless has_payment_info?
 
     credit_cards.find { |cc| cc.default? }

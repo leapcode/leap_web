@@ -1,26 +1,7 @@
 require 'test_helper'
+require 'fake_braintree'
 
 class PaymentsControllerTest < ActionController::TestCase
-
-  setup do
-    FakeBraintree.clear!
-    @user = FactoryGirl.create :user
-    @other_user = FactoryGirl.create :user
-    FakeBraintree.clear!
-    FakeBraintree.verify_all_cards!
-    testid = 'testid'
-    FakeBraintree::Customer.new({:credit_cards => [{:number=>"5105105105105100", :expiration_date=>"05/2013"}]}, {:id => testid, :merchant_id => Braintree::Configuration.merchant_id})
-    # any reason to call the create instance method on the FakeBraintree::Customer ?
-    @customer = Customer.new(:user_id => @other_user.id)
-    @customer.braintree_customer_id = testid
-    @customer.save
-  end
-
-  teardown do
-    @user.destroy
-    @other_user.destroy
-    @customer.destroy
-  end
 
   test "payment when unauthorized" do
     get :new
@@ -29,27 +10,55 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "authenticated user must create account before making payment" do
-    login @user
+    login
     get :new
     assert_response :redirect
     assert_equal new_customer_url, response.header['Location']
   end
 
   test "payment when authenticated as customer" do
+    customer = FactoryGirl.create :customer_with_payment_info
+    login customer.user
     get :new
     assert_not_nil assigns(:tr_data)
     assert_response :success
-    #TODO check more here
   end
 
-  # what would we test with something like this?
-  test "fake transaction" do
-    transaction = FakeBraintree.generate_transaction(:amount => '20.00',
-                                                     #:status => Braintree::Transaction::Status::Settled,
-                                                     #:subscription_id => 'foobar',
-                                                     )
+  test "successful confirmation renders confirm" do
+    Braintree::TransparentRedirect.expects(:confirm).returns(success_response)
+    get :confirm
 
+    assert_response :success
+    assert_template :confirm
   end
 
+  test "failed confirmation renders new" do
+    Braintree::TransparentRedirect.expects(:confirm).returns(failure_response)
+    get :confirm
+
+    assert_response :success
+    assert_not_nil assigns(:tr_data)
+    assert_template :new
+  end
+
+  def failure_response
+    stub success?: false,
+      errors: stub(for: nil, size: 0),
+      params: {},
+      transaction: stub(status: nil)
+  end
+
+  def success_response
+    stub success?: true,
+      transaction: stub_transaction
+  end
+
+  # that's what you get when not following the law of demeter...
+  def stub_transaction
+    stub amount: "100.00",
+      id: "ASDF",
+      customer_details: FactoryGirl.build(:braintree_customer),
+      credit_card_details: FactoryGirl.build(:braintree_customer).credit_cards.first
+  end
 
 end

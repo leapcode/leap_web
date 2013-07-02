@@ -1,15 +1,15 @@
 %h2 Customer Information
 %dl
   %dt First Name
-  %dd= @braintree_data.first_name
+  %dd= @customer.first_name
   %dt Last Name
-  %dd= @braintree_data.last_name
+  %dd= @customer.last_name
   %dt Phone
-  %dd= @braintree_data.phone
+  %dd= @customer.phone
 %h2 Credit Card Information
 %dl
   %dt Number
   %dd= @default_cc.masked_number
   %dt Expiration Date
   %dd= @default_cc.expiration_date
-= link_to 'Edit Saved Data', edit_customer_path(@customer.braintree_customer_id), :class => :btn
+= link_to 'Edit Saved Data', edit_customer_path(@customer), :class => :btn
