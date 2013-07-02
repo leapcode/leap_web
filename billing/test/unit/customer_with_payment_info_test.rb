@@ -20,6 +20,16 @@ class CustomerWithPaymentInfoTest < ActiveSupport::TestCase
     assert_equal Hash.new, @customer.custom_fields
   end
 
+  test "can access braintree_customer after reload" do
+    @customer.save
+    @customer = Customer.find_by_user_id(@customer.user_id)
+    @customer.with_braintree_data!
+    assert_equal 'Big', @customer.first_name
+    assert_equal 'Spender', @customer.last_name
+    assert_equal 1, @customer.credit_cards.size
+    assert_equal Hash.new, @customer.custom_fields
+  end
+
   test "sets default_credit_card" do
     @customer.with_braintree_data!
     assert_equal @customer.credit_cards.first, @customer.default_credit_card

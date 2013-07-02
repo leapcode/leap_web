@@ -5,7 +5,12 @@ class Customer < CouchRest::Model::Base
 
   use_database "customers"
   belongs_to :user
-  belongs_to :braintree_customer, class: Braintree::Customer
+  belongs_to :braintree_customer
+
+  # Braintree::Customer - stored on braintrees servers - we only have the id.
+  def braintree_customer
+    @braintree_customer ||= Braintree::Customer.find(braintree_customer_id)
+  end
 
   validates :user, presence: true
 
