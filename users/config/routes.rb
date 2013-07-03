@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get "signup" => "users#new", :as => "signup"
   resources :users do
     resources :email_aliases, :only => [:destroy], :id => /.*/
+    post 'deactivate', on: :member
+    post 'enable', on: :member
   end
 
   get "/.well-known/host-meta" => 'webfinger#host_meta'

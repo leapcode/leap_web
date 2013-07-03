@@ -25,6 +25,8 @@ en:
   associated_email: "The associated email address is"
   cookie_disabled_warning: "You have cookies disabled. You will not be able to login until you enable cookies."
   js_required: "We are sorry, but this doesn't work without javascript enabled. This is for security reasons."
+  enable_description: "This will restore the account to full functionality"
+  deactivate_description: "This will temporarily deactivate some account functionality." #todo detail exact functionality. can receive email but not send or renew client certificate?
 
   activemodel:
     models:

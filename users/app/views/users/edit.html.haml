@@ -3,6 +3,8 @@
   - tabs = []
   - content_for :account do
     = user_form_with 'login_and_password_fields', :legend => :update_login_and_password if @user == current_user
+    = render 'deactivate_account' if @user != current_user and @user.enabled?
+    = render 'enable_account'  if @user != current_user and !@user.enabled?
     = render 'cancel_account'
     - tabs << :account
   - if @user == current_user

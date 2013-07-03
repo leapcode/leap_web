@@ -33,7 +33,8 @@ module UsersHelper
   def user_field(field)
     value = @user.send(field)
     value = value.to_s(:long) if field.end_with? '_at'
-    value || 'not set'
+    value = 'not set' if value.nil?
+    value
   end
 
   def wrapped(item, options = {})
