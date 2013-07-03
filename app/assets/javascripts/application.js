@@ -14,11 +14,10 @@
 //= require jquery_ujs
 //= require srp
 //= require bootstrap
-//# require bootstrap-editable
-//# require bootstrap-editable-rails
 //= require rails.validations
 //= require rails.validations.simple_form
 
+//= require leap
 //= require tickets
 //= require users
 
