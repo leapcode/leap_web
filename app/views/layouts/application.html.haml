@@ -1,3 +1,4 @@
+- @show_navigation = true if @show_navigation.nil?
 !!!
 %html
   %head
@@ -20,16 +21,7 @@
           .row-fluid
             .span12
               = render 'layouts/header'
-          .row-fluid
-            .span2
-              = render 'layouts/navigation'
-            .span10
-              = render 'layouts/messages'
-              = yield
-        - else
-          .row-fluid
-            .span12
-              = render 'layouts/messages'
-              = yield
+        .row-fluid
+          = render 'layouts/content'
     #footer
       = render 'layouts/footer'

@@ -38,6 +38,10 @@
   padding-bottom: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 //
 // ICONS
 //
@@ -50,8 +54,6 @@
   @include ie7-restore-right-whitespace();
   line-height: 32px;
   vertical-align: middle;
-  //background-image: $iconSpritePath;
-  //background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
 }
@@ -74,7 +76,7 @@ input.large {
 }
 
 //
-// BOOSTRAP TWEAKS
+// BOOTSTRAP TWEAKS
 //
 
 //
@@ -154,6 +156,11 @@ input, textarea {
 //
 // SIDE NAVIGATION
 //
+
+.user_heading {
+  margin: 1em 0;
+  font-weight: bold;
+}
 
 .sidenav {
   @extend .nav-tabs;

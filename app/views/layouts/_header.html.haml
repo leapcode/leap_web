@@ -1,3 +1,9 @@
-- if user
-  %strong.user_address
+- if admin?
+  %ul.nav.nav-tabs
+    %li{:class => ("active" if controller?('users', 'email_settings', 'overviews') || params[:user_id])}
+      = link_to t(:users), users_path
+    %li{:class => ("active" if controller?('tickets') && !params[:user_id])}
+      = link_to t(:tickets), tickets_path
+- if user && @show_navigation
+  .user_heading
     = user.email_address
