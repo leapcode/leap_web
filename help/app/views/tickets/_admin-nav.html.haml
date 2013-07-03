@@ -1,5 +1,0 @@
-.btn-group
-  %span.btn.disabled= t(:admin) + ':'
-  = link_to t(:my_tickets), {:admin_status => 'mine', :open_status => status, :sort_order => order}, :class => ['btn', ("active" if admin == 'mine')].join(' ')
-  = link_to t(:all_tickets), {:admin_status => 'all', :open_status => status, :sort_order => order}, :class => ['btn', ("active" if admin == 'all')].join(' ')
-%br

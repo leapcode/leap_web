@@ -105,6 +105,15 @@ input, textarea {
   background-image: url(/assets/glyphicons-halflings.png) !important;
 }
 
+// override stupid bootstrap behavior of making the active tab appear non-clickable
+// and links not being underline
+.nav-tabs > li > a:hover, .sidenav > li > a:hover {
+  text-decoration: underline;
+}
+.nav-tabs > .active > a:hover {
+  cursor: pointer;
+}
+
 //
 // TICKETS
 //

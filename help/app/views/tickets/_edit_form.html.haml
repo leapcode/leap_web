@@ -14,6 +14,7 @@
   - regarding_user_link = ''
 
 = form_for @ticket do |f|
+  = hidden_ticket_fields
   %p.first
     - if @ticket.is_open?
       %span.label.label-info= t(:open)
@@ -40,5 +41,5 @@
   - else
     = f.submit t(:open), :class => 'btn'
   - if admin?
-    = link_to t(:destroy), ticket_path,  :confirm => 'are you sure?', :method => :delete, :class => 'btn'
+    = link_to t(:destroy), auto_ticket_path(@ticket),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn'
 

@@ -1,10 +1,12 @@
 class TicketsController < ApplicationController
+  include AutoTicketsPathHelper
 
   respond_to :html, :json
   #has_scope :open, :type => boolean
 
   before_filter :authorize, :only => [:index]
   before_filter :fetch_ticket, :only => [:show, :update, :destroy] # don't now have an edit method
+  before_filter :fetch_user
   before_filter :set_title
 
   def new
@@ -27,13 +29,13 @@ class TicketsController < ApplicationController
     if !logged_in? and flash[:notice]
       flash[:notice] += " " + t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
     end
-    respond_with(@ticket)
+    respond_with(@ticket, :location => auto_ticket_path(@ticket))
   end
 
   def show
     @comment = TicketComment.new
     if !@ticket
-      redirect_to tickets_path, :alert => t(:no_such_thing, :thing => t(:ticket))
+      redirect_to auto_tickets_path, :alert => t(:no_such_thing, :thing => t(:ticket))
       return
     end
   end
@@ -46,7 +48,7 @@ class TicketsController < ApplicationController
     elsif params[:commit] == t(:open)
       @ticket.is_open = true
       @ticket.save
-      redirect_to @ticket
+      redirect_to auto_ticket_path(@ticket)
     elsif params[:commit] == t(:cancel)
       redirect_to_tickets
     else
@@ -68,20 +70,20 @@ class TicketsController < ApplicationController
           respond_with @ticket
         end
       else
-        redirect_to @ticket
+        redirect_to auto_ticket_path(@ticket)
       end
     end
   end
 
   def index
-    @all_tickets = Ticket.for_user(current_user, params, admin?) #for tests, useful to have as separate variable
+    @all_tickets = Ticket.search(search_options(params))
     @tickets = @all_tickets.page(params[:page]).per(APP_CONFIG[:pagination_size])
   end
 
   def destroy
     # should we allow non-admins to delete their own tickets? i don't think necessary.
     @ticket.destroy if admin?
-    redirect_to tickets_path
+    redirect_to auto_tickets_path
   end
 
   protected
@@ -99,17 +101,19 @@ class TicketsController < ApplicationController
   def redirect_to_tickets
     if logged_in?
       if params[:commit] == t(:reply_and_close)
-        redirect_to tickets_url
+        redirect_to auto_tickets_path
       else
-        redirect_to @ticket
+        redirect_to auto_ticket_path(@ticket)
       end
     else
       # if we are not logged in, there is no index to view
-      redirect_to @ticket
+      redirect_to auto_ticket_path(@ticket)
     end
   end
 
+  #
   # unset comments hash if no new comment was typed
+  #
   def cleanup_ticket_params(ticket)
     if ticket && ticket[:comments_attributes]
       if ticket[:comments_attributes].values.first[:body].blank?
@@ -126,10 +130,27 @@ class TicketsController < ApplicationController
   def fetch_ticket
     @ticket = Ticket.find(params[:id])
     if !@ticket and admin?
-      redirect_to tickets_path, :alert => t(:no_such_thing, :thing => 'ticket')
+      redirect_to auto_tickets_path, :alert => t(:no_such_thing, :thing => 'ticket')
       return
     end
     access_denied unless ticket_access?
+  end
+
+  def fetch_user
+    if params[:user_id]
+      @user = User.find_by_param(params[:user_id])
+    end
+  end
+
+  #
+  # clean up params for ticket search
+  #
+  def search_options(params)
+    params.merge(
+      :admin_status => params[:user_id] ? 'mine' : 'all',
+      :user_id      => @user ? @user.id : current_user.id,
+      :is_admin     => admin?
+    )
   end
 
 end

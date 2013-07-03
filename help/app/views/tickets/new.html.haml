@@ -1,6 +1,9 @@
+- @show_navigation = !params[:user_id].nil?
+
 = render 'tickets/table-nav'
 
 = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'} do |f|
+  = hidden_ticket_fields
   = f.input :title, :label => t(:subject)
   - if user
     = f.input :email, input_html: {value: user.email_address}
@@ -15,4 +18,6 @@
   .form-actions
     = f.button :submit, :class => 'btn-primary'
     - if logged_in?
-      = link_to t(:cancel), tickets_path, :class => :btn
+      = link_to t(:cancel), auto_tickets_path, :class => :btn
+    - else
+      = link_to t(:cancel), root_path, :class => 'btn'

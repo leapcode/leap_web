@@ -2,6 +2,7 @@
 -# for posting a new comment to an existing ticket.
 -#
 = simple_form_for @ticket, :html => {:class => 'slim'}  do |f|
+  = hidden_ticket_fields
   = f.simple_fields_for :comments, @comment, :wrapper => :none, :html => {:class => 'slim'} do |c|
     = c.input :body, :label => false, :as => :text, :input_html => {:class => "full-width", :rows=> 5}
     - if admin?
@@ -9,4 +10,4 @@
   = f.button :submit, t(:post_reply), :class => 'btn-primary'
   - if logged_in? && @ticket.is_open
     = f.button :submit, t(:reply_and_close)
-    = link_to t(:cancel), tickets_path, :class => :btn
+    = link_to t(:cancel), auto_tickets_path, :class => :btn
