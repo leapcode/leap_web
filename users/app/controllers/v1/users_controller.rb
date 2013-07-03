@@ -1,8 +1,9 @@
 module V1
-  class UsersController < ApplicationController
+  class UsersController < UsersBaseController
 
     skip_before_filter :verify_authenticity_token
     before_filter :authorize, :only => [:update]
+    before_filter :fetch_user, :only => [:update]
 
     respond_to :json
 
@@ -12,9 +13,11 @@ module V1
     end
 
     def update
-      # For now, only allow public key to be updated via the API. Eventually we might want to store in a config what attributes can be updated via the API.
       @user = User.find_by_param(params[:id])
-      @user.update_attributes params[:user].slice(:public_key) if params[:user].respond_to?(:slice)
+      @user.update_attributes params[:user]
+      if @user.valid?
+        flash[:notice] = t(:user_updated_successfully)
+      end
       respond_with @user
     end
 
