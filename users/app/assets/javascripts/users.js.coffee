@@ -19,11 +19,15 @@ srp.error = (message) ->
     alert(message)
 
 display_errors = (errors) ->
+  clear_errors();
   for field, error of errors
     if field == 'base'
       display_base_error(error);
     else
       display_field_error(field, error);
+
+clear_errors = ->
+  $('#messages').empty();
 
 display_field_error = (field, error) ->
   element = $('form input[name$="['+field+']"]')
@@ -32,8 +36,7 @@ display_field_error = (field, error) ->
 
 display_base_error = (message) ->
   messages = $('#messages')
-  messages.append "<div class=\"alert alert-error\"><a class=\"close\" \"data-dismiss\"=\"alert\">×</a><div class=\"flash_error\">" + message + "</div></div>"
-
+  messages.append "<div class=\"alert alert-error\">" + message + "</div></div>"
 
 pollUsers = (query, process) ->
   $.get( "/users.json", query: query).done(process)
