@@ -23,7 +23,6 @@ module V1
     end
 
     def update
-      @user = User.find_by_param(params[:id])
       @user.update_attributes params[:user]
       if @user.valid?
         flash[:notice] = t(:user_updated_successfully)

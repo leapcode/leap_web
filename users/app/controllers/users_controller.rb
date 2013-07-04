@@ -27,11 +27,6 @@ class UsersController < UsersBaseController
     @user = User.new
   end
 
-  def create
-    @user = User.create(params[:user])
-    respond_with @user
-  end
-
   def show
   end
 
