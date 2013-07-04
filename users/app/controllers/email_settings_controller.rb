@@ -8,7 +8,7 @@ class EmailSettingsController < UsersBaseController
   end
 
   def update
-    @user.attributes = params[:user]
+    @user.attributes = cleanup_params(params[:user])
     if @user.changed?
       if @user.save
         flash[:notice] = t(:changes_saved)
@@ -29,6 +29,13 @@ class EmailSettingsController < UsersBaseController
 
   def redirect
     redirect_to edit_user_email_settings_url(@user)
+  end
+
+  def cleanup_params(user)
+    if !user['email_forward'].nil? && user['email_forward'].empty?
+      user.delete('email_forward') # don't allow "" as an email forward
+    end
+    user
   end
 
 end
