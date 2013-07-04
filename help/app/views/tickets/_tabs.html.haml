@@ -1,3 +1,16 @@
+-#
+-# SORT ORDER TABS
+-#
+- unless action?(:new)
+  %ul.nav.nav-pills.pull-right.slim
+    %li{:class=> ("active" if search_order.start_with? 'created_at')}
+      = link_to_order('created')
+    %li{:class=> ("active" if search_order.start_with? 'updated_at')}
+      = link_to_order('updated')
+
+-#
+-# STATUS FILTER TABS
+-#
 %ul.nav.nav-tabs
   - if logged_in?
     %li{:class => ("active" if search_status == 'open')}
