@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       defaults: {format: 'json'} } do
     resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
-    resources :users, :only => [:create, :update, :destroy]
+    resources :users, :only => [:create, :update, :destroy, :index]
   end
 
   get "login" => "sessions#new", :as => "login"

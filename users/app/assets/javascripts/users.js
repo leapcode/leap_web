@@ -10,7 +10,7 @@
   };
 
   poll_users = function(query, process) {
-    return $.get("/users.json", {
+    return $.get("/1/users.json", {
       query: query
     }).done(process);
   };
@@ -66,7 +66,7 @@
     $('#new_session').submit(srp.login);
     $('#update_login_and_password').submit(prevent_default);
     $('#update_login_and_password').submit(srp.update);
-    return $('.user.typeahead').typeahead({
+    return $('#user-typeahead').typeahead({
       source: poll_users
     });
   });
