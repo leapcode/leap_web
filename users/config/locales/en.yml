@@ -29,6 +29,20 @@ en:
   advanced_options: "Advanced Options"
   not_authorized: "Sorry, but you are not authorized to perform that action."
   not_authorized_login: "Please log in to perform that action."
+  search: "Search"
+
+  #
+  # overview
+  #
+  overview_welcome: "Welcome %{username}."
+  overview_intro: "From this user control panel, you can:"
+  overview_tickets: "Create and check support tickets."
+  overview_email: "Modify email settings."
+  overview_account: "Change your password or delete your account."
+
+  #
+  # rails
+  #
   activemodel:
     models:
       user:

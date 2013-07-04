@@ -3,22 +3,24 @@
 #
 
 class UsersController < UsersBaseController
-
   before_filter :authorize, :only => [:show, :edit, :update, :destroy]
   before_filter :fetch_user, :only => [:show, :edit, :update, :destroy]
-  #before_filter :authorize_self, :only => [:update]
   before_filter :authorize_admin, :only => [:index]
 
-  respond_to :json
+  respond_to :html
 
   def index
     if params[:query]
-      @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+      if @user = User.find_by_login(params[:query])
+        redirect_to user_overview_url(@user)
+        return
+      else
+        @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+      end
     else
       @users = User.by_created_at.descending
     end
-    @users = @users.limit(APP_CONFIG[:pagination_size])
-    #respond_with @users.map(&:login).sort
+    @users = @users.limit(100)
   end
 
   def new
@@ -51,12 +53,5 @@ class UsersController < UsersBaseController
       format.json { head :no_content }
     end
   end
-
-  protected
-
-  #def authorize_self
-  #  # have already checked that authorized
-  #  access_denied unless (@user == current_user)
-  #end
 
 end
