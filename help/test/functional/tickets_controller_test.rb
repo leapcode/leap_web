@@ -181,23 +181,24 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "admin_status mine vs all" do
     testticket = FactoryGirl.create :ticket
+    user = find_record :user
     login :is_admin? => true, :email => nil
 
-    get :index, {:admin_status => "all", :open_status => "open"}
+    get :index, {:open_status => "open"}
     assert assigns(:all_tickets).include?(testticket)
-    get :index, {:admin_status => "mine", :open_status => "open"}
+    get :index, {:user_id => user.id, :open_status => "open"}
     assert !assigns(:all_tickets).include?(testticket)
     testticket.destroy
   end
 
   test "commenting on a ticket adds to tickets that are mine" do
     testticket = FactoryGirl.create :ticket
-    login :is_admin? => true, :email => nil
-
-    get :index, {:admin_status => "mine", :open_status => "open"}
+    user = find_record :admin_user
+    login user
+    get :index, {:user_id => user.id, :open_status => "open"}
     assert_difference('assigns[:all_tickets].count') do
       put :update, :id => testticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
-      get :index, {:admin_status => "mine", :open_status => "open"}
+      get :index, {:user_id => user.id, :open_status => "open"}
     end
 
     assert assigns(:all_tickets).include?(assigns(:ticket))
