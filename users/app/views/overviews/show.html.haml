@@ -1,15 +1,18 @@
-%p
-  Username:
-  = @user.login
+.overview
 
-%p
-  User since:
-  = @user.created_at
+  %h2.first= t(:overview_welcome, :username => @user.login)
 
-%p
-  Last update:
-  = @user.updated_at
+  - if admin?
+    %p
+      = t(:created)
+      = @user.created_at
+      %br
+      = t(:updated)
+      = @user.updated_at
 
-%p
-  Quota:
-  N/A
+  %p= t(:overview_intro)
+
+  %ul.unstyled
+    %li= icon('user') + link_to(t(:overview_account), edit_user_path(@user))
+    %li= icon('envelope') + link_to(t(:overview_email), edit_user_email_settings_path(@user))
+    %li= icon('question-sign') + link_to(t(:overview_tickets), user_tickets_path(@user))

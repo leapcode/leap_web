@@ -12,11 +12,16 @@ class UsersController < UsersBaseController
 
   def index
     if params[:query]
-      @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+      if @user = User.find_by_login(params[:query])
+        redirect_to user_overview_url(@user)
+        return
+      else
+        @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+      end
     else
       @users = User.by_created_at.descending
     end
-    @users = @users.limit(APP_CONFIG[:pagination_size])
+    @users = @users.limit(100)
   end
 
   def new
