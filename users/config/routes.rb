@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :sessions, :only => [:new, :create, :update]
 
   get "signup" => "users#new", :as => "signup"
-  resources :users do
+  resources :users, :except => [:create, :update] do
     resource :overview, :only => [:show]
     resource :email_settings, :only => [:edit, :update]
     resources :email_aliases, :only => [:destroy], :id => /.*/
