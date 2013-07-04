@@ -36,7 +36,7 @@ class UsersController < UsersBaseController
 
   def destroy
     @user.destroy
-    redirect_to admin? ? users_path : login_path
+    redirect_to admin? ? users_url : root_url
   end
 
 end
