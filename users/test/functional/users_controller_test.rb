@@ -205,4 +205,22 @@ class UsersControllerTest < ActionController::TestCase
     assert assigns(:users)
   end
 
+  test "user cannot enable own account" do
+    user = find_record :user
+    login
+    post :enable, :id => user.id
+    assert_access_denied
+  end
+
+  test "admin can deactivate user" do
+    user = find_record :user
+    assert user.enabled?
+    user.expects(:save).returns(true)
+
+    login :is_admin? => true
+
+    post :deactivate, :id => user.id
+    assert !assigns(:user).enabled?
+  end
+
 end
