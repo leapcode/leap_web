@@ -1,5 +1,0 @@
-%ul.nav.nav-pills.pull-right{:style => 'margin-bottom: 0'}
-  %li{:class=> ("active" if search_order.start_with? 'created_at' )}
-    = link_to_order('created')
-  %li{:class=> ("active" if search_order.start_with? 'updated_at' )}
-    = link_to_order('updated')

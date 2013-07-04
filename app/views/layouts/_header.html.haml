@@ -4,6 +4,8 @@
       = link_to t(:users), users_path
     %li{:class => ("active" if controller?('tickets') && !params[:user_id])}
       = link_to t(:tickets), tickets_path
-- if user && @show_navigation
+    %li
+      = link_to t(:logout), logout_path, :method => :delete
+- if @user && @show_navigation
   .user_heading
-    = user.email_address
+    = @user.email_address
