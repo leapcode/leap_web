@@ -26,7 +26,6 @@ class CustomerTest < ActiveSupport::TestCase
   end
 
   test "with no braintree data" do
-    skip "this is currently commented out in the model"
     assert_equal @customer, @customer.with_braintree_data!
   end
 
