@@ -88,10 +88,11 @@ class AccountFlowTest < RackTest
     server_auth = @srp.authenticate(self)
     test_public_key = 'asdlfkjslfdkjasd'
     original_login = @user.login
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => 'failed_login_name'}, :format => :json
+    new_login = 'zaph'
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => new_login}, :format => :json
     @user.reload
     assert_equal test_public_key, @user.public_key
-    assert_equal original_login, @user.login
+    assert_equal new_login, @user.login
     # eventually probably want to remove most of this into a non-integration functional test
     # should not overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
