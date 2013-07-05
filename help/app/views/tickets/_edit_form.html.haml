@@ -1,17 +1,21 @@
-- # created by user link
-- if @ticket.created_by_user
-  - created_by = link_to(@ticket.created_by_user.login, user_overview_path(@ticket.created_by_user))
-- else
-  - created_by = t(:anonymous)
+:ruby
+  # created by user link
+  if @ticket.created_by_user
+    created_by = link_to(@ticket.created_by_user.login, user_overview_path(@ticket.created_by_user))
+  else
+    created_by = t(:anonymous)
+  end
 
-- # regarding user link
-- if admin?
-  - if @ticket.regarding_user_actual_user
-    - regarding_user_link = link_to @ticket.regarding_user_actual_user.login, user_overview_path(@ticket.regarding_user_actual_user)
-  - else
-    - regarding_user_link = "(#{t(:unknown)})"
-- else
-  - regarding_user_link = ''
+  # regarding user link
+  if admin?
+    if @ticket.regarding_user_actual_user
+      regarding_user_link = link_to @ticket.regarding_user_actual_user.login, user_overview_path(@ticket.regarding_user_actual_user)
+    else
+      regarding_user_link =  "(#{t(:unknown)})"
+    end
+  else
+    regarding_user_link = ''
+  end
 
 = form_for @ticket do |f|
   = hidden_ticket_fields
