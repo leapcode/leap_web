@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.homepage    = "http://www.leap.se"
   s.summary     = "User registration and authorization for the leap platform"
   s.description = "This this plugin for the leap platform provides user signup and login. It uses Secure Remote Password for the authentication."
-  
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "Readme.md"]
+
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "leap_web_core", LeapWeb::VERSION

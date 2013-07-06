@@ -1,0 +1,194 @@
+//
+// LAYOUT
+//
+
+// This is a trick to be able to use bootstrap fluid layout and also have a max-width.
+// It is like having your cake and eating it too.
+#main {
+  *zoom: 1;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px;
+  max-width: 100%;
+}
+
+//
+// UTILITY
+//
+
+//.debug {
+// outline: 1px solid red;
+//}
+
+.full-width {
+  width: 100%;
+}
+
+.slim {
+  margin: 0;
+}
+
+.first {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.last {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+//
+// ICONS
+//
+
+[class^="big-icon-"],
+[class*=" big-icon-"] {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  @include ie7-restore-right-whitespace();
+  line-height: 32px;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  margin-top: 1px;
+}
+
+.big-icon-arrow-down {
+  background-image: url(/img/32/arrow-down.png)
+}
+
+//
+// TYPOGRAPHY
+//
+
+input.large {
+  font-size: $baseFontSize * 1.25;
+  line-height: $baseLineHeight * 1.5;
+}
+
+.p {
+  @extend p;
+}
+
+//
+// BOOTSTRAP TWEAKS
+//
+
+//
+// Sometimes we really want full width controls, but this flies in the face of
+// what bootstrap does for control sizes, so we have to step on bootstrap's
+// toes a bit to make this work.
+//
+input, textarea {
+  &.full-width {
+    height: inherit;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+}
+
+// like a label, but with no background
+.label-clear {
+  background-color: $white;
+  text-shadow: none;
+  color: $black;
+}
+
+// force a black icon, even if bootstrap thinks differently
+.icon-black {
+  background-image: url(/assets/glyphicons-halflings.png) !important;
+}
+
+// override stupid bootstrap behavior of making the active tab appear non-clickable
+// and links not being underline
+.nav-tabs > li > a:hover, .sidenav > li > a:hover {
+  text-decoration: underline;
+}
+.nav-tabs > .active > a:hover {
+  cursor: pointer;
+}
+
+//
+// TICKETS
+//
+
+.ticket {
+  td.user {
+    white-space: nowrap;
+  }
+  td.comment {
+    width: 100%;
+  }
+}
+
+//
+// BORING DEFAULT MASTHEAD
+//
+
+#masthead {
+  background: #eee;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  .title {
+    padding: 20px;
+    font-size: 1.25em;
+  }
+  .sitename {
+    font-weight: bold;
+  }
+}
+
+.home-buttons {
+  text-align: center;
+  .first {
+    margin: 20px 0;
+  }
+  .download {
+    a.btn {
+      width: 14em;
+    }
+  }
+  a.btn {
+    font-weight: bold;
+    width: 11em;
+    margin: 10px auto;
+    display: block;
+  }
+}
+
+//
+// SIDE NAVIGATION
+//
+
+.user_heading {
+  margin: 1em 0;
+  font-weight: bold;
+}
+
+.sidenav {
+  @extend .nav-tabs;
+  @extend .nav-stacked;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  li.active {
+    a, a:hover {
+      background-color: $linkColor;
+      color: $white;
+      border-color: darken($linkColor, 0%);
+      cursor: pointer;
+    }
+  }
+}
+
+//
+// USERS
+//
+
+.overview li {
+  padding: 6px 0;
+}

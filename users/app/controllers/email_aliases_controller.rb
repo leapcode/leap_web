@@ -1,20 +1,12 @@
-class EmailAliasesController < ApplicationController
-
+class EmailAliasesController < UsersBaseController
   before_filter :fetch_user
-
-  respond_to :html
 
   def destroy
     @alias = @user.email_aliases.delete(params[:id])
-    @user.save
-    flash[:notice] = t(:email_alias_destroyed_successfully, :alias => @alias)
-    redirect_to edit_user_path(@user, :anchor => :email)
+    if @user.save
+      flash[:notice] = t(:email_alias_destroyed_successfully, :alias => bold(@alias))
+    end
+    redirect_to edit_user_email_settings_path(@user)
   end
 
-  protected
-
-  def fetch_user
-    @user = User.find_by_param(params[:user_id])
-    access_denied unless admin? or (@user == current_user)
-  end
 end

@@ -1,10 +1,30 @@
-.span12
-  %h2=t :new_ticket
-  = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'}  do |f|
-    = f.input :title
-    = f.input :email if !current_user  #hmm--might authenticated users want to submit an alternate email?
+- @show_navigation = !params[:user_id].nil?
+
+= render 'tickets/tabs'
+
+- if admin? && @user
+  - email = @user.email_address
+  - regarding = @user.login
+- elsif logged_in?
+  - email = current_user.email_address
+  - regarding = current_user.login
+
+= simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'} do |f|
+  = hidden_ticket_fields
+  = f.input :title, :label => t(:subject)
+  - if logged_in?
+    = f.input :email, input_html: {value: email}
+    = f.input :regarding_user, input_html: {value: regarding}
+  - else
+    = f.input :email
     = f.input :regarding_user
-    = render :partial => 'new_comment', :locals => {:f => f}
-    .form-actions
-      = f.button :submit, :class => 'btn-primary'
-      = link_to t(:cancel), tickets_path, :class => :btn
+  = f.simple_fields_for :comments, @comment do |c|
+    = c.input :body, :label => t(:description), :as => :text, :input_html => {:class => "full-width", :rows=> 5}
+    - if admin?
+      = c.input :private, :as => :boolean, :label => false, :inline_label => true
+  .form-actions
+    = f.button :submit, :class => 'btn-primary'
+    - if logged_in?
+      = link_to t(:cancel), auto_tickets_path, :class => :btn
+    - else
+      = link_to t(:cancel), root_path, :class => 'btn'

@@ -1,29 +1,24 @@
 //
 // import custom scss, content to be set in deployment.
 //
-@import "tail";
+@import "head";
 
 // First import journal variables
-@import "bootswatch/cerulean/variables";
+// @import "bootswatch/cerulean/variables";
 
 //
 // import bootstrap.
 //
 @import "bootstrap";
-body { padding-top: 60px; }
-
 @import "bootstrap-responsive";
 
-table.table-hover .btn {
-  opacity: 0;
-}
-table.table-hover tr:hover .btn {
-  opacity: 1;
-}
-@import "bootstrap-editable";
+//
+// LEAP web app specific overrides
+//
+@import "leap";
 
 // And finally bootswatch style itself
-@import "bootswatch/cerulean/bootswatch";
+// @import "bootswatch/cerulean/bootswatch";
 
 //
 // import custom scss, content to be set in deployment.
