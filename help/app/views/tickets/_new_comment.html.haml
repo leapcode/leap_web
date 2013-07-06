@@ -1,4 +1,0 @@
-= f.simple_fields_for :comments, @comment do |c|
-  = c.input :body, :label => 'Comment', :as => :text, :input_html => {:class => "span9", :rows=>4}
-  - if admin?
-    = c.input :private, :as => :boolean, :label => false, :inline_label => true

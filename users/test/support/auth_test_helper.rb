@@ -20,10 +20,18 @@ module AuthTestHelper
 
   def assert_access_denied(denied = true, logged_in = true)
     if denied
-      assert_equal({:alert => "Not authorized"}, flash.to_hash)
-      # todo: eventually probably eliminate separate conditions
-      assert_redirected_to login_path if !logged_in
-      assert_redirected_to root_path if logged_in
+      if @response.content_type == 'application/json'
+        assert_json_response('error' => I18n.t(:not_authorized))
+        assert_response :unprocessable_entity
+      else
+        if logged_in
+          assert_equal({:alert => I18n.t(:not_authorized)}, flash.to_hash)
+          assert_redirected_to root_url
+        else
+          assert_equal({:alert => I18n.t(:not_authorized_login)}, flash.to_hash)
+          assert_redirected_to login_url
+        end
+      end
     else
       assert flash[:alert].blank?
     end

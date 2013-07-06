@@ -1,2 +1,22 @@
 en:
-  access_ticket_text: "You can later access this ticket at the url %{full_url}. You might want to bookmark this page to find it again. Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to remove it from the browser history"
+  access_ticket_text: >
+    You can later access this ticket at the url %{full_url}. You might want to bookmark this page to find it again.
+    Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to
+    remove it from the browser history.
+  support_tickets: "Support Tickets"
+  all_tickets: "All Tickets"
+  my_tickets: "My Tickets"
+  open_tickets: "Open Tickets"
+  closed_tickets: "Closed Tickets"
+  new_ticket: "New Ticket"
+  tickets: "Tickets"
+  subject: "Subject"
+  destroy: "Destroy"
+  open: "Open"
+  closed: "Closed"
+  close: "Close"
+  post_reply: "Post Reply"
+  reply_and_close: "Reply and Close"
+  description: "Description"
+  ticket: "Ticket"
+  regarding_account: "Regarding Account"

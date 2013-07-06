@@ -13,7 +13,9 @@ FactoryGirl.define do
     end
 
     factory :admin_user do
-      is_admin? true
+      after(:build) do |admin|
+        admin.stubs(:is_admin?).returns(true)
+      end
     end
   end
 end

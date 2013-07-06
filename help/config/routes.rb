@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-
-  resources :tickets, :only => [:new, :create, :index, :show, :update, :destroy]
-  #resources :ticket, :only => [:show]
+  resources :tickets, :except => :edit
+  resources :users do
+    resources :tickets, :except => :edit
+  end
 end

@@ -1,15 +1,18 @@
 module StubRecordHelper
 
-  # Will expect find_by_param or find_by_id to be called on klass and
+  #
+  # We will stub find_by_param or find_by_id to be called on klass and
   # return the record given.
+  #
   # If no record is given but a hash or nil will create a stub based on
   # that instead and returns the stub.
+  #
   def find_record(factory, attribs_hash = {})
-    attribs_hash.reverse_merge!(:id => Random.rand(10000).to_s)
+    attribs_hash = attribs_hash.reverse_merge(:id => Random.rand(10000).to_s)
     record = stub_record factory, attribs_hash
     klass = record.class
     finder = klass.respond_to?(:find_by_param) ? :find_by_param : :find
-    klass.expects(finder).with(record.to_param.to_s).returns(record)
+    klass.stubs(finder).with(record.to_param.to_s).returns(record)
     return record
   end
 
