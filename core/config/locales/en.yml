@@ -1,6 +1,7 @@
 en:
   no_such_thing: "No such %{thing}."
   thing_was_successfully_created: "%{thing} was successfully created."
+  create_thing: "Create %{thing}"
 
   overview: "Overview"
   user_control_panel: "user control panel"
