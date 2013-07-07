@@ -11,10 +11,8 @@
         = yield(:head)
   %body
     #masthead
-      - if logged_in?
+      - if params[:controller] != 'home'
         = render 'layouts/masthead'
-      - elsif params[:controller] != 'home'
-        = render 'layouts/masthead_noauth'
     #main
       .container-fluid
         - if logged_in?
