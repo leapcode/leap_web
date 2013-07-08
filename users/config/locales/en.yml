@@ -1,47 +1,68 @@
 en:
-  none: "None."
-  signup: "Sign up"
+  email_settings: "Email Settings"
+  account_settings: "Account Settings"
+  logout: "Logout"
+  none: "None"
+  signup: "Sign Up"
   signup_message: "Please create an account."
   cancel: "Cancel"
-  login: "Login"
-  login_message: "Please login with your account."
+  login: "Log In"
+  username: "Username"
+  password: "Password"
+  change_password: "Change Password"
+  login_message: "Please log in with your account."
   invalid_user_pass: "Not a valid username/password combination"
   all_strategies_failed: "Could not understand your login attempt. Please first send your login and a SRP ephemeral value A and then send the client_auth in the same session (using cookies)."
   update_login_and_password: "Update Login and Password"
-  cancel_account: "Cancel your account"
-  remove_account: "Remove Account"
-  admin_cancel_account: "Cancel the account %{username}"
+  destroy_my_account: "Destroy my account"
+  destroy_account_info: "This will permanently destroy your account and all the data associated with it. Proceed with caution!"
+  admin_destroy_account: "Destroy the account %{username}"
   set_email_address: "Set email address"
-  forward_email: "Forward email"
-  email_aliases: "Email aliases"
+  forward_email: "Forward Email"
+  email_aliases: "Email Aliases"
   public_key: "Public Key"
-  add_email_alias: "Add email alias"
-  confirm_question: "Are you sure?"
+  add_email_alias: "Add Email Alias"
   user_updated_successfully: "Settings have been updated successfully."
   user_created_successfully: "Successfully created your account."
-  email_alias_destroyed_successfully: "Successfully removed the alias '%{alias}'."
-  use_ascii_key: "Use ASCII-armored PGP key"
-  can_retype_old_password: "Retype your old password if you would like to keep that"
-  associated_email: "The associated email address is"
+  email_alias_destroyed_successfully: "Removed email alias %{alias}."
+  use_ascii_key: "OpenPGP public key. Do not change this value unless you know what you are doing."
+  advanced_options: "Advanced Options"
+  not_authorized: "Sorry, but you are not authorized to perform that action."
+  not_authorized_login: "Please log in to perform that action."
+  search: "Search"
   cookie_disabled_warning: "You have cookies disabled. You will not be able to login until you enable cookies."
   js_required: "We are sorry, but this doesn't work without javascript enabled. This is for security reasons."
   enable_description: "This will restore the account to full functionality"
   deactivate_description: "This will temporarily deactivate some account functionality." #todo detail exact functionality. can receive email but not send or renew client certificate?
 
+
+  #
+  # overview
+  #
+  overview_welcome: "Welcome %{username}."
+  overview_intro: "From this user control panel, you can:"
+  overview_tickets: "Create and check support tickets."
+  overview_email: "Modify email settings."
+  overview_account: "Change your password or delete your account."
+
+  #
+  # rails
+  #
   activemodel:
     models:
-      user: 
+      user:
         one: User
         other: "%{count} Users"
   simple_form:
     labels:
       user:
-        email_forward: "Email forward"
+        email_forward: "Email Forward"
     hints:
       user:
-        email_forward: "Forward all emails to this address"
-        email: "Your leap web email address"
+        email_forward: >
+          Forward all email messages to this address. Messages will be encrypted before being forwarded.
+          This is an option for advanced users who are familar with OpenPGP.
     placeholders:
       user:
         email_forward: "my_other_email@domain.net"
-        
+

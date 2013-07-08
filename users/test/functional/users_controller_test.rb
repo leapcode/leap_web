@@ -79,33 +79,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to users_path
   end
 
-  test "should create new user" do
-    user_attribs = record_attributes_for :user
-    user = User.new(user_attribs)
-    User.expects(:create).with(user_attribs).returns(user)
-
-
-    post :create, :user => user_attribs, :format => :json
-
-
-    assert_nil session[:user_id]
-    assert_json_response user
-    assert_response :success
-  end
-
-  test "should redirect to signup form on failed attempt" do
-    user_attribs = record_attributes_for :user
-    user_attribs.slice!('login')
-    user = User.new(user_attribs)
-    assert !user.valid?
-    User.expects(:create).with(user_attribs).returns(user)
-
-    post :create, :user => user_attribs, :format => :json
-
-    assert_json_error user.errors.messages
-    assert_response 422
-  end
-
   test "should get edit view" do
     user = find_record :user
 
@@ -113,34 +86,6 @@ class UsersControllerTest < ActionController::TestCase
     get :edit, :id => user.id
 
     assert_equal user, assigns[:user]
-  end
-
-  test "user can change settings" do
-    user = find_record :user
-    changed_attribs = record_attributes_for :user_with_settings
-    user.expects(:attributes=).with(changed_attribs)
-    user.expects(:changed?).returns(true)
-    user.expects(:save).returns(true)
-
-    login user
-    put :update, :user => changed_attribs, :id => user.id, :format => :json
-
-    assert_equal user, assigns[:user]
-    assert_response 204
-    assert_equal " ", @response.body
-  end
-
-  # Eventually, admin will be able to update some user fields
-  test "admin cannot update user" do
-    user = find_record :user
-    changed_attribs = record_attributes_for :user_with_settings
-
-    login :is_admin? => true
-    put :update, :user => changed_attribs, :id => user.id, :format => :json
-
-    assert_response :redirect
-    assert_access_denied
-
   end
 
   test "admin can destroy user" do
@@ -187,14 +132,6 @@ class UsersControllerTest < ActionController::TestCase
     get :index
 
     assert_access_denied
-  end
-
-  test "admin can autocomplete users" do
-    login :is_admin? => true
-    get :index, :format => :json
-
-    assert_response :success
-    assert assigns(:users)
   end
 
   test "admin can search users" do

@@ -1,23 +1,25 @@
+- @show_navigation = true if @show_navigation.nil? && logged_in?
 !!!
 %html
   %head
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
-      %title= content_for?(:title) ? yield(:title) : "Leap Web"
+      %title= html_title
       %meta{:content => content_for?(:description) ? yield(:description) : "Leap Web", :name => "description"}
         = stylesheet_link_tag "application", :media => "all"
         = javascript_include_tag "application"
         = csrf_meta_tags
         = yield(:head)
   %body
-    %header.navbar.navbar-fixed-top
-      %nav.navbar-inner
-        .container
-          = render 'layouts/navigation'
-    #main{:role => "main"}
-      .container
-        .content
-          .row
+    #masthead
+      - if params[:controller] != 'home'
+        = render 'layouts/masthead'
+    #main
+      .container-fluid
+        - if logged_in?
+          .row-fluid
             .span12
-              = render 'layouts/messages'
-              = yield
-          %footer
+              = render 'layouts/header'
+        .row-fluid
+          = render 'layouts/content'
+    #footer
+      = render 'layouts/footer'

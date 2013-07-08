@@ -1,0 +1,42 @@
+-#
+-# edit user form, used by both show and edit actions.
+-#
+
+-#
+-# CHANGE PASSWORD
+-#
+-# * everything about this form is handled with javascript. So take care when changing any ids.
+-# * the login is required when changing the password because it is used as part of the salt when calculating the password verifier.
+-#   however, we don't want the user to change their login without generating a new key, so we hide the ui for this
+-#   (although it works perfectly fine to change username if the field was visible).
+-#
+- form_options = {:url => '/not-used', :html => {:class => user_form_class('form-horizontal'), :id =>  'update_login_and_password'}, :validate => true}
+= simple_form_for @user, form_options do |f|
+  %legend= t(:change_password)
+  = hidden_field_tag 'user_param', @user.to_param
+  .hidden
+    = f.input :login, :label => t(:username), :required => false, :input_html => {:id => :srp_username}
+  = f.input :password, :required => false, :validate => true, :input_html => { :id => :srp_password }
+  = f.input :password_confirmation, :required => false, :input_html => { :id => :srp_password_confirmation }
+  .control-group
+    .controls
+      = f.submit t(:save), :class => 'btn btn-primary'
+
+-#
+-# DESTROY ACCOUNT
+-#
+
+%legend
+  - if @user == current_user
+    = t(:destroy_my_account)
+  - else
+    = t(:admin_destroy_account, :username => @user.login)
+%p= t(:destroy_account_info)
+= link_to user_path(@user), :method => :delete, :confirm => t(:are_you_sure), :class => "btn btn-danger" do
+  %i.icon-remove.icon-white
+  = t(:destroy_my_account)
+
+- # TODO: should show enabled field if admin is viewing another account.
+- # TODO: admins should be able to deactivate/enable regular accounts, as appropriate. before had:
+- # = render 'deactivate_account' if @user != current_user and @user.enabled?
+- # = render 'enable_account'  if @user != current_user and !@user.enabled?

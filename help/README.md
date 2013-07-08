@@ -1,0 +1,1 @@
+Implements a simple, clean, and easy to use help ticketing system.

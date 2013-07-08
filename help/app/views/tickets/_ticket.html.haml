@@ -1,17 +1,6 @@
-- updated_at_text = 'updated: ' + ticket.updated_at.to_s(:long)
+- url = auto_ticket_path(ticket)
 %tr
-  %td
-    %b
-      = link_to ticket.title, ticket
-    - if params[:controller] == 'tickets'
-      %br
-      %small
-        created:
-        = ticket.created_at.to_s(:long)
-        = updated_at_text
-      %small.pull-right
-        comments by:
-        = ticket.commenters
-    - else
-      %small
-        = updated_at_text
+  %td= link_to ticket.title, url
+  %td= link_to ticket.created_at.to_s(:short), url
+  %td= link_to ticket.updated_at.to_s(:short), url
+  %td= ticket.commenters
