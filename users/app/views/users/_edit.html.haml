@@ -35,8 +35,17 @@
 = link_to user_path(@user), :method => :delete, :confirm => t(:are_you_sure), :class => "btn btn-danger" do
   %i.icon-remove.icon-white
   = t(:destroy_my_account)
-
-- # TODO: should show enabled field if admin is viewing another account.
-- # TODO: admins should be able to deactivate/enable regular accounts, as appropriate. before had:
-- # = render 'deactivate_account' if @user != current_user and @user.enabled?
-- # = render 'enable_account'  if @user != current_user and !@user.enabled?
+- if @user != current_user and @user.enabled?
+  %legend
+    = t(:deactivate_account, :username => @user.login)
+  %p= t(:deactivate_description)
+  = link_to deactivate_user_path(@user), :method => :post, :class => "btn btn-warning"  do
+    %i.icon-pause.icon-white
+    = t(:deactivate)
+- elsif @user != current_user and !@user.enabled?
+  %legend
+    = t(:enable_account, :username => @user.login)
+  %p= t(:enable_description)
+  = link_to enable_user_path(@user), :method => :post, :class => "btn btn-warning"  do
+    %i.icon-ok.icon-white
+    = t(:enable)
