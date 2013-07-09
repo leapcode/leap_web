@@ -1,9 +1,10 @@
-.span8.offset2
+.span1
+.span9
   = render :partial => 'users/warnings'
   %h2=t :login
   = simple_form_for @session, :validate => true, :html => { :id => :new_session, :class => 'form-horizontal' } do |f|
-    %legend=t :login_message
-    = f.input :login, :input_html => { :id => :srp_username }
-    = f.input :password, :required => true, :input_html => { :id => :srp_password }
-    = f.button :submit, :value => t(:login), :class => 'btn-primary'
-    = link_to t(:cancel), root_url, :class => :btn
+    = f.input :login, :required => false, :label => t(:username), :input_html => { :id => :srp_username }
+    = f.input :password, :required => false, :input_html => { :id => :srp_password }
+    .form-actions
+      = f.button :submit, :value => t(:login), :class => 'btn-primary'
+      = link_to t(:cancel), root_path, :class => 'btn'

@@ -1,0 +1,19 @@
+-#
+-# Partial for displaying the page content. This is the only place that content should be displayed.
+-#
+
+- if content_for?(:content)
+  - content = yield(:content)
+- else
+  - content = yield
+
+- if @show_navigation
+  .span2
+    = render 'layouts/navigation'
+  .span10
+    = render 'layouts/messages'
+    = content
+- else
+  .span12
+    = render 'layouts/messages'
+    = content

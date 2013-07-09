@@ -1,5 +1,0 @@
-%ul.nav.nav-pills.nav-stacked
-  %li{:class => ("active" if admin == 'mine')}
-    = link_to 'tickets i admin', {:admin_status => 'mine', :open_status => status, :sort_order => order}
-  %li{:class => ("active" if admin == 'all')} 
-    = link_to 'all tickets', {:admin_status => 'all', :open_status => status, :sort_order => order}

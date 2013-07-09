@@ -1,12 +1,19 @@
-.span8.offset2
+-#
+-# This form is handled entirely by javascript, so take care when changing element ids.
+-#
+
+- form_options = {:url => '/not-used', :html => {:id =>  'new_user', :class => user_form_class('form-horizontal')}, :validate => true}
+
+.span1
+.span9
   = render :partial => 'warnings'
   %h2=t :signup
-  = user_form do |f|
+  = simple_form_for(@user, form_options) do |f|
     %legend= t(:signup_message)
-    = render :partial => 'login_field', :locals => {:f => f}
-    = render :partial => 'password_fields', :locals => {:f => f}
-    .pull-right
-      = f.button :submit, :class => 'btn-primary'
-      = link_to t(:cancel), root_url, :class => :btn
-    .clearfix
+    = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
+    = f.input :password,              :required => false, :validate => true, :input_html => { :id => :srp_password }
+    = f.input :password_confirmation, :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
+    .form-actions
+      = f.button :submit, :value => t(:signup), :class => 'btn btn-primary'
+      = link_to t(:cancel), root_url, :class => 'btn'
 
