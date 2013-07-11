@@ -66,8 +66,7 @@ class AccountFlowTest < RackTest
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new @login, :password => "wrong password"
     server_auth = srp.authenticate(self)
-    assert_json_error login: "Not a valid username/password combination",
-      password: "Not a valid username/password combination"
+    assert_json_error "base" => "Not a valid username/password combination"
     assert !last_response.successful?
     assert_nil server_auth["M2"]
   end
@@ -78,8 +77,7 @@ class AccountFlowTest < RackTest
     assert_raises RECORD_NOT_FOUND do
       server_auth = srp.authenticate(self)
     end
-    assert_json_error login: "Not a valid username/password combination",
-      password: "Not a valid username/password combination"
+    assert_json_error "base" => "Not a valid username/password combination"
     assert !last_response.successful?
     assert_nil server_auth
   end
