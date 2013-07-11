@@ -1,4 +1,4 @@
-class SubscriptionsController < ApplicationController
+class SubscriptionsController < BillingBaseController
   before_filter :authorize
   before_filter :fetch_subscription, :only => [:show, :destroy]
   before_filter :confirm_no_active_subscription, :only => [:new, :create]

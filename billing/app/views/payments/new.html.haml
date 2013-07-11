@@ -7,7 +7,7 @@
 - if @result and @result.transaction.status == 'processor_declined'
   %div{:style => "color: red;"}
     Processor Declined
-= form_for :transaction, :params => @result && @result.params[:transaction], :errors => @result && @result.errors.for(:transaction), :builder => BraintreeFormHelper::BraintreeFormBuilder, :url => Braintree::TransparentRedirect.url, :html => {:autocomplete => "off"} do |f| #TODO: add helper
+= braintree_form_for :transaction, :html => {:autocomplete => "off"} do |f|
   = f.label :amount, "Amount"
   = f.text_field :amount
   - if !@customer

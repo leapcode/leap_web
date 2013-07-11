@@ -3,7 +3,7 @@
   #total-errors{:style => "color:red;"}
     = h(@result.errors.size)
     error(s)
-= form_for :credit_card,:url => Braintree::TransparentRedirect.url, :params => @result && @result.params[:credit_card], :builder =>  BraintreeFormHelper::BraintreeFormBuilder, :existing => @credit_card, :errors => @result && @result.errors.for(:credit_card) do |f| |
+= braintree_form_for :credit_card, :existing => @credit_card do |f|
   = field_set_tag "Credit Card" do
     %dl
       %dt= f.label :number, 'Number'
