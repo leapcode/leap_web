@@ -18,7 +18,9 @@ module ControllerExtension::Authentication
 
   def get_warden_errors
     if strategy = warden.winning_strategy
-      strategy.message
+      message = strategy.message
+      # in case we get back the default message to fail!
+      message.respond_to?(:inject) ? message : { base: message }
     else
       { login: :all_strategies_failed }
     end

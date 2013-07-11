@@ -3,7 +3,7 @@
   // LOCAL FUNCTIONS
   //
 
-  var poll_users, prevent_default, form_failed, form_passed;
+  var poll_users, prevent_default, form_failed, form_passed, clear_errors;
 
   prevent_default = function(event) {
     return event.preventDefault();
@@ -14,6 +14,11 @@
       query: query
     }).done(process);
   };
+
+  clear_errors = function() {
+    return $('#messages').empty();
+  };
+
 
   //
   // PUBLIC FUNCTIONS
@@ -38,9 +43,14 @@
   // decorates the appropriate fields with the error messages.
   //
   srp.error = function(message) {
+    clear_errors();
     var element, error, field;
     if ($.isPlainObject(message) && message.errors) {
       for (field in message.errors) {
+        if (field == 'base') {
+          alert_message(message.errors[field]);
+          next;
+        }
         error = message.errors[field];
         element = $('form input[name$="[' + field + ']"]');
         if (!element) {
