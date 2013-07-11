@@ -5,8 +5,8 @@
 class UsersController < UsersBaseController
 
   before_filter :authorize, :only => [:show, :edit, :update, :destroy]
-  before_filter :fetch_user, :only => [:show, :edit, :update, :destroy]
-  before_filter :authorize_admin, :only => [:index]
+  before_filter :fetch_user, :only => [:show, :edit, :update, :destroy, :deactivate, :enable]
+  before_filter :authorize_admin, :only => [:index, :deactivate, :enable]
 
   respond_to :html
 
@@ -32,6 +32,18 @@ class UsersController < UsersBaseController
   end
 
   def edit
+  end
+
+  def deactivate
+    @user.enabled = false
+    @user.save
+    respond_with @user
+  end
+
+  def enable
+    @user.enabled = true
+    @user.save
+    respond_with @user
   end
 
   def destroy

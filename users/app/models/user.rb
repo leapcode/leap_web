@@ -11,6 +11,8 @@ class User < CouchRest::Model::Base
 
   property :public_key, :accessible => true
 
+  property :enabled, TrueClass, :default => true
+
   validates :login, :password_salt, :password_verifier,
     :presence => true
 
