@@ -47,10 +47,10 @@
     var element, error, field;
     if ($.isPlainObject(message) && message.errors) {
       for (field in message.errors) {
-	if (field == 'base') {
-	  alert_message(message.errors[field]);
-	  next;
-	}
+        if (field == 'base') {
+          alert_message(message.errors[field]);
+          next;
+        }
         error = message.errors[field];
         element = $('form input[name$="[' + field + ']"]');
         if (!element) {
