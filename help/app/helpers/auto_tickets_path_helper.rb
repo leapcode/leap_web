@@ -13,6 +13,7 @@ module AutoTicketsPathHelper
   protected
 
   def auto_tickets_path(options={})
+    return unless options.class == Hash
     options = ticket_view_options.merge options
     if @user
       user_tickets_path(@user, options)
@@ -31,6 +32,7 @@ module AutoTicketsPathHelper
   end
 
   def auto_new_ticket_path(options={})
+    return unless options.class == Hash
     options = ticket_view_options.merge options
     if @user
       new_user_ticket_path(@user, options)
