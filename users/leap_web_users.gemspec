@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "leap_web_core", LeapWeb::VERSION
 
-  s.add_dependency "ruby-srp", "~> 0.1.6"
+  s.add_dependency "ruby-srp", "~> 0.1.7"
   s.add_dependency "rails_warden"
 end
