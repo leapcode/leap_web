@@ -13,24 +13,28 @@ cert_options: &cert_options
   limited_cert_prefix: "LIMITED"
   unlimited_cert_prefix: "UNLIMITED"
 
+common: &common
+  force_ssl: false
+  pagination_size: 30
+
 development:
   <<: *dev_ca
   <<: *cert_options
+  <<: *common
   admins: [blue, admin, admin2]
   domain: example.org
-  secret_token: '550df064dbc5052d9e192b324c1c5a1095c85a2195f88bd6f6829c63b74d8dffa4556494a2e8cc44345a1926be8b6cb17aa4b3f3102d826f5679c3fb57bb7100'
-  pagination_size: 30
+  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 test:
   <<: *dev_ca
   <<: *cert_options
+  <<: *common
   admins: [admin, admin2]
   domain: test.me
-  secret_token: '550df064dbc5052d9e192b324c1c5a1095c85a2195f88bd6f6829c63b74d8dffa4556494a2e8cc44345a1926be8b6cb17aa4b3f3102d826f5679c3fb57bb7100'
-  pagination_size: 30
+  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 production:
   <<: *cert_options
+  <<: *common
   admins: []
   domain: example.net
-  pagination_size: 30

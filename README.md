@@ -24,10 +24,14 @@ For more information, see these files in the ``doc`` directory:
 Known problems
 ---------------------------
 
-* Client certificates are generated without a CSR. The problem is that this makes the web 
-application extremely vulnerable to denial of service attacks. This was not an issue until we 
-started to allow the possibility of anonymously fetching a client certificate without 
-authenticating first.
+* Client certificates are generated without a CSR. The problem is that this makes the web
+  application extremely vulnerable to denial of service attacks. This was not an issue until we
+  started to allow the possibility of anonymously fetching a client certificate without
+  authenticating first.
+
+* By its very nature, the user database is vulnerable to enumeration attacks. These are
+  very hard to prevent, because our protocol is designed to allow query of a user database via
+  proxy in order to provide network perspective.
 
 Installation
 ---------------------------
@@ -57,12 +61,27 @@ Typically, you run ``bundle`` as a normal user and it will ask you for a sudo pa
 Configuration
 ----------------------------
 
-The webapp can hand out certs for the EIP client. These certs are either picked from a pool in CouchDB or from a file. For now you can either run [Leap CA](http://github.com/leapcode/leap_ca) to fill the pool or you can put your certs file in config/cert.
+The configuration file `config/defaults.yml` providers good defaults for most
+values. You can override these defaults by creating a file `config/config.yml`.
 
-We also ship provider information through the webapp. For now please add your eip-service.json to the public/config directory.
+There are a few values you should make sure to modify:
 
-Copy the example configuration file and customize as appropriate:
-     cp config/config.yml.example config/config.yml
+    production:
+      admins: ["myusername","otherusername"]
+      domain: example.net
+      force_ssl: true
+      secret_token: "4be2f60fafaf615bd4a13b96bfccf2c2c905898dad34..."
+      client_ca_key: "/etc/ssl/ca.key"
+      client_ca_cert: "/etc/ssl/ca.crt"
+      ca_key_password: nil
+
+* `admins` is an array of usernames that are granted special admin privilege.
+* `domain` is your fully qualified domain name.
+* `force_ssl`, if set to true, will require secure cookies and turn on HSTS. Don't do this if you are using a self-signed server certificate.
+* `secret_token`, used for cookie security, you can create one with `rake secret`. Should be at least 30 characters.
+* `client_ca_key`, the private key of the CA used to generate client certificates.
+* `client_ca_cert`, the public certificate the CA used to generate client certificates.
+* `ca_key_password`, used to unlock the client_ca_key, if needed.
 
 Running
 -----------------------------
