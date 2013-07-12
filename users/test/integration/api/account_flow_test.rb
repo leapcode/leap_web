@@ -55,14 +55,6 @@ class AccountFlowTest < RackTest
     assert server_auth["M2"]
   end
 
-  test "duplicate login does not break things" do
-    server_auth = @srp.authenticate(self)
-    server_auth = @srp.authenticate(self)
-    assert last_response.successful?
-    assert_nil server_auth["errors"]
-    assert server_auth["M2"]
-  end
-
   test "signup and wrong password login attempt" do
     srp = SRP::Client.new @login, :password => "wrong password"
     server_auth = srp.authenticate(self)
