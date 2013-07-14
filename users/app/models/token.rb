@@ -8,7 +8,7 @@ class Token < CouchRest::Model::Base
 
   def initialize(*args)
     super
-    self.id = SecureRandom.urlsafe_base64(32)
+    self.id = SecureRandom.urlsafe_base64(32).gsub(/^_*/, '')
   end
 
   design do
