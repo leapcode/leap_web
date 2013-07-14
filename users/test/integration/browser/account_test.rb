@@ -12,8 +12,7 @@ class AccountTest < BrowserIntegrationTest
     fill_in 'Password', with: password
     fill_in 'Password confirmation', with: password
     click_on 'Sign Up'
-    assert page.has_content?("Welcome #{username}"),
-      "failed to verify server. expected M2: #{page.evaluate_script("srp.session.getM2();")}"
+    assert page.has_content?("Welcome #{username}")
     click_on 'Logout'
     assert_equal '/', current_path
   end
