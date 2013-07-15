@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class AccountTest < BrowserIntegrationTest
 
   setup do
