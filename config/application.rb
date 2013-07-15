@@ -15,6 +15,11 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+APP_CONFIG = ["defaults.yml", "config.yml"].inject({}) {|config, file|
+  filepath = File.expand_path(file, File.dirname(__FILE__))
+  config.merge(File.exists?(filepath) ? YAML.load_file(filepath)[Rails.env] : {})
+}.with_indifferent_access
+
 module LeapWeb
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
