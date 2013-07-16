@@ -1,6 +1,7 @@
 %ul.nav.sidenav
   = link_to_navigation t(:overview), user_overview_path(@user), :active => controller?(:overviews)
   = link_to_navigation t(:account_settings), edit_user_path(@user), :active => controller?(:users)
-  = link_to_navigation t(:email_settings), edit_user_email_settings_path(@user), :active => controller?(:email_settings)
+  - if !APP_CONFIG[:excluded_features].include?('email')
+    = link_to_navigation t(:email_settings), edit_user_email_settings_path(@user), :active => controller?(:email_settings)
   = link_to_navigation t(:support_tickets), auto_tickets_path, :active => controller?(:tickets)
   = link_to_navigation t(:logout), logout_path, :method => :delete

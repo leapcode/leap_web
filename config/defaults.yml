@@ -24,6 +24,7 @@ development:
   admins: [blue, admin, admin2]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  excluded_features: []
 
 test:
   <<: *dev_ca
@@ -38,3 +39,4 @@ production:
   <<: *common
   admins: []
   domain: example.net
+  excluded_features: [email]
