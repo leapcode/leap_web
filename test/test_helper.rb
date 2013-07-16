@@ -31,6 +31,7 @@ Capybara.run_server = true
 Capybara.app_host = 'http://lvh.me:3003'
 Capybara.server_port = 3003
 Capybara.javascript_driver = :poltergeist
+Capybara.default_wait_time = 5
 
 class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   # Make the Capybara DSL available

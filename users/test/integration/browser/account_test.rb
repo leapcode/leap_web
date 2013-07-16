@@ -16,6 +16,7 @@ class AccountTest < BrowserIntegrationTest
     click_on 'Sign Up'
     assert page.has_content?("Welcome #{username}")
     click_on 'Logout'
+    assert page.has_content?("Sign Up")
     assert_equal '/', current_path
   end
 
