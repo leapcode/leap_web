@@ -33,6 +33,7 @@ test:
   admins: [admin, admin2]
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  excluded_features: []
 
 production:
   <<: *cert_options
