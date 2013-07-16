@@ -36,7 +36,7 @@ module Warden
       end
 
       def validate
-        session[:handshake].authenticate(params['client_auth'].hex)
+        session[:handshake].authenticate(params['client_auth'])
       end
 
       def initialize!
@@ -44,7 +44,7 @@ module Warden
           client = SRP::Client.new user.username,
             :verifier => user.verifier,
             :salt => user.salt
-          session[:handshake] = SRP::Session.new(client, params['A'].hex)
+          session[:handshake] = SRP::Session.new(client, params['A'])
           custom! json_response(session[:handshake])
         else
           fail! :base => 'invalid_user_pass'
