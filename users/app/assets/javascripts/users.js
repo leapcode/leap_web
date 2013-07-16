@@ -49,12 +49,12 @@
       for (field in message.errors) {
         if (field == 'base') {
           alert_message(message.errors[field]);
-          next;
+          continue;
         }
         error = message.errors[field];
         element = $('form input[name$="[' + field + ']"]');
         if (!element) {
-          next;
+          continue;
         }
         element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false);
       }

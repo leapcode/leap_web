@@ -26,19 +26,19 @@ class AccountFlowTest < RackTest
   def handshake(login, aa)
     post "http://api.lvh.me:3000/1/sessions.json",
       :login => login,
-      'A' => aa.to_s(16),
+      'A' => aa,
       :format => :json
     response = JSON.parse(last_response.body)
     if response['errors']
       raise RECORD_NOT_FOUND.new(response['errors'])
     else
-      return response['B'].hex
+      return response['B']
     end
   end
 
   def validate(m)
     put "http://api.lvh.me:3000/1/sessions/" + @login + '.json',
-      :client_auth => m.to_s(16),
+      :client_auth => m,
       :format => :json
     return JSON.parse(last_response.body)
   end
