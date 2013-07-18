@@ -73,6 +73,19 @@ class User < CouchRest::Model::Base
     alias_method :find_by_param, :find
   end
 
+  def create_identity(attribs = {}, &block)
+    build_identity(attribs, &block)
+    identity.save
+    identity
+  end
+
+  def build_identity(attribs = {}, &block)
+    attribs.reverse_merge! user_id: self.id,
+      address: self.email_address,
+      destination: self.email_address
+    Identity.new(attribs, &block)
+  end
+
   def to_param
     self.id
   end

@@ -7,13 +7,6 @@ class Identity < CouchRest::Model::Base
   property :address
   property :destination
 
-  def initialize(attribs = {}, &block):q
-    attribs.reverse_merge! user_id: user.id,
-      address: user.main_email_address,
-      destination: user.main_email_address
-    Identity.new attribs
-  end
-
   design do
     view :by_user_id
   end

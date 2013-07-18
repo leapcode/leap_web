@@ -7,13 +7,10 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "user has identity to start with" do
-    id = Identity.new user_id: @user.id
-    id.save
-    assert_equal 1, Identity.by_user_id.key(@user.id).count
-    identity = Identity.find_by_user_id(@user.id)
-    assert_equal @user.email_address, identity.address
-    assert_equal @user.email_address, identity.destination
-    assert_equal @user, identity.user
+    id = @user.build_identity
+    assert_equal @user.email_address, id.address
+    assert_equal @user.email_address, id.destination
+    assert_equal @user, id.user
   end
 
   test "add alias" do
