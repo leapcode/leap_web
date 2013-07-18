@@ -6,6 +6,18 @@ class LocalEmail < Email
   validate :differs_from_login
 =end
 
+  def self.domain
+    APP_CONFIG[:domain]
+  end
+
+  validates :email,
+    :format => {
+      :with => /@#{domain}\Z/i,
+      :message => "needs to end in @#{domain}"
+    }
+
+
+
   def initialize(s)
     super
     append_domain_if_needed
@@ -16,7 +28,11 @@ class LocalEmail < Email
   end
 
   def handle
-    gsub(/@#{APP_CONFIG[:domain]}/i, '')
+    gsub(/@#{domain}/i, '')
+  end
+
+  def domain
+    LocalEmail.domain
   end
 
   protected
@@ -46,7 +62,7 @@ class LocalEmail < Email
 
   def append_domain_if_needed
     unless self.index('@')
-      self << "@#{APP_CONFIG[:domain]}"
+      self << '@' + domain
     end
   end
 

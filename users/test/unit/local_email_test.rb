@@ -5,6 +5,7 @@ class LocalEmailTest < ActiveSupport::TestCase
   test "appends domain" do
     local = LocalEmail.new(handle)
     assert_equal LocalEmail.new(email), local
+    assert local.valid?
   end
 
   test "returns handle" do
@@ -17,11 +18,17 @@ class LocalEmailTest < ActiveSupport::TestCase
     assert_equal email, "#{local}"
   end
 
+  test "validates domain" do
+    local = LocalEmail.new(Faker::Internet.email)
+    assert !local.valid?
+    assert_equal ["needs to end in @#{LocalEmail.domain}"], local.errors[:email]
+  end
+
   def handle
-    "asdf"
+    @handle ||= Faker::Internet.user_name
   end
 
   def email
-    "asdf@" + APP_CONFIG[:domain]
+    handle + "@" + APP_CONFIG[:domain]
   end
 end
