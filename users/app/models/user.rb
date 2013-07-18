@@ -74,7 +74,7 @@ class User < CouchRest::Model::Base
   end
 
   def create_identity(attribs = {}, &block)
-    build_identity(attribs, &block)
+    identity = build_identity(attribs, &block)
     identity.save
     identity
   end
@@ -135,12 +135,10 @@ class User < CouchRest::Model::Base
   ##
 
   def login_is_unique_alias
-    has_alias = User.find_by_login_or_alias(username)
+    alias_identity = Identity.find_by_address(self.email_address)
     return if has_alias.nil?
-    if has_alias != self
+    if alias_identity.user != self
       errors.add(:login, "has already been taken")
-    elsif has_alias.login != self.login
-      errors.add(:login, "may not be the same as one of your aliases")
     end
   end
 

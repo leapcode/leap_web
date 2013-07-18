@@ -39,6 +39,24 @@ class IdentityTest < ActiveSupport::TestCase
     id.save
   end
 
+  test "prevents duplicates" do
+    id = @user.create_identity address: alias_name, destination: forward_address
+    dup = @user.build_identity address: alias_name, destination: forward_address
+    assert !dup.valid?
+    assert_equal ["This alias already exists"], dup.errors[:base]
+  end
+
+  test "validates availability" do
+    other_user = FactoryGirl.create(:user)
+    id = @user.create_identity address: alias_name, destination: forward_address
+    taken = other_user.build_identity address: alias_name
+    assert !taken.valid?
+    assert_equal ["This email has already been taken"], taken.errors[:base]
+    other_user.destroy
+  end
+
+
+
   def alias_name
     @alias_name ||= Faker::Internet.user_name
   end
