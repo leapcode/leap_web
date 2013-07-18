@@ -4,8 +4,8 @@ class Identity < CouchRest::Model::Base
 
   belongs_to :user
 
-  property :address
-  property :destination
+  property :address, LocalEmail
+  property :destination, Email
 
   design do
     view :by_user_id

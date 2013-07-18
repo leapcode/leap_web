@@ -1,25 +1,11 @@
-class LocalEmail
-  include CouchRest::Model::Embeddable
-  include Email
+class LocalEmail < Email
 
-  property :username, String
-
-  before_validation :strip_domain_if_needed
-
-  validates :username,
-    :presence => true,
-    :format => { :with => /\A([^@\s]+)(@#{APP_CONFIG[:domain]})?\Z/i, :message => "needs to be a valid login or email address @#{APP_CONFIG[:domain]}"}
-
+=begin
   validate :unique_on_server
   validate :unique_alias_for_user
   validate :differs_from_login
+=end
 
-  validates :casted_by, :presence => true
-
-  def email
-    return '' if username.nil?
-    username + '@' + APP_CONFIG[:domain]
-  end
 
   def email=(value)
     return if value.blank?
