@@ -6,15 +6,17 @@ class LocalEmail < Email
   validate :differs_from_login
 =end
 
-
-  def email=(value)
-    return if value.blank?
-    self.username = value
-    strip_domain_if_needed
+  def initialize(s)
+    super
+    append_domain_if_needed
   end
 
   def to_key
-    [username]
+    [handle]
+  end
+
+  def handle
+    gsub(/@#{APP_CONFIG[:domain]}/i, '')
   end
 
   protected
@@ -42,8 +44,10 @@ class LocalEmail < Email
     end
   end
 
-  def strip_domain_if_needed
-    self.username.gsub! /@#{APP_CONFIG[:domain]}/i, ''
+  def append_domain_if_needed
+    unless self.index('@')
+      self << "@#{APP_CONFIG[:domain]}"
+    end
   end
 
 end
