@@ -6,6 +6,7 @@ class Identity < CouchRest::Model::Base
 
   property :address, LocalEmail
   property :destination, Email
+  property :keys, Hash
 
   validate :unique_forward
   validate :alias_available
@@ -14,6 +15,16 @@ class Identity < CouchRest::Model::Base
     view :by_user_id
     view :by_address_and_destination
     view :by_address
+    view :pgp_key_by_email,
+      map: <<-EOJS
+      function(doc) {
+        if (doc.type != 'Identity') {
+          return;
+        }
+        emit(doc.address, doc.keys["pgp"]);
+      }
+    EOJS
+
   end
 
   protected

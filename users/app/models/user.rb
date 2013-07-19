@@ -62,7 +62,8 @@ class User < CouchRest::Model::Base
   def build_identity(attribs = {}, &block)
     attribs.reverse_merge! user_id: self.id,
       address: self.email_address,
-      destination: self.email_address
+      destination: self.email_address,
+      keys: {}
     Identity.new(attribs, &block)
   end
 

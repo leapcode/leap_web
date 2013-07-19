@@ -55,7 +55,22 @@ class IdentityTest < ActiveSupport::TestCase
     other_user.destroy
   end
 
+  test "setting and getting pgp key" do
+    id = @user.build_identity
+    id.keys[:pgp] = pgp_key_string
+    assert_equal pgp_key_string, id.keys[:pgp]
+  end
 
+  test "querying pgp key via couch" do
+    id = @user.build_identity
+    id.keys[:pgp] = pgp_key_string
+    id.save
+    view = Identity.pgp_key_by_email.key(id.address)
+    assert_equal 1, view.rows.count
+    assert result = view.rows.first
+    assert_equal id.address, result["key"]
+    assert_equal id.keys[:pgp], result["value"]
+  end
 
   def alias_name
     @alias_name ||= Faker::Internet.user_name
@@ -63,5 +78,9 @@ class IdentityTest < ActiveSupport::TestCase
 
   def forward_address
     @forward_address ||= Faker::Internet.email
+  end
+
+  def pgp_key_string
+    @pgp_key ||= "DUMMY PGP KEY ... "+SecureRandom.base64(4096)
   end
 end
