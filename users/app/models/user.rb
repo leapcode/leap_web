@@ -59,14 +59,19 @@ class User < CouchRest::Model::Base
   # TODO: Create an alias for the old login when changing the login
   def login=(value)
     write_attribute 'login', value
-    @identity = build_identity
+    if @identity
+      @identity.address = email_address
+      @identity.destination = email_address
+    else
+      build_identity
+    end
   end
 
   # DEPRECATED
   #
-  # Please access identity.keys[:pgp] directly
+  # Please set the key on the identity directly
   def public_key=(value)
-    identity.keys[:pgp] = value
+    identity.set_key(:pgp, value)
   end
 
   # DEPRECATED
@@ -83,8 +88,7 @@ class User < CouchRest::Model::Base
   # this is the main identity. login@domain.tld
   # aliases and forwards are represented in other identities.
   def identity
-    @identity ||=
-      Identity.find_by_address_and_destination([email_address, email_address])
+    @identity ||= find_identity || build_identity
   end
 
   def create_identity(attribs = {}, &block)
@@ -96,8 +100,7 @@ class User < CouchRest::Model::Base
   def build_identity(attribs = {}, &block)
     attribs.reverse_merge! user_id: self.id,
       address: self.email_address,
-      destination: self.email_address,
-      keys: {}
+      destination: self.email_address
     Identity.new(attribs, &block)
   end
 
@@ -138,6 +141,10 @@ class User < CouchRest::Model::Base
   end
 
   protected
+
+  def find_identity
+    Identity.find_by_address_and_destination([email_address, email_address])
+  end
 
   ##
   #  Validation Functions

@@ -57,13 +57,13 @@ class IdentityTest < ActiveSupport::TestCase
 
   test "setting and getting pgp key" do
     id = @user.identity
-    id.keys[:pgp] = pgp_key_string
+    id.set_key(:pgp, pgp_key_string)
     assert_equal pgp_key_string, id.keys[:pgp]
   end
 
   test "querying pgp key via couch" do
     id = @user.identity
-    id.keys[:pgp] = pgp_key_string
+    id.set_key(:pgp, pgp_key_string)
     id.save
     view = Identity.pgp_key_by_email.key(id.address)
     assert_equal 1, view.rows.count

@@ -6,7 +6,7 @@ class Identity < CouchRest::Model::Base
 
   property :address, LocalEmail
   property :destination, Email
-  property :keys, Hash
+  property :keys, HashWithIndifferentAccess
 
   validate :unique_forward
   validate :alias_available
@@ -25,6 +25,15 @@ class Identity < CouchRest::Model::Base
       }
     EOJS
 
+  end
+
+  def keys
+    read_attribute('keys') || HashWithIndifferentAccess.new
+  end
+
+  def set_key(type, value)
+    return if keys[type] == value
+    write_attribute('keys', keys.merge(type => value))
   end
 
   protected

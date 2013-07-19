@@ -79,8 +79,13 @@ class AccountFlowTest < RackTest
     test_public_key = 'asdlfkjslfdkjasd'
     original_login = @user.login
     new_login = 'zaph'
+    User.find_by_login(new_login).try(:destroy)
+    Identity.by_address.key(new_login + '@' + APP_CONFIG[:domain]).each do |identity|
+      identity.destroy
+    end
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => new_login}, :format => :json
     @user.reload
+    assert last_response.successful?
     assert_equal test_public_key, @user.public_key
     assert_equal new_login, @user.login
     # eventually probably want to remove most of this into a non-integration functional test
