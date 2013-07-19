@@ -56,6 +56,13 @@ class UserTest < ActiveSupport::TestCase
     other_user.destroy
   end
 
+  test "login needs to be unique amongst aliases" do
+    other_user = FactoryGirl.create :user
+    other_user.create_identity address: @user.login
+    assert !@user.valid?
+    other_user.destroy
+  end
+
   test "deprecated public key api still works" do
     key = SecureRandom.base64(4096)
     @user.public_key = key
