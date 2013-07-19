@@ -56,23 +56,21 @@ class UserTest < ActiveSupport::TestCase
     other_user.destroy
   end
 
-  test "login needs to be different from other peoples email aliases" do
-    other_user = FactoryGirl.create :user
-    other_user.email_aliases.build :email => @user.login
-    other_user.save
-    assert !@user.valid?
-    other_user.destroy
+  test "deprecated public key api still works" do
+    key = SecureRandom.base64(4096)
+    @user.public_key = key
+    assert_equal key, @user.public_key
   end
 
   test "pgp key view" do
     @user.public_key = SecureRandom.base64(4096)
     @user.save
 
-    view = User.pgp_key_by_handle.key(@user.login)
+    view = Identity.pgp_key_by_email.key(@user.email_address)
 
     assert_equal 1, view.rows.count
     assert result = view.rows.first
-    assert_equal @user.login, result["key"]
+    assert_equal @user.email_address, result["key"]
     assert_equal @user.public_key, result["value"]
   end
 end

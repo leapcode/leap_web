@@ -11,7 +11,7 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "initial identity for a user" do
-    id = @user.build_identity
+    id = @user.identity
     assert_equal @user.email_address, id.address
     assert_equal @user.email_address, id.destination
     assert_equal @user, id.user
@@ -56,13 +56,13 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "setting and getting pgp key" do
-    id = @user.build_identity
+    id = @user.identity
     id.keys[:pgp] = pgp_key_string
     assert_equal pgp_key_string, id.keys[:pgp]
   end
 
   test "querying pgp key via couch" do
-    id = @user.build_identity
+    id = @user.identity
     id.keys[:pgp] = pgp_key_string
     id.save
     view = Identity.pgp_key_by_email.key(id.address)
