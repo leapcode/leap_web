@@ -58,7 +58,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "login needs to be unique amongst aliases" do
     other_user = FactoryGirl.create :user
-    other_user.create_identity address: @user.login
+    Identity.create_for other_user, address: @user.login
     assert !@user.valid?
     other_user.destroy
   end

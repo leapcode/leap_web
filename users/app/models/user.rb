@@ -47,61 +47,8 @@ class User < CouchRest::Model::Base
     view :by_created_at
   end # end of design
 
-  # We proxy access to the pgp_key. So we need to make sure
-  # the updated identity actually gets saved.
-  def save(*args)
-    super
-    identity.user_id ||= self.id
-    identity.save if identity.changed?
-  end
-
-  # So far this only works for creating a new user.
-  # TODO: Create an alias for the old login when changing the login
-  def login=(value)
-    write_attribute 'login', value
-    if @identity
-      @identity.address = email_address
-      @identity.destination = email_address
-    else
-      build_identity
-    end
-  end
-
-  # DEPRECATED
-  #
-  # Please set the key on the identity directly
-  def public_key=(value)
-    identity.set_key(:pgp, value)
-  end
-
-  # DEPRECATED
-  #
-  # Please access identity.keys[:pgp] directly
-  def public_key
-    identity.keys[:pgp]
-  end
-
   class << self
     alias_method :find_by_param, :find
-  end
-
-  # this is the main identity. login@domain.tld
-  # aliases and forwards are represented in other identities.
-  def identity
-    @identity ||= find_identity || build_identity
-  end
-
-  def create_identity(attribs = {}, &block)
-    new_identity = build_identity(attribs, &block)
-    new_identity.save
-    new_identity
-  end
-
-  def build_identity(attribs = {}, &block)
-    attribs.reverse_merge! user_id: self.id,
-      address: self.email_address,
-      destination: self.email_address
-    Identity.new(attribs, &block)
   end
 
   def to_param
@@ -141,10 +88,6 @@ class User < CouchRest::Model::Base
   end
 
   protected
-
-  def find_identity
-    Identity.find_by_address_and_destination([email_address, email_address])
-  end
 
   ##
   #  Validation Functions

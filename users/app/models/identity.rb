@@ -27,6 +27,33 @@ class Identity < CouchRest::Model::Base
 
   end
 
+  def self.for(user, attributes = {})
+    find_for(user, attributes) || build_for(user, attributes)
+  end
+
+  def self.find_for(user, attributes = {})
+    attributes.reverse_merge! attributes_from_user(user)
+    find_by_address_and_destination [attributes[:address], attributes[:destination]]
+  end
+
+  def self.build_for(user, attributes = {})
+    attributes.reverse_merge! attributes_from_user(user)
+    Identity.new(attributes)
+  end
+
+  def self.create_for(user, attributes = {})
+    identity = build_for(user, attributes)
+    identity.save
+    identity
+  end
+
+  def self.attributes_from_user(user)
+    { user_id: user.id,
+      address: user.email_address,
+      destination: user.email_address
+    }
+  end
+
   def keys
     read_attribute('keys') || HashWithIndifferentAccess.new
   end

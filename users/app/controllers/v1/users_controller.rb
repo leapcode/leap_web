@@ -18,14 +18,23 @@ module V1
     end
 
     def create
-      @user = User.create(params[:user])
+      @user = signup_service.register(params[:user])
       respond_with @user # return ID instead?
     end
 
     def update
-      @user.update_attributes params[:user]
+      account_settings.update params[:user]
       respond_with @user
     end
 
+    protected
+
+    def account_settings
+      AccountSettings.new(@user)
+    end
+
+    def signup_service
+      SignupService.new
+    end
   end
 end

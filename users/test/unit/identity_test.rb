@@ -11,28 +11,28 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "initial identity for a user" do
-    id = @user.identity
+    id = Identity.for(@user)
     assert_equal @user.email_address, id.address
     assert_equal @user.email_address, id.destination
     assert_equal @user, id.user
   end
 
   test "add alias" do
-    id = @user.build_identity address: alias_name
+    id = Identity.for @user, address: alias_name
     assert_equal LocalEmail.new(alias_name), id.address
     assert_equal @user.email_address, id.destination
     assert_equal @user, id.user
   end
 
   test "add forward" do
-    id = @user.build_identity destination: forward_address
+    id = Identity.for @user, destination: forward_address
     assert_equal @user.email_address, id.address
     assert_equal Email.new(forward_address), id.destination
     assert_equal @user, id.user
   end
 
   test "forward alias" do
-    id = @user.build_identity address: alias_name, destination: forward_address
+    id = Identity.for @user, address: alias_name, destination: forward_address
     assert_equal LocalEmail.new(alias_name), id.address
     assert_equal Email.new(forward_address), id.destination
     assert_equal @user, id.user
@@ -40,29 +40,29 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "prevents duplicates" do
-    id = @user.create_identity address: alias_name, destination: forward_address
-    dup = @user.build_identity address: alias_name, destination: forward_address
+    id = Identity.create_for @user, address: alias_name, destination: forward_address
+    dup = Identity.build_for @user, address: alias_name, destination: forward_address
     assert !dup.valid?
     assert_equal ["This alias already exists"], dup.errors[:base]
   end
 
   test "validates availability" do
     other_user = FactoryGirl.create(:user)
-    id = @user.create_identity address: alias_name, destination: forward_address
-    taken = other_user.build_identity address: alias_name
+    id = Identity.create_for @user, address: alias_name, destination: forward_address
+    taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
     assert_equal ["This email has already been taken"], taken.errors[:base]
     other_user.destroy
   end
 
   test "setting and getting pgp key" do
-    id = @user.identity
+    id = Identity.for(@user)
     id.set_key(:pgp, pgp_key_string)
     assert_equal pgp_key_string, id.keys[:pgp]
   end
 
   test "querying pgp key via couch" do
-    id = @user.identity
+    id = Identity.for(@user)
     id.set_key(:pgp, pgp_key_string)
     id.save
     view = Identity.pgp_key_by_email.key(id.address)
