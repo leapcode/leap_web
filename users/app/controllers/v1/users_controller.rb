@@ -24,9 +24,6 @@ module V1
 
     def update
       @user.update_attributes params[:user]
-      if @user.valid?
-        flash[:notice] = t(:user_updated_successfully)
-      end
       respond_with @user
     end
 
