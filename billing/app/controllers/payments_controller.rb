@@ -26,7 +26,7 @@ class PaymentsController < BillingBaseController
 
 
   def fetch_transparent_redirect
-    if current_user
+    if @user = current_user #set user for navigation
       if @customer = Customer.find_by_user_id(current_user.id)
         @customer.with_braintree_data!
         braintree_customer_id = @customer.braintree_customer_id
@@ -38,6 +38,7 @@ class PaymentsController < BillingBaseController
     end
 
     # TODO: What is this supposed to do if braintree_customer_id was not set yet?
+    # Response: it can be used to make a payment that is not attributed to any customer (ie, a donation)
     @tr_data = Braintree::TransparentRedirect.transaction_data redirect_url: confirm_payment_url,
       transaction: { type: "sale", customer_id: braintree_customer_id, options: {submit_for_settlement: true } }
   end
