@@ -1,7 +1,10 @@
 class CustomerController < BillingBaseController
   before_filter :authorize
   def show
+    customer.with_braintree_data!
+    @default_cc = customer.default_credit_card #TODO not actually right way
     @active_subscription = customer.subscriptions
+    @transactions =  Braintree::Customer.find(customer.braintree_customer_id).transactions #TODO not actually right way
   end
 
   def new

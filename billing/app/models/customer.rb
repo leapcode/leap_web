@@ -41,10 +41,11 @@ class Customer < CouchRest::Model::Base
 
   # based on 2nd parameter, either returns the single active subscription (or nil if there isn't one), or an array of all subsciptions
   def subscriptions(braintree_data=nil, only_active=true)
+    self.with_braintree_data!
     return unless has_payment_info?
 
     subscriptions = []
-    credit_cards.first.subscriptions.each do |sub|
+    self.default_credit_card.subscriptions.each do |sub|
       if only_active and sub.status == 'Active'
         return sub
       else
