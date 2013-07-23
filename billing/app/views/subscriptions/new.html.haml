@@ -7,8 +7,9 @@
   = simple_form_for :subscription, :url => :subscriptions do |f|
     = hidden_field_tag :payment_method_token, @payment_method_token
     = hidden_field_tag :plan_id, @plans[0].id
-    = f.submit 'Subscribe'
+    .form-actions
+      = f.submit t(:subscribe), :class => 'btn btn-primary'
 - else
-  You must store a customer in braintree before subscribing to a plan
+  = t(:must_create_customer)
   %p
-    = link_to 'Create a new braintree customer', new_customer_path
+    = link_to t(:create_new_customer), new_customer_path

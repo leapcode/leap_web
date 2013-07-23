@@ -3,5 +3,4 @@
     Current
   Subscription
 = render :partial => "subscription_details",  :locals => {:subscription => @subscription}
-= link_to 'Cancel Subscription', subscription_path,  :confirm => 'Are you sure you want to cancel this subscription?', :method => :delete, :class => 'btn btn-danger' if @subscription.status == 'Active' # permission check or should that just be on show?
-= link_to 'Show Customer Data', show_customer_path(@subscription_customer_id), :class => :btn
+= link_to t(:cancel_subscription), subscription_path,  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn btn-danger' if @subscription.status == 'Active' # permission check or should that just be on show?

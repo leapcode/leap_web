@@ -1,4 +1,4 @@
-%h2 Customer Information
+%legend= t(:customer_information)
 %dl
   %dt First Name
   %dd= @customer.first_name
@@ -6,10 +6,11 @@
   %dd= @customer.last_name
   %dt Phone
   %dd= @customer.phone
-%h2 Credit Card Information
+%legend= t(:credit_card_information)
 %dl
   %dt Number
   %dd= @default_cc.masked_number
   %dt Expiration Date
   %dd= @default_cc.expiration_date
-= link_to 'Edit Saved Data', edit_customer_path(@customer), :class => :btn
+.form-actions
+  = link_to t(:edit_saved_data), edit_customer_path(@customer), :class => :btn
