@@ -87,6 +87,26 @@ class User < CouchRest::Model::Base
     Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
+  # DEPRECATED
+  #
+  # Please set the key on the identity directly
+  # WARNING: This will not be serialized with the user record!
+  # It is only a workaround for the key form.
+  def public_key=(value)
+    identity.set_key(:pgp, value)
+  end
+
+  # DEPRECATED
+  #
+  # Please access identity.keys[:pgp] directly
+  def public_key
+    identity.keys[:pgp]
+  end
+
+  def identity
+    @identity ||= Identity.for(self)
+  end
+
   protected
 
   ##

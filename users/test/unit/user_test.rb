@@ -70,14 +70,16 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "pgp key view" do
-    @user.public_key = SecureRandom.base64(4096)
-    @user.save
+    key = SecureRandom.base64(4096)
+    identity = Identity.create_for @user
+    identity.set_key('pgp', key)
+    identity.save
 
     view = Identity.pgp_key_by_email.key(@user.email_address)
 
     assert_equal 1, view.rows.count
     assert result = view.rows.first
     assert_equal @user.email_address, result["key"]
-    assert_equal @user.public_key, result["value"]
+    assert_equal key, result["value"]
   end
 end
