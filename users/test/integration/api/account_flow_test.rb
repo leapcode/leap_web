@@ -18,7 +18,10 @@ class AccountFlowTest < RackTest
   end
 
   teardown do
-    @user.destroy if @user
+    if @user
+      @user.identity.destroy
+      @user.destroy
+    end
     Warden.test_reset!
   end
 
