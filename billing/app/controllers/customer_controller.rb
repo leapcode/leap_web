@@ -4,7 +4,7 @@ class CustomerController < BillingBaseController
     customer.with_braintree_data!
     @default_cc = customer.default_credit_card #TODO not actually right way
     @active_subscription = customer.subscriptions
-    @transactions =  Braintree::Customer.find(customer.braintree_customer_id).transactions #TODO not actually right way
+    @transactions = customer.braintree_customer.transactions
   end
 
   def new
