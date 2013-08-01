@@ -1,10 +1,13 @@
 class CustomerController < BillingBaseController
   before_filter :authorize
+
   def show
-    customer.with_braintree_data!
-    @default_cc = customer.default_credit_card #TODO not actually right way
-    @active_subscription = customer.subscriptions
-    @transactions = customer.braintree_customer.transactions
+    if customer = fetch_customer
+      customer.with_braintree_data!
+      @default_cc = customer.default_credit_card #TODO not actually right way
+      @active_subscription = customer.subscriptions
+      @transactions = customer.braintree_customer.transactions
+    end
   end
 
   def new
@@ -50,12 +53,13 @@ class CustomerController < BillingBaseController
                            :customer_id => customer.braintree_customer_id) ##??
   end
 
-  def customer
-    @customer ||= Customer.find(params[:id]) if params[:id]  # edit, show
-    @customer ||= Customer.find_by_user_id(current_user.id)  # confirm
-    @customer ||= Customer.new(user: current_user)
+  def fetch_customer
+    @customer = Customer.find_by_user_id(@user.id)
+    if @user == current_user
+      @customer ||= Customer.new(user: @user)
+    end
     # TODO will want case for admins, presumably
-    access_denied unless @customer.user == current_user
+    access_denied unless (@customer and (@customer.user == current_user)) or admin?
     return @customer
   end
 end

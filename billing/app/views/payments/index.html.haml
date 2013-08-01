@@ -1,2 +1,4 @@
+- if (@transactions.count == 0)
+  = t(:no_transaction_history)
 - @transactions.each do |t|
   = render :partial => "transaction_details", :locals => {:transaction => t}
