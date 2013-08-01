@@ -17,7 +17,11 @@ end
 
 APP_CONFIG = ["defaults.yml", "config.yml"].inject({}) {|config, file|
   filepath = File.expand_path(file, File.dirname(__FILE__))
-  config.merge(File.exists?(filepath) ? YAML.load_file(filepath)[Rails.env] : {})
+  if File.exists?(filepath) && settings = YAML.load_file(filepath)[Rails.env]
+    config.merge(settings)
+  else
+    config
+  end
 }.with_indifferent_access
 
 module LeapWeb

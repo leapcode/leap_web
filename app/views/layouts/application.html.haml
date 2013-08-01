@@ -11,8 +11,7 @@
         = yield(:head)
   %body
     #masthead
-      - if params[:controller] != 'home'
-        = render 'layouts/masthead'
+      = render 'layouts/masthead'
     #main
       .container-fluid
         - if logged_in?
