@@ -45,7 +45,7 @@ class CustomersControllerTest < ActionController::TestCase
     login @other_user
     get :new
     assert_response :redirect
-    assert_equal edit_customer_url(@customer), response.header['Location']
+    assert_equal edit_customer_url(@customer), response.header['Location'] #todo should pass user not customer
   end
 
 

@@ -1,5 +1,5 @@
 %p
-  = link_to subscription.id, subscription_path(subscription.id)
+  = link_to subscription.id, user_subscription_path(@user, subscription.id)
   Balance:
   = number_to_currency(subscription.balance)
   Bill on:

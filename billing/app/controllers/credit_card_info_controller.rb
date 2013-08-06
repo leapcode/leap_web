@@ -3,7 +3,7 @@ class CreditCardInfoController < ApplicationController
 
   def edit
     @credit_card = Braintree::CreditCard.find(params[:id])
-    customer = Customer.find_by_user_id(current_user.id)
+    customer = Customer.find_by_user_id(@user.id)
     if customer and customer.braintree_customer_id == @credit_card.customer_id
       @tr_data = Braintree::TransparentRedirect.
         update_credit_card_data(:redirect_url => confirm_credit_card_info_url,
@@ -27,7 +27,8 @@ class CreditCardInfoController < ApplicationController
 
   private
 
-  def set_user
+    def set_user
+    # this assumes anybody, even an admin, will not access for another user.
     @user = current_user
   end
 
