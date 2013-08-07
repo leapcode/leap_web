@@ -12,6 +12,7 @@ en:
   change_password: "Change Password"
   login_message: "Please log in with your account."
   invalid_user_pass: "Not a valid username/password combination"
+  invalid_ephemeral: "Invalid random key used. This looked like an attempt to hack the site to us. If it wasn't please contact support so we can look into the issue."
   all_strategies_failed: "Could not understand your login attempt. Please first send your login and a SRP ephemeral value A and then send the client_auth in the same session (using cookies)."
   update_login_and_password: "Update Login and Password"
   destroy_my_account: "Destroy my account"
