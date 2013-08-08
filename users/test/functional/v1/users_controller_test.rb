@@ -5,7 +5,9 @@ class V1::UsersControllerTest < ActionController::TestCase
   test "user can change settings" do
     user = find_record :user
     changed_attribs = record_attributes_for :user_with_settings
-    user.expects(:update_attributes).with(changed_attribs)
+    account_settings = stub
+    account_settings.expects(:update).with(changed_attribs)
+    AccountSettings.expects(:new).with(user).returns(account_settings)
 
     login user
     put :update, :user => changed_attribs, :id => user.id, :format => :json
@@ -18,7 +20,9 @@ class V1::UsersControllerTest < ActionController::TestCase
   test "admin can update user" do
     user = find_record :user
     changed_attribs = record_attributes_for :user_with_settings
-    user.expects(:update_attributes).with(changed_attribs)
+    account_settings = stub
+    account_settings.expects(:update).with(changed_attribs)
+    AccountSettings.expects(:new).with(user).returns(account_settings)
 
     login :is_admin? => true
     put :update, :user => changed_attribs, :id => user.id, :format => :json
