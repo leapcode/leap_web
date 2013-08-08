@@ -27,8 +27,8 @@ class PaymentsController < BillingBaseController
 
 
   def fetch_transparent_redirect
-    if @user = current_user #set user for navigation
-      if @customer = Customer.find_by_user_id(current_user.id)
+    if logged_in?
+      if @customer = Customer.find_by_user_id(@user.id)
         @customer.with_braintree_data!
         braintree_customer_id = @customer.braintree_customer_id
         @default_cc = @customer.default_credit_card

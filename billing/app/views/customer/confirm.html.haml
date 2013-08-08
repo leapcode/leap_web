@@ -10,5 +10,5 @@
   %dt Credit Card
   - @result.customer.credit_cards.each do |cc|
     %dd= cc.masked_number
-- customer = Customer.find_by_user_id(current_user.id)
+- customer = Customer.find_by_user_id(@user.id)
 = link_to 'View Customer Info', show_customer_path(@user.id), :class=> :btn
