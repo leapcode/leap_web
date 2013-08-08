@@ -23,6 +23,20 @@
       = f.submit t(:save), :class => 'btn btn-primary'
 
 -#
+-# CHANGE PGP KEY
+-#
+-# this will be replaced by a identities controller/view at some point
+-#
+
+- form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_pgp_key'}, :validate => true}
+= simple_form_for [:api, @user], form_options do |f|
+  %legend= t(:advanced_options)
+  = f.input :public_key, :as => :text, :hint => t(:use_ascii_key), :input_html => {:class => "full-width", :rows => 4}
+  .control-group
+    .controls
+      = f.submit t(:save), :class => 'btn'
+
+-#
 -# DESTROY ACCOUNT
 -#
 
@@ -48,4 +62,4 @@
   %p= t(:enable_description)
   = link_to enable_user_path(@user), :method => :post, :class => "btn btn-warning"  do
     %i.icon-ok.icon-white
-    = t(:enable)
+      = t(:enable)

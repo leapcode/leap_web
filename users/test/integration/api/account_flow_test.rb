@@ -18,7 +18,10 @@ class AccountFlowTest < RackTest
   end
 
   teardown do
-    @user.destroy if @user
+    if @user
+      @user.identity.destroy
+      @user.destroy
+    end
     Warden.test_reset!
   end
 
@@ -79,20 +82,22 @@ class AccountFlowTest < RackTest
     test_public_key = 'asdlfkjslfdkjasd'
     original_login = @user.login
     new_login = 'zaph'
+    User.find_by_login(new_login).try(:destroy)
+    Identity.by_address.key(new_login + '@' + APP_CONFIG[:domain]).each do |identity|
+      identity.destroy
+    end
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => new_login}, :format => :json
-    @user.reload
-    assert_equal test_public_key, @user.public_key
-    assert_equal new_login, @user.login
+    assert last_response.successful?
+    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
+    # does not change login if no password_verifier is present
+    assert_equal original_login, @user.login
     # eventually probably want to remove most of this into a non-integration functional test
     # should not overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
-    @user.reload
-    assert_equal test_public_key, @user.public_key
+    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
     # should overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => nil}, :format => :json
-    # TODO: not sure why i need this, but when public key is removed, the DB is updated but @user.reload doesn't seem to actually reload.
-    @user = User.find(@user.id) # @user.reload
-    assert_nil @user.public_key
+    assert_nil Identity.for(@user).keys[:pgp]
   end
 
 end
