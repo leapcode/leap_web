@@ -23,7 +23,7 @@ class CustomerControllerTest < ActionController::TestCase
   test "edit uses params[:id]" do
     customer = FactoryGirl.create :customer_with_payment_info
     login customer.user
-    get :edit, id: customer.id
+    get :edit, id: customer.user.id
 
     assert_response :success
     assert assigns(:tr_data)

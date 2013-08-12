@@ -22,7 +22,8 @@ class CustomerCreationTest < ActionDispatch::IntegrationTest
   # RackTest assumes all requests to be local. So we need
   # BraintreeTestApp for the braintree transparent redirect to work.
   test "create customer with braintree" do
-    visit '/customer/new'
+    visit '/'
+    click_link 'Billing Settings'
     assert_difference("Customer.count") do
       click_button 'Save Payment Info'
     end
