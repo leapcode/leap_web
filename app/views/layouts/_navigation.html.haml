@@ -3,5 +3,5 @@
   = link_to_navigation t(:account_settings), edit_user_path(@user), :active => controller?(:users)
   = link_to_navigation t(:email_settings), edit_user_email_settings_path(@user), :active => controller?(:email_settings)
   = link_to_navigation t(:support_tickets), auto_tickets_path, :active => controller?(:tickets)
-  = link_to_navigation t(:billing_settings), show_or_new_customer_link(@user), :active => controller?(:customer, :payments, :subscriptions, :credit_card_info)
+  = link_to_navigation t(:billing_settings), show_or_new_customer_link(@user), :active => controller?(:customer, :payments, :subscriptions, :credit_card_info) if engine_enabled('LeapWebBilling')
   = link_to_navigation t(:logout), logout_path, :method => :delete
