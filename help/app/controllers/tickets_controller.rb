@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(params[:ticket])
 
     @ticket.comments.last.posted_by = (logged_in? ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
-    @ticket.comments.last.private = true if admin? and @ticket.comments.last.private
+    @ticket.comments.last.private = false unless admin?
     @ticket.created_by = current_user.id if logged_in?
     @ticket.email = current_user.email_address if logged_in? and current_user.email_address
 
@@ -59,7 +59,7 @@ class TicketsController < ApplicationController
 
       if @ticket.comments_changed?
         @ticket.comments.last.posted_by = (current_user ? current_user.id : nil)
-        @ticket.comments.last.private = true if admin? and @ticket.comments.last.private
+        @ticket.comments.last.private = false unless admin?
       end
 
       if @ticket.changed?
