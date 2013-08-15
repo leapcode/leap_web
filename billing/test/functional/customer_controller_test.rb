@@ -69,6 +69,7 @@ class CustomerControllerTest < ActionController::TestCase
     skip "can't get user creation to fail"
     login
     FakeBraintree.decline_all_cards!
+    # what is prepare_confirmation ?? this method isn't found
     to_confirm = prepare_confirmation :create_customer_data,
       customer: FactoryGirl.attributes_for(:broken_customer),
       redirect_url: confirm_customer_url

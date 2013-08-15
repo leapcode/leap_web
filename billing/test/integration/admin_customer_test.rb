@@ -29,16 +29,8 @@ class CustomerCreationTest < ActionDispatch::IntegrationTest
   end
 
   test "check customer as admin" do
-=begin
-
-    login_as @admin
-    visit '/'
-    click_link 'Users'
-    click_link @user.login
-    click_link 'Billing Settings'
-    assert page.has_content? @user.email_address
-    assert !page.has_content?('No Saved Customer')
-    save_and_open_page
-=end
+    skip "cannot check customer as admin"
+    # it would be good to have a test where an admin tries to view the 'Billing Settings' for another user.
+    # However, partially due to limitations of FakeBraintree, this doesn't seem pursuing at this time.
   end
 end
