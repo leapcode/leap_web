@@ -25,6 +25,15 @@ class Identity < CouchRest::Model::Base
       }
     EOJS
 
+    view :pgp_key_by_handle,
+      map: <<-EOJS
+      function(doc) {
+        if (doc.type != 'Identity') {
+          return;
+        }
+        emit(doc.address.split('@')[0], doc.keys["pgp"]);
+      }
+    EOJS
   end
 
   def self.for(user, attributes = {})
