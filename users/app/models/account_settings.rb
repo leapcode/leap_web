@@ -16,7 +16,7 @@ class AccountSettings
 
   protected
 
-  def update_login(login, verifier)
+  def update_login(login)
     return unless login.present?
     @old_identity = Identity.for(@user)
     @user.login = login
