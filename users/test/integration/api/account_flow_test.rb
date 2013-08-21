@@ -5,6 +5,7 @@ class AccountFlowTest < RackTest
 
   setup do
     @login = "integration_test_user"
+    Identity.find_by_address(@login + '@' + APP_CONFIG[:domain]).tap{|i| i.destroy if i}
     User.find_by_login(@login).tap{|u| u.destroy if u}
     @password = "srp, verify me!"
     @srp = SRP::Client.new @login, :password => @password
@@ -18,7 +19,7 @@ class AccountFlowTest < RackTest
   end
 
   teardown do
-    if @user
+    if @user.reload
       @user.identity.destroy
       @user.destroy
     end
@@ -75,6 +76,25 @@ class AccountFlowTest < RackTest
     assert_json_error "base" => "Not a valid username/password combination"
     assert !last_response.successful?
     assert_nil server_auth
+  end
+
+  test "update password via api" do
+    @srp.authenticate(self)
+    @password = "No! Verify me instead."
+    @srp = SRP::Client.new @login, :password => @password
+    @user_params = {
+    #  :login => @login,
+      :password_verifier => @srp.verifier.to_s(16),
+      :password_salt => @srp.salt.to_s(16)
+    }
+    puts @user_params.inspect
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
+      :user => @user_params,
+      :format => :json
+    server_auth = @srp.authenticate(self)
+    assert last_response.successful?
+    assert_nil server_auth["errors"]
+    assert server_auth["M2"]
   end
 
   test "update user" do
