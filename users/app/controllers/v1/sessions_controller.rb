@@ -29,7 +29,7 @@ module V1
 
     def destroy
       logout
-      redirect_to root_path
+      head :no_content
     end
 
     protected
