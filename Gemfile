@@ -10,7 +10,7 @@ gem "leap_web_core", :path => 'core'
 gem 'leap_web_users', :path => 'users'
 gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
-gem 'leap_web_billing', :path => 'billing'
+# gem 'leap_web_billing', :path => 'billing'
 
 # To use debugger
 gem 'debugger', :platforms => :mri_19
