@@ -59,10 +59,12 @@ class CustomerCreationTest < ActionDispatch::IntegrationTest
     skip "cannot get customer creation to fail"
 
     FakeBraintree.decline_all_cards!
+
     response = post_transparent_redirect :create_customer_data,
       customer: FactoryGirl.attributes_for(:broken_customer),
       redirect_url: confirm_customer_url
 
+    assert FakeBraintree.decline_all_cards?
     assert_no_difference("Customer.count") do
       post response['Location'] #this gives me a timeout when run alone
     end

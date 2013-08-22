@@ -16,10 +16,10 @@ class PaymentsController < BillingBaseController
   end
 
   def index
+    access_denied unless admin? or (@user == current_user)
     customer = Customer.find_by_user_id(@user.id)
     braintree_data = Braintree::Customer.find(customer.braintree_customer_id)
     # these will be ordered by created_at descending, per http://stackoverflow.com/questions/16425475/
-    # TODO permissions
     @transactions = braintree_data.transactions
   end
 

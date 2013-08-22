@@ -4,7 +4,7 @@ class CustomerController < BillingBaseController
   def show
     if @customer
       @customer.with_braintree_data!
-      @default_cc = @customer.default_credit_card #TODO not actually right way
+      @default_cc = @customer.default_credit_card
       @active_subscription = @customer.subscriptions
       @transactions = @customer.braintree_customer.transactions
     end
