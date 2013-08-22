@@ -1,12 +1,10 @@
 class Session < SRP::Session
   include ActiveModel::Validations
+  include LoginFormatValidation
 
   attr_accessor :login
 
-  validates :login,
-    :presence => true,
-    :format => { :with => /\A[A-Za-z\d_]+\z/,
-      :message => "Only letters, digits and _ allowed" }
+  validates :login, :presence => true
 
   def initialize(user = nil, aa = nil)
     super(user, aa) if user
