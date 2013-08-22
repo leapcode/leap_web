@@ -28,8 +28,8 @@ class AccountTest < BrowserIntegrationTest
     fill_in 'Password', with: "password"
     inject_malicious_js
     click_on 'Log In'
-    assert !page.has_content?("Welcome")
     assert page.has_content?("Invalid random key")
+    assert page.has_no_content?("Welcome")
   end
 
   def inject_malicious_js
