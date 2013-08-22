@@ -7,30 +7,6 @@ module ControllerExtension::Authentication
     helper_method :current_user, :logged_in?, :admin?
   end
 
-  def authentication_errors
-    return unless attempted_login?
-    errors = get_warden_errors
-    errors.inject({}) do |translated,err|
-      translated[err.first] = I18n.t(err.last)
-      translated
-    end
-  end
-
-  def get_warden_errors
-    if strategy = warden.winning_strategy
-      message = strategy.message
-      # in case we get back the default message to fail!
-      message.respond_to?(:inject) ? message : { base: message }
-    else
-      { login: :all_strategies_failed }
-    end
-  end
-
-  def attempted_login?
-    request.env['warden.options'] &&
-      request.env['warden.options'][:attempted_path]
-  end
-
   def logged_in?
     !!current_user
   end
@@ -62,4 +38,27 @@ module ControllerExtension::Authentication
     access_denied unless admin?
   end
 
+  def authentication_errors
+    return unless attempted_login?
+    errors = get_warden_errors
+    errors.inject({}) do |translated,err|
+      translated[err.first] = I18n.t(err.last)
+      translated
+    end
+  end
+
+  def get_warden_errors
+    if strategy = warden.winning_strategy
+      message = strategy.message
+      # in case we get back the default message to fail!
+      message.respond_to?(:inject) ? message : { base: message }
+    else
+      { login: :all_strategies_failed }
+    end
+  end
+
+  def attempted_login?
+    request.env['warden.options'] &&
+      request.env['warden.options'][:attempted_path]
+  end
 end
