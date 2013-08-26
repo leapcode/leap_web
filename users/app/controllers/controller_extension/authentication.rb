@@ -7,6 +7,10 @@ module ControllerExtension::Authentication
     helper_method :current_user, :logged_in?, :admin?
   end
 
+  def current_user
+    @current_user ||= token_authenticate || warden.user
+  end
+
   def logged_in?
     !!current_user
   end
