@@ -10,11 +10,18 @@ gem "leap_web_core", :path => 'core'
 gem 'leap_web_users', :path => 'users'
 gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
+gem 'leap_web_billing', :path => 'billing'
 
 # To use debugger
 gem 'debugger', :platforms => :mri_19
 # ruby 1.8 is not supported anymore
 # gem 'ruby-debug', :platforms => :mri_18
+
+
+group :test do
+  gem 'fake_braintree', require: false
+  gem 'capybara', require: false
+end
 
 # unreleased so far ... but leap_web_certs need it
 

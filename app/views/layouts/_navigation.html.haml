@@ -2,4 +2,5 @@
   = link_to_navigation t(:overview), user_overview_path(@user), :active => controller?(:overviews)
   = link_to_navigation t(:account_settings), edit_user_path(@user), :active => controller?(:users)
   = link_to_navigation t(:support_tickets), auto_tickets_path, :active => controller?(:tickets)
+  = link_to_navigation t(:billing_settings), new_customer_path, :active => controller?(:customer, :payments, :subscription)
   = link_to_navigation t(:logout), logout_path, :method => :delete

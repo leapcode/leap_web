@@ -9,6 +9,7 @@ group :test do
   gem 'poltergeist'
   # required for save_and_open_page in integration tests
   # gem 'launchy'
+  gem 'fake_braintree' #depends on rspec?
 end
 
 group :test, :development do

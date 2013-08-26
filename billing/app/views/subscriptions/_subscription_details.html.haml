@@ -1,0 +1,19 @@
+%p
+  = link_to subscription.id, subscription_path(subscription.id)
+  Balance:
+  = number_to_currency(subscription.balance)
+  Bill on:
+  = subscription.billing_day_of_month
+  Start date:
+  = subscription.first_billing_date
+  Paid through:
+  = subscription.paid_through_date
+  Plan:
+  = subscription.plan_id
+  Price:
+  = subscription.price
+  - color = (subscription.status == 'Active') ? "green" : "red"
+  Status:
+  %font{:color => color}
+    = subscription.status
+  - # would be good to get plan name but not sure if that is possible?

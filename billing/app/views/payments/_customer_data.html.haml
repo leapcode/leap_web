@@ -1,0 +1,15 @@
+%h2 Customer Information
+%dl
+  %dt First Name
+  %dd= @customer.first_name
+  %dt Last Name
+  %dd= @customer.last_name
+  %dt Phone
+  %dd= @customer.phone
+%h2 Credit Card Information
+%dl
+  %dt Number
+  %dd= @default_cc.masked_number
+  %dt Expiration Date
+  %dd= @default_cc.expiration_date
+= link_to 'Edit Saved Data', edit_customer_path(@customer), :class => :btn

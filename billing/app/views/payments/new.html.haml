@@ -1,0 +1,18 @@
+%h1
+  Payment
+- if @result and @result.errors.size > 0
+  %div{:style => "color: red;"}
+    = h @result.errors.size
+    error(s)
+- if @result and @result.transaction.status == 'processor_declined'
+  %div{:style => "color: red;"}
+    Processor Declined
+= braintree_form_for :transaction, :html => {:autocomplete => "off"} do |f|
+  = f.label :amount, "Amount"
+  = f.text_field :amount
+  - if !@customer
+    = render :partial => 'non_customer_fields', :locals => {:f => f}
+  - else
+    = render :partial => 'customer_data'
+  = hidden_field_tag :tr_data, @tr_data
+  = f.submit "Submit Payment", :class => :btn
