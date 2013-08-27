@@ -16,7 +16,8 @@ def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
   return ''.join(random.choice(chars) for x in range(size))
 
 # using globals for a start
-server = 'https://dev.bitmask.net/1'
+# server = 'https://dev.bitmask.net/1'
+server = 'http://api.lvh.me:3000/1'
 login = 'test_' + id_generator()
 password = id_generator() + id_generator()
 
@@ -41,15 +42,16 @@ def signup(session):
       }
   return session.post(server + '/users.json', data = user_params, verify = False)
 
-def change_password(session):
+def change_password(token):
   password = id_generator() + id_generator()
   salt, vkey = srp.create_salted_verification_key( login, password, srp.SHA256, srp.NG_1024 )
   user_params = {
       'user[password_verifier]': binascii.hexlify(vkey),
       'user[password_salt]': binascii.hexlify(salt)
       }
+  auth_headers = { 'Authorization': 'Token token="' + token + '"'}
   print user_params
-  print_and_parse(session.put(server + '/users/' + auth['id'] + '.json', data = user_params, verify = False))
+  print_and_parse(requests.put(server + '/users/' + auth['id'] + '.json', data = user_params, verify = False, headers = auth_headers))
   return srp.User( login, password, srp.SHA256, srp.NG_1024 )
 
 
@@ -84,7 +86,7 @@ auth = print_and_parse(authenticate(session, user['login']))
 verify_or_debug(auth)
 assert usr.authenticated()
 
-usr = change_password(session)
+usr = change_password(auth['token'])
 
 auth = print_and_parse(authenticate(session, user['login']))
 verify_or_debug(auth)
