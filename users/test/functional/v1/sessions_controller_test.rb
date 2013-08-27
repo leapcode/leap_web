@@ -52,20 +52,18 @@ class V1::SessionsControllerTest < ActionController::TestCase
     assert_equal @user.id, token.user_id
   end
 
-  test "logout should reset warden user" do
+  test "logout should reset session" do
     expect_warden_logout
     delete :destroy
     assert_response 204
   end
 
-  test "logout should remove token" do
+  test "logout should destroy token" do
     login
     expect_warden_logout
-    skip "TODO: implement token removal"
-    assert_difference "Token.count", -1 do
-      delete :destroy
-      assert_response 204
-    end
+    @token.expects(:destroy)
+    delete :destroy
+    assert_response 204
   end
 
   def expect_warden_logout
@@ -75,6 +73,5 @@ class V1::SessionsControllerTest < ActionController::TestCase
     request.env['warden'].expects(:raw_session).returns(raw)
     request.env['warden'].expects(:logout)
   end
-
 
 end
