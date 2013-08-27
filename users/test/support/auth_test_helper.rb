@@ -13,7 +13,7 @@ module AuthTestHelper
     if user_or_method_hash.respond_to?(:reverse_merge)
       user_or_method_hash.reverse_merge! :is_admin? => false
     end
-    @current_user = find_record(:user, user_or_method_hash)
+    @current_user = stub_record(:user, user_or_method_hash)
     request.env['warden'] = stub :user => @current_user
     request.env['HTTP_AUTHORIZATION'] = header_for_token_auth
     return @current_user
@@ -41,7 +41,7 @@ module AuthTestHelper
   protected
 
   def header_for_token_auth
-    @token = find_record(:token, :user_id => @current_user.id)
+    @token = find_record(:token, :user => @current_user)
     ActionController::HttpAuthentication::Token.encode_credentials @token.id
   end
 end
