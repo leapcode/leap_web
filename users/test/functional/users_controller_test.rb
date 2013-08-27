@@ -59,19 +59,23 @@ class UsersControllerTest < ActionController::TestCase
     assert_access_denied
   end
 
-  test "show for non-existing user" do
+  test "may not show non-existing user without auth" do
     nonid = 'thisisnotanexistinguserid'
 
-    # when unauthenticated:
     get :show, :id => nonid
     assert_access_denied(true, false)
+  end
 
-    # when authenticated but not admin:
+  test "may not show non-existing user without admin" do
+    nonid = 'thisisnotanexistinguserid'
     login
+
     get :show, :id => nonid
     assert_access_denied
+  end
 
-    # when authenticated as admin:
+  test "redirect admin to user list for non-existing user" do
+    nonid = 'thisisnotanexistinguserid'
     login :is_admin? => true
     get :show, :id => nonid
     assert_response :redirect
