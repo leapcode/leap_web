@@ -7,7 +7,7 @@ class V1::SessionsControllerTest < ActionController::TestCase
 
   setup do
     @request.env['HTTP_HOST'] = 'api.lvh.me'
-    @user = stub_record :user
+    @user = stub_record :user, {}, true
     @client_hex = 'a123'
   end
 
@@ -48,13 +48,22 @@ class V1::SessionsControllerTest < ActionController::TestCase
     assert_response :success
     assert json_response.keys.include?("id")
     assert json_response.keys.include?("token")
+    assert token = Token.find(json_response['token'])
+    assert_equal @user.id, token.user_id
   end
 
-  test "logout should reset warden user" do
+  test "logout should reset session" do
     expect_warden_logout
     delete :destroy
-    assert_response :redirect
-    assert_redirected_to root_url
+    assert_response 204
+  end
+
+  test "logout should destroy token" do
+    login
+    expect_warden_logout
+    @token.expects(:destroy)
+    delete :destroy
+    assert_response 204
   end
 
   def expect_warden_logout
@@ -64,6 +73,5 @@ class V1::SessionsControllerTest < ActionController::TestCase
     request.env['warden'].expects(:raw_session).returns(raw)
     request.env['warden'].expects(:logout)
   end
-
 
 end
