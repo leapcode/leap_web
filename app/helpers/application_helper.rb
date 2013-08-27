@@ -37,9 +37,4 @@ module ApplicationHelper
     html_escape(msg).gsub('[b]', '<b>').gsub('[/b]', '</b>').html_safe
   end
 
-  def engine_enabled(name)
-    # to disable engine, comment it out in Gemfile (and make sure to re-run bundle install)
-    Rails::Application::Railties.engines.any? {|eng| eng.class.to_s == "#{name}::Engine"}
-  end
-
 end
