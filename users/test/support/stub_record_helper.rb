@@ -1,7 +1,7 @@
 module StubRecordHelper
 
   #
-  # We will stub find_by_param or find_by_id to be called on klass and
+  # We will stub find_by_param or find to be called on klass and
   # return the record given.
   #
   # If no record is given but a hash or nil will create a stub based on

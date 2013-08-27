@@ -2,11 +2,10 @@ module ControllerExtension::TokenAuthentication
   extend ActiveSupport::Concern
 
   def token_authenticate
-    token = nil
-    authenticate_or_request_with_http_token do |token, options|
-      token = Token.find(token)
+    authenticate_or_request_with_http_token do |token_id, options|
+      @token = Token.find(token_id)
     end
-    User.find(token.user_id) if token
+    User.find_by_param(@token.user_id) if @token
   end
 end
 

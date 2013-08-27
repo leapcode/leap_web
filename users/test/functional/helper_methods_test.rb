@@ -11,7 +11,7 @@ class HelperMethodsTest < ActionController::TestCase
   # we test them right in here...
   include ApplicationController._helpers
 
-  # they all reference the controller.
+  # the helpers all reference the controller.
   def controller
     @controller
   end
