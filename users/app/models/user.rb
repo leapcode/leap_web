@@ -1,15 +1,11 @@
 class User < CouchRest::Model::Base
+  include LoginFormatValidation
 
   use_database :users
 
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
-
-  property :email_forward, String, :accessible => true
-  property :email_aliases, [LocalEmail]
-
-  property :public_key, :accessible => true
 
   property :enabled, TrueClass, :default => true
 
@@ -20,20 +16,6 @@ class User < CouchRest::Model::Base
     :uniqueness => true,
     :if => :serverside?
 
-  # Have multiple regular expression validations so we can get specific error messages:
-  validates :login,
-    :format => { :with => /\A.{2,}\z/,
-      :message => "Login must have at least two characters"}
-  validates :login,
-    :format => { :with => /\A[a-z\d_\.-]+\z/,
-      :message => "Only lowercase letters, digits, . - and _ allowed."}
-  validates :login,
-    :format => { :with => /\A[a-z].*\z/,
-      :message => "Login must begin with a lowercase letter"}
-  validates :login,
-    :format => { :with => /\A.*[a-z\d]\z/,
-      :message => "Login must end with a letter or digit"}
-
   validate :login_is_unique_alias
 
   validates :password_salt, :password_verifier,
@@ -43,10 +25,6 @@ class User < CouchRest::Model::Base
     :confirmation => true,
     :format => { :with => /.{8}.*/, :message => "needs to be at least 8 characters long" }
 
-  validates :email_forward,
-    :allow_blank => true,
-    :format => { :with => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/, :message => "needs to be a valid email address"}
-
   timestamps!
 
   design do
@@ -54,19 +32,6 @@ class User < CouchRest::Model::Base
     load_views(own_path.join('..', 'designs', 'user'))
     view :by_login
     view :by_created_at
-    view :pgp_key_by_handle,
-      map: <<-EOJS
-      function(doc) {
-        if (doc.type != 'User') {
-          return;
-        }
-        emit(doc.login, doc.public_key);
-        doc.email_aliases.forEach(function(alias){
-          emit(alias.username, doc.public_key);
-        });
-      }
-    EOJS
-
   end # end of design
 
   class << self
@@ -105,14 +70,28 @@ class User < CouchRest::Model::Base
     APP_CONFIG['admins'].include? self.login
   end
 
-  # this currently only adds the first email address submitted.
-  # All the ui needs for now.
-  def email_aliases_attributes=(attrs)
-    email_aliases.build(attrs.values.first) if attrs
-  end
-
   def most_recent_tickets(count=3)
     Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
+  end
+
+  # DEPRECATED
+  #
+  # Please set the key on the identity directly
+  # WARNING: This will not be serialized with the user record!
+  # It is only a workaround for the key form.
+  def public_key=(value)
+    identity.set_key(:pgp, value)
+  end
+
+  # DEPRECATED
+  #
+  # Please access identity.keys[:pgp] directly
+  def public_key
+    identity.keys[:pgp]
+  end
+
+  def identity
+    @identity ||= Identity.for(self)
   end
 
   protected
@@ -122,12 +101,10 @@ class User < CouchRest::Model::Base
   ##
 
   def login_is_unique_alias
-    has_alias = User.find_by_login_or_alias(username)
-    return if has_alias.nil?
-    if has_alias != self
+    alias_identity = Identity.find_by_address(self.email_address)
+    return if alias_identity.blank?
+    if alias_identity.user != self
       errors.add(:login, "has already been taken")
-    elsif has_alias.login != self.login
-      errors.add(:login, "may not be the same as one of your aliases")
     end
   end
 

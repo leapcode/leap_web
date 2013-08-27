@@ -7,7 +7,7 @@ class TicketComment
   property :posted_at, Time#, :protected => true
   #property :posted_verified, TrueClass, :protected => true #should be true if current_user is set when the comment is created
   property :body, String
-  property :private, TrueClass # private comments are only viewable by admins
+  property :private, TrueClass # private comments are only viewable by admins  #this is checked when set, to make sure it was set by an admin
 
   # ? timestamps!
   validates :body, :presence => true

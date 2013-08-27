@@ -7,9 +7,8 @@ module StubRecordHelper
   # If no record is given but a hash or nil will create a stub based on
   # that instead and returns the stub.
   #
-  def find_record(factory, attribs_hash = {})
-    attribs_hash = attribs_hash.reverse_merge(:id => Random.rand(10000).to_s)
-    record = stub_record factory, attribs_hash
+  def find_record(factory, record_or_attribs_hash = {})
+    record = stub_record factory, record_or_attribs_hash, true
     klass = record.class
     finder = klass.respond_to?(:find_by_param) ? :find_by_param : :find
     klass.stubs(finder).with(record.to_param.to_s).returns(record)

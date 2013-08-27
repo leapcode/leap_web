@@ -49,6 +49,8 @@ module Warden
         else
           fail! :base => 'invalid_user_pass'
         end
+      rescue SRP::InvalidEphemeral
+        fail!(:base => "invalid_ephemeral")
       end
 
       def json_response(object)

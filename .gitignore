@@ -31,3 +31,5 @@ bin
 .*.swp
 public/1/*
 vendor/bundle/*
+public/img
+config/couchdb.yml.*

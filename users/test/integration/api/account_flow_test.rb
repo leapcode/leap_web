@@ -5,6 +5,7 @@ class AccountFlowTest < RackTest
 
   setup do
     @login = "integration_test_user"
+    Identity.find_by_address(@login + '@' + APP_CONFIG[:domain]).tap{|i| i.destroy if i}
     User.find_by_login(@login).tap{|u| u.destroy if u}
     @password = "srp, verify me!"
     @srp = SRP::Client.new @login, :password => @password
@@ -18,7 +19,10 @@ class AccountFlowTest < RackTest
   end
 
   teardown do
-    @user.destroy if @user
+    if @user.reload
+      @user.identity.destroy
+      @user.destroy
+    end
     Warden.test_reset!
   end
 
@@ -74,25 +78,45 @@ class AccountFlowTest < RackTest
     assert_nil server_auth
   end
 
+  test "update password via api" do
+    @srp.authenticate(self)
+    @password = "No! Verify me instead."
+    @srp = SRP::Client.new @login, :password => @password
+    @user_params = {
+    #  :login => @login,
+      :password_verifier => @srp.verifier.to_s(16),
+      :password_salt => @srp.salt.to_s(16)
+    }
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
+      :user => @user_params,
+      :format => :json
+    server_auth = @srp.authenticate(self)
+    assert last_response.successful?
+    assert_nil server_auth["errors"]
+    assert server_auth["M2"]
+  end
+
   test "update user" do
     server_auth = @srp.authenticate(self)
     test_public_key = 'asdlfkjslfdkjasd'
     original_login = @user.login
     new_login = 'zaph'
+    User.find_by_login(new_login).try(:destroy)
+    Identity.by_address.key(new_login + '@' + APP_CONFIG[:domain]).each do |identity|
+      identity.destroy
+    end
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => new_login}, :format => :json
-    @user.reload
-    assert_equal test_public_key, @user.public_key
-    assert_equal new_login, @user.login
+    assert last_response.successful?
+    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
+    # does not change login if no password_verifier is present
+    assert_equal original_login, @user.login
     # eventually probably want to remove most of this into a non-integration functional test
     # should not overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
-    @user.reload
-    assert_equal test_public_key, @user.public_key
+    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
     # should overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => nil}, :format => :json
-    # TODO: not sure why i need this, but when public key is removed, the DB is updated but @user.reload doesn't seem to actually reload.
-    @user = User.find(@user.id) # @user.reload
-    assert_nil @user.public_key
+    assert_nil Identity.for(@user).keys[:pgp]
   end
 
 end
