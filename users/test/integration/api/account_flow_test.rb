@@ -87,7 +87,6 @@ class AccountFlowTest < RackTest
       :password_verifier => @srp.verifier.to_s(16),
       :password_salt => @srp.salt.to_s(16)
     }
-    puts @user_params.inspect
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
       :user => @user_params,
       :format => :json
