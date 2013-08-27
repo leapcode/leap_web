@@ -1,0 +1,7 @@
+- if @result.success?
+  Subscription destroyed
+- else
+  Error:
+  = @result.message
+%p
+  = link_to 'Customer Information', show_customer_path(@user), :class=> :btn

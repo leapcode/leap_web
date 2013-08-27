@@ -24,6 +24,7 @@ development:
   admins: [blue, admin, admin2]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  payment: []
 
 test:
   <<: *dev_ca
@@ -32,9 +33,11 @@ test:
   admins: [admin, admin2]
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  payment: [billing]
 
 production:
   <<: *cert_options
   <<: *common
   admins: []
   domain: example.net
+  payment: []
