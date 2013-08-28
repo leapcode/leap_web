@@ -21,7 +21,7 @@ class WardenStrategySecureRemotePasswordTest < ActiveSupport::TestCase
       returns(@server_handshake)
     @server_handshake.expects(:to_json).
      returns({'B' => @server_hex, 'salt' => @salt}.to_json)
-    User.expects(:find_by_param).with(@user.login).returns(@user)
+    User.expects(:find).with(@user.login).returns(@user)
     assert_equal @server_handshake, session[:handshake]
     assert_response :success
     assert_json_response :B => @server_hex, :salt => @salt
@@ -29,7 +29,7 @@ class WardenStrategySecureRemotePasswordTest < ActiveSupport::TestCase
 
   test "should report user not found" do
     unknown = "login_that_does_not_exist"
-    User.expects(:find_by_param).with(unknown).raises(RECORD_NOT_FOUND)
+    User.expects(:find).with(unknown).raises(RECORD_NOT_FOUND)
     post :create, :login => unknown
     assert_response :success
     assert_json_error "login" => ["unknown user"]

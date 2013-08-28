@@ -2,13 +2,9 @@ class Token < CouchRest::Model::Base
 
   use_database :tokens
 
-  property :user_id, String, accessible: false
+  belongs_to :user
 
   validates :user_id, presence: true
-
-  def user
-    User.find(self.user_id)
-  end
 
   def initialize(*args)
     super

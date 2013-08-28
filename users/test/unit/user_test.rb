@@ -22,16 +22,6 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.valid?
   end
 
-  test "find_by_param gets User by id" do
-    @user.save
-    assert_equal @user, User.find_by_param(@user.id)
-    @user.destroy
-  end
-
-  test "to_param gives user id" do
-    assert_equal @user.id, @user.to_param
-  end
-
   test "verifier returns number for the hex in password_verifier" do
     assert_equal @user.password_verifier.hex, @user.verifier
   end
@@ -58,9 +48,10 @@ class UserTest < ActiveSupport::TestCase
 
   test "login needs to be unique amongst aliases" do
     other_user = FactoryGirl.create :user
-    Identity.create_for other_user, address: @user.login
+    id = Identity.create_for other_user, address: @user.login
     assert !@user.valid?
     other_user.destroy
+    id.destroy
   end
 
   test "deprecated public key api still works" do
@@ -69,17 +60,4 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @user.public_key
   end
 
-  test "pgp key view" do
-    key = SecureRandom.base64(4096)
-    identity = Identity.create_for @user
-    identity.set_key('pgp', key)
-    identity.save
-
-    view = Identity.pgp_key_by_email.key(@user.email_address)
-
-    assert_equal 1, view.rows.count
-    assert result = view.rows.first
-    assert_equal @user.email_address, result["key"]
-    assert_equal key, result["value"]
-  end
 end

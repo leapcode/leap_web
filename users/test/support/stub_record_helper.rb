@@ -1,7 +1,7 @@
 module StubRecordHelper
 
   #
-  # We will stub find_by_param or find_by_id to be called on klass and
+  # We will stub find when called on the records class and
   # return the record given.
   #
   # If no record is given but a hash or nil will create a stub based on
@@ -10,8 +10,9 @@ module StubRecordHelper
   def find_record(factory, record_or_attribs_hash = {})
     record = stub_record factory, record_or_attribs_hash, true
     klass = record.class
-    finder = klass.respond_to?(:find_by_param) ? :find_by_param : :find
-    klass.stubs(finder).with(record.to_param.to_s).returns(record)
+    # find is just an alias for get with CouchRest Model
+    klass.stubs(:get).with(record.to_param.to_s).returns(record)
+    klass.stubs(:find).with(record.to_param.to_s).returns(record)
     return record
   end
 
