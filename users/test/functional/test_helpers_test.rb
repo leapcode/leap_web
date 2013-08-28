@@ -21,7 +21,7 @@ class TestHelpersTest < ActionController::TestCase
   def test_login_stubs_token
     login
     assert @token
-    assert_equal @current_user, @token.user
+    assert_equal @current_user, @token.authenticate
   end
 
   def test_login_adds_token_header

@@ -16,6 +16,8 @@ cert_options: &cert_options
 common: &common
   force_ssl: false
   pagination_size: 30
+  auth:
+    token_expires_after: 60
 
 development:
   <<: *dev_ca
