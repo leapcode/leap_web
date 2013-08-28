@@ -41,7 +41,7 @@ module AuthTestHelper
   protected
 
   def header_for_token_auth
-    @token = find_record(:token, :user => @current_user)
+    @token = find_record(:token, :authenticate => @current_user)
     ActionController::HttpAuthentication::Token.encode_credentials @token.id
   end
 end

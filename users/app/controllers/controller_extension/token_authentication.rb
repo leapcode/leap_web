@@ -5,7 +5,7 @@ module ControllerExtension::TokenAuthentication
     authenticate_with_http_token do |token_id, options|
       @token = Token.find(token_id)
     end
-    @token.user if @token
+    @token.authenticate if @token
   end
 
   def logout
