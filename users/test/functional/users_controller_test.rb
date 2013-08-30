@@ -10,21 +10,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "failed show without login" do
-    user = FactoryGirl.build(:user)
-    user.save
+    user = find_record :user
     get :show, :id => user.id
     assert_response :redirect
     assert_redirected_to login_path
-    user.destroy
   end
 
   test "user can see user" do
     user = find_record :user,
-      :email => nil,
-      :email_forward => nil,
-      :email_aliases => [],
-      :created_at => Time.now,
-      :updated_at => Time.now,
       :most_recent_tickets => []
     login user
     get :show, :id => user.id
@@ -33,11 +26,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "admin can see other user" do
     user = find_record :user,
-      :email => nil,
-      :email_forward => nil,
-      :email_aliases => [],
-      :created_at => Time.now,
-      :updated_at => Time.now,
       :most_recent_tickets => []
     login :is_admin? => true
     get :show, :id => user.id
@@ -47,11 +35,6 @@ class UsersControllerTest < ActionController::TestCase
 
   test "user cannot see other user" do
     user = find_record :user,
-      :email => nil,
-      :email_forward => nil,
-      :email_aliases => [],
-      :created_at => Time.now,
-      :updated_at => Time.now,
       :most_recent_tickets => []
     login
     get :show, :id => user.id
