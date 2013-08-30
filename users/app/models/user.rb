@@ -86,6 +86,10 @@ class User < CouchRest::Model::Base
     @identity ||= Identity.for(self)
   end
 
+  def refresh_identity
+    @identity = Identity.for(self)
+  end
+
   protected
 
   ##
