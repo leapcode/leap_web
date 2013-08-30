@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class IdentityTest < ActiveSupport::TestCase
+  include StubRecordHelper
 
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = find_record :user
   end
 
   teardown do
-    @user.destroy
   end
 
   test "initial identity for a user" do
@@ -47,12 +47,11 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   test "validates availability" do
-    other_user = FactoryGirl.create(:user)
+    other_user = find_record :user
     id = Identity.create_for @user, address: alias_name, destination: forward_address
     taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
     assert_equal ["This email has already been taken"], taken.errors[:base]
-    other_user.destroy
   end
 
   test "setting and getting pgp key" do
