@@ -18,6 +18,10 @@ class AccountTest < BrowserIntegrationTest
     click_on 'Logout'
     assert page.has_content?("Sign Up")
     assert_equal '/', current_path
+    assert user = User.find_by_login(username)
+    assert id = user.identity
+    id.destroy
+    user.destroy
   end
 
   # trying to seed an invalid A for srp login
@@ -30,6 +34,7 @@ class AccountTest < BrowserIntegrationTest
     click_on 'Log In'
     assert page.has_content?("Invalid random key")
     assert page.has_no_content?("Welcome")
+    user.destroy
   end
 
   def inject_malicious_js
