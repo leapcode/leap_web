@@ -7,9 +7,6 @@ class IdentityTest < ActiveSupport::TestCase
     @user = find_record :user
   end
 
-  teardown do
-  end
-
   test "initial identity for a user" do
     id = Identity.for(@user)
     assert_equal @user.email_address, id.address
@@ -36,7 +33,6 @@ class IdentityTest < ActiveSupport::TestCase
     assert_equal LocalEmail.new(alias_name), id.address
     assert_equal Email.new(forward_address), id.destination
     assert_equal @user, id.user
-    id.save
   end
 
   test "prevents duplicates" do
@@ -44,6 +40,7 @@ class IdentityTest < ActiveSupport::TestCase
     dup = Identity.build_for @user, address: alias_name, destination: forward_address
     assert !dup.valid?
     assert_equal ["This alias already exists"], dup.errors[:base]
+    id.destroy
   end
 
   test "validates availability" do
@@ -52,6 +49,7 @@ class IdentityTest < ActiveSupport::TestCase
     taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
     assert_equal ["This email has already been taken"], taken.errors[:base]
+    id.destroy
   end
 
   test "setting and getting pgp key" do
@@ -69,6 +67,7 @@ class IdentityTest < ActiveSupport::TestCase
     assert result = view.rows.first
     assert_equal id.address, result["key"]
     assert_equal id.keys[:pgp], result["value"]
+    id.destroy
   end
 
   def alias_name
