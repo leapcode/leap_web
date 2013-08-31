@@ -13,6 +13,7 @@ class CustomerCreationTest < ActionDispatch::IntegrationTest
   end
 
   teardown do
+    @user.destroy
     Warden.test_reset!
   end
 
