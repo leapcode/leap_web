@@ -17,7 +17,9 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "payment when authenticated as customer" do
-    customer = FactoryGirl.create :customer_with_payment_info
+    user = find_record :user
+    customer = stub_record :customer_with_payment_info, user: user
+    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
     login customer.user
     get :new
     assert_not_nil assigns(:tr_data)

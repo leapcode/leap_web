@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
+  include StubRecordHelper
 
   setup do
-    @customer = FactoryGirl.build(:customer)
+    @user = find_record :user
+    @customer = FactoryGirl.build(:customer, user: @user)
   end
 
   test "test set of attributes should be valid" do
