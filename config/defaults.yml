@@ -41,3 +41,4 @@ production:
   admins: []
   domain: example.net
   payment: []
+# logfile: /path/to/your/logs
