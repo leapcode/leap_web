@@ -7,13 +7,7 @@ class AccountTest < BrowserIntegrationTest
   end
 
   test "normal account workflow" do
-    username = "test_#{SecureRandom.urlsafe_base64}".downcase
-    password = SecureRandom.base64
-    visit '/users/new'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: password
-    fill_in 'Password confirmation', with: password
-    click_on 'Sign Up'
+    username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
     click_on 'Logout'
     assert page.has_content?("Sign Up")
@@ -30,6 +24,23 @@ class AccountTest < BrowserIntegrationTest
     click_on 'Log In'
     assert page.has_content?("Invalid random key")
     assert page.has_no_content?("Welcome")
+  end
+
+  test "reports internal server errors" do
+    V1::UsersController.any_instance.stubs(:create).raises
+    submit_signup
+    assert page.has_content?("server failed")
+  end
+
+  def submit_signup
+    username = "test_#{SecureRandom.urlsafe_base64}".downcase
+    password = SecureRandom.base64
+    visit '/users/new'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: password
+    fill_in 'Password confirmation', with: password
+    click_on 'Sign Up'
+    return username, password
   end
 
   def inject_malicious_js

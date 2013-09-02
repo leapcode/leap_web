@@ -10,6 +10,8 @@ class ErrorHandlingTest < ActionController::TestCase
   def test_json_error
     get :index, format: :json
     assert_equal 'application/json', @response.content_type
+    assert json = JSON.parse(@response.body)
+    assert_equal ['error'], json.keys
   end
 
   def test_html_error_reraises
