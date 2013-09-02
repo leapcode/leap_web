@@ -34,14 +34,6 @@ class User < CouchRest::Model::Base
     view :by_created_at
   end # end of design
 
-  class << self
-    alias_method :find_by_param, :find
-  end
-
-  def to_param
-    self.id
-  end
-
   def to_json(options={})
     {
       :login => login,
