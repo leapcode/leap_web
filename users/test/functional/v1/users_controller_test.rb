@@ -7,7 +7,7 @@ class V1::UsersControllerTest < ActionController::TestCase
     changed_attribs = record_attributes_for :user_with_settings
     account_settings = stub
     account_settings.expects(:update).with(changed_attribs)
-    AccountSettings.expects(:new).with(user).returns(account_settings)
+    Account.expects(:new).with(user).returns(account_settings)
 
     login user
     put :update, :user => changed_attribs, :id => user.id, :format => :json
@@ -22,7 +22,7 @@ class V1::UsersControllerTest < ActionController::TestCase
     changed_attribs = record_attributes_for :user_with_settings
     account_settings = stub
     account_settings.expects(:update).with(changed_attribs)
-    AccountSettings.expects(:new).with(user).returns(account_settings)
+    Account.expects(:new).with(user).returns(account_settings)
 
     login :is_admin? => true
     put :update, :user => changed_attribs, :id => user.id, :format => :json
@@ -41,7 +41,7 @@ class V1::UsersControllerTest < ActionController::TestCase
   test "should create new user" do
     user_attribs = record_attributes_for :user
     user = User.new(user_attribs)
-    User.expects(:create).with(user_attribs).returns(user)
+    Account.expects(:create).with(user_attribs).returns(user)
 
     post :create, :user => user_attribs, :format => :json
 
@@ -55,7 +55,7 @@ class V1::UsersControllerTest < ActionController::TestCase
     user_attribs.slice!('login')
     user = User.new(user_attribs)
     assert !user.valid?
-    User.expects(:create).with(user_attribs).returns(user)
+    Account.expects(:create).with(user_attribs).returns(user)
 
     post :create, :user => user_attribs, :format => :json
 

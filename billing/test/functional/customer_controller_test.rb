@@ -21,7 +21,9 @@ class CustomerControllerTest < ActionController::TestCase
   end
 
   test "edit uses params[:id]" do
-    customer = FactoryGirl.create :customer_with_payment_info
+    user = find_record :user
+    customer = stub_record :customer_with_payment_info, user: user
+    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
     login customer.user
     get :edit, id: customer.user.id
 
@@ -50,7 +52,10 @@ class CustomerControllerTest < ActionController::TestCase
   end
 
   test "customer update" do
-    customer = FactoryGirl.create :customer_with_payment_info
+    user = find_record :user
+    customer = stub_record :customer_with_payment_info, user: user
+    customer.expects(:save)
+    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
     login customer.user
     Braintree::TransparentRedirect.expects(:confirm).
       returns(success_response(customer))
@@ -91,7 +96,9 @@ class CustomerControllerTest < ActionController::TestCase
   end
 
   test "failed user update with stubbing" do
-    customer = FactoryGirl.create :customer_with_payment_info
+    user = find_record :user
+    customer = stub_record :customer_with_payment_info, user: user
+    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
     login customer.user
     Braintree::TransparentRedirect.expects(:confirm).returns(failure_response)
     post :confirm, bla: :blub
