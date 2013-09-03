@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get "signup" => "users#new", :as => "signup"
   resources :users, :except => [:create, :update] do
     resource :overview, :only => [:show]
-    resource :email_settings, :only => [:edit, :update]
+    # resource :email_settings, :only => [:edit, :update]
     resources :email_aliases, :only => [:destroy], :id => /.*/
     post 'deactivate', on: :member
     post 'enable', on: :member

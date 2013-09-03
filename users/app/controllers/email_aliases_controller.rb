@@ -6,7 +6,7 @@ class EmailAliasesController < UsersBaseController
     if @user.save
       flash[:notice] = t(:email_alias_destroyed_successfully, :alias => bold(@alias))
     end
-    redirect_to edit_user_email_settings_path(@user)
+    redirect_to edit_user_email_settings_path(@user) #TODO: this path doesn't exist. will want to add path for identities controller
   end
 
 end
