@@ -2,9 +2,11 @@ require 'test_helper'
 require 'fake_braintree'
 
 class CustomerWithPaymentInfoTest < ActiveSupport::TestCase
+  include StubRecordHelper
 
   setup do
-    @customer = FactoryGirl.build(:customer_with_payment_info)
+    @user = find_record :user
+    @customer = FactoryGirl.build(:customer_with_payment_info, user: @user)
   end
 
   test "has payment_info" do
@@ -28,6 +30,7 @@ class CustomerWithPaymentInfoTest < ActiveSupport::TestCase
     assert_equal 'Spender', @customer.last_name
     assert_equal 1, @customer.credit_cards.size
     assert_equal Hash.new, @customer.custom_fields
+    @customer.destroy
   end
 
   test "sets default_credit_card" do

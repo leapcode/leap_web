@@ -1,7 +1,19 @@
-class AccountSettings
+#
+# A Composition of a User record and it's identity records.
+#
+class Account
 
-  def initialize(user)
+  attr_reader :user
+
+  def initialize(user = nil)
     @user = user
+  end
+
+  # Returns the user record so it can be used in views.
+  def self.create(attrs)
+    @user = User.create(attrs).tap do |user|
+      Identity.create_for user
+    end
   end
 
   def update(attrs)
@@ -12,6 +24,15 @@ class AccountSettings
     # TODO: move into identity controller
     update_pgp_key(attrs[:public_key]) if attrs.has_key? :public_key
     @user.save && save_identities
+    @user.refresh_identity
+  end
+
+  def destroy
+    return unless @user
+    Identity.by_user_id.key(@user.id).each do |identity|
+      identity.destroy
+    end
+    @user.destroy
   end
 
   protected

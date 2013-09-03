@@ -50,8 +50,8 @@ class UserTest < ActiveSupport::TestCase
     other_user = FactoryGirl.create :user
     id = Identity.create_for other_user, address: @user.login
     assert !@user.valid?
-    other_user.destroy
     id.destroy
+    other_user.destroy
   end
 
   test "deprecated public key api still works" do

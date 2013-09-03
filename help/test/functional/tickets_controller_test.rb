@@ -2,16 +2,6 @@ require 'test_helper'
 
 class TicketsControllerTest < ActionController::TestCase
 
-  setup do
-    @user = FactoryGirl.create :user
-    @other_user = FactoryGirl.create :user
-  end
-
-  teardown do
-    @user.destroy
-    @other_user.destroy
-  end
-
   test "should get index if logged in" do
     login
     get :index
@@ -38,22 +28,25 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "user tickets are not visible without login" do
-    ticket = find_record :ticket, :created_by => @user.id
+    user = find_record :user
+    ticket = find_record :ticket, :created_by => user.id
     get :show, :id => ticket.id
     assert_response :redirect
     assert_redirected_to login_url
   end
 
   test "user tickets are visible to creator" do
-    ticket = find_record :ticket, :created_by => @user.id
-    login @user
+    user = find_record :user
+    ticket = find_record :ticket, :created_by => user.id
+    login user
     get :show, :id => ticket.id
     assert_response :success
   end
 
-  test "user tickets are not visible to other user" do
-    ticket = find_record :ticket, :created_by => @user.id
-    login @other_user
+  test "other users tickets are not visible" do
+    other_user = find_record :user
+    ticket = find_record :ticket, :created_by => other_user.id
+    login
     get :show, :id => ticket.id
     assert_response :redirect
     assert_redirected_to root_url
@@ -79,7 +72,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     params = {:title => "auth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
-    login :email => Faker::Internet.user_name + '@' + APP_CONFIG[:domain]
+    login
 
     assert_difference('Ticket.count') do
       post :create, :ticket => params
@@ -89,7 +82,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:ticket).created_by
     assert_equal assigns(:ticket).created_by, @current_user.id
-    assert_equal assigns(:ticket).email, @current_user.email_address.email
+    assert_equal assigns(:ticket).email, @current_user.email_address
 
     assert_equal 1, assigns(:ticket).comments.count
     assert_not_nil assigns(:ticket).comments.first.posted_by
@@ -114,7 +107,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "add comment to own authenticated ticket" do
 
-    login User.last
+    login
     ticket = FactoryGirl.create :ticket, :created_by => @current_user.id
 
     #they should be able to comment if it is their ticket:
@@ -132,8 +125,9 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "cannot comment if it is not your ticket" do
 
+    other_user = find_record :user
     login :is_admin? => false, :email => nil
-    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
+    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
     # they should *not* be able to comment if it is not their ticket
     put :update, :id => ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"not allowed comment"}} }
     assert_response :redirect
@@ -146,9 +140,10 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "admin add comment to authenticated ticket" do
 
+    other_user = find_record :user
     login :is_admin? => true
 
-    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
+    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
 
     #admin should be able to comment:
     assert_difference('Ticket.find(ticket.id).comments.count') do
@@ -163,9 +158,10 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "tickets by admin" do
-    ticket = FactoryGirl.create :ticket, :created_by => @other_user.id
+    other_user = find_record :user
+    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
 
-    login :is_admin? => true, :email => nil
+    login :is_admin? => true
 
     get :index, {:admin_status => "all", :open_status => "open"}
     assert assigns(:all_tickets).count > 1

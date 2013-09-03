@@ -2,7 +2,7 @@ require 'test_helper'
 require 'fake_braintree'
 require 'capybara/rails'
 
-class CustomerCreationTest < ActionDispatch::IntegrationTest
+class AdminCustomerTest < ActionDispatch::IntegrationTest
   include Warden::Test::Helpers
   include Capybara::DSL
 
