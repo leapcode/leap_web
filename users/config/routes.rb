@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
   get "login" => "sessions#new", :as => "login"
   delete "logout" => "sessions#destroy", :as => "logout"
-  resources :sessions, :only => [:new, :create, :update]
 
   get "signup" => "users#new", :as => "signup"
   resources :users, :except => [:create, :update] do
