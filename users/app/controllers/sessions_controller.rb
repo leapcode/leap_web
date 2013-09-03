@@ -8,16 +8,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def create
-    logout if logged_in?
-    authenticate!
-  end
-
-  def update
-    authenticate!
-    render :json => session.delete(:handshake)
-  end
-
   def destroy
     logout
     redirect_to root_path

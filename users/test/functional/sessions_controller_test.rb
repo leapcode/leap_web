@@ -41,27 +41,6 @@ class SessionsControllerTest < ActionController::TestCase
     assert_json_error :login => I18n.t(:all_strategies_failed)
   end
 
-  # Warden takes care of parsing the params and
-  # rendering the response. So not much to test here.
-  test "should perform handshake" do
-    request.env['warden'].expects(:authenticate!)
-    # make sure we don't get a template missing error:
-    @controller.stubs(:render)
-    post :create, :login => @user.login, 'A' => @client_hex
-  end
-
-  test "should authorize" do
-    request.env['warden'].expects(:authenticate!)
-    handshake = stub(:to_json => "JSON")
-    session[:handshake] = handshake
-
-    post :update, :id => @user.login, :client_auth => @client_hex
-
-    assert_nil session[:handshake]
-    assert_response :success
-    assert_json_response handshake
-  end
-
   test "logout should reset warden user" do
     expect_warden_logout
     delete :destroy

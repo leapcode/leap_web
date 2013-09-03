@@ -9,7 +9,7 @@
     .span3
   .row-fluid.second
     .login.span4
-      %span.link= link_to(icon('ok-sign', icon_color) + t(:login), new_session_path, :class => 'btn')
+      %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')
       %span.info= t(:login_info)
     .signup.span4
       %span.link= link_to(icon('user', icon_color) + t(:signup), new_user_path, :class => 'btn')
