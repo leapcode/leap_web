@@ -8,6 +8,7 @@ module V1
 
     respond_to :json
 
+    # used for autocomplete for admins in the web ui
     def index
       if params[:query]
         @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
