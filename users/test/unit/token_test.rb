@@ -1,19 +1,20 @@
 require 'test_helper'
 
 class ClientCertificateTest < ActiveSupport::TestCase
+  include StubRecordHelper
 
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = find_record :user
   end
 
   teardown do
-    @user.destroy
   end
 
   test "new token for user" do
     sample = Token.new(:user_id => @user.id)
     assert sample.valid?
     assert_equal @user.id, sample.user_id
+    assert_equal @user, sample.authenticate
   end
 
   test "token id is secure" do
@@ -33,5 +34,33 @@ class ClientCertificateTest < ActiveSupport::TestCase
     sample = Token.new
     assert !sample.valid?, "Token should require a user record"
   end
+
+  test "token updates timestamps" do
+    sample = Token.new(user_id: @user.id)
+    sample.last_seen_at = 1.minute.ago
+    sample.expects(:save)
+    assert_equal @user, sample.authenticate
+    assert Time.now - sample.last_seen_at < 1.minute, "last_seen_at has not been updated"
+  end
+
+  test "token will not expire if token_expires_after is not set" do
+    sample = Token.new(user_id: @user.id)
+    sample.last_seen_at = 2.years.ago
+    with_config auth: {} do
+      sample.expects(:save)
+      assert_equal @user, sample.authenticate
+    end
+  end
+
+  test "expired token returns nil on authenticate" do
+    sample = Token.new(user_id: @user.id)
+    sample.last_seen_at = 2.hours.ago
+    with_config auth: {token_expires_after: 60} do
+      sample.expects(:destroy)
+      assert_nil sample.authenticate
+    end
+  end
+
+
 
 end
