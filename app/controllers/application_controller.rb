@@ -7,6 +7,19 @@ class ApplicationController < ActionController::Base
 
   protected
 
+
+  rescue_from StandardError do |e|
+    respond_to do |format|
+      format.json { render_json_error }
+      format.all  { raise e }  # reraise the exception so the normal thing happens.
+    end
+  end
+
+  def render_json_error
+    render status: 500,
+      json: {error: "The server failed to process your request. We'll look into it."}
+  end
+
   #
   # Allows us to pass through bold text to flash messages. See format_flash() for where this is reversed.
   #
