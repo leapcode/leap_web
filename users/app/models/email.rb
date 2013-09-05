@@ -19,4 +19,8 @@ class Email < String
     self
   end
 
+  def handle
+    self.split('@').first
+  end
+
 end
