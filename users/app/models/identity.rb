@@ -1,4 +1,5 @@
 class Identity < CouchRest::Model::Base
+  include LoginFormatValidation
 
   use_database :identities
 
@@ -62,6 +63,11 @@ class Identity < CouchRest::Model::Base
   def set_key(type, value)
     return if keys[type] == value
     write_attribute('keys', keys.merge(type => value))
+  end
+
+  # for LoginFormatValidation
+  def login
+    self.address.handle
   end
 
   protected

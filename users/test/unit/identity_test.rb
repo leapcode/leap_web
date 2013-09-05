@@ -76,6 +76,14 @@ class IdentityTest < ActiveSupport::TestCase
     assert_match /needs to end in/, id.errors[:address].first
   end
 
+  test "only lowercase alias" do
+    id = Identity.create_for @user, address: alias_name.capitalize
+    assert !id.valid?
+    #hacky way to do this, but okay for now:
+    assert id.errors.messages.flatten(2).include? "Must begin with a lowercase letter"
+    assert id.errors.messages.flatten(2).include? "Only lowercase letters, digits, . - and _ allowed."
+  end
+
 
   def alias_name
     @alias_name ||= Faker::Internet.user_name
