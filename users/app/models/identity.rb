@@ -10,6 +10,7 @@ class Identity < CouchRest::Model::Base
 
   validate :unique_forward
   validate :alias_available
+  validate :address_local_email
 
   design do
     view :by_user_id
@@ -77,6 +78,11 @@ class Identity < CouchRest::Model::Base
     if same && same.user != self.user
       errors.add :base, "This email has already been taken"
     end
+  end
+
+  def address_local_email
+    return if address.valid? #this ensures it is LocalEmail
+    self.errors.add(:address, address.errors.messages[:email].first) #assumes only one error
   end
 
 end
