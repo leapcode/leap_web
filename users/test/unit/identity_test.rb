@@ -70,6 +70,13 @@ class IdentityTest < ActiveSupport::TestCase
     id.destroy
   end
 
+  test "fail to end non-local email address as identity address" do
+    id = Identity.for @user, address: 'blah@sdlfksjdfljk.com'
+    assert !id.valid?
+    assert_match /needs to end in/, id.errors[:address].first
+  end
+
+
   def alias_name
     @alias_name ||= Faker::Internet.user_name
   end
