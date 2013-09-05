@@ -18,10 +18,20 @@ class AccountTest < BrowserIntegrationTest
     user.destroy
   end
 
+  test "successful login" do
+    username, password = submit_signup
+    click_on 'Logout'
+    click_on 'Log In'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: password
+    click_on 'Log In'
+    assert page.has_content?("Welcome #{username}")
+  end
+
   # trying to seed an invalid A for srp login
   test "detects attempt to circumvent SRP" do
     user = FactoryGirl.create :user
-    visit '/sessions/new'
+    visit '/login'
     fill_in 'Username', with: user.login
     fill_in 'Password', with: "password"
     inject_malicious_js
