@@ -7,7 +7,7 @@ class BillingBaseController < ApplicationController
   def assign_user
     if params[:user_id]
       @user = User.find(params[:user_id])
-    elsif params[:action] == "confirm" or params[:action] == "destroy" # confirms and subscription deletes will come back with different ID set, so check for this first
+    elsif params[:action] == "confirm"# confirms will come back with different ID set, so check for this first
       # This is only for cases where an admin cannot apply action for customer, but should be all confirms
       @user = current_user
     elsif params[:id]
