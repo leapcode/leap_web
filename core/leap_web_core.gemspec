@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "couchrest", "~> 1.1.3"
   s.add_dependency "couchrest_model", "~> 2.0.0.beta2"
-  s.add_dependency "couchrest_session_store", "~> 0.1.3"
+  s.add_dependency "couchrest_session_store", "~> 0.2.0"
 
   s.add_dependency "json"
 end
