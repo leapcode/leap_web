@@ -3,7 +3,7 @@ class SubscriptionsController < BillingBaseController
   before_filter :fetch_subscription, :only => [:show, :destroy]
   before_filter :confirm_no_active_subscription, :only => [:new, :create]
   # for now, admins cannot create or destroy subscriptions for others:
-  before_filter :confirm_self, :only => [:destroy, :new, :create]
+  before_filter :confirm_self, :only => [:new, :create]
 
   def new
     # don't show link to subscribe if they are already subscribed?
