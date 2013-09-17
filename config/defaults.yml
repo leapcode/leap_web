@@ -26,7 +26,7 @@ development:
   admins: [blue, admin, admin2]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  payment: [billing]
+  payment: []
 
 test:
   <<: *dev_ca
