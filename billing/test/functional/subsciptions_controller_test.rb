@@ -2,11 +2,10 @@ require 'test_helper'
 require 'fake_braintree'
 
 class SubscriptionsControllerTest < ActionController::TestCase
+  include CustomerTestHelper
 
   test "destroy cancels subscription" do
-    user = find_record :user
-    customer = stub_record :customer_with_payment_info, user: user
-    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
+    customer = stub_customer
     login customer.user
     result = Braintree::Subscription.create plan_id: 'my_plan',
       payment_method_token: customer.braintree_customer.credit_cards.first.token
