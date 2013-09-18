@@ -13,9 +13,7 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?("Sign Up")
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
-    assert id = user.identity
-    id.destroy
-    user.destroy
+    user.account.destroy
   end
 
   test "successful login" do
