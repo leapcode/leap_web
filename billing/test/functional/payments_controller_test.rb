@@ -2,6 +2,7 @@ require 'test_helper'
 require 'fake_braintree'
 
 class PaymentsControllerTest < ActionController::TestCase
+  include CustomerTestHelper
 
   test "payment when unauthorized" do
     get :new
