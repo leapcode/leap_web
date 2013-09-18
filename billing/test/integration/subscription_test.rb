@@ -13,14 +13,17 @@ class SubscriptionTest < ActionDispatch::IntegrationTest
     @braintree_customer = FactoryGirl.create(:braintree_customer)
     @customer.braintree_customer_id = @braintree_customer.id
     @customer.save
-    @subscription = FakeBraintree::Subscription.new({:payment_method_token => @braintree_customer.credit_cards.first, :plan_id => '5'}, {:id => @braintree_customer.id, :merchant_id => Braintree::Configuration.merchant_id})
-    # unfortunately @braintree_customer.credit_cards.first.subscriptions still returns empty array
   end
 
   teardown do
     Warden.test_reset!
     @admin.destroy
     @customer.destroy
+  end
+
+  test "can create subscription" do
+    @subscription = FakeBraintree::Subscription.new({:payment_method_token => @braintree_customer.credit_cards.first, :plan_id => '5'}, {:id => @braintree_customer.id, :merchant_id => Braintree::Configuration.merchant_id})
+    assert @braintree_customer.credit_cards.first.subscriptions.present?
   end
 
   test "admin can cancel subscription for another" do
