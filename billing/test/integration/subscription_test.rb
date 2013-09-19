@@ -5,29 +5,31 @@ require 'capybara/rails'
 class SubscriptionTest < ActionDispatch::IntegrationTest
   include Warden::Test::Helpers
   include Capybara::DSL
+  include CustomerTestHelper
+  include StubRecordHelper
 
   setup do
     Warden.test_mode!
-    @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
-    @customer = FactoryGirl.create(:customer)
-    @braintree_customer = FactoryGirl.create(:braintree_customer)
-    @customer.braintree_customer_id = @braintree_customer.id
-    @customer.save
-    @subscription = FakeBraintree::Subscription.new({:payment_method_token => @braintree_customer.credit_cards.first, :plan_id => '5'}, {:id => @braintree_customer.id, :merchant_id => Braintree::Configuration.merchant_id})
-    # unfortunately @braintree_customer.credit_cards.first.subscriptions still returns empty array
+    @admin = stub_record :user, :admin => true
+    @customer = stub_customer
+    @braintree_customer = @customer.braintree_customer
+    response = Braintree::Subscription.create plan_id: '5',
+      payment_method_token: @braintree_customer.credit_cards.first.token
+    @subscription = response.subscription
+    Capybara.current_driver = Capybara.javascript_driver
   end
 
   teardown do
     Warden.test_reset!
-    @admin.destroy
-    @customer.destroy
   end
 
-  test "admin can cancel subscription for another" do
-    skip "not sure about testing admin cancelling subscription with fake_braintree"
+  test "admin can see subscription for another" do
     login_as @admin
-    #visit user_subscriptions_path(@customer.user_id)
-    #delete :destroy, :id => @subscription.id
+    @customer.stubs(:subscriptions).returns([@subscription])
+    visit user_subscriptions_path(@customer.user_id)
+    assert page.has_content?("Subscriptions")
+    assert page.has_content?("Status: Active")
+    page.save_screenshot('/tmp/subscriptions.png')
   end
 
   #test "admin cannot add subscription for another" do
