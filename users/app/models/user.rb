@@ -82,6 +82,10 @@ class User < CouchRest::Model::Base
     identity.keys[:pgp]
   end
 
+  def account
+    Account.new(self)
+  end
+
   def identity
     @identity ||= Identity.for(self)
   end
