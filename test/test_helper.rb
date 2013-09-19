@@ -36,6 +36,7 @@ Capybara.default_wait_time = 5
 class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   # Make the Capybara DSL available
   include Capybara::DSL
+  include IntegrationTestHelper
 
   teardown do
     Capybara.reset_sessions!    # Forget the (simulated) browser state
