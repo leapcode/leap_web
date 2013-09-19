@@ -13,9 +13,7 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?("Sign Up")
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
-    assert id = user.identity
-    id.destroy
-    user.destroy
+    user.account.destroy
   end
 
   test "successful login" do
@@ -45,17 +43,6 @@ class AccountTest < BrowserIntegrationTest
     V1::UsersController.any_instance.stubs(:create).raises
     submit_signup
     assert page.has_content?("server failed")
-  end
-
-  def submit_signup
-    username = "test_#{SecureRandom.urlsafe_base64}".downcase
-    password = SecureRandom.base64
-    visit '/users/new'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: password
-    fill_in 'Password confirmation', with: password
-    click_on 'Sign Up'
-    return username, password
   end
 
   def inject_malicious_js

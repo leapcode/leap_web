@@ -3,7 +3,7 @@ class SubscriptionsController < BillingBaseController
   before_filter :fetch_subscription, :only => [:show, :destroy]
   before_filter :confirm_no_active_subscription, :only => [:new, :create]
   # for now, admins cannot create or destroy subscriptions for others:
-  before_filter :confirm_self, :only => [:destroy, :new, :create]
+  before_filter :confirm_self, :only => [:new, :create]
 
   def new
     # don't show link to subscribe if they are already subscribed?
@@ -31,7 +31,8 @@ class SubscriptionsController < BillingBaseController
 
   def fetch_subscription
     @subscription = Braintree::Subscription.find params[:id]
-    @subscription_customer_id = @subscription.transactions.first.customer_details.id #all of subscriptions transactions should have same customer
+    @credit_card = Braintree::CreditCard.find @subscription.payment_method_token
+    @subscription_customer_id = @credit_card.customer_id
     current_user_customer = Customer.find_by_user_id(current_user.id)
     access_denied unless admin? or (current_user_customer and current_user_customer.braintree_customer_id == @subscription_customer_id)
 

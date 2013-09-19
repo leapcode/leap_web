@@ -1,8 +1,9 @@
 # Be sure to restart your server when you modify this file.
 
-LeapWeb::Application.config.session_store CouchRestSessionStore
+LeapWeb::Application.config.session_store CouchRest::Session::Store,
+  expire_after: 1800
 
-CouchRestSessionStore.configure do |conf|
+CouchRest::Session::Store.configure do |conf|
   conf.environment = Rails.env
   conf.connection_config_file = File.join(Rails.root, 'config', 'couchdb.yml')
   conf.connection[:prefix] =

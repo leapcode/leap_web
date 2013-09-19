@@ -2,6 +2,7 @@ require 'test_helper'
 require 'fake_braintree'
 
 class CustomerControllerTest < ActionController::TestCase
+  include CustomerTestHelper
 
   test "new assigns redirect url" do
     login
@@ -21,9 +22,7 @@ class CustomerControllerTest < ActionController::TestCase
   end
 
   test "edit uses params[:id]" do
-    user = find_record :user
-    customer = stub_record :customer_with_payment_info, user: user
-    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
+    customer = stub_customer
     login customer.user
     get :edit, id: customer.user.id
 
@@ -34,7 +33,7 @@ class CustomerControllerTest < ActionController::TestCase
     assert_equal confirm_customer_url, tr_data[:redirect_url]
   end
 
-  test "confirm user creation" do
+  test "confirm customer creation" do
     login
     Braintree::TransparentRedirect.expects(:confirm).returns(success_response)
     # to_confirm = prepare_confirmation :create_customer_data,
@@ -52,10 +51,8 @@ class CustomerControllerTest < ActionController::TestCase
   end
 
   test "customer update" do
-    user = find_record :user
-    customer = stub_record :customer_with_payment_info, user: user
+    customer = stub_customer
     customer.expects(:save)
-    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
     login customer.user
     Braintree::TransparentRedirect.expects(:confirm).
       returns(success_response(customer))
@@ -70,8 +67,8 @@ class CustomerControllerTest < ActionController::TestCase
     assert_equal customer.braintree_customer, result.customer
   end
 
-  test "failed user creation" do
-    skip "can't get user creation to fail"
+  test "failed customer creation" do
+    skip "can't get customer creation to fail"
     login
     FakeBraintree.decline_all_cards!
     # what is prepare_confirmation ?? this method isn't found
@@ -86,7 +83,7 @@ class CustomerControllerTest < ActionController::TestCase
     assert !result.success?
   end
 
-  test "failed user creation with stubbing" do
+  test "failed customer creation with stubbing" do
     login
     Braintree::TransparentRedirect.expects(:confirm).returns(failure_response)
     post :confirm, bla: :blub
@@ -95,10 +92,8 @@ class CustomerControllerTest < ActionController::TestCase
     assert_template :new
   end
 
-  test "failed user update with stubbing" do
-    user = find_record :user
-    customer = stub_record :customer_with_payment_info, user: user
-    Customer.stubs(:find_by_user_id).with(user.id).returns(customer)
+  test "failed customer update with stubbing" do
+    customer = stub_customer
     login customer.user
     Braintree::TransparentRedirect.expects(:confirm).returns(failure_response)
     post :confirm, bla: :blub
