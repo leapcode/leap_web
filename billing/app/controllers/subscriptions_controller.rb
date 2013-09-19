@@ -31,7 +31,8 @@ class SubscriptionsController < BillingBaseController
 
   def fetch_subscription
     @subscription = Braintree::Subscription.find params[:id]
-    @subscription_customer_id = @subscription.transactions.first.customer_details.id #all of subscriptions transactions should have same customer
+    @credit_card = Braintree::CreditCard.find @subscription.payment_method_token
+    @subscription_customer_id = @credit_card.customer_id
     current_user_customer = Customer.find_by_user_id(current_user.id)
     access_denied unless admin? or (current_user_customer and current_user_customer.braintree_customer_id == @subscription_customer_id)
 
