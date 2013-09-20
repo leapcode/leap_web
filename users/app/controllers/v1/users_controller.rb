@@ -31,7 +31,7 @@ module V1
     protected
 
     def account
-      Account.new(@user)
+      @user.account
     end
 
   end
