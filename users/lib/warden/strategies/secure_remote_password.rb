@@ -31,6 +31,7 @@ module Warden
           Rails.logger.warn "Login attempt failed."
           Rails.logger.debug debug_info
           Rails.logger.debug "Received: #{params['client_auth']}"
+          session.delete(:handshake)
           fail!(:base => "invalid_user_pass")
         end
       end
