@@ -12,6 +12,7 @@ class Identity < CouchRest::Model::Base
   validate :unique_forward
   validate :alias_available
   validate :address_local_email
+  validate :destination_email
 
   design do
     view :by_user_id
@@ -89,6 +90,11 @@ class Identity < CouchRest::Model::Base
   def address_local_email
     return if address.valid? #this ensures it is LocalEmail
     self.errors.add(:address, address.errors.messages[:email].first) #assumes only one error
+  end
+
+  def destination_email
+    return if destination.valid? #this ensures it is Email
+    self.errors.add(:destination, destination.errors.messages[:email].first) #assumes only one error #TODO
   end
 
 end
