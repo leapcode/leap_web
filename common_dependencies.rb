@@ -20,5 +20,5 @@ group :test, :development do
 end
 
 group :production do
-  gem 'SyslogLogger'
+  gem 'SyslogLogger', '~> 2.0'
 end
