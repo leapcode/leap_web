@@ -3,7 +3,12 @@
   // LOCAL FUNCTIONS
   //
 
-  var poll_users, prevent_default, form_failed, form_passed, clear_errors;
+  var poll_users, 
+      prevent_default, 
+      form_failed, 
+      form_passed, 
+      clear_errors,
+      update_user;
 
   prevent_default = function(event) {
     return event.preventDefault();
@@ -19,6 +24,17 @@
     return $('#messages').empty();
   };
 
+  update_user = function(submitEvent) {
+    var form = submitEvent.target;
+    var token = form.dataset.token;
+    var url = form.action;
+    return $.ajax({
+      url: url,
+      type: 'PUT',
+      headers: { Authorization: 'Token token="' + token + '"' },
+      data: $(form).serialize()
+    });
+  };
 
   //
   // PUBLIC FUNCTIONS
@@ -76,6 +92,8 @@
     $('#new_session').submit(srp.login);
     $('#update_login_and_password').submit(prevent_default);
     $('#update_login_and_password').submit(srp.update);
+    $('#update_pgp_key').submit(prevent_default);
+    $('#update_pgp_key').submit(update_user);
     return $('#user-typeahead').typeahead({
       source: poll_users
     });

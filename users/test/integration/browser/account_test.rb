@@ -24,7 +24,40 @@ class AccountTest < BrowserIntegrationTest
     fill_in 'Password', with: password
     click_on 'Log In'
     assert page.has_content?("Welcome #{username}")
+    User.find_by_login(username).account.destroy
   end
+
+  test "change password" do
+    username, password = submit_signup
+    click_on "Account Settings"
+    within('#update_login_and_password') do
+      fill_in 'Password', with: "other password"
+      fill_in 'Password confirmation', with: "other password"
+      click_on 'Save'
+    end
+    click_on 'Logout'
+    click_on 'Log In'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: "other password"
+    click_on 'Log In'
+    assert page.has_content?("Welcome #{username}")
+    User.find_by_login(username).account.destroy
+  end
+
+  test "change pgp key" do
+    pgp_key = "My PGP Key Stub"
+    username, password = submit_signup
+    click_on "Account Settings"
+    within('#update_pgp_key') do
+      fill_in 'Public key', with: pgp_key
+      click_on 'Save'
+    end
+    debugger
+    assert user = User.find_by_login(username)
+    assert_equal pgp_key, user.public_key
+    user.account.destroy
+  end
+
 
   # trying to seed an invalid A for srp login
   test "detects attempt to circumvent SRP" do

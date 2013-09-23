@@ -10,7 +10,8 @@
 -#   however, we don't want the user to change their login without generating a new key, so we hide the ui for this
 -#   (although it works perfectly fine to change username if the field was visible).
 -#
-- form_options = {:url => '/not-used', :html => {:class => user_form_class('form-horizontal'), :id =>  'update_login_and_password'}, :validate => true}
+
+- form_options = {:url => '/not-used', :html => {:class => user_form_class('form-horizontal'), :id =>  'update_login_and_password', :data => {token: session[:token]}}, :validate => true}
 = simple_form_for @user, form_options do |f|
   %legend= t(:change_password)
   = hidden_field_tag 'user_param', @user.to_param
@@ -28,7 +29,7 @@
 -# this will be replaced by a identities controller/view at some point
 -#
 
-- form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_pgp_key'}, :validate => true}
+- form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_pgp_key', :data => {token: session[:token]}}, :validate => true}
 = simple_form_for [:api, @user], form_options do |f|
   %legend= t(:advanced_options)
   = f.input :public_key, :as => :text, :hint => t(:use_ascii_key), :input_html => {:class => "full-width", :rows => 4}

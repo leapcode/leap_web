@@ -24,6 +24,7 @@ module V1
     def update
       authenticate!
       @token = Token.create(:user_id => current_user.id)
+      session[:token] = @token.id
       render :json => login_response
     end
 
