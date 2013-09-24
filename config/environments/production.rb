@@ -35,9 +35,8 @@ LeapWeb::Application.configure do
 
   # Use syslog if no file has been specified
   if APP_CONFIG[:logfile].blank?
-    # Prepend all log lines with the following tags
-    config.log_tags = [ :leap, :webapp ]
-    config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+    require 'syslog/logger'
+    config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new('webapp'))
   end
 
   # Use a different cache store in production
