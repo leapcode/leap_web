@@ -33,11 +33,11 @@ LeapWeb::Application.configure do
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
-  # Prepend all log lines with the following tags
-  # config.log_tags = [ :subdomain, :uuid ]
-
-  # Use a different logger for distributed setups
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  # Use syslog if no file has been specified
+  if APP_CONFIG[:logfile].blank?
+    require 'syslog/logger'
+    config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new('webapp'))
+  end
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
