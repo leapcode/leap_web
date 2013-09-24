@@ -19,3 +19,6 @@ group :test, :development do
   gem 'quiet_assets'
 end
 
+group :production do
+  gem 'SyslogLogger', '~> 2.0'
+end

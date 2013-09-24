@@ -54,7 +54,7 @@ module LeapWeb
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    if APP_CONFIG[:logfile].present?
+    if APP_CONFIG[:logfile]
       config.logger = Logger.new(APP_CONFIG[:logfile])
     end
 
