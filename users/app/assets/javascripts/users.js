@@ -28,12 +28,22 @@
     var form = submitEvent.target;
     var token = form.dataset.token;
     var url = form.action;
-    return $.ajax({
+    var req = $.ajax({
       url: url,
       type: 'PUT',
       headers: { Authorization: 'Token token="' + token + '"' },
       data: $(form).serialize()
     });
+    req.done( function() {
+      $(form).find('input[type="submit"]').button('reset');
+    });
+  };
+
+  markAsSubmitted = function(submitEvent) {
+    var form = submitEvent.target;
+    $(form).addClass('submitted')
+    // bootstrap loading state:
+    $(form).find('input[type="submit"]').button('loading');
   };
 
   //
@@ -86,6 +96,7 @@
   //
 
   $(document).ready(function() {
+    $('form').submit(markAsSubmitted);
     $('#new_user').submit(prevent_default);
     $('#new_user').submit(srp.signup);
     $('#new_session').submit(prevent_default);

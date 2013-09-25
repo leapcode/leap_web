@@ -35,7 +35,7 @@
   = f.input :public_key, :as => :text, :hint => t(:use_ascii_key), :input_html => {:class => "full-width", :rows => 4}
   .control-group
     .controls
-      = f.submit t(:save), :class => 'btn'
+      = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}
 
 -#
 -# DESTROY ACCOUNT

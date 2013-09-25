@@ -52,8 +52,11 @@ class AccountTest < BrowserIntegrationTest
       fill_in 'Public key', with: pgp_key
       click_on 'Save'
     end
-    debugger
-    assert user = User.find_by_login(username)
+    page.assert_selector 'input[value="Saving..."]'
+    # at some point we're done:
+    page.assert_no_selector 'input[value="Saving..."]'
+    assert page.has_field? 'Public key', with: pgp_key
+    user = User.find_by_login(username)
     assert_equal pgp_key, user.public_key
     user.account.destroy
   end
