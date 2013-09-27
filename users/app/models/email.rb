@@ -3,14 +3,8 @@ class Email < String
 
   validates :email,
     :format => {
-      :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})\Z/, #checks format, but allows lowercase
+      :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, #local part of email is case-sensitive, so allow uppercase letter.
       :message => "needs to be a valid email address"
-    }
-
-  validates :email,
-    :format => {
-      :with => /\A[^A-Z]*\Z/, #forbids uppercase characters
-      :message => "letters must be lowercase"
     }
 
   def to_partial_path

@@ -76,7 +76,7 @@ class IdentityTest < ActiveSupport::TestCase
     assert_match /needs to end in/, id.errors[:address].first
   end
 
-  test "alias must meet some conditions as login" do
+  test "alias must meet same conditions as login" do
     id = Identity.create_for @user, address: alias_name.capitalize
     assert !id.valid?
     #hacky way to do this, but okay for now:
@@ -88,12 +88,6 @@ class IdentityTest < ActiveSupport::TestCase
     id = Identity.create_for @user, address: @user.email_address, destination: 'ASKJDLFJD'
     assert !id.valid?
     assert id.errors.messages[:destination].include? "needs to be a valid email address"
-  end
-
-  test "only lowercase destination" do
-    id = Identity.create_for @user, address: @user.email_address, destination: forward_address.capitalize
-    assert !id.valid?
-    assert id.errors.messages[:destination].include? "letters must be lowercase"
   end
 
   def alias_name
