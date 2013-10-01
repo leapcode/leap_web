@@ -19,4 +19,4 @@
     %li= icon('user') + link_to(t(:overview_account), edit_user_path(@user))
     - # %li= icon('envelope') + link_to(t(:overview_email), {insert path for user identities, presuambly}
     %li= icon('question-sign') + link_to(t(:overview_tickets), user_tickets_path(@user))
-    %li= icon('shopping-cart') + link_to(t(:overview_billing), show_or_new_customer_link(@user)) if APP_CONFIG[:payment].present?
+    %li= icon('shopping-cart') + link_to(t(:overview_billing), billing_top_link(@user)) if APP_CONFIG[:payment].present?

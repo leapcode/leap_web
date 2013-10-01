@@ -1,7 +1,16 @@
 %p
+  - if local_assigns[:show_user]
+    User:
+    = link_to show_user.login, user_overview_path(show_user)
+  ID:
   = link_to subscription.id, user_subscription_path(@user, subscription.id)
   Balance:
-  = number_to_currency(subscription.balance)
+  - subscription_balance_currency = number_to_currency(subscription.balance)
+  - if subscription.balance > 0
+    %font{:color => "red"}
+      = subscription_balance_currency
+  - else
+    = subscription_balance_currency
   Bill on:
   = subscription.billing_day_of_month
   Start date:

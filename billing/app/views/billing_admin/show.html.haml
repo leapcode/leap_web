@@ -1,0 +1,17 @@
+- # todo: move into helper, as following 2 are pretty much identical
+%legend= t(:more_than_90_days_past_due)
+- if @past_due_atleast_90_days.empty?
+  = t(:none)
+- else
+  - @past_due_atleast_90_days.each do |past_due_subscription|
+    = render :partial => "subscriptions/subscription_details", :locals => {:subscription => past_due_subscription, :show_user => user_for_subscription(past_due_subscription)}
+
+%legend= t(:all_past_due)
+- if @all_past_due.empty?
+  = t(:none)
+- else
+  - @all_past_due.each do |past_due_subscription|
+    = render :partial => "subscriptions/subscription_details", :locals => {:subscription => past_due_subscription, :show_user => user_for_subscription(past_due_subscription)}
+
+%legend= t(:your_settings)
+= link_to 'view own billing settings', show_or_new_customer_link(current_user)
