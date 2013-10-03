@@ -5,12 +5,9 @@
   ID:
   = link_to subscription.id, user_subscription_path(@user, subscription.id)
   Balance:
-  - subscription_balance_currency = number_to_currency(subscription.balance)
-  - if subscription.balance > 0
-    %font{:color => "red"}
-      = subscription_balance_currency
-  - else
-    = subscription_balance_currency
+  - color = (subscription.balance > 0) ? "red" : ""
+  %font{:color => color}
+    = number_to_currency(subscription.balance)
   Bill on:
   = subscription.billing_day_of_month
   Start date:

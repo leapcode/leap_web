@@ -46,4 +46,17 @@ module BillingHelper
 
   end
 
+  def show_set_user_subscriptions(set)
+    if set.empty?
+      return t(:none)
+    else
+      subscriptions_to_display = ''
+      set.each do |past_due_subscription|
+        subscriptions_to_display += render :partial => "subscriptions/subscription_details", :locals => {:subscription => past_due_subscription, :show_user => user_for_subscription(past_due_subscription)}
+      end
+     subscriptions_to_display.html_safe
+    end
+  end
+
+
 end
