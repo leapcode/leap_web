@@ -1,0 +1,8 @@
+%legend= t(:more_than_90_days_past_due)
+= show_set_user_subscriptions(@past_due_atleast_90_days)
+
+%legend= t(:all_past_due)
+= show_set_user_subscriptions(@all_past_due)
+
+%legend= t(:your_settings)
+= link_to 'view own billing settings', show_or_new_customer_link(current_user)
