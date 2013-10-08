@@ -17,7 +17,7 @@
   Plan:
   = subscription.plan_id
   Price:
-  = subscription.price
+  = number_to_currency(subscription.price)
   - color = (subscription.status == 'Active') ? "green" : "red"
   Status:
   %font{:color => color}
