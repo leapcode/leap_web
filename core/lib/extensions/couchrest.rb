@@ -42,30 +42,32 @@ module CouchRest
 
     end
 
-    class Migrate
-      def self.load_all_models_with_engines
-        self.load_all_models_without_engines
-        return unless defined?(Rails)
-        Dir[Rails.root + 'app/models/**/*.rb'].each do |path|
-          require path
+    module Utils
+      module Migrate
+        def self.load_all_models_with_engines
+          self.load_all_models_without_engines
+          return unless defined?(Rails)
+          Dir[Rails.root + 'app/models/**/*.rb'].each do |path|
+            require path
+          end
+          Dir[Rails.root + '*/app/models/**/*.rb'].each do |path|
+            require path
+          end
         end
-        Dir[Rails.root + '*/app/models/**/*.rb'].each do |path|
-          require path
+
+        def self.all_models_and_proxies
+          callbacks = migrate_each_model(find_models)
+          callbacks += migrate_each_proxying_model(find_proxying_models)
+          cleanup(callbacks)
         end
+
+
+
+        class << self
+          alias_method_chain :load_all_models, :engines
+        end
+
       end
-
-      def self.all_models_and_proxies
-        callbacks = migrate_each_model(find_models)
-        callbacks += migrate_each_proxying_model(find_proxying_models)
-        cleanup(callbacks)
-      end
-
-
-
-      class << self
-        alias_method_chain :load_all_models, :engines
-      end
-
     end
   end
 
