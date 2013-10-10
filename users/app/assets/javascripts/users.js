@@ -3,7 +3,12 @@
   // LOCAL FUNCTIONS
   //
 
-  var poll_users, prevent_default, form_failed, form_passed, clear_errors;
+  var poll_users, 
+      prevent_default, 
+      form_failed, 
+      form_passed, 
+      clear_errors,
+      update_user;
 
   prevent_default = function(event) {
     return event.preventDefault();
@@ -19,6 +24,27 @@
     return $('#messages').empty();
   };
 
+  update_user = function(submitEvent) {
+    var form = submitEvent.target;
+    var token = form.dataset.token;
+    var url = form.action;
+    var req = $.ajax({
+      url: url,
+      type: 'PUT',
+      headers: { Authorization: 'Token token="' + token + '"' },
+      data: $(form).serialize()
+    });
+    req.done( function() {
+      $(form).find('input[type="submit"]').button('reset');
+    });
+  };
+
+  markAsSubmitted = function(submitEvent) {
+    var form = submitEvent.target;
+    $(form).addClass('submitted')
+    // bootstrap loading state:
+    $(form).find('input[type="submit"]').button('loading');
+  };
 
   //
   // PUBLIC FUNCTIONS
@@ -70,12 +96,15 @@
   //
 
   $(document).ready(function() {
+    $('form').submit(markAsSubmitted);
     $('#new_user').submit(prevent_default);
     $('#new_user').submit(srp.signup);
     $('#new_session').submit(prevent_default);
     $('#new_session').submit(srp.login);
     $('#update_login_and_password').submit(prevent_default);
     $('#update_login_and_password').submit(srp.update);
+    $('#update_pgp_key').submit(prevent_default);
+    $('#update_pgp_key').submit(update_user);
     return $('#user-typeahead').typeahead({
       source: poll_users
     });

@@ -70,6 +70,26 @@ class IdentityTest < ActiveSupport::TestCase
     id.destroy
   end
 
+  test "fail to add non-local email address as identity address" do
+    id = Identity.for @user, address: forward_address
+    assert !id.valid?
+    assert_match /needs to end in/, id.errors[:address].first
+  end
+
+  test "alias must meet same conditions as login" do
+    id = Identity.create_for @user, address: alias_name.capitalize
+    assert !id.valid?
+    #hacky way to do this, but okay for now:
+    assert id.errors.messages.flatten(2).include? "Must begin with a lowercase letter"
+    assert id.errors.messages.flatten(2).include? "Only lowercase letters, digits, . - and _ allowed."
+  end
+
+  test "destination must be valid email address" do
+    id = Identity.create_for @user, address: @user.email_address, destination: 'ASKJDLFJD'
+    assert !id.valid?
+    assert id.errors.messages[:destination].include? "needs to be a valid email address"
+  end
+
   def alias_name
     @alias_name ||= Faker::Internet.user_name
   end
