@@ -1,10 +1,7 @@
 - if admin? and !@customer
   = t(:no_saved_customer)
 - else
-  - if current_user == @user
-    .form-actions
-      = link_to t(:make_payment), new_payment_path, :class => 'btn btn-primary'
-  = render :partial => 'payments/customer_data'
+  = render :partial => 'customer_data'
   %legend= t(:last_three_transactions)
   - counter = 0
   = # these will be ordered with most recently created first, per http://stackoverflow.com/questions/16425475/
@@ -25,3 +22,6 @@
           = link_to t(:subscribe_to_plan), new_subscription_path, :class => :btn
   %p
     = link_to t(:all_subscriptions), user_subscriptions_path(@user)
+
+.form-actions
+  = link_to t(:make_donation), new_payment_path, :class => 'btn btn-primary'

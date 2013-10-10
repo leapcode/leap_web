@@ -3,3 +3,4 @@ en:
   must_create_customer: "You must store a customer in braintree before subscribing to a plan"
   subscribe: "Subscribe"
   save_customer_info: "Save Customer Information"
+  donation_not_payment: "Note: This is a donation, and will not be applied towards your account."

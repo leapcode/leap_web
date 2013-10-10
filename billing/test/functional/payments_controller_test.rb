@@ -10,21 +10,6 @@ class PaymentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "authenticated user must create account before making payment" do
-    login
-    get :new
-    assert_response :redirect
-    assert_equal new_customer_url, response.header['Location']
-  end
-
-  test "payment when authenticated as customer" do
-    customer = stub_customer
-    login customer.user
-    get :new
-    assert_not_nil assigns(:tr_data)
-    assert_response :success
-  end
-
   test "successful confirmation renders confirm" do
     Braintree::TransparentRedirect.expects(:confirm).returns(success_response)
     get :confirm

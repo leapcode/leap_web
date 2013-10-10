@@ -1,5 +1,5 @@
 %h1 Payment Result
-%div Thank you for your payment.
+%div Thank you for your donation.
 %h2 Transaction Details
 %table
   %tr
@@ -24,6 +24,3 @@
   %tr
     %td Card Type:
     %td= h @result.transaction.credit_card_details.card_type
-- if logged_in?
-  - customer = Customer.find_by_user_id(@user.id)
-  = link_to 'View Customer Info', show_customer_path(@user.id), :class=> :btn
