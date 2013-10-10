@@ -3,7 +3,7 @@ class Email < String
 
   validates :email,
     :format => {
-      :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/,
+      :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, #local part of email is case-sensitive, so allow uppercase letter.
       :message => "needs to be a valid email address"
     }
 
@@ -17,6 +17,10 @@ class Email < String
 
   def email
     self
+  end
+
+  def handle
+    self.split('@').first
   end
 
 end
