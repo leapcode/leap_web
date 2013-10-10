@@ -8,6 +8,7 @@ class BillingAdminController < BillingBaseController
 
     @all_past_due = Braintree::Subscription.search do |search|
       search.status.is Braintree::Subscription::Status::PastDue
+      #cannot search by balance.
     end
   end
 

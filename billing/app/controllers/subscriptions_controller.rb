@@ -1,6 +1,7 @@
 class SubscriptionsController < BillingBaseController
   before_filter :authorize
   before_filter :fetch_subscription, :only => [:show, :destroy]
+  before_filter :only_admin_active_pending, :only => [:destroy]
   before_filter :confirm_no_pending_active_pastdue_subscription, :only => [:new, :create]
   # for now, admins cannot create or destroy subscriptions for others:
   before_filter :confirm_self, :only => [:new, :create]
@@ -38,9 +39,13 @@ class SubscriptionsController < BillingBaseController
 
   end
 
+  def only_admin_active_pending
+    access_denied unless admin? or ['Pending', 'Active'].include? @subscription.status
+  end
+
   def confirm_no_pending_active_pastdue_subscription
     @customer = Customer.find_by_user_id(@user.id)
-    if subscription = @customer.subscriptions # will return active subscription, if it exists
+    if subscription = @customer.subscriptions # will return pending, active or pastdue subscription, if it exists
       redirect_to user_subscription_path(@user, subscription.id), :notice => 'You already have a subscription'
     end
   end
