@@ -20,10 +20,6 @@ class LocalEmail < Email
     [handle]
   end
 
-  def handle
-    gsub(/@#{domain}/i, '')
-  end
-
   def domain
     LocalEmail.domain
   end
