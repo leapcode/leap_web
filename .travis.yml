@@ -10,3 +10,7 @@ before_script:
   - "mv test/config/couchdb.yml.user config/couchdb.yml"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
+env:
+  global:
+    - secure: "lRanY7UBq9n9P0d9LkZlU0WkWERTLvsq2jNvREVK5KuUul+s27UO3o8vCGP0pME33CXVgJZdbbzwm9IQ24KWF2gxWYw53DAkXsCGg8YkA2iDst+f2PCFNuCJZn88nGzsWFb63Y2jhUoeHgDa+fNmhJeNIYmW9T+a21WBNPoFI3o="
+    - TST=ME
