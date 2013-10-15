@@ -10,27 +10,33 @@ class SubscriptionTest < ActionDispatch::IntegrationTest
 
   setup do
     Warden.test_mode!
-    @admin = stub_record :user, :admin => true
+    @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
     @customer = stub_customer
     @braintree_customer = @customer.braintree_customer
     response = Braintree::Subscription.create plan_id: '5',
-      payment_method_token: @braintree_customer.credit_cards.first.token
+      payment_method_token: @braintree_customer.credit_cards.first.token,
+      price: '10'
     @subscription = response.subscription
     Capybara.current_driver = Capybara.javascript_driver
   end
 
   teardown do
     Warden.test_reset!
+    @admin.destroy
   end
 
-  test "admin can see subscription for another" do
+  test "admin can see all subscriptions for another" do
     login_as @admin
     @customer.stubs(:subscriptions).returns([@subscription])
+    @subscription.stubs(:balance).returns 0
     visit user_subscriptions_path(@customer.user_id)
     assert page.has_content?("Subscriptions")
     assert page.has_content?("Status: Active")
     page.save_screenshot('/tmp/subscriptions.png')
   end
+
+  # test "user cannot see all subscriptions for other user" do
+  #end
 
   #test "admin cannot add subscription for another" do
   #end

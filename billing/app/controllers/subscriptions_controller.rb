@@ -2,6 +2,7 @@ class SubscriptionsController < BillingBaseController
   before_filter :authorize
   before_filter :fetch_subscription, :only => [:show, :destroy]
   before_filter :only_admin_active_pending, :only => [:destroy]
+  before_filter :confirm_self_or_admin, :only => [:index]
   before_filter :confirm_no_pending_active_pastdue_subscription, :only => [:new, :create]
   # for now, admins cannot create or destroy subscriptions for others:
   before_filter :confirm_self, :only => [:new, :create]
@@ -17,6 +18,7 @@ class SubscriptionsController < BillingBaseController
 
   def create
     @result = Braintree::Subscription.create( :payment_method_token => params[:payment_method_token], :plan_id => params[:plan_id] )
+    #if you want to test pastdue, can add :price => '2001', :trial_period => true,:trial_duration => 1,:trial_duration_unit => "day" and then wait a day
   end
 
   def destroy
@@ -52,6 +54,10 @@ class SubscriptionsController < BillingBaseController
 
   def confirm_self
     @user == current_user
+  end
+
+  def confirm_self_or_admin
+    access_denied unless confirm_self or admin?
   end
 
 end
