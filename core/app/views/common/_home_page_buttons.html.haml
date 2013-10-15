@@ -1,11 +1,10 @@
 - icon_color = :black
 
-.home-buttons
+.home-buttons.linux64
   .row-fluid.first
     .span3
     .download.span6
-      %span.link= link_to(big_icon('arrow-down', icon_color) + t(:download_client), "https://downloads.leap.se/client", :class => 'btn btn-large')
-      %span.info= t(:download_client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
+      = render partial: 'common/download_for_os', collection: available_clients + ['other']
     .span3
   .row-fluid.second
     .login.span4

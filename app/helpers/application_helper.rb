@@ -19,18 +19,25 @@ module ApplicationHelper
   # http://twitter.github.io/bootstrap/base-css.html#icons
   #
   def icon(name, color=nil)
-    if color.nil?
-      color_class = nil
-    elsif color == :black
-      color_class = 'icon-black'
-    elsif color == :white
-      color_class = 'icon-white'
-    end
-    "<i class=\"icon-#{name} #{color_class}\"></i> ".html_safe
+    "<i class=\"icon-#{name} #{color_class(color)}\"></i> ".html_safe
   end
 
   def big_icon(name, color=nil)
-    "<i class=\"big-icon-#{name}\"></i> ".html_safe
+    "<i class=\"big-icon-#{name} #{color_class(color)}\"></i> ".html_safe
+  end
+
+  def huge_icon(name, color=nil)
+    "<i class=\"huge-icon-#{name} #{color_class(color)}\"></i> ".html_safe
+  end
+
+  def color_class(color)
+    if color.nil?
+      nil
+    elsif color == :black
+      'icon-black'
+    elsif color == :white
+      'icon-white'
+    end
   end
 
   def format_flash(msg)

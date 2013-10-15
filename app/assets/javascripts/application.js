@@ -16,9 +16,8 @@
 //= require bootstrap
 //= require rails.validations
 //= require rails.validations.simple_form
-
 //= require leap
+//= require platform
 //= require tickets
 //= require users
-
 //= require_tree .
