@@ -8,9 +8,13 @@ before_script:
   - "bundle exec rake couchrest:migrate_with_proxies"
   - "bundle exec rake couchrest:migrate_with_proxies"  # looks like this needs to run twice
   - "mv test/config/couchdb.yml.user config/couchdb.yml"
+  - "env"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
 env:
   global:
-    - secure: "lRanY7UBq9n9P0d9LkZlU0WkWERTLvsq2jNvREVK5KuUul+s27UO3o8vCGP0pME33CXVgJZdbbzwm9IQ24KWF2gxWYw53DAkXsCGg8YkA2iDst+f2PCFNuCJZn88nGzsWFb63Y2jhUoeHgDa+fNmhJeNIYmW9T+a21WBNPoFI3o="
+  # leapcode repo secrets:
+    - secure: "LsChZl6Q5i0s1P2MdE22ikVMAOQh1E/W9AUja6Jjd/llqFs1YIP7HeA+xhsEtC6Rym8dFofaK0mFDqvc99qUCSW72Tll2gqZ7k0zWzElYbk71xl91E0TAQ5V7ly3p8PR4roKGVl1F91cCeh/hlYvqZZCPNUlG17cVFc/qU8lmbY="
+  # azul repo secrets:
+    - secure: "H4TyRI9Lzj2eWYH5LSMIznLWckukTrcrvC+XWaGq6PJkMcF/Rt44JTYcd/Lm0r1EGdOmtz/jvl4Kxmi2g2c1kYiG0XmhMZUUq3v5MY4Ql1xhmbwZyaSvLHHEGTJWl+seTnXiW1kA6gTuYRZAVERCKr9+ITJy5Hz2dx/TZFhTM7s="
     - TST=ME
