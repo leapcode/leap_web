@@ -33,30 +33,19 @@ module BillingHelper
 
     if (transaction = subscription.transactions.first)
       # much quicker, but will only work if there is already a transaction associated with subscription (should generally be)
-      braintree_customer = transaction.customer_details
+      braintree_customer_id = transaction.customer_details.id
     else
-      search_results = Braintree::Customer.search do |search|
-        search.payment_method_token.is subscription.payment_method_token
-      end
-      braintree_customer = search_results.first
+      credit_card = Braintree::CreditCard.find(subscription.payment_method_token)
+      braintree_customer_id = credit_card.customer_id
     end
 
-    customer = Customer.find_by_braintree_customer_id(braintree_customer.id)
+    customer = Customer.find_by_braintree_customer_id(braintree_customer_id)
     user = User.find(customer.user_id)
 
   end
 
-  def show_set_user_subscriptions(set)
-    if set.empty?
-      return t(:none)
-    else
-      subscriptions_to_display = ''
-      set.each do |past_due_subscription|
-        subscriptions_to_display += render :partial => "subscriptions/subscription_details", :locals => {:subscription => past_due_subscription, :show_user => user_for_subscription(past_due_subscription)}
-      end
-     subscriptions_to_display.html_safe
-    end
+  def allow_cancel_subscription(subscription)
+    ['Active', 'Pending'].include? subscription.status or (admin? and subscription.status == 'Past Due')
   end
-
 
 end

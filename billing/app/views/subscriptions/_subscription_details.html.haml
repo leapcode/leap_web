@@ -1,7 +1,8 @@
 %p
   - if local_assigns[:show_user]
     User:
-    = link_to show_user.login, user_overview_path(show_user)
+    - user_to_show = user_for_subscription(subscription)
+    = link_to user_to_show.login, user_overview_path(user_to_show)
   ID:
   = link_to subscription.id, user_subscription_path(@user, subscription.id)
   Balance:

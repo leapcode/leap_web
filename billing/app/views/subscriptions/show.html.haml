@@ -3,4 +3,4 @@
     Current
   Subscription
 = render :partial => "subscription_details",  :locals => {:subscription => @subscription}
-= link_to t(:cancel_subscription), user_subscription_path(@user, @subscription.id),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn btn-danger' if ['Active', 'Pending'].include? @subscription.status or admin? # permission check or should that just be on show? # should you be able to cancel pending subscription?
+= link_to t(:cancel_subscription), user_subscription_path(@user, @subscription.id),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn btn-danger' if allow_cancel_subscription(@subscription)
