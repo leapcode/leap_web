@@ -24,6 +24,37 @@ class LocalEmailTest < ActiveSupport::TestCase
     assert_equal ["needs to end in @#{LocalEmail.domain}"], local.errors[:email]
   end
 
+  test "blacklists rfc2142" do
+    black_listed = LocalEmail.new('hostmaster')
+    assert !black_listed.valid?
+  end
+
+  test "blacklists etc passwd" do
+    black_listed = LocalEmail.new('nobody')
+    assert !black_listed.valid?
+  end
+
+  test "whitelist overwrites automatic blacklists" do
+    with_config handle_whitelist: ['nobody', 'hostmaster'] do
+      white_listed = LocalEmail.new('nobody')
+      assert white_listed.valid?
+      white_listed = LocalEmail.new('hostmaster')
+      assert white_listed.valid?
+    end
+  end
+
+  test "blacklists from config" do
+    black_listed = LocalEmail.new('www-data')
+    assert !black_listed.valid?
+  end
+
+  test "blacklist from config overwrites whitelist" do
+    with_config handle_whitelist: ['www-data'] do
+      black_listed = LocalEmail.new('www-data')
+      assert !black_listed.valid?
+    end
+  end
+
   def handle
     @handle ||= Faker::Internet.user_name
   end
