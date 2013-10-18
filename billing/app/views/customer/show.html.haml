@@ -18,7 +18,7 @@
     = render :partial => "subscriptions/subscription_details", :locals => {:subscription => @active_subscription}
   - else
     %p
-      = t(:no_active_subscription)
+      = t(:no_relevant_subscription)
     - if current_user == @user
       %p
         .form-actions
