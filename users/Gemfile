@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 eval(File.read(File.dirname(__FILE__) + '/../common_dependencies.rb'))
 eval(File.read(File.dirname(__FILE__) + '/../ui_dependencies.rb'))

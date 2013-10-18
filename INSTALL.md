@@ -8,7 +8,7 @@ Install git, ruby 1.9, rubygems and couchdb on your system. Then run
 
 ```
 gem install bundler
-git clone git://github.com/leapcode/leap_web.git
+git clone https://leap.se/git/leap_web
 cd leap_web
 git submodule init
 git submodule update
@@ -36,7 +36,7 @@ The following packages need to be installed:
 Simply clone the git repository:
 
 ```
-  git clone git://github.com/leapcode/leap_web.git
+  git clone https://leap.se/git/leap_web
   cd leap_web
 ```
 
