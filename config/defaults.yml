@@ -13,6 +13,23 @@ cert_options: &cert_options
   limited_cert_prefix: "LIMITED"
   unlimited_cert_prefix: "UNLIMITED"
 
+downloads: &downloads
+  client_download_domain: https://downloads.leap.se
+  available_clients:
+    - linux32
+    - linux64
+    - mac
+    - windows
+    - android
+  download_paths:
+    android: /client/android
+    linux:   /client/linux
+    linux32: /client/linux/Bitmask-linux32-latest.tar.bz2
+    linux64: /client/linux/Bitmask-linux64-latest.tar.bz2
+    osx:     /client/osx/Bitmask-OSC-latest.dmg
+    windows: /client/windows
+    other:   /client
+
 common: &common
   force_ssl: false
   pagination_size: 30
@@ -24,7 +41,9 @@ common: &common
   # handles that will be allowed despite being in /etc/passwd or rfc2142
   handle_whitelist: []
 
+
 development:
+  <<: *downloads
   <<: *dev_ca
   <<: *cert_options
   <<: *common
@@ -34,6 +53,7 @@ development:
   payment: []
 
 test:
+  <<: *downloads
   <<: *dev_ca
   <<: *cert_options
   <<: *common
@@ -43,6 +63,7 @@ test:
   payment: [billing]
 
 production:
+  <<: *downloads
   <<: *cert_options
   <<: *common
   admins: []
