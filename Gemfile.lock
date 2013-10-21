@@ -45,7 +45,6 @@ PATH
 
 GEM
   remote: https://rubygems.org/
-  remote: http://rubygems.org/
   specs:
     SyslogLogger (2.0)
     actionmailer (3.2.15)
