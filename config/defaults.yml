@@ -18,7 +18,7 @@ downloads: &downloads
   available_clients:
     - linux32
     - linux64
-    - mac
+    - osx
     - windows
     - android
   download_paths:
@@ -26,7 +26,7 @@ downloads: &downloads
     linux:   /client/linux
     linux32: /client/linux/Bitmask-linux32-latest.tar.bz2
     linux64: /client/linux/Bitmask-linux64-latest.tar.bz2
-    mac:     /client/osx/Bitmask-OSX-latest.dmg
+    osx:     /client/osx/Bitmask-OSX-latest.dmg
     windows: /client/windows/Bitmask-win32-latest.zip
     other:   /client
 
