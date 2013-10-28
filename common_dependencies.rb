@@ -1,5 +1,3 @@
-source "http://rubygems.org"
-
 group :test do
   # moching and stubing
   gem 'mocha', '~> 0.13.0', :require => false
