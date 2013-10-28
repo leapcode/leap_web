@@ -18,16 +18,16 @@ downloads: &downloads
   available_clients:
     - linux32
     - linux64
-    - mac
+    - osx
     - windows
     - android
   download_paths:
-    android: /client/android
+    android: /client/android/Bitmask-Android-latest.apk
     linux:   /client/linux
     linux32: /client/linux/Bitmask-linux32-latest.tar.bz2
     linux64: /client/linux/Bitmask-linux64-latest.tar.bz2
-    osx:     /client/osx/Bitmask-OSC-latest.dmg
-    windows: /client/windows
+    osx:     /client/osx/Bitmask-OSX-latest.dmg
+    windows: /client/windows/Bitmask-win32-latest.zip
     other:   /client
 
 common: &common

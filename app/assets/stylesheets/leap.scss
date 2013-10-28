@@ -58,7 +58,7 @@ html.android .os-android {
   display: none !important;
 }
 
-html.linux .os-linux32 {
+html.linux32 .os-linux32 {
   display: inherit !important;
 }
 
@@ -78,11 +78,11 @@ html.windows .os-windows {
   display: inherit !important;
 }
 
-.os-mac {
+.os-osx {
   display: none !important;
 }
 
-html.mac .os-mac {
+html.osx .os-osx {
   display: inherit !important;
 }
 
