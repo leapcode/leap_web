@@ -46,6 +46,13 @@
     $(form).find('input[type="submit"]').button('loading');
   };
 
+  resetButtons = function(submitEvent) {
+    var form = $('form.submitted')
+    // bootstrap loading state:
+    $(form).find('input[type="submit"]').button('reset');
+    $(form).removeClass('submitted')
+  };
+
   //
   // PUBLIC FUNCTIONS
   //
@@ -70,24 +77,36 @@
   //
   srp.error = function(message) {
     clear_errors();
-    var element, error, field;
+    var errors = extractErrors(message);
+    displayErrors(errors);
+    resetButtons();
+  }
+
+  function extractErrors(message) {
     if ($.isPlainObject(message) && message.errors) {
-      for (field in message.errors) {
-        if (field == 'base') {
-          alert_message(message.errors[field]);
-          continue;
-        }
-        error = message.errors[field];
-        element = $('form input[name$="[' + field + ']"]');
-        if (!element) {
-          continue;
-        }
-        element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false);
-      }
-    } else if (message.error) {
-      alert_message(message.error);
+      return message.errors;
     } else {
-      alert_message(JSON.stringify(message));
+      return {
+        base: (message.error || JSON.stringify(message))
+      };
+    }
+  }
+
+  function displayErrors(errors) {
+    for (var field in errors) {
+      var error = errors[field];
+      if (field === 'base') {
+        alert_message(error);
+      } else {
+        displayFieldError(field, error);
+      }
+    }
+  }
+
+  function displayFieldError(field, error) {
+    var element = $('form input[name$="[' + field + ']"]');
+    if (element) {
+      element.trigger('element:validate:fail.ClientSideValidations', error).data('valid', false);
     }
   };
 
