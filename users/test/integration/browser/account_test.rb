@@ -27,6 +27,20 @@ class AccountTest < BrowserIntegrationTest
     User.find_by_login(username).account.destroy
   end
 
+  test "failed login" do
+    username, password = submit_signup
+    click_on 'Logout'
+    click_on 'Log In'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: "wrong password"
+    click_on 'Log In'
+    assert page.has_selector? 'input.btn-primary.disabled'
+    assert page.has_content? I18n.t(:invalid_user_pass)
+    assert page.has_no_content?("Welcome #{username}")
+    assert page.has_no_selector? 'input.btn-primary.disabled'
+    User.find_by_login(username).account.destroy
+  end
+
   test "change password" do
     username, password = submit_signup
     click_on "Account Settings"
