@@ -38,6 +38,14 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_no_selector? 'input.btn-primary.disabled'
   end
 
+  test "account destruction" do
+    username, password = submit_signup
+    click_on I18n.t('account_settings')
+    click_on I18n.t('destroy_my_account')
+    page.save_screenshot('/tmp/destroy.png')
+    assert page.has_content?(I18n.t('account_destroyed'))
+  end
+
   test "change password" do
     username, password = submit_signup
     click_on "Account Settings"

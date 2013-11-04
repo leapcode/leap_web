@@ -52,26 +52,11 @@ class V1::SessionsControllerTest < ActionController::TestCase
     assert_equal @user.id, token.user_id
   end
 
-  test "logout should reset session" do
-    expect_warden_logout
-    delete :destroy
-    assert_response 204
-  end
-
-  test "logout should destroy token" do
+  test "destroy should logout" do
     login
-    expect_warden_logout
-    @token.expects(:destroy)
+    expect_logout
     delete :destroy
     assert_response 204
-  end
-
-  def expect_warden_logout
-    raw = mock('raw session') do
-      expects(:inspect)
-    end
-    request.env['warden'].expects(:raw_session).returns(raw)
-    request.env['warden'].expects(:logout)
   end
 
 end

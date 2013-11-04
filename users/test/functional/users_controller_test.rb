@@ -91,6 +91,7 @@ class UsersControllerTest < ActionController::TestCase
     user.expects(:destroy)
 
     login user
+    expect_logout
     delete :destroy, :id => @current_user.id
 
     assert_response :redirect

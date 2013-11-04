@@ -38,12 +38,26 @@ module AuthTestHelper
     end
   end
 
+  def expect_logout
+    expect_warden_logout
+    @token.expects(:destroy) if @token
+  end
+
   protected
 
   def header_for_token_auth
     @token = find_record(:token, :authenticate => @current_user)
     ActionController::HttpAuthentication::Token.encode_credentials @token.id
   end
+
+  def expect_warden_logout
+    raw = mock('raw session') do
+      expects(:inspect)
+    end
+    request.env['warden'].expects(:raw_session).returns(raw)
+    request.env['warden'].expects(:logout)
+  end
+
 end
 
 class ActionController::TestCase
