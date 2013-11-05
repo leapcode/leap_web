@@ -50,12 +50,24 @@ class Identity < CouchRest::Model::Base
     identity
   end
 
+  def self.disable_all_for(user)
+    Identity.by_user_id.key(user.id).each do |identity|
+      identity.disable
+    end
+  end
+
   def self.attributes_from_user(user)
     { user_id: user.id,
       address: user.email_address,
       destination: user.email_address
     }
   end
+
+  #
+  # about to change towards actually disabling the identity instead of
+  # destroying it.
+  #
+  alias_method :disable, :destroy
 
   def keys
     read_attribute('keys') || HashWithIndifferentAccess.new

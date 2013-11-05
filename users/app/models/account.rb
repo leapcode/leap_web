@@ -29,9 +29,7 @@ class Account
 
   def destroy
     return unless @user
-    Identity.by_user_id.key(@user.id).each do |identity|
-      identity.destroy
-    end
+    Identity.disable_all_for(@user)
     @user.destroy
   end
 
