@@ -107,7 +107,16 @@ class IdentityTest < ActiveSupport::TestCase
     other_user = find_record :user
     taken = Identity.build_for other_user, address: id.address
     assert !taken.valid?
-    id.destroy
+    Identity.destroy_all_disabled
+  end
+
+  test "destroy all disabled identities" do
+    id = Identity.for(@user)
+    id.disable
+    id.save
+    assert Identity.count > 0
+    Identity.destroy_all_disabled
+    assert_equal 0, Identity.count
   end
 
   def alias_name

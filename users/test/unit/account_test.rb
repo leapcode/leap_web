@@ -2,6 +2,10 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
 
+  teardown do
+    Identity.destroy_all_disabled
+  end
+
   test "create a new account" do
     user = Account.create(FactoryGirl.attributes_for(:user))
     assert user.valid?

@@ -27,6 +27,17 @@ class Identity < CouchRest::Model::Base
         emit(doc.address, doc.keys["pgp"]);
       }
     EOJS
+    view :disabled,
+      map: <<-EOJS
+      function(doc) {
+        if (doc.type != 'Identity') {
+          return;
+        }
+        if (typeof doc.user_id === "undefined") {
+          emit(doc._id, 1);
+        }
+      }
+    EOJS
 
   end
 
@@ -54,6 +65,12 @@ class Identity < CouchRest::Model::Base
     Identity.by_user_id.key(user.id).each do |identity|
       identity.disable
       identity.save
+    end
+  end
+
+  def self.destroy_all_disabled
+    Identity.disabled.each do |identity|
+      identity.destroy
     end
   end
 
