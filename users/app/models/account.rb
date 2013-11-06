@@ -1,5 +1,10 @@
 #
-# A Composition of a User record and it's identity records.
+# The Account model takes care of the livecycle of a user.
+# It composes a User record and it's identity records.
+# It also allows for other engines to hook into the livecycle by
+# monkeypatching the create, update and destroy methods.
+# There's an ActiveSupport load_hook at the end of this file to
+# make this more easy.
 #
 class Account
 
@@ -52,4 +57,7 @@ class Account
     @new_identity.try(:save) && @old_identity.try(:save)
   end
 
+  # You can hook into the account lifecycle from different engines using
+  #   ActiveSupport.on_load(:account) do ...
+  ActiveSupport.run_load_hooks(:account, self)
 end
