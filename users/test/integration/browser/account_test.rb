@@ -6,6 +6,10 @@ class AccountTest < BrowserIntegrationTest
     Capybara.current_driver = Capybara.javascript_driver
   end
 
+  teardown do
+    Identity.destroy_all_disabled
+  end
+
   test "normal account workflow" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
@@ -37,6 +41,14 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?(I18n.t('account_destroyed'))
     attempt_login(username, password)
     assert_invalid_login(page)
+  end
+
+  test "handle blocked after account destruction" do
+    username, password = submit_signup
+    click_on I18n.t('account_settings')
+    click_on I18n.t('destroy_my_account')
+    submit_signup(username)
+    assert page.has_content?('has already been taken')
   end
 
   test "change password" do
