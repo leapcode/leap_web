@@ -1,41 +1,38 @@
 require 'test_helper'
 
 class TicketTest < ActiveSupport::TestCase
-  #test "the truth" do
-  #  assert true
-  #end
 
-  setup do
-    @sample = Ticket.new
+  test "ticket with default attribs is valid" do
+    t = FactoryGirl.build :ticket
+    assert t.valid?
   end
 
-  test "validity" do
-    t = Ticket.create :title => 'test title', :email => 'blah@blah.com'
+  test "ticket without email is valid" do
+    t = FactoryGirl.build :ticket, email: ""
     assert t.valid?
-    assert_equal t.title, 'test title'
+  end
 
+  test "ticket validates email format" do
+    t = FactoryGirl.build :ticket, email: "aswerssfd"
+    assert !t.valid?
+  end
+
+  test "ticket allows for multiple email addresses" do
+    t = FactoryGirl.build :ticket, email: 'blah@blah.com, bb@jjj.org'
+    assert !t.valid?
+  end
+
+  test "ticket open states" do
+    t = FactoryGirl.build :ticket
     assert t.is_open
     t.close
     assert !t.is_open
     t.reopen
     assert t.is_open
-    #user = LeapWebHelp::User.new(User.valid_attributes_hash)
-    #user = LeapWebUsers::User.create
-
-    #t.user = user
-
-    #t.email = '' #invalid
-    #assert !t.valid?
-    #t.email = 'blah@blah.com, bb@jjj.org'
-    #assert t.valid?
-    t.email = 'bdlfjlkasfjklasjf' #invalid
-    #p t.email_address
-    #p t.email_address.strip =~ RFC822::EmailAddress
-    assert !t.valid?
-    t.reload.destroy
   end
 
   test "creation validated" do
+    @sample = Ticket.new
     assert !@sample.is_creator_validated?
     #p current_user
     @sample.created_by = 22 #current_user
