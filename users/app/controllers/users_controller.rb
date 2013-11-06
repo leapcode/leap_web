@@ -47,7 +47,7 @@ class UsersController < UsersBaseController
   end
 
   def destroy
-    @user.destroy
+    @user.account.destroy
     flash[:notice] = I18n.t(:account_destroyed)
     # admins can destroy other users
     if @user != current_user

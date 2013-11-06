@@ -24,14 +24,8 @@ module V1
     end
 
     def update
-      account.update params[:user]
+      @user.account.update params[:user]
       respond_with @user
-    end
-
-    protected
-
-    def account
-      @user.account
     end
 
   end
