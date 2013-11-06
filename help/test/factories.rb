@@ -9,6 +9,10 @@ FactoryGirl.define do
         { "0" => { "body" => Faker::Lorem.sentences.join(" ") } }
       end
     end
+
+    factory :ticket_with_creator do
+      created_by { FactoryGirl.create(:user).id }
+    end
   end
 
 end

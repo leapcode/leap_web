@@ -39,6 +39,12 @@ class TicketTest < ActiveSupport::TestCase
     assert @sample.is_creator_validated?
   end
 
+  test "destroy all tickets from a user" do
+    t = FactoryGirl.create :ticket_with_creator
+    u = t.created_by_user
+    Ticket.destroy_all_from(u)
+    assert_equal nil, Ticket.find(t.id)
+  end
 =begin
 # TODO: do once have current_user stuff in order
   test "code if & only if not creator-validated" do
