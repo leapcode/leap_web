@@ -20,7 +20,8 @@ class Token < CouchRest::Model::Base
   end
 
   def self.expired
-    self.by_last_seen_at.endkey(expires_after.minutes.ago)
+    return [] unless expires_after
+    by_last_seen_at.endkey(expires_after.minutes.ago)
   end
 
   def self.destroy_all_expired
