@@ -116,7 +116,7 @@ class IdentityTest < ActiveSupport::TestCase
     id.save
     assert Identity.count > 0
     Identity.destroy_all_disabled
-    assert_equal 0, Identity.count
+    assert_equal 0, Identity.disabled.count
   end
 
   def alias_name
