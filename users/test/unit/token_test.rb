@@ -61,6 +61,21 @@ class ClientCertificateTest < ActiveSupport::TestCase
     end
   end
 
+  test "Token.destroy_all_expired cleans up expired tokens only" do
+    expired = Token.new(user_id: @user.id)
+    expired.last_seen_at = 2.hours.ago
+    expired.save
+    fresh = Token.new(user_id: @user.id)
+    fresh.save
+    with_config auth: {token_expires_after: 60} do
+      Token.destroy_all_expired
+    end
+    assert_nil Token.find(expired.id)
+    assert_equal fresh, Token.find(fresh.id)
+    fresh.destroy
+  end
+
+
 
 
 end
