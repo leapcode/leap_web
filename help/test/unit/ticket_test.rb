@@ -17,11 +17,6 @@ class TicketTest < ActiveSupport::TestCase
     assert !t.valid?
   end
 
-  test "ticket allows for multiple email addresses" do
-    t = FactoryGirl.build :ticket, email: 'blah@blah.com, bb@jjj.org'
-    assert !t.valid?
-  end
-
   test "ticket open states" do
     t = FactoryGirl.build :ticket
     assert t.is_open
