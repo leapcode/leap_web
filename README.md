@@ -41,7 +41,7 @@ Typically, this application is installed automatically as part of the LEAP Platf
 
 ### Install system requirements
 
-    sudo apt-get install git ruby1.8 rubygems1.8 couchdb
+    sudo apt-get install git ruby1.9.3 rubygems couchdb
     sudo gem install bundler
 
 On Debian Wheezy or later, there is a Debian package for bundler, so you can alternately run ``sudo apt-get install bundler``.
