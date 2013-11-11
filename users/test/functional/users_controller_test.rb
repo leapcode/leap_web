@@ -77,7 +77,11 @@ class UsersControllerTest < ActionController::TestCase
 
   test "admin can destroy user" do
     user = find_record :user
+
+    # we destroy the user record and the associated data...
     user.expects(:destroy)
+    Identity.expects(:disable_all_for).with(user)
+    Ticket.expects(:destroy_all_from).with(user)
 
     login :is_admin? => true
     delete :destroy, :id => user.id
@@ -88,7 +92,11 @@ class UsersControllerTest < ActionController::TestCase
 
   test "user can cancel account" do
     user = find_record :user
+
+    # we destroy the user record and the associated data...
     user.expects(:destroy)
+    Identity.expects(:disable_all_for).with(user)
+    Ticket.expects(:destroy_all_from).with(user)
 
     login user
     expect_logout

@@ -6,6 +6,10 @@ class AccountTest < BrowserIntegrationTest
     Capybara.current_driver = Capybara.javascript_driver
   end
 
+  teardown do
+    Identity.destroy_all_disabled
+  end
+
   test "normal account workflow" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
@@ -19,31 +23,32 @@ class AccountTest < BrowserIntegrationTest
   test "successful login" do
     username, password = submit_signup
     click_on 'Logout'
-    click_on 'Log In'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: password
-    click_on 'Log In'
+    attempt_login(username, password)
     assert page.has_content?("Welcome #{username}")
     User.find_by_login(username).account.destroy
   end
 
   test "failed login" do
     visit '/'
-    click_on 'Log In'
-    fill_in 'Username', with: "username"
-    fill_in 'Password', with: "wrong password"
-    click_on 'Log In'
-    assert page.has_selector? 'input.btn-primary.disabled'
-    assert page.has_content? I18n.t(:invalid_user_pass)
-    assert page.has_no_selector? 'input.btn-primary.disabled'
+    attempt_login("username", "wrong password")
+    assert_invalid_login(page)
   end
 
   test "account destruction" do
     username, password = submit_signup
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
-    page.save_screenshot('/tmp/destroy.png')
     assert page.has_content?(I18n.t('account_destroyed'))
+    attempt_login(username, password)
+    assert_invalid_login(page)
+  end
+
+  test "handle blocked after account destruction" do
+    username, password = submit_signup
+    click_on I18n.t('account_settings')
+    click_on I18n.t('destroy_my_account')
+    submit_signup(username)
+    assert page.has_content?('has already been taken')
   end
 
   test "change password" do
@@ -55,10 +60,7 @@ class AccountTest < BrowserIntegrationTest
       click_on 'Save'
     end
     click_on 'Logout'
-    click_on 'Log In'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: "other password"
-    click_on 'Log In'
+    attempt_login(username, "other password")
     assert page.has_content?("Welcome #{username}")
     User.find_by_login(username).account.destroy
   end
@@ -98,6 +100,19 @@ class AccountTest < BrowserIntegrationTest
     V1::UsersController.any_instance.stubs(:create).raises
     submit_signup
     assert page.has_content?("server failed")
+  end
+
+  def attempt_login(username, password)
+    click_on 'Log In'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: password
+    click_on 'Log In'
+  end
+
+  def assert_invalid_login(page)
+    assert page.has_selector? 'input.btn-primary.disabled'
+    assert page.has_content? I18n.t(:invalid_user_pass)
+    assert page.has_no_selector? 'input.btn-primary.disabled'
   end
 
   def inject_malicious_js

@@ -24,6 +24,7 @@ class Ticket < CouchRest::Model::Base
   design do
     view :by_updated_at
     view :by_created_at
+    view :by_created_by
 
     view :by_is_open_and_created_at
     view :by_is_open_and_updated_at
@@ -38,6 +39,12 @@ class Ticket < CouchRest::Model::Base
   def self.search(options = {})
     @selection = TicketSelection.new(options)
     @selection.tickets
+  end
+
+  def self.destroy_all_from(user)
+    self.by_created_by.key(user.id).each do |ticket|
+      ticket.destroy
+    end
   end
 
   def is_creator_validated?
