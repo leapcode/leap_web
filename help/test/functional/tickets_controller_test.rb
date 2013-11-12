@@ -53,7 +53,7 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "should create unauthenticated ticket" do
-    params = {:title => "unauth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+    params = {:subject => "unauth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     assert_difference('Ticket.count') do
       post :create, :ticket => params
@@ -70,7 +70,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "should create authenticated ticket" do
 
-    params = {:title => "auth ticket test title", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+    params = {:subject => "auth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     login
 
