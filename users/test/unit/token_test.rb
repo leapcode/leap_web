@@ -7,9 +7,6 @@ class ClientCertificateTest < ActiveSupport::TestCase
     @user = find_record :user
   end
 
-  teardown do
-  end
-
   test "new token for user" do
     sample = Token.new(:user_id => @user.id)
     assert sample.valid?
@@ -60,6 +57,26 @@ class ClientCertificateTest < ActiveSupport::TestCase
       assert_nil sample.authenticate
     end
   end
+
+  test "Token.destroy_all_expired is noop if no expiry is set" do
+    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
+    with_config auth: {} do
+      Token.destroy_all_expired
+    end
+    assert_equal expired, Token.find(expired.id)
+  end
+
+  test "Token.destroy_all_expired cleans up expired tokens only" do
+    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
+    fresh = FactoryGirl.create :token
+    with_config auth: {token_expires_after: 60} do
+      Token.destroy_all_expired
+    end
+    assert_nil Token.find(expired.id)
+    assert_equal fresh, Token.find(fresh.id)
+    fresh.destroy
+  end
+
 
 
 
