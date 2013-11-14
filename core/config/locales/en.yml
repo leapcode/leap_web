@@ -23,7 +23,7 @@ en:
   download_client: "Download Bitmask"
   client_info: "The Bitmask application allows you to use %{provider} services."
   all_downloads_info: "It is available for %{clients}."
-  other_downloads_info: "It is also available for %{clients}."
+  other_downloads_info: "Bitmask is also available for %{clients}."
   login_info: "Log in to change your account settings, create support tickets, and manage payments."
   signup_info: "Sign up for a new user account via this website (it is better if you use the Bitmask application to sign up, but this website works too)."
   welcome: "Welcome to %{provider}."
@@ -35,6 +35,6 @@ en:
     linux64: "Linux (64 bit)"
     windows: "Windows"
     android: "Android"
-    osx: "Mac OSX"
+    osx: "Mac OS"
     other: "(not available for your OS.)"
 

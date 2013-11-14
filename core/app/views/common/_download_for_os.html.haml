@@ -8,8 +8,8 @@
       %br/
       %small= I18n.t("os.#{os}")
   %span.info
-    = t(:client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
-    %br/
+    %div= t(:client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
+    %div
     - if os == "other"
       = t(:all_downloads_info, :clients => alternative_client_links(os).to_sentence).html_safe
     - else

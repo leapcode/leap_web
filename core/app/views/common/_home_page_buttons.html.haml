@@ -2,10 +2,14 @@
 
 .home-buttons
   .row-fluid.first
-    .span3
-    .download.span6
+    .span2
+    .download.span8
       = render partial: 'common/download_for_os', collection: available_clients + ['other']
-    .span3
+    .span2
+  - if local_assigns[:divider]
+    .row-fluid
+      .span12
+        = render local_assigns[:divider]
   .row-fluid.second
     .login.span4
       %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')
