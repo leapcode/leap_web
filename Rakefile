@@ -2,6 +2,8 @@
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
+RAKE=true   # let environment initialization code know if we are running via rake or not.
+
 require 'rake/packagetask'
 require 'rubygems/package_task'
 
