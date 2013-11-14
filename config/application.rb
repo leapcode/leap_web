@@ -85,5 +85,11 @@ module LeapWeb
 
     # Set to false in order to see asset requests in the log
     config.quiet_assets = true
+
+    ##
+    ## CUSTOMIZATION
+    ## see initializers/customization.rb
+    ##
+    config.paths['app/views'].unshift "config/customization/views"
   end
 end
