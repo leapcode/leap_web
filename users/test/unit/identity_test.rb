@@ -90,6 +90,35 @@ class IdentityTest < ActiveSupport::TestCase
     assert id.errors.messages[:destination].include? "needs to be a valid email address"
   end
 
+  test "disabled identity" do
+    id = Identity.for(@user)
+    id.disable
+    assert_equal @user.email_address, id.address
+    assert_equal nil, id.destination
+    assert_equal nil, id.user
+    assert !id.enabled?
+    assert id.valid?
+  end
+
+  test "disabled identity blocks handle" do
+    id = Identity.for(@user)
+    id.disable
+    id.save
+    other_user = find_record :user
+    taken = Identity.build_for other_user, address: id.address
+    assert !taken.valid?
+    Identity.destroy_all_disabled
+  end
+
+  test "destroy all disabled identities" do
+    id = Identity.for(@user)
+    id.disable
+    id.save
+    assert Identity.count > 0
+    Identity.destroy_all_disabled
+    assert_equal 0, Identity.disabled.count
+  end
+
   def alias_name
     @alias_name ||= Faker::Internet.user_name
   end

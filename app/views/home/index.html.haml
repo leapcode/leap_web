@@ -6,6 +6,10 @@
       %p
         We provide secure communication services, including encrypted internet, email (coming soon), and chat (coming later).
 
+    .row-fluid
+      .span6.offset3
+        = render 'layouts/messages'
+    .row-fluid
       = home_page_buttons
 
       - if Rails.env == 'development'

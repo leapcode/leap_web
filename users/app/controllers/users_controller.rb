@@ -47,8 +47,16 @@ class UsersController < UsersBaseController
   end
 
   def destroy
-    @user.destroy
-    redirect_to admin? ? users_url : root_url
+    @user.account.destroy
+    flash[:notice] = I18n.t(:account_destroyed)
+    # admins can destroy other users
+    if @user != current_user
+      redirect_to users_url
+    else
+      # let's remove the invalid session
+      logout
+      redirect_to root_url
+    end
   end
 
 end

@@ -41,20 +41,12 @@ class SessionsControllerTest < ActionController::TestCase
     assert_json_error :login => I18n.t(:all_strategies_failed)
   end
 
-  test "logout should reset warden user" do
-    expect_warden_logout
+  test "destory should logout" do
+    login
+    expect_logout
     delete :destroy
     assert_response :redirect
     assert_redirected_to root_url
   end
-
-  def expect_warden_logout
-    raw = mock('raw session') do
-      expects(:inspect)
-    end
-    request.env['warden'].expects(:raw_session).returns(raw)
-    request.env['warden'].expects(:logout)
-  end
-
 
 end

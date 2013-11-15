@@ -2,7 +2,7 @@ module DownloadHelper
 
   def alternative_client_links(os = nil)
     alternative_clients(os).map do |client|
-      link_to(client.capitalize, client_download_url(client))
+      link_to(I18n.t("os."+client), client_download_url(client))
     end
   end
 

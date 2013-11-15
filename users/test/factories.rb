@@ -19,6 +19,8 @@ FactoryGirl.define do
     end
   end
 
-  factory :token
+  factory :token do
+    user
+  end
 
 end

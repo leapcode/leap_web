@@ -2,6 +2,10 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
 
+  teardown do
+    Identity.destroy_all_disabled
+  end
+
   test "create a new account" do
     user = Account.create(FactoryGirl.attributes_for(:user))
     assert user.valid?
@@ -13,7 +17,8 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "create and remove a user account" do
-    assert_no_difference "Identity.count" do
+    # We keep an identity that will block the handle from being reused.
+    assert_difference "Identity.count" do
       assert_no_difference "User.count" do
         user = Account.create(FactoryGirl.attributes_for(:user))
         user.account.destroy
