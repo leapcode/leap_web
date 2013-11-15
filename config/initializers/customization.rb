@@ -12,8 +12,13 @@ customization_directory = "#{Rails.root}/config/customization"
 #
 # Set customization stylesheets as the first asset path
 #
-#   (This cannot go in application.rb, because the default paths
-#    haven't been loaded yet, as far as I can tell)
+# Some notes:
+#
+# * This cannot go in application.rb, as far as I can tell. In application.rb, the default paths
+#   haven't been loaded yet, so the path we add will always end up at the end unless we add it here.
+#
+# * For this to work, config.assets.initialize_on_precompile MUST be set to true, otherwise
+#   this initializer will never get called in production mode when the assets are precompiled.
 #
 Rails.application.config.assets.paths.unshift "#{customization_directory}/stylesheets"
 
