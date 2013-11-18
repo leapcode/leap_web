@@ -10,12 +10,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from StandardError do |e|
     respond_to do |format|
-      format.json { render_json_error }
+      format.json { render_json_error(e) }
       format.all  { raise e }  # reraise the exception so the normal thing happens.
     end
   end
 
-  def render_json_error
+  def render_json_error(e)
+    Rails.logger.error e
+    Rails.logger.error e.backtrace.join("\n")
     render status: 500,
       json: {error: "The server failed to process your request. We'll look into it."}
   end
