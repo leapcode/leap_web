@@ -34,6 +34,12 @@ class UsersController < UsersBaseController
   def edit
   end
 
+  ## added so updating service level works, but not sure we will actually want this. also not sure that this is place to prevent user from updating own effective service level, but here as placeholder:
+  def update
+    @user.update_attributes(params[:user]) unless (!admin? and params[:user][:effective_service_level])
+    respond_with @user
+  end
+
   def deactivate
     @user.enabled = false
     @user.save

@@ -9,6 +9,12 @@ class User < CouchRest::Model::Base
 
   property :enabled, TrueClass, :default => true
 
+  # these will be null by default. should we set to APP_CONFIG[:default_service_level] by default, or have code assume that until these get set?:
+  property :desired_service_level, Integer, :accessible => true
+  property :effective_service_level, Integer, :accessible => true
+
+  before_save :update_effective_service_level
+
   validates :login, :password_salt, :password_verifier,
     :presence => true
 
@@ -115,5 +121,11 @@ class User < CouchRest::Model::Base
   # used as a condition for validations that are server side only
   def serverside?
     true
+  end
+
+  def update_effective_service_level
+    if self.desired_service_level_changed?
+      self.effective_service_level = self.desired_service_level
+    end
   end
 end
