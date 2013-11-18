@@ -44,12 +44,12 @@ class TicketTest < ActiveSupport::TestCase
 # TODO: do once have current_user stuff in order
   test "code if & only if not creator-validated" do
     User.current_test = nil
-    t1 = Ticket.create :title => 'test title'
+    t1 = Ticket.create :subject => 'test title'
     assert_not_nil t1.code
     assert_nil t1.created_by
 
     User.current_test = 4
-    t2 = Ticket.create :title => 'test title'
+    t2 = Ticket.create :subject => 'test title'
     assert_nil t2.code
     assert_not_nil t2.created_by
   end
@@ -64,7 +64,7 @@ class TicketTest < ActiveSupport::TestCase
     # TODO: the by_includes_post_by view is only used for tests. Maybe we should get rid of it and change the test to including ordering?
 
 
-    testticket = Ticket.create :title => "test retrieving commented tickets"
+    testticket = Ticket.create :subject => "test retrieving commented tickets"
     comment = TicketComment.new :body => "my email broke", :posted_by => "123"
     assert_equal 0, testticket.comments.count
     assert_equal [], Ticket.by_includes_post_by.key('123').all

@@ -36,7 +36,7 @@ class TicketCommentTest < ActiveSupport::TestCase
 =end
 
   test "add comments" do
-    testticket = Ticket.create :title => "testing"
+    testticket = Ticket.create :subject => "testing"
     assert_equal testticket.comments.count, 0
     comment = TicketComment.new :body => "my email broke"
     #assert comment.valid? #validating or saving necessary for setting posted_at
