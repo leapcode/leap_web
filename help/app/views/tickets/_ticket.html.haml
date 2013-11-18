@@ -1,6 +1,6 @@
 - url = auto_ticket_path(ticket)
 %tr
-  %td= link_to ticket.title, url
+  %td= link_to ticket.subject, url
   %td= link_to ticket.created_at.to_s(:short), url
   %td= link_to ticket.updated_at.to_s(:short), url
   %td= ticket.commenters

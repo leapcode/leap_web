@@ -12,7 +12,7 @@ class Ticket < CouchRest::Model::Base
 
   property :created_by,     String, :protected => true  # nil for anonymous tickets, should never be changed
   property :regarding_user, String                      # may be nil or valid username
-  property :title,          String
+  property :subject,        String
   property :email,          String
   property :is_open,        TrueClass, :default => true
   property :comments,       [TicketComment]
@@ -33,7 +33,7 @@ class Ticket < CouchRest::Model::Base
     load_views(own_path.join('..', 'designs', 'ticket'))
   end
 
-  validates :title, :presence => true
+  validates :subject, :presence => true
   validates :email, :allow_blank => true, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
 
   def self.search(options = {})
