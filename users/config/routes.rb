@@ -22,6 +22,6 @@ Rails.application.routes.draw do
 
   get "/.well-known/host-meta" => 'webfinger#host_meta'
   get "/webfinger" => 'webfinger#search'
-  get "/key/:login" => 'users#get_public_key'
+  get "/key/:login" => 'keys#show'
 
 end

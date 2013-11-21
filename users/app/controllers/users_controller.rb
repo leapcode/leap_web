@@ -59,10 +59,4 @@ class UsersController < UsersBaseController
     end
   end
 
-  def get_public_key
-    @show_navigation = false
-    user = User.find_by_login(params[:login])
-    @public_key = user.public_key if user
-  end
-
 end
