@@ -7,3 +7,19 @@ namespace :couchrest do
   end
 end
 
+namespace :cleanup do
+  
+  desc "Cleanup all expired session documents"
+  task :sessions => :environment do
+    # make sure this is the same as in
+    #   config/initializers/session_store.rb
+    store = CouchRest::Session::Store.new expire_after: 1800
+    store.cleanup(store.expired)
+  end
+
+  desc "Cleanup all expired tokens"
+  task :tokens => :environment do
+    Token.destroy_all_expired
+  end
+end
+
