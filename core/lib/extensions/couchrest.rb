@@ -47,28 +47,45 @@ module CouchRest
         def self.load_all_models_with_engines
           self.load_all_models_without_engines
           return unless defined?(Rails)
-          Dir[Rails.root + 'app/models/**/*.rb'].each do |path|
-            require path
-          end
           Dir[Rails.root + '*/app/models/**/*.rb'].each do |path|
             require path
           end
         end
 
-        def self.all_models_and_proxies
-          callbacks = migrate_each_model(find_models)
-          callbacks += migrate_each_proxying_model(find_proxying_models)
-          cleanup(callbacks)
-        end
-
-
-
         class << self
           alias_method_chain :load_all_models, :engines
         end
 
+        def dump_all_models
+          prepare_directory
+          find_models.each do |model|
+            model.design_docs.each do |design|
+              dump_design(model, design)
+            end
+          end
+        end
+
+        protected
+
+        def dump_design(model, design)
+          dir = prepare_directory model.name.tableize
+          filename = design.id.sub('_design/','') + '.json'
+          puts dir + filename
+          design.checksum
+          File.open(dir + filename, "w") do |file|
+            file.write(JSON.pretty_generate(design.to_hash))
+          end
+        end
+
+        def prepare_directory(dir = '')
+          dir = Rails.root + 'tmp' + 'designs' + dir
+          Dir.mkdir(dir) unless Dir.exists?(dir)
+          return dir
+        end
+
       end
     end
+
   end
 
   class ModelRailtie
