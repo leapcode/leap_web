@@ -114,9 +114,9 @@ class AccountFlowTest < RackTest
     # should not overwrite public key:
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
     assert_equal test_public_key, Identity.for(@user).keys[:pgp]
-    # should overwrite public key:
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => nil}, :format => :json
-    assert_nil Identity.for(@user).keys[:pgp]
+    # should not empty public key:
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => ""}, :format => :json
+    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
   end
 
 end

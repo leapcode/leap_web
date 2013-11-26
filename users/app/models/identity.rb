@@ -94,9 +94,9 @@ class Identity < CouchRest::Model::Base
     read_attribute('keys') || HashWithIndifferentAccess.new
   end
 
-  def set_key(type, value)
-    return if keys[type] == value
-    write_attribute('keys', keys.merge(type => value))
+  def set_key(type, key)
+    return if keys[type] == key.to_s
+    write_attribute('keys', keys.merge(type => key.to_s))
   end
 
   # for LoginFormatValidation
