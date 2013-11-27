@@ -96,7 +96,7 @@ class AccountFlowTest < RackTest
     assert server_auth["M2"]
   end
 
-  test "changing login" do
+  test "prevent changing login without changing password_verifier" do
     server_auth = @srp.authenticate(self)
     original_login = @user.login
     new_login = 'zaph'
