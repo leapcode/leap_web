@@ -23,4 +23,12 @@ FactoryGirl.define do
     user
   end
 
+  factory :pgp_key do
+    keyblock <<-EOPGP
+-----BEGIN PGP PUBLIC KEY BLOCK-----
++Dummy+PGP+KEY+++Dummy+PGP+KEY+++Dummy+PGP+KEY+++Dummy+PGP+KEY+
+#{SecureRandom.base64(4032)}
+-----END PGP PUBLIC KEY BLOCK-----
+    EOPGP
+  end
 end

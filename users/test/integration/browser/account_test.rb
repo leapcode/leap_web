@@ -66,7 +66,7 @@ class AccountTest < BrowserIntegrationTest
   end
 
   test "change pgp key" do
-    pgp_key = "My PGP Key Stub"
+    pgp_key = FactoryGirl.build :pgp_key
     username, password = submit_signup
     click_on "Account Settings"
     within('#update_pgp_key') do
@@ -76,7 +76,7 @@ class AccountTest < BrowserIntegrationTest
     page.assert_selector 'input[value="Saving..."]'
     # at some point we're done:
     page.assert_no_selector 'input[value="Saving..."]'
-    assert page.has_field? 'Public key', with: pgp_key
+    assert page.has_field? 'Public key', with: pgp_key.to_s
     user = User.find_by_login(username)
     assert_equal pgp_key, user.public_key
     user.account.destroy
