@@ -9,9 +9,9 @@ class User < CouchRest::Model::Base
 
   property :enabled, TrueClass, :default => true
 
-  # these will be null by default. should we set to APP_CONFIG[:default_service_level] by default, or have code assume that until these get set?:
-  property :desired_service_level, Integer, :accessible => true
-  property :effective_service_level, Integer, :accessible => true
+  # these will be null by default but we shouldn't ever pull them directly, but only via the methods that will return the full ServiceLevel
+  property :desired_service_level_code, Integer, :accessible => true
+  property :effective_service_level_code, Integer, :accessible => true
 
   before_save :update_effective_service_level
 
@@ -100,6 +100,16 @@ class User < CouchRest::Model::Base
     @identity = Identity.for(self)
   end
 
+  def desired_service_level
+    code = self.desired_service_level_code || APP_CONFIG[:default_service_level]
+    ServiceLevel.new({level: code})
+  end
+
+  def effective_service_level
+    code = self.effective_service_level_code || self.desired_service_level.level
+    ServiceLevel.new({level: code})
+  end
+
   protected
 
   ##
@@ -124,8 +134,10 @@ class User < CouchRest::Model::Base
   end
 
   def update_effective_service_level
-    if self.desired_service_level_changed?
-      self.effective_service_level = self.desired_service_level
+    # TODO: Is this always the case? Might there be a situation where the admin has set the effective service level and we don't want it changed to match the desired one?
+    if self.desired_service_level_code_changed?
+      self.effective_service_level_code = self.desired_service_level_code
     end
   end
+
 end
