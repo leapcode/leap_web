@@ -102,12 +102,12 @@ class User < CouchRest::Model::Base
 
   def desired_service_level
     code = self.desired_service_level_code || APP_CONFIG[:default_service_level]
-    ServiceLevel.new({level: code})
+    ServiceLevel.new({id: code})
   end
 
   def effective_service_level
-    code = self.effective_service_level_code || self.desired_service_level.level
-    ServiceLevel.new({level: code})
+    code = self.effective_service_level_code || self.desired_service_level.id
+    ServiceLevel.new({id: code})
   end
 
   protected
