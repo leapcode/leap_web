@@ -42,19 +42,20 @@
 -#
 -# SERVICE LEVEL
 -#
-- form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_service_level', :data => {token: session[:token]}}, :validate => true}
-= simple_form_for @user, form_options do |f|
-  %legend= t(:service_level)
-  - if @user != current_user
-    = t(:desired_service_level)
-  = f.select :desired_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.desired_service_level.id
-  - if @user != current_user
-    %p
-    = t(:effective_service_level)
-    = f.select :effective_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.effective_service_level.id
-  .control-group
-    .controls
-      = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}
+- if APP_CONFIG[:service_levels]
+  - form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_service_level', :data => {token: session[:token]}}, :validate => true}
+  = simple_form_for @user, form_options do |f|
+    %legend= t(:service_level)
+    - if @user != current_user
+      = t(:desired_service_level)
+    = f.select :desired_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.desired_service_level.id
+    - if @user != current_user
+      %p
+      = t(:effective_service_level)
+      = f.select :effective_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.effective_service_level.id
+    .control-group
+      .controls
+        = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}
 -#
 -# DESTROY ACCOUNT
 -#

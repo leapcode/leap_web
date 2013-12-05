@@ -88,7 +88,6 @@ production:
   <<: *downloads
   <<: *cert_options
   <<: *common
-  <<: *service_levels
   admins: []
   domain: example.net
   payment: []
