@@ -8,7 +8,7 @@ class KeysControllerTest < ActionController::TestCase
     User.stubs(:find_by_login).with(@user.login).returns(@user)
     get :show, :login => @user.login
     assert_response :success
-    assert_equal "text/html", response.content_type
+    assert_equal "text/text", response.content_type
     assert_equal public_key, response.body
   end
 
@@ -18,7 +18,7 @@ class KeysControllerTest < ActionController::TestCase
     User.stubs(:find_by_login).with(@user.login).returns(@user)
     get :show, :login => @user.login
     assert_response :success
-    assert_equal "text/html", response.content_type
+    assert_equal "text/text", response.content_type
     assert_equal '', response.body.strip
   end
 
