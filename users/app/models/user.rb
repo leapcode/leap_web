@@ -9,6 +9,12 @@ class User < CouchRest::Model::Base
 
   property :enabled, TrueClass, :default => true
 
+  # these will be null by default but we shouldn't ever pull them directly, but only via the methods that will return the full ServiceLevel
+  property :desired_service_level_code, Integer, :accessible => true
+  property :effective_service_level_code, Integer, :accessible => true
+
+  before_save :update_effective_service_level
+
   validates :login, :password_salt, :password_verifier,
     :presence => true
 
@@ -94,6 +100,16 @@ class User < CouchRest::Model::Base
     @identity = Identity.for(self)
   end
 
+  def desired_service_level
+    code = self.desired_service_level_code || APP_CONFIG[:default_service_level]
+    ServiceLevel.new({id: code})
+  end
+
+  def effective_service_level
+    code = self.effective_service_level_code || self.desired_service_level.id
+    ServiceLevel.new({id: code})
+  end
+
   protected
 
   ##
@@ -116,4 +132,12 @@ class User < CouchRest::Model::Base
   def serverside?
     true
   end
+
+  def update_effective_service_level
+    # TODO: Is this always the case? Might there be a situation where the admin has set the effective service level and we don't want it changed to match the desired one?
+    if self.desired_service_level_code_changed?
+      self.effective_service_level_code = self.desired_service_level_code
+    end
+  end
+
 end

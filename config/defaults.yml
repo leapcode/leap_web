@@ -41,12 +41,33 @@ common: &common
   # handles that will be allowed despite being in /etc/passwd or rfc2142
   handle_whitelist: []
 
+service_levels: &service_levels
+  service_levels:
+    0:
+      name: anonymous
+      cert_prefix: "LIMITED"
+      description: "anonymous account, with rate limited VPN"
+    1:
+      name: free
+      cert_prefix: "LIMITED"
+      description: "free account, with rate limited VPN"
+      cost: 0
+      quota: 100
+    2:
+      name: premium
+      cert_prefix: "UNLIMITED"
+      description: "premium account, with unlimited vpn"
+      cost:
+        USD: 10
+        EUR: 10
+  default_service_level: 1
 
 development:
   <<: *downloads
   <<: *dev_ca
   <<: *cert_options
   <<: *common
+  <<: *service_levels
   admins: [blue, admin, admin2]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -57,6 +78,7 @@ test:
   <<: *dev_ca
   <<: *cert_options
   <<: *common
+  <<: *service_levels
   admins: [admin, admin2]
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
