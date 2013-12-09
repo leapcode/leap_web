@@ -120,7 +120,7 @@ GEM
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
+    debugger-ruby_core_source (1.2.4)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
