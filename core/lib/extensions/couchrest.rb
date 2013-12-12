@@ -23,10 +23,6 @@ module CouchRest
       end
     end
 
-    module Errors
-      class ConnectionFailed < CouchRestModelError; end
-    end
-
     module Connection
 
       module ClassMethods
@@ -36,7 +32,9 @@ module CouchRest
         rescue RestClient::Unauthorized,
           Errno::EHOSTUNREACH,
           Errno::ECONNREFUSED => e
-          raise CouchRest::Model::Errors::ConnectionFailed.new(e.to_s)
+          message = "Could not connect to couch database #{db} due to #{e.to_s}"
+          Rails.logger.warn message
+          raise e.class.new(message)
         end
       end
 
