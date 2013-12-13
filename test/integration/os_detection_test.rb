@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AccountTest < BrowserIntegrationTest
+class OsDetectionTest < BrowserIntegrationTest
 
   setup do
     Capybara.current_driver = Capybara.javascript_driver
