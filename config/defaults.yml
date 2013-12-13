@@ -72,6 +72,7 @@ development:
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   payment: []
+  reraise_errors: true
 
 test:
   <<: *downloads
@@ -83,6 +84,7 @@ test:
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   payment: [billing]
+  reraise_errors: true
 
 production:
   <<: *downloads

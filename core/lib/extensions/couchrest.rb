@@ -34,7 +34,7 @@ module CouchRest
           Errno::ECONNREFUSED => e
           message = "Could not connect to couch database #{db} due to #{e.to_s}"
           Rails.logger.warn message
-          raise e.class.new(message)
+          raise e.class.new(message) if APP_CONFIG[:reraise_errors]
         end
       end
 
