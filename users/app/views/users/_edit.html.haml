@@ -1,9 +1,14 @@
 -#
 -# edit user form, used by both show and edit actions.
 -#
-
-= render 'change_password'
-= render 'change_pgp_key'
-= render 'change_service_level'
-= render 'destroy_account'
-
+-# We render a bunch of forms here. Which we use depends upon config settings
+-# user_actions and admin_actions. They both include an array of actions 
+-# allowed to users and admins.
+-# Possible forms are:
+-#  'change_password'
+-#  'change_pgp_key'
+-#  'change_service_level'
+-#  'destroy_account'
+- actions = APP_CONFIG[admin? ? :admin_actions : :user_actions] || []
+- actions.each do |action|
+  = render action
