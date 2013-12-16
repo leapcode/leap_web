@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
+    redirect_to root_path if logged_in?
     @session = Session.new
     if authentication_errors
       @errors = authentication_errors
