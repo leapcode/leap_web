@@ -40,6 +40,10 @@ common: &common
   handle_blacklist: [certmaster, ssladmin, arin-admin, administrator, www-data, maildrop]
   # handles that will be allowed despite being in /etc/passwd or rfc2142
   handle_whitelist: []
+  # actions enabled in the account settings
+  # see /users/app/views/users/_edit.html.haml for a list.
+  user_actions: ['destroy_account']
+  admin_actions: ['change_pgp_key', 'change_service_level', 'destroy_account']
 
 service_levels: &service_levels
   service_levels:
