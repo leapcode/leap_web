@@ -14,12 +14,12 @@ class SessionsController < ApplicationController
   end
 
   #
-  # this is a bad hack, but user_overview_url(user) is not available
+  # this is a bad hack, but user_url(user) is not available
   # also, this doesn't work because the redirect happens as a PUT. no idea why.
   #
   #Warden::Manager.after_authentication do |user, auth, opts|
   #  response = Rack::Response.new
-  #  response.redirect "/users/#{user.id}/overview"
+  #  response.redirect "/users/#{user.id}"
   # throw :warden, response.finish
   #end
 

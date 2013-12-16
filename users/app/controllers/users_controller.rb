@@ -13,7 +13,7 @@ class UsersController < UsersBaseController
   def index
     if params[:query]
       if @user = User.find_by_login(params[:query])
-        redirect_to user_overview_url(@user)
+        redirect_to @user
         return
       else
         @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)

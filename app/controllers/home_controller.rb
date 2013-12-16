@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     if logged_in?
-      redirect_to user_overview_url(current_user)
+      redirect_to current_user
     end
   end
 end
