@@ -1,5 +1,10 @@
 #
-# A Composition of a User record and it's identity records.
+# The Account model takes care of the livecycle of a user.
+# It composes a User record and it's identity records.
+# It also allows for other engines to hook into the livecycle by
+# monkeypatching the create, update and destroy methods.
+# There's an ActiveSupport load_hook at the end of this file to
+# make this more easy.
 #
 class Account
 
@@ -22,16 +27,15 @@ class Account
       @user.update_attributes attrs.slice(:password_verifier, :password_salt)
     end
     # TODO: move into identity controller
-    update_pgp_key(attrs[:public_key]) if attrs.has_key? :public_key
+    key = update_pgp_key(attrs[:public_key])
+    @user.errors.set :public_key, key.errors.full_messages
     @user.save && save_identities
     @user.refresh_identity
   end
 
   def destroy
     return unless @user
-    Identity.by_user_id.key(@user.id).each do |identity|
-      identity.destroy
-    end
+    Identity.disable_all_for(@user)
     @user.destroy
   end
 
@@ -46,12 +50,19 @@ class Account
   end
 
   def update_pgp_key(key)
-    @new_identity ||= Identity.for(@user)
-    @new_identity.set_key(:pgp, key)
+    PgpKey.new(key).tap do |key|
+      if key.present? && key.valid?
+        @new_identity ||= Identity.for(@user)
+        @new_identity.set_key(:pgp, key)
+      end
+    end
   end
 
   def save_identities
     @new_identity.try(:save) && @old_identity.try(:save)
   end
 
+  # You can hook into the account lifecycle from different engines using
+  #   ActiveSupport.on_load(:account) do ...
+  ActiveSupport.run_load_hooks(:account, self)
 end

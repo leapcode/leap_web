@@ -43,23 +43,93 @@
 }
 
 //
+// OS specific
+//
+
+.os-android {
+  display: none !important;
+}
+
+html.android .os-android {
+  display: inherit !important;
+}
+
+.os-linux32 {
+  display: none !important;
+}
+
+html.linux32 .os-linux32 {
+  display: inherit !important;
+}
+
+.os-linux64 {
+  display: none !important;
+}
+
+html.linux64 .os-linux64 {
+  display: inherit !important;
+}
+
+.os-windows {
+  display: none !important;
+}
+
+html.windows .os-windows {
+  display: inherit !important;
+}
+
+.os-osx {
+  display: none !important;
+}
+
+html.osx .os-osx {
+  display: inherit !important;
+}
+
+.os-other {
+  display: none !important;
+}
+
+html.oldmac, html.oldwin, html.ios, html.fxos, html.other {
+  .os-other {
+    display: inherit !important;
+  }
+}
+
+//
 // ICONS
 //
 
-[class^="big-icon-"],
-[class*=" big-icon-"] {
+[class*="-icon-"] {
   display: inline-block;
-  width: 32px;
-  height: 32px;
   @include ie7-restore-right-whitespace();
-  line-height: 32px;
   vertical-align: middle;
   background-repeat: no-repeat;
   margin-top: 1px;
 }
 
+[class^="big-icon-"],
+[class*=" big-icon-"] {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+[class^="huge-icon-"],
+[class*=" huge-icon-"] {
+  width: 128px;
+  height: 128px;
+  line-height: 128px;
+}
+
+
 .big-icon-arrow-down {
   background-image: url(/leap-img/32/arrow-down.png)
+}
+
+.huge-icon-mask {
+  height: 64px;
+  background-image: url(/leap-img/128/mask.png)
 }
 
 //
@@ -152,6 +222,9 @@ input, textarea {
   .download {
     a.btn {
       width: 14em;
+      small {
+        font-weight: normal;
+      }
     }
   }
   a.btn {

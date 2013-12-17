@@ -1,8 +1,8 @@
 %h2=t :all_subscriptions
-- active = false
+- pending_active_pastdue = false
 - @subscriptions.each do |s|
-  - if s.status == 'Active'
-    - active = true
+  - if ['Pending', 'Active','Past Due'].include? s.status
+    - pending_active_pastdue = true
   = render :partial => "subscription_details", :locals => {:subscription => s}
-- if !active and @user == current_user
+- if !pending_active_pastdue and @user == current_user
   = link_to 'subscribe to plan', new_subscription_path, :class => :btn

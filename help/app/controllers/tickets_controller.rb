@@ -62,14 +62,11 @@ class TicketsController < ApplicationController
         @ticket.comments.last.private = false unless admin?
       end
 
-      if @ticket.changed?
-        if @ticket.save
-          flash[:notice] = t(:changes_saved)
-          redirect_to_tickets
-        else
-          respond_with @ticket
-        end
+      if @ticket.changed? and @ticket.save
+        flash[:notice] = t(:changes_saved)
+        redirect_to_tickets
       else
+        flash[:error] = @ticket.errors.full_messages.join(". ") if @ticket.changed?
         redirect_to auto_ticket_path(@ticket)
       end
     end

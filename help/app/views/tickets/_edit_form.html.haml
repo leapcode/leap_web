@@ -1,7 +1,7 @@
 :ruby
   # created by user link
   if @ticket.created_by_user
-    created_by = link_to(@ticket.created_by_user.login, user_overview_path(@ticket.created_by_user))
+    created_by = link_to @ticket.created_by_user.login, @ticket.created_by_user
   else
     created_by = t(:anonymous)
   end
@@ -9,7 +9,7 @@
   # regarding user link
   if admin?
     if @ticket.regarding_user_actual_user
-      regarding_user_link = link_to @ticket.regarding_user_actual_user.login, user_overview_path(@ticket.regarding_user_actual_user)
+      regarding_user_link = link_to @ticket.regarding_user_actual_user.login, @ticket.regarding_user_actual_user
     else
       regarding_user_link =  "(#{t(:unknown)})"
     end
@@ -26,7 +26,7 @@
       %span.label.label-success= t(:closed)
     %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
   %div= t(:subject)
-  = f.text_field :title, :class => 'large full-width'
+  = f.text_field :subject, :class => 'large full-width'
   .row-fluid
     .span4
       %div= t(:status)

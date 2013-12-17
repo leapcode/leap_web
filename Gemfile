@@ -29,4 +29,4 @@ group :test do
 end
 
 # unreleased so far ... but leap_web_certs need it
-gem 'certificate_authority', :git => 'git://github.com/cchandler/certificate_authority.git'
+gem 'certificate_authority', :git => 'https://github.com/cchandler/certificate_authority.git'

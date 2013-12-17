@@ -96,27 +96,41 @@ class AccountFlowTest < RackTest
     assert server_auth["M2"]
   end
 
-  test "update user" do
+  test "prevent changing login without changing password_verifier" do
     server_auth = @srp.authenticate(self)
-    test_public_key = 'asdlfkjslfdkjasd'
     original_login = @user.login
     new_login = 'zaph'
     User.find_by_login(new_login).try(:destroy)
     Identity.by_address.key(new_login + '@' + APP_CONFIG[:domain]).each do |identity|
       identity.destroy
     end
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => test_public_key, :login => new_login}, :format => :json
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:login => new_login}, :format => :json
     assert last_response.successful?
-    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
     # does not change login if no password_verifier is present
     assert_equal original_login, @user.login
-    # eventually probably want to remove most of this into a non-integration functional test
-    # should not overwrite public key:
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:blee => :blah}, :format => :json
-    assert_equal test_public_key, Identity.for(@user).keys[:pgp]
-    # should overwrite public key:
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => nil}, :format => :json
+  end
+
+  test "upload pgp key" do
+    server_auth = @srp.authenticate(self)
+    key = FactoryGirl.build :pgp_key
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => key}, :format => :json
+    assert_equal key, Identity.for(@user).keys[:pgp]
+  end
+
+  # eventually probably want to remove most of this into a non-integration
+  # functional test
+  test "prevent uploading invalid key" do
+    server_auth = @srp.authenticate(self)
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => :blah}, :format => :json
     assert_nil Identity.for(@user).keys[:pgp]
+  end
+
+  test "prevent emptying public key" do
+    server_auth = @srp.authenticate(self)
+    key = FactoryGirl.build :pgp_key
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => key}, :format => :json
+    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json', :user => {:public_key => ""}, :format => :json
+    assert_equal key, Identity.for(@user).keys[:pgp]
   end
 
 end

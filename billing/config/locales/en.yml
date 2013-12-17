@@ -4,3 +4,4 @@ en:
   subscribe: "Subscribe"
   save_customer_info: "Save Customer Information"
   donation_not_payment: "Note: This is a donation, and will not be applied towards your account."
+  no_relevant_subscription: "No subscription which is Active, Pending, or Past Due"

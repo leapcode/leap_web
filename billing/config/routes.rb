@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   match 'credit_card_info/confirm' => 'credit_card_info#confirm', :as => :confirm_credit_card_info
 
   resources :subscriptions, :only => [:new, :create, :update] # index, show & destroy are within users path
+  match 'billing_admin' => 'billing_admin#show', :as => :billing_admin
 
   #match 'transactions/:product_id/new' => 'transactions#new', :as => :new_transaction
   #match 'transactions/confirm/:product_id' => 'transactions#confirm', :as => :confirm_transaction

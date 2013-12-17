@@ -12,7 +12,7 @@ class Ticket < CouchRest::Model::Base
 
   property :created_by,     String, :protected => true  # nil for anonymous tickets, should never be changed
   property :regarding_user, String                      # may be nil or valid username
-  property :title,          String
+  property :subject,        String
   property :email,          String
   property :is_open,        TrueClass, :default => true
   property :comments,       [TicketComment]
@@ -24,6 +24,7 @@ class Ticket < CouchRest::Model::Base
   design do
     view :by_updated_at
     view :by_created_at
+    view :by_created_by
 
     view :by_is_open_and_created_at
     view :by_is_open_and_updated_at
@@ -32,12 +33,18 @@ class Ticket < CouchRest::Model::Base
     load_views(own_path.join('..', 'designs', 'ticket'))
   end
 
-  validates :title, :presence => true
+  validates :subject, :presence => true
   validates :email, :allow_blank => true, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
 
   def self.search(options = {})
     @selection = TicketSelection.new(options)
     @selection.tickets
+  end
+
+  def self.destroy_all_from(user)
+    self.by_created_by.key(user.id).each do |ticket|
+      ticket.destroy
+    end
   end
 
   def is_creator_validated?

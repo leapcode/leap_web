@@ -2,11 +2,14 @@
 
 .home-buttons
   .row-fluid.first
-    .span3
-    .download.span6
-      %span.link= link_to(big_icon('arrow-down', icon_color) + t(:download_client), "https://downloads.leap.se/client", :class => 'btn btn-large')
-      %span.info= t(:download_client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
-    .span3
+    .span2
+    .download.span8
+      = render partial: 'common/download_for_os', collection: available_clients + ['other']
+    .span2
+  - if local_assigns[:divider]
+    .row-fluid
+      .span12
+        = render local_assigns[:divider]
   .row-fluid.second
     .login.span4
       %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')

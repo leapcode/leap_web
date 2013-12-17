@@ -1,7 +1,7 @@
 module IntegrationTestHelper
-  def submit_signup
-    username = "test_#{SecureRandom.urlsafe_base64}".downcase
-    password = SecureRandom.base64
+  def submit_signup(username = nil, password = nil)
+    username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+    password ||= SecureRandom.base64
     visit '/users/new'
     fill_in 'Username', with: username
     fill_in 'Password', with: password

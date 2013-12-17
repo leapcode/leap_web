@@ -27,6 +27,17 @@ class Identity < CouchRest::Model::Base
         emit(doc.address, doc.keys["pgp"]);
       }
     EOJS
+    view :disabled,
+      map: <<-EOJS
+      function(doc) {
+        if (doc.type != 'Identity') {
+          return;
+        }
+        if (typeof doc.user_id === "undefined") {
+          emit(doc._id, 1);
+        }
+      }
+    EOJS
 
   end
 
@@ -50,6 +61,19 @@ class Identity < CouchRest::Model::Base
     identity
   end
 
+  def self.disable_all_for(user)
+    Identity.by_user_id.key(user.id).each do |identity|
+      identity.disable
+      identity.save
+    end
+  end
+
+  def self.destroy_all_disabled
+    Identity.disabled.each do |identity|
+      identity.destroy
+    end
+  end
+
   def self.attributes_from_user(user)
     { user_id: user.id,
       address: user.email_address,
@@ -57,13 +81,22 @@ class Identity < CouchRest::Model::Base
     }
   end
 
+  def enabled?
+    self.destination && self.user_id
+  end
+
+  def disable
+    self.destination = nil
+    self.user_id = nil
+  end
+
   def keys
     read_attribute('keys') || HashWithIndifferentAccess.new
   end
 
-  def set_key(type, value)
-    return if keys[type] == value
-    write_attribute('keys', keys.merge(type => value))
+  def set_key(type, key)
+    return if keys[type] == key.to_s
+    write_attribute('keys', keys.merge(type => key.to_s))
   end
 
   # for LoginFormatValidation
@@ -93,7 +126,8 @@ class Identity < CouchRest::Model::Base
   end
 
   def destination_email
-    return if destination.valid? #this ensures it is Email
+    return if destination.nil?   # this identity is disabled
+    return if destination.valid? # this ensures it is Email
     self.errors.add(:destination, destination.errors.messages[:email].first) #assumes only one error #TODO
   end
 

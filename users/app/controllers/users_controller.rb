@@ -13,7 +13,7 @@ class UsersController < UsersBaseController
   def index
     if params[:query]
       if @user = User.find_by_login(params[:query])
-        redirect_to user_overview_url(@user)
+        redirect_to @user
         return
       else
         @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
@@ -34,6 +34,12 @@ class UsersController < UsersBaseController
   def edit
   end
 
+  ## added so updating service level works, but not sure we will actually want this. also not sure that this is place to prevent user from updating own effective service level, but here as placeholder:
+  def update
+    @user.update_attributes(params[:user]) unless (!admin? and params[:user][:effective_service_level])
+    respond_with @user
+  end
+
   def deactivate
     @user.enabled = false
     @user.save
@@ -47,8 +53,16 @@ class UsersController < UsersBaseController
   end
 
   def destroy
-    @user.destroy
-    redirect_to admin? ? users_url : root_url
+    @user.account.destroy
+    flash[:notice] = I18n.t(:account_destroyed)
+    # admins can destroy other users
+    if @user != current_user
+      redirect_to users_url
+    else
+      # let's remove the invalid session
+      logout
+      redirect_to root_url
+    end
   end
 
 end

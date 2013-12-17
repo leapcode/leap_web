@@ -3,7 +3,7 @@ require "bundler/capistrano"
 set :application, "webapp"
 
 set :scm, :git
-set :repository,  "git://leap.se/leap_web"
+set :repository,  "https://leap.se/git/leap_web"
 set :branch, "master"
 
 set :deploy_via, :remote_cache

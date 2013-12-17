@@ -1,7 +1,9 @@
 class SubscriptionsController < BillingBaseController
   before_filter :authorize
   before_filter :fetch_subscription, :only => [:show, :destroy]
-  before_filter :confirm_no_active_subscription, :only => [:new, :create]
+  before_filter :confirm_cancel_subscription, :only => [:destroy]
+  before_filter :confirm_self_or_admin, :only => [:index]
+  before_filter :confirm_no_pending_active_pastdue_subscription, :only => [:new, :create]
   # for now, admins cannot create or destroy subscriptions for others:
   before_filter :confirm_self, :only => [:new, :create]
 
@@ -16,6 +18,7 @@ class SubscriptionsController < BillingBaseController
 
   def create
     @result = Braintree::Subscription.create( :payment_method_token => params[:payment_method_token], :plan_id => params[:plan_id] )
+    #if you want to test pastdue, can add :price => '2001', :trial_period => true,:trial_duration => 1,:trial_duration_unit => "day" and then wait a day
   end
 
   def destroy
@@ -38,15 +41,23 @@ class SubscriptionsController < BillingBaseController
 
   end
 
-  def confirm_no_active_subscription
+  def confirm_cancel_subscription
+    access_denied unless view_context.allow_cancel_subscription(@subscription)
+  end
+
+  def confirm_no_pending_active_pastdue_subscription
     @customer = Customer.find_by_user_id(@user.id)
-    if subscription = @customer.subscriptions # will return active subscription, if it exists
-      redirect_to subscription_path(subscription.id), :notice => 'You already have an active subscription'
+    if subscription = @customer.subscriptions # will return pending, active or pastdue subscription, if it exists
+      redirect_to user_subscription_path(@user, subscription.id), :notice => 'You already have a subscription'
     end
   end
 
   def confirm_self
     @user == current_user
+  end
+
+  def confirm_self_or_admin
+    access_denied unless confirm_self or admin?
   end
 
 end
