@@ -29,7 +29,7 @@ module CouchRest
 
         def use_database(db)
           @database = prepare_database(db)
-        rescue RestClient::Unauthorized,
+        rescue RestClient::Exception,
           Errno::EHOSTUNREACH,
           Errno::ECONNREFUSED => e
           message = "Could not connect to couch database #{db} due to #{e.to_s}"
