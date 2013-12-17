@@ -17,6 +17,13 @@ class SessionsControllerTest < ActionController::TestCase
     assert_template "sessions/new"
   end
 
+  test "redirect to root_url if logged in" do
+    login
+    get :new
+    assert_response :redirect
+    assert_redirected_to root_url
+  end
+
   test "renders json" do
     get :new, :format => :json
     assert_response :success
