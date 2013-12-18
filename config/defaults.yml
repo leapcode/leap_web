@@ -44,6 +44,7 @@ common: &common
   # see /users/app/views/users/_edit.html.haml for a list.
   user_actions: ['destroy_account']
   admin_actions: ['change_pgp_key', 'change_service_level', 'destroy_account']
+  billing: ~
 
 service_levels: &service_levels
   service_levels:
@@ -75,7 +76,6 @@ development:
   admins: [blue, admin, admin2]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  payment: []
   reraise_errors: true
 
 test:
@@ -87,8 +87,8 @@ test:
   admins: [admin, admin2]
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  payment: [billing]
   reraise_errors: true
+  billing: true
 
 production:
   <<: *downloads
@@ -96,5 +96,4 @@ production:
   <<: *common
   admins: []
   domain: example.net
-  payment: []
   # logfile: /path/to/your/logs
