@@ -14,7 +14,7 @@ class AccountTest < BrowserIntegrationTest
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
     click_on 'Logout'
-    assert page.has_content?("Sign Up")
+    assert page.has_content?("Log In")
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
     user.account.destroy
@@ -25,6 +25,9 @@ class AccountTest < BrowserIntegrationTest
     click_on 'Logout'
     attempt_login(username, password)
     assert page.has_content?("Welcome #{username}")
+    within('.sidenav li.active') do
+      assert page.has_content?("Overview")
+    end
     User.find_by_login(username).account.destroy
   end
 
