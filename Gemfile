@@ -21,6 +21,7 @@ group :test do
   gem 'fake_braintree', require: false
   gem 'capybara', require: false
   gem 'launchy' # so save_and_open_page works in integration tests
+  gem 'phantomjs-binaries'
 end
 
 # unreleased so far ... but leap_web_certs need it
