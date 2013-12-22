@@ -61,7 +61,7 @@ class UsersController < UsersBaseController
     else
       # let's remove the invalid session
       logout
-      redirect_to root_url
+      redirect_to home_url
     end
   end
 

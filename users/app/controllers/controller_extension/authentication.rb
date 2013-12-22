@@ -23,7 +23,7 @@ module ControllerExtension::Authentication
     respond_to do |format|
       format.html do
         if logged_in?
-          redirect_to root_url, :alert => t(:not_authorized)
+          redirect_to home_url, :alert => t(:not_authorized)
         else
           redirect_to login_url, :alert => t(:not_authorized_login)
         end

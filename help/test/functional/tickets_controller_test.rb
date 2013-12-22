@@ -49,7 +49,7 @@ class TicketsControllerTest < ActionController::TestCase
     login
     get :show, :id => ticket.id
     assert_response :redirect
-    assert_redirected_to root_url
+    assert_redirected_to home_url
   end
 
   test "should create unauthenticated ticket" do

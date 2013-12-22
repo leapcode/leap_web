@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
-    redirect_to root_path if logged_in?
+    redirect_to home_url if logged_in?
     @session = Session.new
     if authentication_errors
       @errors = authentication_errors
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
-    redirect_to root_path
+    redirect_to home_url
   end
 
   #

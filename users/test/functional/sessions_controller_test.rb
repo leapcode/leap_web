@@ -17,11 +17,11 @@ class SessionsControllerTest < ActionController::TestCase
     assert_template "sessions/new"
   end
 
-  test "redirect to root_url if logged in" do
+  test "redirect to home_url if logged in" do
     login
     get :new
     assert_response :redirect
-    assert_redirected_to root_url
+    assert_redirected_to home_url
   end
 
   test "renders json" do
@@ -53,7 +53,7 @@ class SessionsControllerTest < ActionController::TestCase
     expect_logout
     delete :destroy
     assert_response :redirect
-    assert_redirected_to root_url
+    assert_redirected_to home_url
   end
 
 end

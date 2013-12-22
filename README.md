@@ -104,3 +104,5 @@ To run all tests
 To run an individual test:
 
     rake test TEST=certs/test/unit/client_certificate_test.rb
+    or
+    ruby -Itest certs/test/unit/client_certificate_test.rb
