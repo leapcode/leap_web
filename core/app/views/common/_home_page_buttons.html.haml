@@ -10,13 +10,14 @@
     .row-fluid
       .span12
         = render local_assigns[:divider]
-  .row-fluid.second
-    .login.span4
-      %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')
-      %span.info= t(:login_info)
-    .signup.span4
-      %span.link= link_to(icon('user', icon_color) + t(:signup), signup_path, :class => 'btn')
-      %span.info= t(:signup_info)
-    .help.span4
-      %span.link= link_to(icon('question-sign', icon_color) + t(:get_help), new_ticket_path, :class => 'btn')
-      %span.info= t(:help_info)
+  - if !local_assigns[:on_user_page]
+    .row-fluid.second
+      .login.span4
+        %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')
+        %span.info= t(:login_info)
+      .signup.span4
+        %span.link= link_to(icon('user', icon_color) + t(:signup), signup_path, :class => 'btn')
+        %span.info= t(:signup_info)
+      .help.span4
+        %span.link= link_to(icon('question-sign', icon_color) + t(:get_help), new_ticket_path, :class => 'btn')
+        %span.info= t(:help_info)
