@@ -27,7 +27,7 @@ module AuthTestHelper
       else
         if logged_in
           assert_equal({:alert => I18n.t(:not_authorized)}, flash.to_hash)
-          assert_redirected_to root_url
+          assert_redirected_to home_url
         else
           assert_equal({:alert => I18n.t(:not_authorized_login)}, flash.to_hash)
           assert_redirected_to login_url

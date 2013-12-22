@@ -45,7 +45,9 @@ common: &common
   user_actions: ['destroy_account']
   admin_actions: ['change_pgp_key', 'change_service_level', 'destroy_account']
   billing: ~
-
+  default_locale: :en
+  available_locales:
+    - :en
 service_levels: &service_levels
   service_levels:
     0:
@@ -89,6 +91,10 @@ test:
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   reraise_errors: true
   billing: {}
+  default_locale: :en
+  available_locales:
+    - :en
+    - :de
 
 production:
   <<: *downloads

@@ -29,7 +29,7 @@ class SubscriptionTest < ActionDispatch::IntegrationTest
     login_as @admin
     @customer.stubs(:subscriptions).returns([@subscription])
     @subscription.stubs(:balance).returns 0
-    visit user_subscriptions_path(@customer.user_id)
+    visit user_subscriptions_path(@customer.user_id, :locale => nil)
     assert page.has_content?("Subscriptions")
     assert page.has_content?("Status: Active")
     page.save_screenshot('/tmp/subscriptions.png')

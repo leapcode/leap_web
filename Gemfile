@@ -12,6 +12,8 @@ gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
 gem 'leap_web_billing', :path => 'billing'
 
+gem 'http_accept_language'
+
 # To use debugger
 gem 'debugger', :platforms => :mri_19
 # ruby 1.8 is not supported anymore

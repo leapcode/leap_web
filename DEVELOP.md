@@ -78,4 +78,21 @@ CouchRest Model behaved strangely when using a model without a design block. So 
 
 From that point on you should be able to use the standart persistance and querying methods such as create, find, destroy and so on.
 
+## Writing Tests ##
 
+### Locale
+
+The ApplicationController defines a before filter #set_locale that will set
+the default_url_options to include the appropriate default {:locale => x} param.
+
+However, paths generated in tests don't use default_url_options. This can
+create failures for certain nested routes unless you explicitly provide
+:locale => nil to the path helper. This is not needed for actual path code in
+the controllers or views, only when generating paths in tests.
+
+For example:
+
+    test "robot" do
+      login_as @user
+      visit robot_path(@robot, :locale => nil)
+    end

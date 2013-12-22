@@ -15,5 +15,5 @@
     = f.input :password_confirmation, :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
     .form-actions
       = f.button :submit, :value => t(:signup), :class => 'btn btn-primary'
-      = link_to t(:cancel), root_url, :class => 'btn'
+      = link_to t(:cancel), home_path, :class => 'btn'
 

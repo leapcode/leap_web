@@ -8,15 +8,17 @@ Rails.application.routes.draw do
     resources :users, :only => [:create, :update, :destroy, :index]
   end
 
-  get "login" => "sessions#new", :as => "login"
-  delete "logout" => "sessions#destroy", :as => "logout"
+  scope "(:locale)", :locale => MATCH_LOCALE do
+    get "login" => "sessions#new", :as => "login"
+    delete "logout" => "sessions#destroy", :as => "logout"
 
-  get "signup" => "users#new", :as => "signup"
-  resources :users, :except => [:create, :update] do
-    # resource :email_settings, :only => [:edit, :update]
-    # resources :email_aliases, :only => [:destroy], :id => /.*/
-    post 'deactivate', on: :member
-    post 'enable', on: :member
+    get "signup" => "users#new", :as => "signup"
+    resources :users, :except => [:create, :update] do
+      # resource :email_settings, :only => [:edit, :update]
+      # resources :email_aliases, :only => [:destroy], :id => /.*/
+      post 'deactivate', on: :member
+      post 'enable', on: :member
+    end
   end
 
   get "/.well-known/host-meta" => 'webfinger#host_meta'
