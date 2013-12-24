@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
     resources :users, :only => [:create, :update, :destroy, :index]
+    get "user_messages/:user_id" => "messages#user_messages"
+    put "mark_read/:user_id/:message_id" => "messages#mark_read"
   end
 
   scope "(:locale)", :locale => MATCH_LOCALE do
