@@ -6,14 +6,8 @@ module V1
 
     # for now, will not pass unseen, so unseen will always be true
     def user_messages(unseen = true)
-      user_messages = unseen ? UserMessage.by_user_id_and_seen(:key => [params[:user_id], false]).all : UserMessage.by_user_id(:key => params[:user_id]).all
-
-      messages = []
-      user_messages.each do |um|
-        messages << Message.find(um.message.id)
-      end
-
-      render json: messages
+      user = User.find(params[:user_id])
+      render json: (user ? user.messages : [] )
     end
 
 

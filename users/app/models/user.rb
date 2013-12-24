@@ -72,6 +72,18 @@ class User < CouchRest::Model::Base
     Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
+  def messages(unseen = true)
+
+    user_messages = unseen ? UserMessage.by_user_id_and_seen(:key => [self.id, false]).all : UserMessage.by_user_id(:key => self.id).all
+
+    messages = []
+    user_messages.each do |um|
+      messages << Message.find(um.message.id)
+    end
+    messages
+
+  end
+
   # DEPRECATED
   #
   # Please set the key on the identity directly
