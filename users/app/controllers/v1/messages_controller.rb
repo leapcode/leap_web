@@ -10,14 +10,13 @@ module V1
       render json: (user ? user.messages : [] )
     end
 
-
     # routes ensure this is only for PUT
     def mark_read
       user_message = UserMessage.find_by_user_id_and_message_id([params[:user_id], params[:message_id]])
-      user_message.seen = true
+      user_message.seen = true if user_message
 
       # TODO what to return?
-      if user_message.save
+      if user_message and user_message.save
         render json: true
       else
         render json: false
