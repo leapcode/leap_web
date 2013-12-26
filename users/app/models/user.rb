@@ -122,6 +122,26 @@ class User < CouchRest::Model::Base
     ServiceLevel.new({id: code})
   end
 
+  def one_month_warning_to_pay
+    # get all users who are not customers with active subscription and have existed for exactly a month (take account of months having difft amount of days. Maybe jsut those who signed up 30 days ago?)
+    #users_to_warn = User.find_by_created_at(Time.now-1.month).all #NO, this will require time to be right
+    #users_1_month_old = User.by_created_at.startkey(Time.now-1.month-1.day).endkey(Time.now-1.month).al
+    users_30_days_old = User.by_created_at.startkey(Time.now-31.days).endkey(Time.now-30.days).all
+    # TODO, now, limit users to those who do not have a braintree customer, or have a braintree customer without an active subscription. This might have to happen when we are looping through anyway.
+    #users_to_warn =
+
+    # TODO: only create message if any messages are going to be created.
+    # create a message for today's date
+    message = Message.new(:text => t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
+    message.save
+
+    # for each such user, create a user message for that user and the message
+    users_to_warn.each do |user_to_warn|
+      user_message = UserMessage.new(:message_id => message.id, :user_id => user_to_warn.id)
+      user_message.save
+    end
+  end
+
   protected
 
   ##

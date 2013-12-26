@@ -8,6 +8,7 @@ require "warden/session_serializer"
 require "warden/strategies/secure_remote_password"
 
 require "webfinger"
+require "whenever"
 
 module LeapWebUsers
   class Engine < ::Rails::Engine

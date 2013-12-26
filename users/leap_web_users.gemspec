@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "ruby-srp", "~> 0.2.1"
   s.add_dependency "rails_warden"
+  s.add_dependency "whenever"
 end
