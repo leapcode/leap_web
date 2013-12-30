@@ -168,6 +168,8 @@ GEM
     metaclass (0.0.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
+    minitest (4.7.5)
+    minitest-stub-const (0.1)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
@@ -288,6 +290,8 @@ DEPENDENCIES
   leap_web_core!
   leap_web_help!
   leap_web_users!
+  minitest
+  minitest-stub-const
   mocha (~> 0.13.0)
   phantomjs-binaries
   poltergeist

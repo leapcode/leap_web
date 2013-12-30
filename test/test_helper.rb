@@ -9,6 +9,11 @@ Dir["#{File.dirname(__FILE__)}/../*/test/support/**/*.rb"].each { |f| require f 
 
 class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
+
+  def file_path(name)
+    File.join(Rails.root, 'test', 'files', name)
+  end
+
 end
 
 require 'capybara/poltergeist'
