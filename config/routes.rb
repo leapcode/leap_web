@@ -6,4 +6,5 @@ LeapWeb::Application.routes.draw do
   root :to => "home#index"
   get '(:locale)' => 'home#index', :locale => MATCH_LOCALE, :as => 'home'
 
+  get '/provider.json' => 'static_config#provider'
 end
