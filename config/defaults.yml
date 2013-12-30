@@ -48,6 +48,8 @@ common: &common
   default_locale: :en
   available_locales:
     - :en
+  minimum_client_version: "0.5"
+
 service_levels: &service_levels
   service_levels:
     0:
