@@ -1,4 +1,5 @@
-class UserMessage < CouchRest::Model::Base
+# TODO WOULD NOT USE anymore, in proposed alternate, so delete file.
+class XXXXUserMessage < CouchRest::Model::Base
 
   use_database :user_messages
   belongs_to :user
