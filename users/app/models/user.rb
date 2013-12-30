@@ -13,6 +13,9 @@ class User < CouchRest::Model::Base
   property :desired_service_level_code, Integer, :accessible => true
   property :effective_service_level_code, Integer, :accessible => true
 
+  property :message_ids_to_see, [String]
+  property :message_ids_seen, [String]
+
   before_save :update_effective_service_level
 
   validates :login, :password_salt, :password_verifier,
@@ -74,11 +77,21 @@ class User < CouchRest::Model::Base
 
   def messages(unseen = true)
 
+=begin
     user_messages = unseen ? UserMessage.by_user_id_and_seen(:key => [self.id, false]).all : UserMessage.by_user_id(:key => self.id).all
 
     messages = []
     user_messages.each do |um|
       messages << Message.find(um.message.id)
+    end
+    messages
+=end
+
+    message_ids = unseen ? self.message_ids_to_see : self.message_ids_to_see + self.message_ids_seen # TODO check unique?
+
+    messages = []
+    message_ids.each do |message_id|
+      messages << Message.find(message_id)
     end
     messages
 
