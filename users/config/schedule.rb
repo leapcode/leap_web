@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, :at => '1am' do
-  runner "User.one_month_warning_to_pay"
+  runner "User.send_one_month_warnings
 end

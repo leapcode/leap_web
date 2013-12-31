@@ -15,6 +15,7 @@ class User < CouchRest::Model::Base
 
   property :message_ids_to_see, [String]
   property :message_ids_seen, [String]
+  property :one_month_warning_sent, TrueClass
 
   before_save :update_effective_service_level
 
@@ -135,7 +136,10 @@ class User < CouchRest::Model::Base
     ServiceLevel.new({id: code})
   end
 
-  def one_month_warning_to_pay
+
+  def self.send_one_month_warnings # class not instance method
+
+=begin
     # get all users who are not customers with active subscription and have existed for exactly a month (take account of months having difft amount of days. Maybe just those who signed up 30 days ago?)
     #users_to_warn = User.find_by_created_at(Time.now-1.month).all #NO, this will require time to be right
     #users_1_month_old = User.by_created_at.startkey(Time.now-1.month-1.day).endkey(Time.now-1.month).al
@@ -161,6 +165,23 @@ class User < CouchRest::Model::Base
         user_message.save
       end
     end
+=end
+
+    #to determine warnings to send, need to get all users where one_month_warning_sent is not set, and where it was created greater than or equal to 1 month ago. this will likely be custom js view/design
+    users_to_warn = User.by_created_at_and_one_month_warning_not_sent.endkey(Time.now-1.month)
+    users_to_warn.each do |user|
+      if !@message
+        # create a message for today's date
+        # only want to create once, and only if it will be used.
+        @message = Message.new(:text => t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
+        @message.save
+      end
+
+      user.message_ids_to_see << @message.id
+      user.one_month_warning_sent = true
+      user.save #??
+    end
+
   end
 
   protected
