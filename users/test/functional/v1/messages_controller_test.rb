@@ -10,14 +10,9 @@ class V1::MessagesControllerTest < ActionController::TestCase
     @user = FactoryGirl.build(:user)
     @user.message_ids_to_see << @message.id
     @user.save
-
-    # @user_message = UserMessage.new(:message_id => @message.id, :user_id => @user.id)
-    # @user_message.save
-
   end
 
   teardown do
-    # @user_message.destroy
     @user.destroy
     @message.destroy
   end
@@ -29,13 +24,10 @@ class V1::MessagesControllerTest < ActionController::TestCase
   end
 
   test "mark message read for user" do
-    #assert !@user_message.seen
     assert @user.message_ids_to_see.include?(@message.id)
     assert !@user.message_ids_seen.include?(@message.id)
 
     put :mark_read, :user_id => @user.id, :message_id => @message.id
-    #@user_message.reload
-    #assert @user_message.seen
     @user.reload
     assert !@user.message_ids_to_see.include?(@message.id)
     assert @user.message_ids_seen.include?(@message.id)
@@ -43,8 +35,6 @@ class V1::MessagesControllerTest < ActionController::TestCase
   end
 
   test "do not get seen messages" do
-    # @user_message.seen = true
-    # @user_message.save
     put :mark_read, :user_id => @user.id, :message_id => @message.id
     @user.reload
     get :user_messages, :user_id => @user.id

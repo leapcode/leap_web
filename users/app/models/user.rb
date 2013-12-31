@@ -78,16 +78,6 @@ class User < CouchRest::Model::Base
 
   def messages(unseen = true)
 
-=begin
-    user_messages = unseen ? UserMessage.by_user_id_and_seen(:key => [self.id, false]).all : UserMessage.by_user_id(:key => self.id).all
-
-    messages = []
-    user_messages.each do |um|
-      messages << Message.find(um.message.id)
-    end
-    messages
-=end
-
     message_ids = unseen ? self.message_ids_to_see : self.message_ids_to_see + self.message_ids_seen # TODO check unique?
 
     messages = []
@@ -137,49 +127,22 @@ class User < CouchRest::Model::Base
   end
 
 
-  def self.send_one_month_warnings # class not instance method
+  def self.send_one_month_warnings
 
-=begin
-    # get all users who are not customers with active subscription and have existed for exactly a month (take account of months having difft amount of days. Maybe just those who signed up 30 days ago?)
-    #users_to_warn = User.find_by_created_at(Time.now-1.month).all #NO, this will require time to be right
-    #users_1_month_old = User.by_created_at.startkey(Time.now-1.month-1.day).endkey(Time.now-1.month).al
-    users_30_days_old = User.by_created_at.startkey(Time.now-31.days).endkey(Time.now-30.days).all
-    # TODO, above really is quite problematic, in that if the cron job fails to run on 1 day, say, the warning will not get created.
-
-    users_30_days_old.each do |user|
-
-      # create a user message for each user that does not has a braintree customer, or
-      # has a braintree customer w/out an active subscription.
-      unless ((customer = Customer.find_by_user(user.id)) && customer.subscriptions)
-
-        if !@message
-          # create a message for today's date
-          # only want to create once, and only if it will be used.
-          @message = Message.new(:text => t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
-          @message.save
-        end
-
-        user_message = UserMessage.new(:message_id => @message.id, :user_id => user.id)
-        # is following preferred??
-        # user_message = UserMessage.new(:message => @message, :user => user)
-        user_message.save
-      end
-    end
-=end
-
-    #to determine warnings to send, need to get all users where one_month_warning_sent is not set, and where it was created greater than or equal to 1 month ago. this will likely be custom js view/design
+    # To determine warnings to send, need to get all users where one_month_warning_sent is not set, and where it was created greater than or equal to 1 month ago.
+    # TODO: might want to further limit to enabled accounts, and, based on provider's service level configuration, for particular service levels.
     users_to_warn = User.by_created_at_and_one_month_warning_not_sent.endkey(Time.now-1.month)
     users_to_warn.each do |user|
       if !@message
         # create a message for today's date
         # only want to create once, and only if it will be used.
-        @message = Message.new(:text => t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
+        @message = Message.new(:text => I18n.t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
         @message.save
       end
 
       user.message_ids_to_see << @message.id
       user.one_month_warning_sent = true
-      user.save #??
+      user.save
     end
 
   end
