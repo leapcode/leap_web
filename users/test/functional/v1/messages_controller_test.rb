@@ -2,14 +2,13 @@ require 'test_helper'
 
 class V1::MessagesControllerTest < ActionController::TestCase
 
-  #TODO ensure authentication for all tests here
-
   setup do
     @message = Message.new(:text => 'a test message')
     @message.save
     @user = FactoryGirl.build(:user)
     @user.message_ids_to_see << @message.id
     @user.save
+    login :is_admin? => true
   end
 
   teardown do
@@ -51,5 +50,11 @@ class V1::MessagesControllerTest < ActionController::TestCase
     put :mark_read, :user_id => 'nonsense', :message_id => 'more nonsense'
     assert_json_response false
  end
+
+  test "fails if not admin" do
+    login :is_admin? => false
+    get :user_messages, :user_id => @user.id
+    assert_access_denied
+  end
 
 end

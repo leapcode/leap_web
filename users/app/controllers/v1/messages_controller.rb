@@ -1,7 +1,7 @@
 module V1
   class MessagesController < ApplicationController
 
-    # TODO need to add authentication
+    before_filter :authorize_admin # not sure this is best way
     respond_to :json
 
     # for now, will not pass unseen, so unseen will always be true
