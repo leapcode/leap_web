@@ -24,7 +24,9 @@ class Identity < CouchRest::Model::Base
         if (doc.type != 'Identity') {
           return;
         }
-        emit(doc.address, doc.keys["pgp"]);
+        if (typeof doc.keys === "object") {
+          emit(doc.address, doc.keys["pgp"]);
+        }
       }
     EOJS
     view :disabled,
