@@ -13,8 +13,6 @@ class User < CouchRest::Model::Base
   property :desired_service_level_code, Integer, :accessible => true
   property :effective_service_level_code, Integer, :accessible => true
 
-  property :message_ids_to_see, [String]
-  property :message_ids_seen, [String]
   property :one_month_warning_sent, TrueClass
 
   before_save :update_effective_service_level
@@ -77,12 +75,11 @@ class User < CouchRest::Model::Base
   end
 
   def messages(unseen = true)
-
-    message_ids = unseen ? self.message_ids_to_see : self.message_ids_to_see + self.message_ids_seen # TODO check unique?
-
+    #TODO for now this only shows unseen messages. Will we ever want seen ones? Is it necessary to store?
+    #Message.by_user_ids_to_show.key(self.id).all # we don't want to emit all the userids associated with a message, so looping through to only emit text and id.
     messages = []
-    message_ids.each do |message_id|
-      messages << Message.find(message_id)
+    Message.by_user_ids_to_show.key(self.id).each do |message|
+      messages << [message.id, message.text]
     end
     messages
 
@@ -140,7 +137,8 @@ class User < CouchRest::Model::Base
         @message.save
       end
 
-      user.message_ids_to_see << @message.id
+      @message.user_ids_to_show << user.id
+      @message.save
       user.one_month_warning_sent = true
       user.save
     end

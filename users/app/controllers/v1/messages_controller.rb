@@ -1,30 +1,27 @@
 module V1
   class MessagesController < ApplicationController
 
-    before_filter :authorize_admin # not sure this is best way
+    skip_before_filter :verify_authenticity_token
+    before_filter :authorize
+
     respond_to :json
 
-    # for now, will not pass unseen, so unseen will always be true
-    def user_messages(unseen = true)
-      user = User.find(params[:user_id])
-      render json: (user ? user.messages : [] )
+    def index
+      render json: (current_user ? current_user.messages : [] )
     end
 
-    # routes ensure this is only for PUT
-    def mark_read
-
-      # make sure user and message exist
-      if (user = User.find(params[:user_id])) && Message.find(params[:message_id])
-
-        user.message_ids_seen << params[:message_id] if !user.message_ids_seen.include?(params[:message_id]) #TODO: is it quicker to instead call uniq! after adding?
-        user.message_ids_to_see.delete(params[:message_id])
-        user.save
+    def update
+      message = Message.find(params[:id])
+      if (message and current_user)
+        message.user_ids_to_show.delete(current_user.id)
+        # is it necessary to keep track of what users have already seen it?:
+        message.user_ids_have_shown << current_user.id if !message.user_ids_have_shown.include?(current_user.id) #TODO: is it quicker to instead call uniq! after adding?
+        message.save
         render json: true
-        return
       else
         render json: false
       end
-
     end
+
   end
 end
