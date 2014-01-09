@@ -76,12 +76,9 @@ class User < CouchRest::Model::Base
 
   def messages(unseen = true)
     #TODO for now this only shows unseen messages. Will we ever want seen ones? Is it necessary to store?
-    #Message.by_user_ids_to_show.key(self.id).all # we don't want to emit all the userids associated with a message, so looping through to only emit text and id.
-    messages = []
-    Message.by_user_ids_to_show.key(self.id).each do |message|
-      messages << [message.id, message.text]
-    end
-    messages
+
+    # we don't want to emit all the userids associated with a message, so only emit id and text.
+    Message.by_user_ids_to_show.key(self.id).map { |message| [message.id, message.text] }
 
   end
 

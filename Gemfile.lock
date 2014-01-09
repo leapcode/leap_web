@@ -42,7 +42,6 @@ PATH
       leap_web_core (= 0.5.0.rc)
       rails_warden
       ruby-srp (~> 0.2.1)
-      whenever
 
 GEM
   remote: https://rubygems.org/
@@ -89,7 +88,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    chronic (0.9.1)
     client_side_validations (3.2.6)
     client_side_validations-simple_form (2.1.0)
       client_side_validations (~> 3.2.5)
@@ -257,9 +255,6 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     websocket-driver (0.3.1)
-    whenever (0.8.2)
-      activesupport (>= 2.3.4)
-      chronic (>= 0.6.3)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 

@@ -6,6 +6,8 @@ class Message < CouchRest::Model::Base
   property :user_ids_to_show, [String]
   property :user_ids_have_shown, [String] # is this necessary to store?
 
+  timestamps!
+
   design do
     own_path = Pathname.new(File.dirname(__FILE__))
     load_views(own_path.join('..', 'designs', 'message'))

@@ -14,8 +14,9 @@ module V1
       message = Message.find(params[:id])
       if (message and current_user)
         message.user_ids_to_show.delete(current_user.id)
-        # is it necessary to keep track of what users have already seen it?:
-        message.user_ids_have_shown << current_user.id if !message.user_ids_have_shown.include?(current_user.id) #TODO: is it quicker to instead call uniq! after adding?
+        # is it necessary to keep track of what users have already seen it?
+        message.user_ids_have_shown << current_user.id if !message.user_ids_have_shown.include?(current_user.id)
+        # TODO: is it quicker to call uniq! after adding rather than check if it is already included?
         message.save
         render json: true
       else
