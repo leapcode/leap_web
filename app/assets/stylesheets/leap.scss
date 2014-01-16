@@ -110,9 +110,9 @@ html.oldmac, html.oldwin, html.ios, html.fxos, html.other {
 
 [class^="big-icon-"],
 [class*=" big-icon-"] {
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
 }
 
 [class^="huge-icon-"],
@@ -122,14 +122,14 @@ html.oldmac, html.oldwin, html.ios, html.fxos, html.other {
   line-height: 128px;
 }
 
-
-.big-icon-arrow-down {
-  background-image: url(/leap-img/32/arrow-down.png)
+.big-icon-download {
+  height: 42px;
+  background: url(/leap-img/64/download.png) 50% 50%;
 }
 
 .huge-icon-mask {
   height: 64px;
-  background-image: url(/leap-img/128/mask.png)
+  background-image: url(/leap-img/128/mask.png);
 }
 
 //

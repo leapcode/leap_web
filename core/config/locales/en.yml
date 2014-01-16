@@ -33,8 +33,9 @@ en:
   os:
     linux32: "Linux (32 bit)"
     linux64: "Linux (64 bit)"
+    linux: "GNU/Linux"
     windows: "Windows"
     android: "Android"
     osx: "Mac OS"
-    other: "(not available for your OS.)"
+    other: "(not available for your OS)"
 

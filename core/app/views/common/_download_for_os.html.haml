@@ -3,10 +3,11 @@
   %span.link
     - btn_class = (os == "other") ? "disabled" : "btn-primary"
     = link_to client_download_url(os), :class => "btn btn-large #{btn_class}" do
-      .pull-left= huge_icon('mask')
-      = t(:download_client)
-      %br/
-      %small= I18n.t("os.#{os}")
+      = big_icon('download')
+      .pull-right
+        = t(:download_client)
+        %br/
+        %small= I18n.t("os.#{os}")
   %span.info
     %div= t(:client_info, :provider => content_tag(:b,APP_CONFIG[:domain])).html_safe
     %div
