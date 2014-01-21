@@ -14,6 +14,8 @@ gem 'rails-i18n'  # locale files for built-in validation messages and times
                   # for a list of keys:
                   # https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/en.yml
 
+gem 'rdiscount'   # for rendering .md templates
+
 group :assets do
   gem "haml-rails", "~> 0.3.4"
   gem "sass-rails", "~> 3.2.5"
@@ -24,4 +26,3 @@ group :assets do
   gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
 
 end
-

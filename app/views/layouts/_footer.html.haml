@@ -1,0 +1,11 @@
+.container
+  .row
+    = link_to t(:home), home_path
+    = link_to t(:privacy_policy), privacy_policy_path
+    = link_to t(:terms_of_service), terms_of_service_path
+    - if lookup_context.exists?('pages/about')
+      = link_to t(:about), about_path
+    - if lookup_context.exists?('pages/contact')
+      = link_to t(:contact), contact_path
+    - if APP_CONFIG[:service_levels]
+      = link_to t(:pricing), pricing_path
