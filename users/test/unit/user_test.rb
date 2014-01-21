@@ -7,6 +7,11 @@ class UserTest < ActiveSupport::TestCase
     @user = FactoryGirl.build(:user)
   end
 
+  test "design docs in database are authorative" do
+    assert !User.design_doc.auto_update,
+      "Automatic update of design docs should be disabled"
+  end
+
   test "test set of attributes should be valid" do
     @user.valid?
     assert_equal Hash.new, @user.errors.messages
