@@ -126,19 +126,23 @@ class User < CouchRest::Model::Base
     # To determine warnings to send, need to get all users where one_month_warning_sent is not set, and where it was created greater than or equal to 1 month ago.
     # TODO: might want to further limit to enabled accounts, and, based on provider's service level configuration, for particular service levels.
     users_to_warn = User.by_created_at_and_one_month_warning_not_sent.endkey(Time.now-1.month)
+
     users_to_warn.each do |user|
+      # instead of loop could use something like:
+      # message.user_ids_to_show = users_to_warn.map(&:id)
+      # but would still need to loop through users to store one_month_warning_sent
+
       if !@message
         # create a message for today's date
         # only want to create once, and only if it will be used.
         @message = Message.new(:text => I18n.t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
-        @message.save
       end
 
       @message.user_ids_to_show << user.id
-      @message.save
       user.one_month_warning_sent = true
       user.save
     end
+    @message.save if @message
 
   end
 
