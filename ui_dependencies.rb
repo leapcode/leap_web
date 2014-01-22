@@ -1,5 +1,5 @@
 gem "haml", "~> 3.1.7"
-gem "bootstrap-sass", "~> 2.1.0"
+gem "bootstrap-sass", "= 2.3.2.2"
 gem "jquery-rails"
 gem "simple_form"
 gem 'client_side_validations'

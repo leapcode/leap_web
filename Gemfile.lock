@@ -76,7 +76,8 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.3)
-    bootstrap-sass (2.1.1.0)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     bootswatch-rails (0.5.0)
       railties (>= 3.1)
     braintree (2.27.1)
@@ -263,7 +264,7 @@ PLATFORMS
 
 DEPENDENCIES
   SyslogLogger (~> 2.0)
-  bootstrap-sass (~> 2.1.0)
+  bootstrap-sass (= 2.3.2.2)
   bootswatch-rails (~> 0.5.0)
   capybara
   certificate_authority!
