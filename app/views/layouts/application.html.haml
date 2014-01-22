@@ -10,15 +10,18 @@
         = csrf_meta_tags
         = yield(:head)
   %body
-    #masthead
-      = render 'layouts/masthead'
-    #main
-      .container-fluid
-        - if logged_in?
+    #wrap
+      #masthead
+        = render 'layouts/masthead'
+      #main
+        .container-fluid
+          - if logged_in?
+            .row-fluid
+              .span12
+                = render 'layouts/header'
           .row-fluid
-            .span12
-              = render 'layouts/header'
-        .row-fluid
-          = render 'layouts/content'
+            = render 'layouts/content'
+      #push
+        -# #push is used for sticky footer in bootstrap 2. remove when upgrading to bootstrap 3
     #footer
       = render 'layouts/footer'

@@ -1,4 +1,5 @@
 .title
   %span.sitename
-    = APP_CONFIG[:domain]
-  = t(:user_control_panel)
+    %a{:href => home_path}= APP_CONFIG[:domain]
+  - if @show_navigation
+    = t(:user_control_panel)
