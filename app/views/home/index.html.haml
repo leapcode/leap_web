@@ -1,21 +1,9 @@
-!!!
-%html
-  %head
-    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
-      %title= html_title
-      %meta{:content => content_for?(:description) ? yield(:description) : "Leap Web", :name => "description"}
-        = stylesheet_link_tag "application", :media => "all"
-        = javascript_include_tag "application"
-        = csrf_meta_tags
-        = yield(:head)
-  %body
-    #wrap
-      #masthead
-        = render 'home/masthead'
-      #main
-        .container-fluid
-          = render 'home/content'
-      #push
-        -# #push is used for sticky footer in bootstrap 2. remove when upgrading to bootstrap 3
-    #footer
-      = render 'layouts/footer'
+#wrap
+  = render 'home/masthead'
+  #main
+    .container-fluid
+      = render 'home/content'
+  #push
+    -# #push is used for sticky footer in bootstrap 2. remove when upgrading to bootstrap 3
+#footer
+  = render 'layouts/footer'
