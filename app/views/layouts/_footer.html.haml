@@ -1,0 +1,10 @@
+.full-height
+  = link_to icon('home') + t(:home), home_path
+  = link_to icon('eye-close') + t(:privacy_policy), privacy_policy_path
+  = link_to icon('file') + t(:terms_of_service), terms_of_service_path
+  - if lookup_context.exists?('pages/about')
+    = link_to icon('info-sign') + t(:about), about_path
+  - if lookup_context.exists?('pages/contact')
+    = link_to icon('comment') + t(:contact), contact_path
+  - if APP_CONFIG[:service_levels]
+    = link_to icon('shopping-cart') + t(:pricing), pricing_path

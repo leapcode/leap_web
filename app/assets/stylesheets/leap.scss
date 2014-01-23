@@ -4,7 +4,8 @@
 
 // This is a trick to be able to use bootstrap fluid layout and also have a max-width.
 // It is like having your cake and eating it too.
-#main {
+// not needed in bootstrap 3
+#main, #masthead-text {
   *zoom: 1;
   margin-left: auto;
   margin-right: auto;
@@ -212,6 +213,9 @@ input, textarea {
   .sitename {
     font-weight: bold;
   }
+  a {
+    color: $textColor;
+  }
 }
 
 .home-buttons {
@@ -264,4 +268,56 @@ input, textarea {
 
 .overview li {
   padding: 6px 0;
+}
+
+//
+// STICKY FOOTER for BOOSTRAP 2
+// http://getbootstrap.com/2.3.2/examples/sticky-footer.html
+// when upgrading to bootstrap 3, use this instead:
+// http://getbootstrap.com/examples/sticky-footer/
+//
+
+$footer-height: 60px;
+$footer-border-width: 1px;
+$footer-gutter: 20px; // vertical gap above footer
+$footer-combined: $footer-height + $footer-border-width + $footer-gutter;
+$footer-color: $grayLighter !default;
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -1 * ($footer-height + $footer-border-width + $footer-gutter);
+}
+
+#push {
+  height: $footer-height + $footer-gutter - $footer-border-width;
+}
+
+#footer {
+  padding-top: $footer-gutter;
+  height: $footer-height - $footer-border-width;
+  .full-height {
+    text-align: center;
+    line-height: $footer-height - $footer-border-width;
+    border-top: $footer-border-width solid darken($footer-color, 10%);
+    background-color: $footer-color;
+    a {
+      color: $black;
+      margin: 0 5px;
+    }
+  }
+}
+
+ @media (max-width: 767px) {
+  #footer a {
+    font-size: 80%;
+    margin: 0 2px;
+  }
 }

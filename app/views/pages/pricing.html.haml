@@ -1,0 +1,21 @@
+%h1= t(:pricing)
+%p= link_to(icon('user') + t(:signup), signup_path, :class => 'btn')
+
+- levels = APP_CONFIG[:service_levels]
+- if levels
+  %table.table.table-striped.table-bordered
+    %tr
+      %th= t :plan
+      %th= t :description
+      %th= t :monthly_cost
+    - levels.each do |id, level|
+      %tr
+        %td= level[:name]
+        %td= level[:description]
+        %td
+          - if level[:cost].nil? || level[:cost] == 0
+            = t(:free)
+          - else
+            = level[:cost].map{|currency,cost| "#{cost} #{currency}"}.join(', ')
+- else
+  No service levels are configured.
