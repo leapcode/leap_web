@@ -12,6 +12,7 @@ LeapWeb::Application.routes.draw do
     get 'about', :as => 'about'
     get 'contact', :as => 'contact'
     get 'pricing', :as => 'pricing'
+    get 'bye', :as => 'bye'
   end
 
   get '/provider.json' => 'static_config#provider'
