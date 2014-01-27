@@ -46,11 +46,12 @@
        return 'android';
      }
      if (pf.indexOf("Linux") !== -1) {
-       if (pf.indexOf("64") !== -1) {
-         return 'linux64';
-       } else {
-         return 'linux32';
-       }
+       return 'linux';
+       //if (pf.indexOf("64") !== -1) {
+       //  return 'linux64';
+       //} else {
+       //  return 'linux32';
+       //}
      }
      if (pf.indexOf("MacPPC") !== -1) {
        return 'oldmac';

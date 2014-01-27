@@ -55,21 +55,26 @@ html.android .os-android {
   display: inherit !important;
 }
 
-.os-linux32 {
+.os-linux {
   display: none !important;
 }
 
-html.linux32 .os-linux32 {
+html.linux .os-linux {
   display: inherit !important;
 }
 
-.os-linux64 {
-  display: none !important;
-}
-
-html.linux64 .os-linux64 {
-  display: inherit !important;
-}
+// .os-linux32 {
+//   display: none !important;
+// }
+// html.linux32 .os-linux32 {
+//   display: inherit !important;
+// }
+// .os-linux64 {
+//   display: none !important;
+// }
+// html.linux64 .os-linux64 {
+//   display: inherit !important;
+// }
 
 .os-windows {
   display: none !important;
