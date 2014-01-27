@@ -24,7 +24,6 @@ group :test do
   gem 'capybara', require: false
   gem 'launchy' # so save_and_open_page works in integration tests
   gem 'phantomjs-binaries'
-  gem 'minitest'
   gem 'minitest-stub-const'
 end
 

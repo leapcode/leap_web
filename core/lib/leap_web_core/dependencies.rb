@@ -9,7 +9,6 @@ module LeapWebCore
 
     UI = {
       "haml" =>  "~> 3.1.7",
-      "bootstrap-sass" => "~> 2.0.4",
       "jquery-rails" => nil,
       "simple_form" => nil,
       "bootswatch-rails", "~> 0.5.0"

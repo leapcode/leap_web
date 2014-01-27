@@ -76,7 +76,8 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.3)
-    bootstrap-sass (2.1.1.0)
+    bootstrap-sass (2.3.2.2)
+      sass (~> 3.2)
     bootswatch-rails (0.5.0)
       railties (>= 3.1)
     braintree (2.27.1)
@@ -166,7 +167,6 @@ GEM
     metaclass (0.0.1)
     mime-types (1.25.1)
     mini_portile (0.5.2)
-    minitest (4.7.5)
     minitest-stub-const (0.1)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
@@ -213,6 +213,7 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (10.1.1)
+    rdiscount (2.0.7)
     rdoc (3.12.2)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -263,7 +264,7 @@ PLATFORMS
 
 DEPENDENCIES
   SyslogLogger (~> 2.0)
-  bootstrap-sass (~> 2.1.0)
+  bootstrap-sass (= 2.3.2.2)
   bootswatch-rails (~> 0.5.0)
   capybara
   certificate_authority!
@@ -285,13 +286,13 @@ DEPENDENCIES
   leap_web_core!
   leap_web_help!
   leap_web_users!
-  minitest
   minitest-stub-const
   mocha (~> 0.13.0)
   phantomjs-binaries
   poltergeist
   quiet_assets
   rails-i18n
+  rdiscount
   sass-rails (~> 3.2.5)
   simple_form
   therubyracer (~> 0.10.2)
