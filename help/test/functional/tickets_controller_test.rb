@@ -158,19 +158,23 @@ class TicketsControllerTest < ActionController::TestCase
   end
 
   test "tickets by admin" do
-    other_user = find_record :user
-    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
+    begin
+      other_user = find_record :user
+      ticket = FactoryGirl.create :ticket, :created_by => other_user.id
 
-    login :is_admin? => true
+      login :is_admin? => true
 
-    get :index, {:admin_status => "all", :open_status => "open"}
-    assert assigns(:all_tickets).count > 1
-
-    # if we close one ticket, the admin should have 1 less open ticket
-    assert_difference('assigns[:all_tickets].count', -1) do
-      assigns(:tickets).first.close
-      assigns(:tickets).first.save
       get :index, {:admin_status => "all", :open_status => "open"}
+      assert assigns(:all_tickets).count > 0
+
+      # if we close one ticket, the admin should have 1 less open ticket
+      assert_difference('assigns[:all_tickets].count', -1) do
+        assigns(:tickets).first.close
+        assigns(:tickets).first.save
+        get :index, {:admin_status => "all", :open_status => "open"}
+      end
+    ensure
+      ticket.reload.destroy if ticket
     end
   end
 
