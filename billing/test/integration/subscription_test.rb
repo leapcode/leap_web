@@ -2,9 +2,8 @@ require 'test_helper'
 require 'fake_braintree'
 require 'capybara/rails'
 
-class SubscriptionTest < ActionDispatch::IntegrationTest
+class SubscriptionTest < BrowserIntegrationTest
   include Warden::Test::Helpers
-  include Capybara::DSL
   include CustomerTestHelper
   include StubRecordHelper
 
@@ -17,7 +16,6 @@ class SubscriptionTest < ActionDispatch::IntegrationTest
       payment_method_token: @braintree_customer.credit_cards.first.token,
       price: '10'
     @subscription = response.subscription
-    Capybara.current_driver = Capybara.javascript_driver
   end
 
   teardown do
@@ -30,9 +28,9 @@ class SubscriptionTest < ActionDispatch::IntegrationTest
     @customer.stubs(:subscriptions).returns([@subscription])
     @subscription.stubs(:balance).returns 0
     visit user_subscriptions_path(@customer.user_id, :locale => nil)
+    page.save_screenshot('/tmp/subscriptions.png')
     assert page.has_content?("Subscriptions")
     assert page.has_content?("Status: Active")
-    page.save_screenshot('/tmp/subscriptions.png')
   end
 
   # test "user cannot see all subscriptions for other user" do

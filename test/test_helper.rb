@@ -43,6 +43,11 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
   include IntegrationTestHelper
 
+  setup do
+    Capybara.current_driver = Capybara.javascript_driver
+    page.driver.add_headers 'ACCEPT-LANGUAGE' => 'en-EN'
+  end
+
   teardown do
     Capybara.reset_sessions!    # Forget the (simulated) browser state
     Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
