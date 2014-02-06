@@ -6,6 +6,7 @@
 
 # Ignore bundler config
 /.bundle
+bin
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -17,18 +18,21 @@
 /pkg
 /*/pkg
 /log
+.*.swp
 */Gemfile.lock
 test/dummy/log/*
 test/dummy/tmp/*
+
+# ignore all deploy specific configuration
 config/couchdb.yml
 public/assets/*
 public/ca.crt
 public/config/*
 public/provider.json
 config/config.yml
-bin
-.*.swp
 public/1/*
 vendor/bundle/*
 public/img
 config/couchdb.yml.*
+config/provider
+config/customization
