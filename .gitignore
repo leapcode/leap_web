@@ -34,5 +34,7 @@ public/1/*
 vendor/bundle/*
 public/img
 config/couchdb.yml.*
-config/provider
-config/customization
+config/provider/*
+config/customization/*
+!config/provider/.gitkeep
+!config/customization/.gitkeep
