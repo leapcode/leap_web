@@ -43,8 +43,48 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
   include IntegrationTestHelper
 
+  setup do
+    Capybara.current_driver = Capybara.javascript_driver
+    page.driver.add_headers 'ACCEPT-LANGUAGE' => 'en-EN'
+  end
+
   teardown do
     Capybara.reset_sessions!    # Forget the (simulated) browser state
     Capybara.use_default_driver # Revert Capybara.current_driver to Capybara.default_driver
+  end
+
+  add_teardown_hook do |testcase|
+    unless testcase.passed?
+      testcase.save_state
+    end
+  end
+
+  def save_state
+    page.save_screenshot screenshot_path
+    File.open(logfile_path, 'w') do |test_log|
+      test_log.puts self.class.name
+      test_log.puts "========================="
+      test_log.puts __name__
+      test_log.puts Time.now
+      test_log.puts current_path
+      test_log.puts page.status_code
+      test_log.puts page.response_headers
+      test_log.puts "page.html"
+      test_log.puts "------------------------"
+      test_log.puts page.html
+      test_log.puts "server log"
+      test_log.puts "------------------------"
+      test_log.puts `tail log/test.log -n 200`
+    end
+  end
+
+  protected
+
+  def logfile_path
+    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{__name__}.log"
+  end
+
+  def screenshot_path
+    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{__name__}.png"
   end
 end

@@ -3,7 +3,6 @@ require 'test_helper'
 class SessionTest < BrowserIntegrationTest
 
   setup do
-    Capybara.current_driver = Capybara.javascript_driver
     @username, password = submit_signup
   end
 
