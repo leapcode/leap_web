@@ -28,7 +28,6 @@ class SubscriptionTest < BrowserIntegrationTest
     @customer.stubs(:subscriptions).returns([@subscription])
     @subscription.stubs(:balance).returns 0
     visit user_subscriptions_path(@customer.user_id, :locale => nil)
-    page.save_screenshot('/tmp/subscriptions.png')
     assert page.has_content?("Subscriptions")
     assert page.has_content?("Status: Active")
   end
