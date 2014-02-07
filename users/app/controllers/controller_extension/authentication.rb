@@ -15,7 +15,7 @@ module ControllerExtension::Authentication
     !!current_user
   end
 
-  def authorize
+  def require_login
     access_denied unless logged_in?
   end
 
@@ -38,7 +38,7 @@ module ControllerExtension::Authentication
     current_user && current_user.is_admin?
   end
 
-  def authorize_admin
+  def require_admin
     access_denied unless admin?
   end
 

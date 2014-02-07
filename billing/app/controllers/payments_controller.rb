@@ -1,5 +1,5 @@
 class PaymentsController < BillingBaseController
-  before_filter :authorize, :only => [:index]
+  before_filter :require_login, :only => [:index]
 
   def new
     fetch_transparent_redirect

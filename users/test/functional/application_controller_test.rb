@@ -7,21 +7,21 @@ class ApplicationControllerTest < ActionController::TestCase
     @controller.response = @response
   end
 
-  def test_authorize_redirect
-    @controller.send(:authorize)
+  def test_require_login_redirect
+    @controller.send(:require_login)
     assert_access_denied(true, false)
   end
 
-  def test_authorized
+  def test_require_login
     login
-    @controller.send(:authorize)
+    @controller.send(:require_login)
     assert_access_denied(false)
   end
 
-  def test_authorize_admin
+  def test_require_admin
     login
     @current_user.expects(:is_admin?).returns(false)
-    @controller.send(:authorize_admin)
+    @controller.send(:require_admin)
     assert_access_denied
   end
 

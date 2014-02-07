@@ -36,7 +36,7 @@ class V1::SessionsControllerTest < ActionController::TestCase
     post :create, :login => @user.login, 'A' => @client_hex
   end
 
-  test "should authorize" do
+  test "should authenticate" do
     request.env['warden'].expects(:authenticate!)
     @controller.stubs(:current_user).returns(@user)
     handshake = stub(:to_hash => {h: "ash"})

@@ -11,6 +11,10 @@ module ControllerExtension::TokenAuthentication
     token.authenticate if token
   end
 
+  def require_token
+    access_denied unless token
+  end
+
   def logout
     super
     clear_token

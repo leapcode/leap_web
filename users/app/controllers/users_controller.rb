@@ -4,9 +4,9 @@
 
 class UsersController < UsersBaseController
 
-  before_filter :authorize, :only => [:show, :edit, :update, :destroy]
+  before_filter :require_login, :except => [:new]
+  before_filter :require_admin, :only => [:index, :deactivate, :enable]
   before_filter :fetch_user, :only => [:show, :edit, :update, :destroy, :deactivate, :enable]
-  before_filter :authorize_admin, :only => [:index, :deactivate, :enable]
 
   respond_to :html
 

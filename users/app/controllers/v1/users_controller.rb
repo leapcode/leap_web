@@ -3,8 +3,8 @@ module V1
 
     skip_before_filter :verify_authenticity_token
     before_filter :fetch_user, :only => [:update]
-    before_filter :authorize, :only => [:update]
-    before_filter :authorize_admin, :only => [:index]
+    before_filter :require_login, :only => [:update, :index]
+    before_filter :require_admin, :only => [:index]
 
     respond_to :json
 

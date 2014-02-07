@@ -4,7 +4,7 @@ class TicketsController < ApplicationController
   respond_to :html, :json
   #has_scope :open, :type => boolean
 
-  before_filter :authorize, :only => [:index]
+  before_filter :require_login, :only => [:index]
   before_filter :fetch_ticket, :only => [:show, :update, :destroy] # don't now have an edit method
   before_filter :fetch_user
   before_filter :set_title
