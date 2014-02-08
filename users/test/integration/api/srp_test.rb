@@ -62,9 +62,10 @@ class SrpTest < RackTest
     ActionController::HttpAuthentication::Token.encode_credentials(server_auth["token"])
   end
 
-  def logout
+  def logout(params=nil, headers=nil)
     delete "http://api.lvh.me:3000/1/logout.json",
-      format: :json
+      params || {format: :json},
+      headers || auth_headers
   end
 
   def cleanup_user(login = nil)
