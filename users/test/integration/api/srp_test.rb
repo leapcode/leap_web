@@ -52,6 +52,11 @@ class SrpTest < RackTest
     @server_auth = srp(params).authenticate(self)
   end
 
+  def logout
+    delete "http://api.lvh.me:3000/1/logout.json",
+      format: :json
+  end
+
   def cleanup_user(login = nil)
     login ||= @user.login
     Identity.by_address.key(login + '@' + APP_CONFIG[:domain]).each do |identity|
