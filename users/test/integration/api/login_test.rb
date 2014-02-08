@@ -14,6 +14,7 @@ class LoginTest < SrpTest
 
   test "login with srp" do
     authenticate
+    assert_equal ["M2", "id", "token"], server_auth.keys
     assert last_response.successful?
     assert_nil server_auth["errors"]
     assert server_auth["M2"]

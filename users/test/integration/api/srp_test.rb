@@ -35,8 +35,7 @@ class SrpTest < RackTest
   def register_user(login = "integration_test_user", password = 'srp, verify me!')
     cleanup_user(login)
     post 'http://api.lvh.me:3000/1/users.json',
-      user: user_params(login: login, password: password),
-      format: :json
+      user_params(login: login, password: password)
     @user = User.find_by_login(login)
     @login = login
     @password = password
@@ -44,12 +43,23 @@ class SrpTest < RackTest
 
   def update_user(params)
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
-      :user => user_params(params),
-      :format => :json
+      user_params(params),
+      auth_headers
   end
 
   def authenticate(params = nil)
     @server_auth = srp(params).authenticate(self)
+  end
+
+  def auth_headers
+    return {} if @server_auth.nil?
+    {
+      "HTTP_AUTHORIZATION" => encoded_token
+    }
+  end
+
+  def encoded_token
+    ActionController::HttpAuthentication::Token.encode_credentials(server_auth["token"])
   end
 
   def logout
@@ -68,12 +78,17 @@ class SrpTest < RackTest
   end
 
   def user_params(params)
-    # if there is no srp magic needed just return the params
-    return params unless params.keys.include?(:password)
+    if params.keys.include?(:password)
+      srp_process_password(params)
+    end
+    return { user: params, format: :json }
+  end
+
+  def srp_process_password(params)
     params.reverse_merge! login: @login, salt: @salt
     @srp = SRP::Client.new params[:login], password: params.delete(:password)
     @salt = srp.salt.to_s(16)
-    params.merge :password_verifier => srp.verifier.to_s(16),
+    params.merge! :password_verifier => srp.verifier.to_s(16),
       :password_salt => @salt
   end
 
