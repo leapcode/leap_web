@@ -1,7 +1,6 @@
 require 'test_helper'
-require_relative 'rack_test'
 
-class AccountFlowTest < RackTest
+class LoginTest < RackTest
 
   setup do
     @login = "integration_test_user"
