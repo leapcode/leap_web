@@ -37,6 +37,7 @@ en:
   enable_description: "This will restore the account to full functionality"
   deactivate_account: "Deactivate the account %{username}"
   deactivate_description: "This will temporarily deactivate some account functionality." #todo detail exact functionality. can receive email but not send or renew client certificate?
+  payment_one_month_warning: "We hope you have been enjoying this service this past month. Please sign up to pay within the next month, by %{date_in_one_month}. Directions for payment are available at INSERT_URL"
   bye: "Goodbye!"
   bye_message: "So long and thanks for all the fish."
 

@@ -13,6 +13,8 @@ class User < CouchRest::Model::Base
   property :desired_service_level_code, Integer, :accessible => true
   property :effective_service_level_code, Integer, :accessible => true
 
+  property :one_month_warning_sent, TrueClass
+
   before_save :update_effective_service_level
 
   validates :login, :password_salt, :password_verifier,
@@ -72,6 +74,14 @@ class User < CouchRest::Model::Base
     Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
+  def messages(unseen = true)
+    #TODO for now this only shows unseen messages. Will we ever want seen ones? Is it necessary to store?
+
+    # we don't want to emit all the userids associated with a message, so only emit id and text.
+    Message.by_user_ids_to_show.key(self.id).map { |message| [message.id, message.text] }
+
+  end
+
   # DEPRECATED
   #
   # Please set the key on the identity directly
@@ -108,6 +118,32 @@ class User < CouchRest::Model::Base
   def effective_service_level
     code = self.effective_service_level_code || self.desired_service_level.id
     ServiceLevel.new({id: code})
+  end
+
+
+  def self.send_one_month_warnings
+
+    # To determine warnings to send, need to get all users where one_month_warning_sent is not set, and where it was created greater than or equal to 1 month ago.
+    # TODO: might want to further limit to enabled accounts, and, based on provider's service level configuration, for particular service levels.
+    users_to_warn = User.by_created_at_and_one_month_warning_not_sent.endkey(Time.now-1.month)
+
+    users_to_warn.each do |user|
+      # instead of loop could use something like:
+      # message.user_ids_to_show = users_to_warn.map(&:id)
+      # but would still need to loop through users to store one_month_warning_sent
+
+      if !@message
+        # create a message for today's date
+        # only want to create once, and only if it will be used.
+        @message = Message.new(:text => I18n.t(:payment_one_month_warning, :date_in_one_month => (Time.now+1.month).strftime("%Y-%d-%m")))
+      end
+
+      @message.user_ids_to_show << user.id
+      user.one_month_warning_sent = true
+      user.save
+    end
+    @message.save if @message
+
   end
 
   protected

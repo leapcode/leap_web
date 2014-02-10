@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
     resources :users, :only => [:create, :update, :destroy, :index]
+    resources :messages, :only => [:index, :update]
   end
 
   scope "(:locale)", :locale => MATCH_LOCALE do
