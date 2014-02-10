@@ -2,7 +2,7 @@ module V1
   class MessagesController < ApplicationController
 
     skip_before_filter :verify_authenticity_token
-    before_filter :authorize
+    before_filter :require_token
 
     respond_to :json
 
