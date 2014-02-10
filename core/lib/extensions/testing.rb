@@ -23,7 +23,7 @@ module LeapWebCore
 
     def assert_json_response(object)
       assert_equal 'application/json',
-        get_response.content_type.split(';').first
+        get_response.content_type.to_s.split(';').first
       if object.is_a? Hash
         object.stringify_keys! if object.respond_to? :stringify_keys!
         assert_equal object, json_response
