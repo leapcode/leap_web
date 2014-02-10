@@ -8,11 +8,11 @@ module ControllerExtension::TokenAuthentication
   end
 
   def token_authenticate
-    token.authenticate if token
+    @token_authenticated ||= token.authenticate if token
   end
 
   def require_token
-    access_denied unless token
+    access_denied unless token_authenticate
   end
 
   def logout
