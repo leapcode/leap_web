@@ -1,5 +1,5 @@
 class BillingAdminController < BillingBaseController
-  before_filter :authorize_admin
+  before_filter :require_admin
 
   def show
 

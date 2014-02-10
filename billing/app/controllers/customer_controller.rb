@@ -1,5 +1,5 @@
 class CustomerController < BillingBaseController
-  before_filter :authorize, :fetch_customer
+  before_filter :require_login, :fetch_customer
 
   def show
     if @customer

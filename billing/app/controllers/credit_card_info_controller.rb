@@ -1,5 +1,5 @@
 class CreditCardInfoController < ApplicationController
-  before_filter :authorize, :set_user
+  before_filter :require_login, :set_user
 
   def edit
     @credit_card = Braintree::CreditCard.find(params[:id])

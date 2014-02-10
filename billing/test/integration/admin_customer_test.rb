@@ -14,8 +14,8 @@ class AdminCustomerTest < ActionDispatch::IntegrationTest
 
   teardown do
     Warden.test_reset!
-    @user.destroy
-    @admin.destroy
+    @user.destroy if @user
+    @admin.destroy if @admin
   end
 
   test "check non customer as admin" do

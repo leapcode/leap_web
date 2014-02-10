@@ -1,5 +1,5 @@
 class SubscriptionsController < BillingBaseController
-  before_filter :authorize
+  before_filter :require_login
   before_filter :fetch_subscription, :only => [:show, :destroy]
   before_filter :confirm_cancel_subscription, :only => [:destroy]
   before_filter :confirm_self_or_admin, :only => [:index]

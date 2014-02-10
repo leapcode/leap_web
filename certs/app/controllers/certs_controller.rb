@@ -1,6 +1,6 @@
 class CertsController < ApplicationController
 
-  before_filter :login_if_required
+  before_filter :require_login, :unless => :anonymous_certs_allowed?
 
   # GET /cert
   def show
@@ -10,10 +10,9 @@ class CertsController < ApplicationController
 
   protected
 
-  def login_if_required
-    authorize unless APP_CONFIG[:allow_anonymous_certs]
+  def anonymous_certs_allowed?
+    APP_CONFIG[:allow_anonymous_certs]
   end
-
   #
   # this is some temporary logic until we store the service level in the user db.
   #

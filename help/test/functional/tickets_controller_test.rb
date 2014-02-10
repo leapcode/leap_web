@@ -2,6 +2,11 @@ require 'test_helper'
 
 class TicketsControllerTest < ActionController::TestCase
 
+  teardown do
+    # destroy all tickets that were created during the test
+    Ticket.all.each{|t| t.destroy}
+  end
+
   test "should get index if logged in" do
     login
     get :index
@@ -64,7 +69,6 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert_equal 1, assigns(:ticket).comments.count
     assert_nil assigns(:ticket).comments.first.posted_by
-    assigns(:ticket).destroy # destroys without checking permission. is that okay?
 
   end
 
@@ -87,7 +91,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:ticket).comments.count
     assert_not_nil assigns(:ticket).comments.first.posted_by
     assert_equal assigns(:ticket).comments.first.posted_by, @current_user.id
-    assigns(:ticket).destroy
   end
 
   test "add comment to unauthenticated ticket" do
@@ -101,7 +104,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert_equal ticket, assigns(:ticket) # still same ticket, with different comments
     assert_not_equal ticket.comments, assigns(:ticket).comments # ticket == assigns(:ticket), but they have different comments (which we want)
 
-    assigns(:ticket).destroy
   end
 
 
@@ -118,7 +120,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_equal ticket.comments, assigns(:ticket).comments
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
-    assigns(:ticket).destroy
 
   end
 
@@ -153,12 +154,9 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_equal ticket.comments, assigns(:ticket).comments
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
-
-    assigns(:ticket).destroy
   end
 
   test "tickets by admin" do
-    begin
       other_user = find_record :user
       ticket = FactoryGirl.create :ticket, :created_by => other_user.id
 
@@ -173,9 +171,6 @@ class TicketsControllerTest < ActionController::TestCase
         assigns(:tickets).first.save
         get :index, {:admin_status => "all", :open_status => "open"}
       end
-    ensure
-      ticket.reload.destroy if ticket
-    end
   end
 
 
@@ -188,7 +183,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert assigns(:all_tickets).include?(testticket)
     get :index, {:user_id => user.id, :open_status => "open"}
     assert !assigns(:all_tickets).include?(testticket)
-    testticket.destroy
   end
 
   test "commenting on a ticket adds to tickets that are mine" do
@@ -204,8 +198,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert assigns(:all_tickets).include?(assigns(:ticket))
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
-
-    assigns(:ticket).destroy
   end
 
   test "admin ticket ordering" do
@@ -228,7 +220,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_equal first_tick, assigns(:all_tickets).first
     assert_not_equal last_tick, assigns(:all_tickets).last
 
-    tickets.each {|ticket| ticket.destroy}
   end
 
   test "tickets for regular user" do
@@ -275,7 +266,6 @@ class TicketsControllerTest < ActionController::TestCase
     assert assigns(:all_tickets).include?(other_ticket)
     assert_equal assigns(:all_tickets).count, number_closed_tickets + number_open_tickets
 
-    assigns(:all_tickets).each {|t| t.destroy}
 
   end
 

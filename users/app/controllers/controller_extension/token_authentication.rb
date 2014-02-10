@@ -1,11 +1,18 @@
 module ControllerExtension::TokenAuthentication
   extend ActiveSupport::Concern
 
-  def token_authenticate
-    authenticate_with_http_token do |token_id, options|
-      @token = Token.find(token_id)
+  def token
+    @token ||= authenticate_with_http_token do |token_id, options|
+      Token.find(token_id)
     end
-    @token.authenticate if @token
+  end
+
+  def token_authenticate
+    @token_authenticated ||= token.authenticate if token
+  end
+
+  def require_token
+    access_denied unless token_authenticate
   end
 
   def logout
@@ -14,10 +21,7 @@ module ControllerExtension::TokenAuthentication
   end
 
   def clear_token
-    authenticate_with_http_token do |token_id, options|
-      @token = Token.find(token_id)
-      @token.destroy if @token
-    end
+    token.destroy if token
   end
 end
 
