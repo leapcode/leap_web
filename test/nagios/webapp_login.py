@@ -16,12 +16,12 @@ safe_unhexlify = lambda x: binascii.unhexlify(x) if (
 
 
 def read_config():
-    open("/etc/leap/hiera.yaml", 'r') as stream
-      config = yaml.load(stream)
+    with open("/etc/leap/hiera.yaml", 'r') as stream:
+        config = yaml.load(stream)
     user = config['webapp']['nagios_test_user']
-    if ('username' not in user):
+    if 'username' not in user:
         fail('nagios test user lacks username')
-    if ('password' not in user):
+    if 'password' not in user:
         fail('nagios test user lacks password')
     api = config['api']
     api['version'] = config['webapp']['api_version']
@@ -50,8 +50,7 @@ def parse(response):
 
 
 def authenticate(api, usr):
-    api_url = 'https://' + api['domain'] + ':' + \
-        str(api['port']) + '/' + str(api['version'])
+    api_url = "https://{domain}:{port}/{version}".format(**api)
     session = requests.session()
     uname, A = usr.start_authentication()
     params = {
@@ -67,9 +66,10 @@ def authenticate(api, usr):
     return session.put(api_url + '/sessions/' + uname, verify=False,
                        data={'client_auth': binascii.hexlify(M)})
 
-    def report(auth, usr):
-        if ('errors' in auth):
-            fail('srp password auth failed')
+
+def report(auth, usr):
+    if ('errors' in auth):
+        fail('srp password auth failed')
     usr.verify_session(safe_unhexlify(auth["M2"]))
     if usr.authenticated():
         print '0 webapp_login - OK - can login to webapp fine'
