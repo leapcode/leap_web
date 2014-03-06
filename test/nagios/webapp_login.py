@@ -82,4 +82,5 @@ def fail(reason):
     print '2 webapp_login - CRITICAL - ' + reason
     exit(2)
 
-run_tests(read_config())
+if __name__ == '__main__':
+    run_tests(read_config())
