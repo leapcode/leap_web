@@ -12,8 +12,10 @@ import os
 import srp._pysrp as srp
 import shutil
 import u1db
+import webapp_login
+
+
 from u1db.remote.http_target import HTTPSyncTarget
-from webapp_login import read_config, parse, authenticate, fail
 
 
 # monkey patch U1DB's HTTPSyncTarget to perform token based auth
@@ -30,6 +32,14 @@ HTTPSyncTarget.set_token_credentials = set_token_credentials
 HTTPSyncTarget._sign_request = _sign_request
 
 
+def fail(reason):
+    print '2 soledad_sync - CRITICAL - ' + reason
+    exit(2)
+
+# monkey patch webapp_login's fail function to report as soledad
+webapp_login.fail = fail
+
+
 # The following function could fetch all info needed to sync using soledad.
 # Despite that, we won't use all that info because we are instead faking a
 # Soledad sync by using U1DB slightly modified syncing capabilities. Part of
@@ -42,7 +52,7 @@ def get_soledad_info(config, tempdir):
   api = config['api']
   usr = srp.User( user['username'], user['password'], srp.SHA256, srp.NG_1024 )
   try:
-    auth = parse(authenticate(api, usr))
+    auth = webapp_login.parse(webapp_login.authenticate(api, usr))
   except requests.exceptions.ConnectionError:
     fail('no connection to server')
   # get soledad server url
@@ -65,7 +75,7 @@ def get_soledad_info(config, tempdir):
 def run_tests():
   tempdir = tempfile.mkdtemp()
   uuid, password, server_url, cert_file, token = \
-    get_soledad_info(read_config(), tempdir)
+    get_soledad_info(webapp_login.read_config(), tempdir)
   exc = None
   try:
     # in the future, we can replace the following by an actual Soledad
