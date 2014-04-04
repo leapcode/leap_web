@@ -40,6 +40,14 @@ class Token < CouchRest::Model::Base
     end
   end
 
+  # Tokens can be cleaned up in different ways.
+  # So let's make sure we don't crash if they disappeared
+  def destroy_with_rescue
+    destroy_without_rescue
+  rescue RestClient::ResourceNotFound
+  end
+  alias_method_chain :destroy, :rescue
+
   def touch
     self.last_seen_at = Time.now
     save

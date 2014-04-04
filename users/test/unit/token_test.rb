@@ -78,6 +78,12 @@ class ClientCertificateTest < ActiveSupport::TestCase
   end
 
 
-
+  test "Token.destroy_all_expired does not interfere with expired.authenticate" do
+    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
+    with_config auth: {token_expires_after: 60} do
+      Token.destroy_all_expired
+    end
+    assert_nil expired.authenticate
+  end
 
 end
