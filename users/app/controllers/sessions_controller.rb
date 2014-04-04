@@ -1,7 +1,8 @@
 class SessionsController < ApplicationController
 
+  before_filter :redirect_if_logged_in, :only => [:new]
+
   def new
-    redirect_to home_url if logged_in?
     @session = Session.new
     if authentication_errors
       @errors = authentication_errors
