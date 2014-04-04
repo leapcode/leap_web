@@ -19,6 +19,13 @@ module ControllerExtension::Authentication
     access_denied unless logged_in?
   end
 
+  # some actions only make sense if you are not logged in yet.
+  # (login, signup). If a user tries to perform these they will
+  # be redirected to their dashboard.
+  def redirect_if_logged_in
+    redirect_to home_url if logged_in?
+  end
+
   def access_denied
     respond_to do |format|
       format.html do
