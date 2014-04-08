@@ -22,13 +22,6 @@ PATH
   specs:
     leap_web_help (0.5.0)
 
-PATH
-  remote: users
-  specs:
-    leap_web_users (0.5.0)
-      rails_warden
-      ruby-srp (~> 0.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -274,7 +267,6 @@ DEPENDENCIES
   leap_web_billing!
   leap_web_certs!
   leap_web_help!
-  leap_web_users!
   minitest-stub-const
   mocha (~> 0.13.0)
   phantomjs-binaries
@@ -282,7 +274,9 @@ DEPENDENCIES
   quiet_assets
   rails (~> 3.2.11)
   rails-i18n
+  rails_warden
   rdiscount
+  ruby-srp (~> 0.2.1)
   sass-rails (~> 3.2.5)
   simple_form
   therubyracer (~> 0.10.2)
