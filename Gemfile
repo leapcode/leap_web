@@ -6,7 +6,10 @@ gem "couchrest_model", "~> 2.0.0"
 gem "couchrest_session_store", "~> 0.2.4"
 gem "json"
 
-gem 'leap_web_users', :path => 'users'
+# user management
+gem "ruby-srp", "~> 0.2.1"
+gem "rails_warden"
+
 gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
 gem 'leap_web_billing', :path => 'billing'
