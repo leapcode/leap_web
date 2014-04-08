@@ -4,3 +4,43 @@ en:
   pricing: Pricing
   about: About Us
   contact: Contact
+  no_such_thing: "No such %{thing}."
+  thing_was_successfully_created: "%{thing} was successfully created."
+  create_thing: "Create %{thing}"
+
+  overview: "Overview"
+  user_control_panel: "user control panel"
+
+  created: "Created"
+  created_by_on: "Created by %{user} on %{time}"
+  updated: "Updated"
+
+  none: "None"
+  unknown: "Unknown"
+  admin: "Admin"
+  anonymous: "Anonymous"
+  save: "Save"
+  add: "Add"
+  remove: "Remove"
+  changes_saved: "Changes saved successfully."
+  are_you_sure: "Are you sure? This change cannot be undone."
+
+  download_client: "Download Bitmask"
+  client_info: "The Bitmask application allows you to use %{provider} services."
+  all_downloads_info: "It is available for %{clients}."
+  other_downloads_info: "Bitmask is also available for %{clients}."
+  login_info: "Log in to change your account settings, create support tickets, and manage payments."
+  signup_info: "Sign up for a new user account via this website (it is better if you use the Bitmask application to sign up, but this website works too)."
+  welcome: "Welcome to %{provider}."
+  get_help: "Get Help"
+  help_info: "Can't login? Create a new support ticket anonymously."
+  example_email: 'user@domain.org'
+  os:
+    linux32: "Linux (32 bit)"
+    linux64: "Linux (64 bit)"
+    linux: "GNU/Linux"
+    windows: "Windows"
+    android: "Android"
+    osx: "Mac OS"
+    other: "(not available for your OS)"
+

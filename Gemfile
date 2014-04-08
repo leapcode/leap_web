@@ -3,10 +3,12 @@ source 'https://rubygems.org'
 eval(File.read(File.dirname(__FILE__) + '/common_dependencies.rb'))
 eval(File.read(File.dirname(__FILE__) + '/ui_dependencies.rb'))
 
-# EITHER fetch all of the leap_web gems in one go
-# gem 'leap_web'
-# OR use the local versions for development instead:
-gem "leap_web_core", :path => 'core'
+gem "rails", "~> 3.2.11"
+gem "couchrest", "~> 1.1.3"
+gem "couchrest_model", "~> 2.0.0"
+gem "couchrest_session_store", "~> 0.2.4"
+gem "json"
+
 gem 'leap_web_users', :path => 'users'
 gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'

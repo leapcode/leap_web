@@ -15,7 +15,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "Readme.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "leap_web_core", LeapWeb::VERSION
   s.add_dependency "certificate_authority", [">= 0.2.0"]
 
 end

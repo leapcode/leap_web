@@ -15,8 +15,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "leap_web_core", LeapWeb::VERSION
-
   s.add_dependency "ruby-srp", "~> 0.2.1"
   s.add_dependency "rails_warden"
 end
