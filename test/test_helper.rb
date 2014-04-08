@@ -4,6 +4,9 @@ require 'rails/test_help'
 
 require 'mocha/setup'
 
+# Load support files from toplevel
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
 # Load support files from all engines
 Dir["#{File.dirname(__FILE__)}/../*/test/support/**/*.rb"].each { |f| require f }
 
