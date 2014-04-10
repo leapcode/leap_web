@@ -10,7 +10,6 @@ gem "json"
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
 
-gem 'leap_web_certs', :path => 'certs'
 gem 'leap_web_help', :path => 'help'
 gem 'leap_web_billing', :path => 'billing'
 

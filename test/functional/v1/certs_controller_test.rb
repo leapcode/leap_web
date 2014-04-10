@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CertsControllerTest < ActionController::TestCase
+class V1::CertsControllerTest < ActionController::TestCase
 
   test "send limited cert without login" do
     with_config allow_limited_certs: true, allow_anonymous_certs: true do

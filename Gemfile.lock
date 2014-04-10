@@ -12,12 +12,6 @@ PATH
       braintree
 
 PATH
-  remote: certs
-  specs:
-    leap_web_certs (0.5.0)
-      certificate_authority (>= 0.2.0)
-
-PATH
   remote: help
   specs:
     leap_web_help (0.5.0)
@@ -265,7 +259,6 @@ DEPENDENCIES
   kaminari (= 0.13.0)
   launchy
   leap_web_billing!
-  leap_web_certs!
   leap_web_help!
   minitest-stub-const
   mocha (~> 0.13.0)

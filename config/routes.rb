@@ -24,6 +24,7 @@ LeapWeb::Application.routes.draw do
     delete "logout" => "sessions#destroy", :as => "logout"
     resources :users, :only => [:create, :update, :destroy, :index]
     resources :messages, :only => [:index, :update]
+    resource :cert, :only => [:show]
   end
 
   scope "(:locale)", :locale => MATCH_LOCALE do
