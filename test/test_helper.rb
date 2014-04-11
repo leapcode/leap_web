@@ -8,7 +8,7 @@ require 'mocha/setup'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 # Load support files from all engines
-Dir["#{File.dirname(__FILE__)}/../*/test/support/**/*.rb"].each { |f| require f }
+Dir["#{File.dirname(__FILE__)}/../engines/*/test/support/**/*.rb"].each { |f| require f }
 
 class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...

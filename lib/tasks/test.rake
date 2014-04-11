@@ -1,18 +1,11 @@
 namespace :test do
 
-  Rails::SubTestTask.new(:units => "test:prepare") do |t|
-    t.libs << "test"
-    t.pattern = '*/test/unit/**/*_test.rb'
-  end
-
-  Rails::SubTestTask.new(:functionals => "test:prepare") do |t|
-    t.libs << "test"
-    t.pattern = '*/test/functional/**/*_test.rb'
-  end
-
-  Rails::SubTestTask.new(:integration => "test:prepare") do |t|
-    t.libs << "test"
-    t.pattern = '*/test/integration/**/*_test.rb'
+  [:units, :functionals, :integration].each do |type|
+    Rails::SubTestTask.new(type => "test:prepare") do |t|
+      t.libs << "test"
+      subdir = type.to_s.singularize
+      t.pattern = "engines/*/test/#{subdir}/**/*_test.rb"
+    end
   end
 
 end

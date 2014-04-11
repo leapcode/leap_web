@@ -1,6 +1,6 @@
-$:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../../lib", __FILE__)
 
-require File.expand_path('../../lib/leap_web/version.rb', __FILE__)
+require File.expand_path('../../../lib/leap_web/version.rb', __FILE__)
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|

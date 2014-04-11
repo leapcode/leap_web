@@ -1,6 +1,8 @@
-Dir.glob(Rails.root.join('*','test','factories.rb')) do |factory_file|
+ENGINE_FACTORY_FILES = Rails.root.join('engines','*','test','factories.rb')
+Dir.glob(ENGINE_FACTORY_FILES) do |factory_file|
   require factory_file
 end
+
 FactoryGirl.define do
 
   factory :user do

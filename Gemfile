@@ -10,8 +10,8 @@ gem "json"
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
 
-gem 'leap_web_help', :path => 'help'
-gem 'leap_web_billing', :path => 'billing'
+gem 'leap_web_help', :path => 'engines/support'
+gem 'leap_web_billing', :path => 'engines/billing'
 
 gem 'http_accept_language'
 

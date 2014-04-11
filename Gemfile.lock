@@ -6,13 +6,13 @@ GIT
       activemodel (>= 3.0.6)
 
 PATH
-  remote: billing
+  remote: engines/billing
   specs:
     leap_web_billing (0.5.0)
       braintree
 
 PATH
-  remote: help
+  remote: engines/support
   specs:
     leap_web_help (0.5.0)
 

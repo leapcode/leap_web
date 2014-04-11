@@ -45,7 +45,7 @@ module CouchRest
         def self.load_all_models_with_engines
           self.load_all_models_without_engines
           return unless defined?(Rails)
-          Dir[Rails.root + '*/app/models/**/*.rb'].each do |path|
+          Dir[Rails.root + 'engines/*/app/models/**/*.rb'].each do |path|
             require path
           end
         end
