@@ -1,14 +1,11 @@
 require 'test_helper'
 require 'fake_braintree'
-require 'capybara/rails'
 
-class SubscriptionTest < BrowserIntegrationTest
-  include Warden::Test::Helpers
+class SubscriptionTest < BraintreeIntegrationTest
   include CustomerTestHelper
   include StubRecordHelper
 
   setup do
-    Warden.test_mode!
     @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
     @customer = stub_customer
     @braintree_customer = @customer.braintree_customer
@@ -19,7 +16,6 @@ class SubscriptionTest < BrowserIntegrationTest
   end
 
   teardown do
-    Warden.test_reset!
     @admin.destroy
   end
 

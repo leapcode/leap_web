@@ -1,19 +1,14 @@
 require 'test_helper'
 require 'fake_braintree'
-require 'capybara/rails'
 
-class AdminCustomerTest < ActionDispatch::IntegrationTest
-  include Warden::Test::Helpers
-  include Capybara::DSL
+class AdminCustomerTest < BraintreeIntegrationTest
 
   setup do
-    Warden.test_mode!
     @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
     @user = FactoryGirl.create(:user)
   end
 
   teardown do
-    Warden.test_reset!
     @user.destroy if @user
     @admin.destroy if @admin
   end

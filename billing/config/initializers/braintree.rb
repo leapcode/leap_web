@@ -9,14 +9,6 @@ else
 end
 
 #
-# we use fake braintree in tests
-#
-if Rails.env.test?
-  require 'braintree_test_app'
-  Rails.application.config.middleware.use BraintreeTestApp
-end
-
-#
 # You can set these per environment in config/config.yml:
 #
 # Environment must be one of: :development, :qa, :sandbox, :production

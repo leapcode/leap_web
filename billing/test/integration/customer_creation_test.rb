@@ -1,20 +1,15 @@
 require 'test_helper'
 require 'fake_braintree'
-require 'capybara/rails'
 
-class CustomerCreationTest < ActionDispatch::IntegrationTest
-  include Warden::Test::Helpers
-  include Capybara::DSL
+class CustomerCreationTest < BraintreeIntegrationTest
 
   setup do
-    Warden.test_mode!
     @user = FactoryGirl.create(:user)
     login_as @user
   end
 
   teardown do
     @user.destroy
-    Warden.test_reset!
   end
 
   # Let's test both steps together with capybara
