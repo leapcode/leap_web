@@ -1,4 +1,5 @@
 class SrpTest < RackTest
+  include AssertResponses
 
   teardown do
     if @user
