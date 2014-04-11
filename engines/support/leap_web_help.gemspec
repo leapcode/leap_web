@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "Help Desk for LeapWeb"
   s.description = "Managing Tickets for a Leap provider"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.md"]
+  s.files = Dir["{app,config,lib}/**/*"] + ["Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
 end
