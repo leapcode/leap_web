@@ -2,6 +2,8 @@ services:
   - couchdb
 notifications:
   email: false
+before_install:
+  - "env"
 before_script:
   - "test/setup_couch.sh"
   - "mv test/config/couchdb.yml.admin config/couchdb.yml"
@@ -10,3 +12,8 @@ before_script:
   - "mv test/config/couchdb.yml.user config/couchdb.yml"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
+env:
+  global:
+  - secure: H4TyRI9Lzj2eWYH5LSMIznLWckukTrcrvC+XWaGq6PJkMcF/Rt44JTYcd/Lm0r1EGdOmtz/jvl4Kxmi2g2c1kYiG0XmhMZUUq3v5MY4Ql1xhmbwZyaSvLHHEGTJWl+seTnXiW1kA6gTuYRZAVERCKr9+ITJy5Hz2dx/TZFhTM7s=
+  - secure: bI4TICdsqsjiNcGUep56qhRn07SUqnnhtsI/KXXPOyMMCaoievZi2Ralj/A3JoXfcSRmtnvTtU5SIIP9UgaDrEAmCiPnBxOF9hOgtgLTzcbMlKWREf9YPd3Bv5JqWYtrvNRstSSsiQ4OI5c8jNVcI9O57eeomDcgdo4zNRIw4HA=
+  - TST=ME
