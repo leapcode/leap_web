@@ -13,8 +13,6 @@ after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
 env:
   global:
-  # leapcode repo secrets:
-    - secure: "LsChZl6Q5i0s1P2MdE22ikVMAOQh1E/W9AUja6Jjd/llqFs1YIP7HeA+xhsEtC6Rym8dFofaK0mFDqvc99qUCSW72Tll2gqZ7k0zWzElYbk71xl91E0TAQ5V7ly3p8PR4roKGVl1F91cCeh/hlYvqZZCPNUlG17cVFc/qU8lmbY="
-  # azul repo secrets:
-    - secure: "H4TyRI9Lzj2eWYH5LSMIznLWckukTrcrvC+XWaGq6PJkMcF/Rt44JTYcd/Lm0r1EGdOmtz/jvl4Kxmi2g2c1kYiG0XmhMZUUq3v5MY4Ql1xhmbwZyaSvLHHEGTJWl+seTnXiW1kA6gTuYRZAVERCKr9+ITJy5Hz2dx/TZFhTM7s="
-    - TST=ME
+  - secure: H4TyRI9Lzj2eWYH5LSMIznLWckukTrcrvC+XWaGq6PJkMcF/Rt44JTYcd/Lm0r1EGdOmtz/jvl4Kxmi2g2c1kYiG0XmhMZUUq3v5MY4Ql1xhmbwZyaSvLHHEGTJWl+seTnXiW1kA6gTuYRZAVERCKr9+ITJy5Hz2dx/TZFhTM7s=
+  - secure: bI4TICdsqsjiNcGUep56qhRn07SUqnnhtsI/KXXPOyMMCaoievZi2Ralj/A3JoXfcSRmtnvTtU5SIIP9UgaDrEAmCiPnBxOF9hOgtgLTzcbMlKWREf9YPd3Bv5JqWYtrvNRstSSsiQ4OI5c8jNVcI9O57eeomDcgdo4zNRIw4HA=
+  - TST=ME
