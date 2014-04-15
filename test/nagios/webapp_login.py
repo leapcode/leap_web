@@ -33,20 +33,10 @@ def run_tests(config):
     api = config['api']
     usr = srp.User(user['username'], user['password'], srp.SHA256, srp.NG_1024)
     try:
-        auth = parse(authenticate(api, usr))
+        auth = authenticate(api, usr)
     except requests.exceptions.ConnectionError:
         fail('no connection to server')
     exit(report(auth, usr))
-
-# parse the server responses
-
-
-def parse(response):
-    request = response.request
-    try:
-        return json.loads(response.text)
-    except ValueError:
-        return None
 
 
 def authenticate(api, usr):
@@ -57,14 +47,15 @@ def authenticate(api, usr):
         'login': uname,
         'A': binascii.hexlify(A)
     }
-    init = parse(
-        session.post(api_url + '/sessions', data=params, verify=False))
+    response = session.post(api_url + '/sessions', data=params, verify=False)
+    init = response.json()
     if ('errors' in init):
         fail('test user not found')
     M = usr.process_challenge(
         safe_unhexlify(init['salt']), safe_unhexlify(init['B']))
-    return session.put(api_url + '/sessions/' + uname, verify=False,
+    response = session.put(api_url + '/sessions/' + uname, verify=False,
                        data={'client_auth': binascii.hexlify(M)})
+    return response.json()
 
 
 def report(auth, usr):

@@ -52,7 +52,7 @@ def get_soledad_info(config, tempdir):
   api = config['api']
   usr = srp.User( user['username'], user['password'], srp.SHA256, srp.NG_1024 )
   try:
-    auth = webapp_login.parse(webapp_login.authenticate(api, usr))
+    auth = webapp_login.authenticate(api, usr)
   except requests.exceptions.ConnectionError:
     fail('no connection to server')
   # get soledad server url
