@@ -58,7 +58,7 @@ def get_soledad_info(config, tempdir):
   # get soledad server url
   service_url = 'https://%s:%d/%d/config/soledad-service.json' % \
                 (api['domain'], api['port'], api['version'])
-  soledad_hosts = requests.get(service_url).json['hosts']
+  soledad_hosts = requests.get(service_url).json()['hosts']
   host = soledad_hosts.keys()[0]
   server_url = 'https://%s:%d/user-%s' % \
                (soledad_hosts[host]['hostname'], soledad_hosts[host]['port'],
