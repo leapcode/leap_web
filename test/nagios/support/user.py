@@ -1,13 +1,33 @@
 import srp._pysrp as srp
 import binascii
+import string
+import random
 
 safe_unhexlify = lambda x: binascii.unhexlify(x) if (
     len(x) % 2 == 0) else binascii.unhexlify('0' + x)
 
+# let's have some random name and password
+def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
+  return ''.join(random.choice(chars) for x in range(size))
+
 class User():
-    def __init__(self, config):
-        self.config = config.user
-        self.srp_user = srp.User(self.config['username'], self.config['password'], srp.SHA256, srp.NG_1024)
+    def __init__(self, config = None):
+        if config and config.user:
+            self.username = config.user["username"]
+            self.password = config.user["password"]
+        else:
+            self.username = 'test_' + id_generator()
+            self.password = id_generator() + id_generator()
+        self.srp_user = srp.User(self.username, self.password, srp.SHA256, srp.NG_1024)
+
+    def signup(self, api):
+        salt, vkey = srp.create_salted_verification_key( self.username, self.password, srp.SHA256, srp.NG_1024 )
+        user_params = {
+            'user[login]': self.username,
+            'user[password_verifier]': binascii.hexlify(vkey),
+            'user[password_salt]': binascii.hexlify(salt)
+        }
+        return api.post('users.json', data = user_params)
 
     def login(self, api):
         init=self.init_authentication(api)
@@ -32,7 +52,7 @@ class User():
     def authenticate(self, api, init):
         M = self.srp_user.process_challenge(
             safe_unhexlify(init['salt']), safe_unhexlify(init['B']))
-        auth = api.put('sessions/' + self.config["username"],
+        auth = api.put('sessions/' + self.username,
                            data={'client_auth': binascii.hexlify(M)})
         return auth
 
