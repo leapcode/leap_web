@@ -2,8 +2,6 @@
 
 # Test Authentication with the webapp API works.
 
-import string
-import random
 from support.api import Api
 from support.config import Config
 from support.user import User
