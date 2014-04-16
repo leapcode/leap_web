@@ -19,6 +19,7 @@ class User():
         self.verify_server(auth)
         if not self.is_authenticated():
             raise Exception('user is not authenticated')
+        return auth
 
     def init_authentication(self, api):
         uname, A = self.srp_user.start_authentication()

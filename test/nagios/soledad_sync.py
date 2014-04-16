@@ -7,12 +7,12 @@
 
 
 import tempfile
-import requests
 import os
-import srp._pysrp as srp
 import shutil
 import u1db
-import webapp_login
+from support.api import Api
+from support.config import Config
+from support.user import User
 
 
 from u1db.remote.http_target import HTTPSyncTarget
@@ -40,14 +40,11 @@ HTTPSyncTarget._sign_request = _sign_request
 
 def get_soledad_info(config, tempdir):
     # get login and get user info
-    user = config['user']
-    api = config['api']
-    usr = srp.User( user['username'], user['password'], srp.SHA256, srp.NG_1024 )
-    auth = webapp_login.authenticate(api, usr)
+    user = User(config)
+    api = Api(config, verify=False)
+    auth = user.login(api)
     # get soledad server url
-    service_url = 'https://%s:%d/%d/config/soledad-service.json' % \
-        (api['domain'], api['port'], api['version'])
-    soledad_hosts = requests.get(service_url).json()['hosts']
+    soledad_hosts = api.get('config/soledad-service.json')['hosts']
     host = soledad_hosts.keys()[0]
     server_url = 'https://%s:%d/user-%s' % \
           (soledad_hosts[host]['hostname'], soledad_hosts[host]['port'],
@@ -58,14 +55,14 @@ def get_soledad_info(config, tempdir):
     cert_file = None  # not used for now
     #with open(cert_file, 'w') as f:
     #  f.write(ca_cert)
-    return auth['id'], user['password'], server_url, cert_file, auth['token']
+    return auth['id'], server_url, cert_file, auth['token']
 
 
 def can_sync_soledad_fine():
     tempdir = tempfile.mkdtemp()
     try:
-        uuid, password, server_url, cert_file, token = \
-              get_soledad_info(webapp_login.read_config(), tempdir)
+        uuid, server_url, cert_file, token = \
+              get_soledad_info(Config(), tempdir)
         # in the future, we can replace the following by an actual Soledad
         # client sync, if needed
         db = u1db.open(os.path.join(tempdir, '%s.db' % uuid), True)
@@ -75,6 +72,6 @@ def can_sync_soledad_fine():
         shutil.rmtree(tempdir)
 
 if __name__ == '__main__':
-    import nagios_test
+    from support import nagios_test
     exit_code = nagios_test.run(can_sync_soledad_fine)
     exit(exit_code)
