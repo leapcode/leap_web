@@ -67,6 +67,7 @@ service_levels: &service_levels
         USD: 10
         EUR: 10
   default_service_level: 1
+  unauthenticated_service_level: 0
 
 development:
   <<: *downloads
