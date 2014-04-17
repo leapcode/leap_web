@@ -1,6 +1,6 @@
 dev_ca: &dev_ca
-  client_ca_key: "./certs/test/files/ca.key"
-  client_ca_cert: "./certs/test/files/ca.crt"
+  client_ca_key: "./test/files/ca.key"
+  client_ca_cert: "./test/files/ca.crt"
   ca_key_password: nil
 
 cert_options: &cert_options

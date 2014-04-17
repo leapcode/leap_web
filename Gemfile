@@ -1,16 +1,17 @@
 source 'https://rubygems.org'
 
-eval(File.read(File.dirname(__FILE__) + '/common_dependencies.rb'))
-eval(File.read(File.dirname(__FILE__) + '/ui_dependencies.rb'))
+gem "rails", "~> 3.2.11"
+gem "couchrest", "~> 1.1.3"
+gem "couchrest_model", "~> 2.0.0"
+gem "couchrest_session_store", "~> 0.2.4"
+gem "json"
 
-# EITHER fetch all of the leap_web gems in one go
-# gem 'leap_web'
-# OR use the local versions for development instead:
-gem "leap_web_core", :path => 'core'
-gem 'leap_web_users', :path => 'users'
-gem 'leap_web_certs', :path => 'certs'
-gem 'leap_web_help', :path => 'help'
-gem 'leap_web_billing', :path => 'billing'
+# user management
+gem "ruby-srp", "~> 0.2.1"
+gem "rails_warden"
+
+gem 'leap_web_help', :path => 'engines/support'
+gem 'leap_web_billing', :path => 'engines/billing'
 
 gem 'http_accept_language'
 
@@ -19,12 +20,62 @@ gem 'debugger', :platforms => :mri_19
 # ruby 1.8 is not supported anymore
 # gem 'ruby-debug', :platforms => :mri_18
 
+gem "haml", "~> 3.1.7"
+gem "bootstrap-sass", "= 2.3.2.2"
+gem "jquery-rails"
+gem "simple_form"
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
+gem "bootswatch-rails", "~> 0.5.0"
+
+gem 'kaminari', "0.13.0" # for pagination. trying 0.13.0 as there seem to be
+                         # issues with 0.14.0 when using couchrest
+
+gem 'rails-i18n'  # locale files for built-in validation messages and times
+                  # https://github.com/svenfuchs/rails-i18n
+                  # for a list of keys:
+                  # https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/en.yml
+
+gem 'rdiscount'   # for rendering .md templates
+
 group :test do
-  gem 'fake_braintree', require: false
+
+  # integration testing
   gem 'capybara', require: false
-  gem 'launchy' # so save_and_open_page works in integration tests
-  gem 'phantomjs-binaries'
-  gem 'minitest-stub-const'
+  gem 'poltergeist'         # headless js
+  gem 'launchy'             # save_and_open_page
+  gem 'phantomjs-binaries'  # binaries specific to the os
+  
+  # moching and stubbing
+  gem 'mocha', '~> 0.13.0', :require => false
+  gem 'minitest-stub-const' # why?
+
+  # generating test data
+  gem 'factory_girl_rails'  # test data factories
+  gem 'faker'               # names and numbers for test data
+  
+  # billing tests
+  gem 'fake_braintree', require: false
+end
+
+group :test, :development do
+  gem 'thin'
+end
+
+group :assets do
+  gem "haml-rails", "~> 0.3.4"
+  gem "sass-rails", "~> 3.2.5"
+  gem "coffee-rails", "~> 3.2.2"
+  gem "uglifier", "~> 1.2.7"
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
+  gem 'quiet_assets'       # stops logging all the asset requests
+end
+
+
+group :production do
+  gem 'SyslogLogger', '~> 2.0'
 end
 
 # unreleased so far ... but leap_web_certs need it
