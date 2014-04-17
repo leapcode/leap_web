@@ -16,4 +16,5 @@ class ServiceLevel
     APP_CONFIG[:service_levels][@id]
   end
 
+  delegate :to_json, to: :config_hash
 end
