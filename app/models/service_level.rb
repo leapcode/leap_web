@@ -13,8 +13,20 @@ class ServiceLevel
   end
 
   def config_hash
-    APP_CONFIG[:service_levels][@id]
+    @config_hash || APP_CONFIG[:service_levels][@id].with_indifferent_access
   end
 
   delegate :to_json, to: :config_hash
+
+  def provides?(service)
+    services.include? service.to_s
+  end
+
+  def services
+    config_hash[:services] || []
+  end
+
+  def cert_prefix
+    config_hash[:cert_prefix]
+  end
 end

@@ -3,42 +3,42 @@ require 'test_helper'
 class V1::CertsControllerTest < ActionController::TestCase
 
   test "send limited cert without login" do
-    with_config allow_limited_certs: true, allow_anonymous_certs: true do
-      cert = stub :to_s => "limited cert"
-      ClientCertificate.expects(:new).with(:prefix => APP_CONFIG[:limited_cert_prefix]).returns(cert)
-      get :show
-      assert_response :success
-      assert_equal cert.to_s, @response.body
-    end
+    cert = expect_cert('LIMITED')
+    get :show
+    assert_response :success
+    assert_equal cert.to_s, @response.body
+  end
+
+  test "send limited cert" do
+    login
+    cert = expect_cert('LIMITED')
+    get :show
+    assert_response :success
+    assert_equal cert.to_s, @response.body
   end
 
   test "send unlimited cert" do
-    with_config allow_unlimited_certs: true do
-      login
-      cert = stub :to_s => "unlimited cert"
-      ClientCertificate.expects(:new).with(:prefix => APP_CONFIG[:unlimited_cert_prefix]).returns(cert)
-      get :show
-      assert_response :success
-      assert_equal cert.to_s, @response.body
-    end
+    login effective_service_level: ServiceLevel.new(id: 2)
+    cert = expect_cert('UNLIMITED')
+    get :show
+    assert_response :success
+    assert_equal cert.to_s, @response.body
   end
 
-  test "login required if anonymous certs disabled" do
-    with_config allow_anonymous_certs: false do
+  test "redirect if no eip service offered" do
+    with_config({service_levels: {0 => {services: []}}}) do
       get :show
       assert_response :redirect
     end
   end
 
-  test "send limited cert" do
-    with_config allow_limited_certs: true, allow_unlimited_certs: false do
-      login
-      cert = stub :to_s => "real cert"
-      ClientCertificate.expects(:new).with(:prefix => APP_CONFIG[:limited_cert_prefix]).returns(cert)
-      get :show
-      assert_response :success
-      assert_equal cert.to_s, @response.body
-    end
-  end
+  protected
 
+  def expect_cert(prefix)
+    cert = stub :to_s => "#{prefix.downcase} cert"
+    ClientCertificate.expects(:new).
+      with(:prefix => prefix).
+      returns(cert)
+    return cert
+  end
 end
