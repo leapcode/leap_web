@@ -17,17 +17,23 @@ class Api():
         response = self.session.get(self.api_url(path),
                 verify=self.verify,
                 **args)
-        return response.json()
+        return self.parse_json(response)
 
     def post(self, path, **args):
         response = self.session.post(self.api_url(path),
                 verify=self.verify,
                 **args)
-        return response.json()
+        return self.parse_json(response)
 
     def put(self, path, **args):
         response = self.session.put(self.api_url(path),
                 verify=self.verify,
                 **args)
-        return response.json()
+        return self.parse_json(response)
+
+    def parse_json(self, response):
+        try:
+            return response.json()
+        except TypeError:
+            return response.json  # older versions of requests
 
