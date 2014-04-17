@@ -6,7 +6,8 @@ class V1::ServicesControllerTest < ActionController::TestCase
     get :show, format: :json
     assert_json_response name: 'anonymous',
       cert_prefix: 'LIMITED',
-      description: 'anonymous account, with rate limited VPN'
+      description: 'anonymous account, with rate limited VPN',
+      services: ["eip"]
   end
 
   test "user can see their service info" do
@@ -16,7 +17,8 @@ class V1::ServicesControllerTest < ActionController::TestCase
       cert_prefix: 'LIMITED',
       description: 'free account, with rate limited VPN',
       cost: 0,
-      quota: 100
+      quota: 100,
+      services: ["eip", "email"]
   end
 
 end
