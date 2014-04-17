@@ -11,12 +11,10 @@ Some tips on modifying the views:
 
 Leap Web contains some. They live in their own subdirectory and are included through bundler via their path. This way changes to the engines immediately affect the server as if they were in the main `app` directory.
 
-Currently Leap Web includes of 4 Engines:
+Currently Leap Web includes 2 Engines:
 
-* [users](https://github.com/leapcode/leap_web/blob/master/users) - user registration and authorization - this will probably be included in the main webapp any time soon
-* [certs](https://github.com/leapcode/leap_web/blob/master/certs) - Cert distribution for the EIP client - might be included in toplevel too.
-* [help](https://github.com/leapcode/leap_web/blob/master/help) - Help ticket management
-* [billing](https://github.com/leapcode/leap_web/blob/master/billing) - Billing System
+* [support](https://github.com/leapcode/leap_web/blob/master/engines/support) - Help ticket management
+* [billing](https://github.com/leapcode/leap_web/blob/master/engines/billing) - Billing System
 
 ## Creating a new engine ##
 
