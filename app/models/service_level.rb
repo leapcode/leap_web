@@ -19,7 +19,7 @@ class ServiceLevel
   def cert_prefix
     if limited_cert?
       APP_CONFIG[:limited_cert_prefix]
-    else
+    elsif APP_CONFIG[:allow_unlimited_certs]
       APP_CONFIG[:unlimited_cert_prefix]
     end
   end
