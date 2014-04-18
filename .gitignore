@@ -22,6 +22,7 @@ bin
 */Gemfile.lock
 test/dummy/log/*
 test/dummy/tmp/*
+*.pyc
 
 # ignore all deploy specific configuration
 config/couchdb.yml

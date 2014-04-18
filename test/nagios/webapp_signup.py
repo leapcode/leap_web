@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 
-# Test Authentication with the webapp API works.
+# Test Signup and Login with the webapp API works.
 
 from support.api import Api
 from support.config import Config
 from support.user import User
 
-def login_successfully():
+def signup_successfully():
     config = Config()
-    user = User(config)
+    user = User()
     api = Api(config, verify=False)
+    user.signup(api)
     user.login(api)
 
 if __name__ == '__main__':
     from support import nagios_test
-    exit_code = nagios_test.run(login_successfully)
+    exit_code = nagios_test.run(signup_successfully)
     exit(exit_code)
