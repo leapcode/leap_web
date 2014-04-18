@@ -8,7 +8,7 @@
 = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'} do |f|
   = hidden_ticket_fields
   = f.input :subject
-  = f.input :email, input_html: {value: user.email}
+  = f.input :email, input_html: {value: user.email_address}
   = f.input :regarding_user, input_html: {value: user.login}
   = f.simple_fields_for :comments, @comment do |c|
     = c.input :body, :label => t(:description), :as => :text, :input_html => {:class => "full-width", :rows=> 5}
