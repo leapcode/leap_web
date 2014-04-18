@@ -2,19 +2,23 @@ require 'test_helper'
 
 class V1::CertsControllerTest < ActionController::TestCase
 
-  test "send limited cert without login" do
-    cert = expect_cert('LIMITED')
-    get :show
-    assert_response :success
-    assert_equal cert.to_s, @response.body
+  test "send unlimited cert without login" do
+    with_config allow_anonymous_certs: true do
+      cert = expect_cert('UNLIMITED')
+      get :show
+      assert_response :success
+      assert_equal cert.to_s, @response.body
+    end
   end
 
   test "send limited cert" do
-    login
-    cert = expect_cert('LIMITED')
-    get :show
-    assert_response :success
-    assert_equal cert.to_s, @response.body
+    with_config allow_limited_certs: true do
+      login
+      cert = expect_cert('LIMITED')
+      get :show
+      assert_response :success
+      assert_equal cert.to_s, @response.body
+    end
   end
 
   test "send unlimited cert" do
@@ -26,10 +30,8 @@ class V1::CertsControllerTest < ActionController::TestCase
   end
 
   test "redirect if no eip service offered" do
-    with_config({service_levels: {0 => {services: []}}}) do
-      get :show
-      assert_response :redirect
-    end
+    get :show
+    assert_response :redirect
   end
 
   protected

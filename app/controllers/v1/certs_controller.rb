@@ -1,6 +1,6 @@
 class V1::CertsController < ApplicationController
 
-  before_filter :require_eip_access
+  before_filter :require_login, :unless => :anonymous_certs_allowed?
 
   # GET /cert
   def show
@@ -10,8 +10,8 @@ class V1::CertsController < ApplicationController
 
   protected
 
-  def require_eip_access
-    access_denied unless service_level.provides?(:eip)
+  def anonymous_certs_allowed?
+    APP_CONFIG[:allow_anonymous_certs]
   end
 
   def service_level

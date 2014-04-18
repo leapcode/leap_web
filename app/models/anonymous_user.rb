@@ -1,8 +1,8 @@
 # The nil object for the user class
-class UnauthenticatedUser < Object
+class AnonymousUser < Object
 
   def effective_service_level
-    ServiceLevel.new id: APP_CONFIG[:unauthenticated_service_level]
+    AnonymousServiceLevel.new
   end
 
   def is_admin?

@@ -8,7 +8,7 @@ module ControllerExtension::Authentication
   end
 
   def current_user
-    @current_user ||= token_authenticate || warden.user || unauthenticated
+    @current_user ||= token_authenticate || warden.user || anonymous
   end
 
   def logged_in?
@@ -75,7 +75,7 @@ module ControllerExtension::Authentication
 
   protected
 
-  def unauthenticated
-    UnauthenticatedUser.new
+  def anonymous
+    AnonymousUser.new
   end
 end
