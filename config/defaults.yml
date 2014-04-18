@@ -52,13 +52,12 @@ service_levels: &service_levels
     1:
       name: free
       description: "free account, with rate limited VPN"
-      cost: 0
       eip_rate_limit: true
-      quota: 100
+      storage: 100
     2:
       name: premium
       description: "premium account, with unlimited vpn"
-      cost:
+      rate:
         USD: 10
         EUR: 10
   default_service_level: 1

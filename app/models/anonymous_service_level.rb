@@ -23,7 +23,6 @@ class AnonymousServiceLevel
   def config_hash
     { name: "anonymous",
       description: description,
-      cost: 0,
       eip_rate_limit: APP_CONFIG[:allow_limited_certs]
     }
   end
