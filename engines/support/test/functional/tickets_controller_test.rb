@@ -72,6 +72,17 @@ class TicketsControllerTest < ActionController::TestCase
 
   end
 
+  test "handle invalid ticket" do
+    params = {:subject => "unauth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}, :email => 'a'}
+
+    assert_no_difference('Ticket.count') do
+      post :create, :ticket => params
+    end
+
+    assert_template :new
+    assert_equal params[:subject], assigns(:ticket).subject
+  end
+
   test "should create authenticated ticket" do
 
     params = {:subject => "auth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}

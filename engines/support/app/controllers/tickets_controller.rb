@@ -24,11 +24,11 @@ class TicketsController < ApplicationController
 
     if @ticket.save
       flash[:notice] = t(:thing_was_successfully_created, :thing => t(:ticket))
-    end
 
-    # cannot set this until ticket has been saved, as @ticket.id will not be set
-    if !logged_in? and flash[:notice]
-      flash[:notice] += " " + t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
+      # cannot set this until ticket has been saved, as @ticket.id will not be set
+      if !logged_in? and flash[:notice]
+        flash[:notice] += " " + t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
+      end
     end
     respond_with(@ticket, :location => auto_ticket_path(@ticket))
   end
