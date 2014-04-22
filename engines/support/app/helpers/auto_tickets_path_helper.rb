@@ -23,6 +23,7 @@ module AutoTicketsPathHelper
   end
 
   def auto_ticket_path(ticket, options={})
+    return unless ticket.persisted?
     options = ticket_view_options.merge options
     if @user
       user_ticket_path(@user, ticket, options)
