@@ -35,24 +35,10 @@
       data: $(form).serialize()
     });
     req.done( function() {
-      $(form).find('input[type="submit"]').button('reset');
+      $(form).find('.btn[type="submit"]').button('reset');
     });
   };
-
-  markAsSubmitted = function(submitEvent) {
-    var form = submitEvent.target;
-    $(form).addClass('submitted')
-    // bootstrap loading state:
-    $(form).find('input[type="submit"]').button('loading');
-  };
-
-  resetButtons = function(submitEvent) {
-    var form = $('form.submitted')
-    // bootstrap loading state:
-    $(form).find('input[type="submit"]').button('reset');
-    $(form).removeClass('submitted')
-  };
-
+  
   //
   // PUBLIC FUNCTIONS
   //
@@ -79,7 +65,7 @@
     clear_errors();
     var errors = extractErrors(message);
     displayErrors(errors);
-    resetButtons();
+    $('.btn[type="submit"]').button('reset');
   }
 
   function extractErrors(message) {
@@ -115,7 +101,6 @@
   //
 
   $(document).ready(function() {
-    $('form').submit(markAsSubmitted);
     $('#new_user').submit(prevent_default);
     $('#new_user').submit(srp.signup);
     $('#new_session').submit(prevent_default);

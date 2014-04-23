@@ -20,3 +20,4 @@
 //= require platform
 //= require tickets
 //= require users
+//= require buttons
