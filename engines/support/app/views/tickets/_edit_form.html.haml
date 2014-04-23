@@ -17,7 +17,7 @@
     regarding_user_link = ''
   end
 
-= form_for @ticket do |f|
+= simple_form_for @ticket do |f|
   = hidden_ticket_fields
   %p.first
     - if @ticket.is_open?
@@ -39,10 +39,10 @@
         = t(:regarding_account)
         = regarding_user_link
       = f.text_field :regarding_user
-  = f.button t(:save), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'save'
+  = f.button :loading, t(:save), :value => 'save'
   - if @ticket.is_open?
-    = f.button t(:close), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'close'
+    = f.button :loading, t(:close), :value => 'close'
   - else
-    = f.button t(:open), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'open'
+    = f.button :loading, t(:open), :value => 'open'
   - if admin?
     = link_to t(:destroy), auto_ticket_path(@ticket),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn'

@@ -43,18 +43,18 @@ class TicketsController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'close'
+    if params[:button] == 'close'
       @ticket.is_open = false
       @ticket.save
       redirect_to_tickets
-    elsif params[:commit] == 'open'
+    elsif params[:button] == 'open'
       @ticket.is_open = true
       @ticket.save
       redirect_to auto_ticket_path(@ticket)
     else
       @ticket.attributes = cleanup_ticket_params(params[:ticket])
 
-      if params[:commit] == 'reply_and_close'
+      if params[:button] == 'reply_and_close'
         @ticket.close
       end
 
@@ -98,7 +98,7 @@ class TicketsController < ApplicationController
   #
   def redirect_to_tickets
     if logged_in?
-      if params[:commit] == t(:reply_and_close)
+      if params[:button] == t(:reply_and_close)
         redirect_to auto_tickets_path
       else
         redirect_to auto_ticket_path(@ticket)
