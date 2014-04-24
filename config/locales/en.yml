@@ -30,7 +30,7 @@ en:
   all_downloads_info: "It is available for %{clients}."
   other_downloads_info: "Bitmask is also available for %{clients}."
   login_info: "Log in to change your account settings, create support tickets, and manage payments."
-  signup_info: "Sign up for a new user account via this website (it is better if you use the Bitmask application to sign up, but this website works too)."
+  signup_info: "Get a user account via this website. We recommend registering via the Bitmask application instead unless you are only using Bitmask for Android."
   welcome: "Welcome to %{provider}."
   get_help: "Get Help"
   help_info: "Can't login? Create a new support ticket anonymously."

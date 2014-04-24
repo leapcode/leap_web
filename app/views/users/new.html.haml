@@ -8,8 +8,8 @@
 .span9
   = render :partial => 'warnings'
   %h2=t :signup
+  .lead=t :signup_info
   = simple_form_for(@user, form_options) do |f|
-    %legend= t(:signup_message)
     = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
     = f.input :password,              :required => false, :validate => true, :input_html => { :id => :srp_password }
     = f.input :password_confirmation, :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
