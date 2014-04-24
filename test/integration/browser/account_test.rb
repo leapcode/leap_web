@@ -131,9 +131,9 @@ class AccountTest < BrowserIntegrationTest
   end
 
   def assert_invalid_login(page)
-    assert page.has_selector? 'input.btn-primary.disabled'
+    assert page.has_selector? '.btn-primary.disabled'
     assert page.has_content? I18n.t(:invalid_user_pass)
-    assert page.has_no_selector? 'input.btn-primary.disabled'
+    assert page.has_no_selector? '.btn-primary.disabled'
   end
 
   def inject_malicious_js
