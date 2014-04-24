@@ -48,7 +48,7 @@ en:
   overview_intro: "From this user control panel, you can:"
   overview_tickets: "Create and check support tickets."
   overview_email: "Modify email settings."
-  overview_account: "Delete your account."
+  overview_account: "Destroy your account."
 
   #
   # rails
