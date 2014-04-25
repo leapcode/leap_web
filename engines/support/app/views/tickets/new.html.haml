@@ -14,9 +14,4 @@
     = c.input :body, :label => t(:description), :as => :text, :input_html => {:class => "full-width", :rows=> 5}
     - if admin?
       = c.input :private, :as => :boolean, :label => false, :inline_label => true
-  .form-actions
-    = f.button :submit, :class => 'btn-primary', :value => t(:create_thing, :thing => t(:ticket))
-    - if logged_in?
-      = link_to t(:cancel), auto_tickets_path, :class => :btn
-    - else
-      = link_to t(:cancel), home_path, :class => 'btn'
+  = f.button :wrapped, cancel: (logged_in? ? auto_tickets_path : home_path)

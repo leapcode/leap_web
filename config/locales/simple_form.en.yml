@@ -10,6 +10,9 @@ en:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Please review the problems below:"
+    buttons:
+      cancel: 'Cancel'
+      loading: 'Loading...'
     # Labels and hints examples
     # labels:
     #   defaults:
@@ -23,4 +26,11 @@ en:
     #   defaults:
     #     username: 'User name to sign in.'
     #     password: 'No special characters, please.'
+  helpers:
+    submit:
+      user:
+        create: "Sign up"
+        update: "Save"
+      session:
+        create: "Log in"
 

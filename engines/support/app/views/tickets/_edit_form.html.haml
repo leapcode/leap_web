@@ -17,13 +17,17 @@
     regarding_user_link = ''
   end
 
-= form_for @ticket do |f|
+= simple_form_for @ticket do |f|
   = hidden_ticket_fields
   %p.first
     - if @ticket.is_open?
-      %span.label.label-info= t(:open)
+      %span.label.label-info
+        %b{style: 'padding:10px'}= t(:open)
+        = f.button :loading, t(:close), value: 'close', class: 'btn-mini'
     - else
-      %span.label.label-success= t(:closed)
+      %span.label.label-success
+        %b{style: 'padding:10px'}= t(:closed)
+        = f.button :loading, t(:open), value: 'open', class: 'btn-mini'
     %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
   %div= t(:subject)
   = f.text_field :subject, :class => 'large full-width'
@@ -39,10 +43,6 @@
         = t(:regarding_account)
         = regarding_user_link
       = f.text_field :regarding_user
-  = f.button t(:save), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'save'
-  - if @ticket.is_open?
-    = f.button t(:close), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'close'
-  - else
-    = f.button t(:open), :name => 'commit', :class => 'btn', :type => 'submit', :value => 'open'
+  = f.button :loading, t(:save), :value => 'save'
   - if admin?
     = link_to t(:destroy), auto_ticket_path(@ticket),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn'

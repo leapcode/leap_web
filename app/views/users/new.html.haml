@@ -13,7 +13,5 @@
     = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
     = f.input :password,              :required => false, :validate => true, :input_html => { :id => :srp_password }
     = f.input :password_confirmation, :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
-    .form-actions
-      = f.button :submit, :value => t(:signup), :class => 'btn btn-primary'
-      = link_to t(:cancel), home_path, :class => 'btn'
+    = f.button :wrapped, value: t(:signup), cancel: home_path
 
