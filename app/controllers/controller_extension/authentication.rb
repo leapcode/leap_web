@@ -8,11 +8,11 @@ module ControllerExtension::Authentication
   end
 
   def current_user
-    @current_user ||= token_authenticate || warden.user
+    @current_user ||= token_authenticate || warden.user || anonymous
   end
 
   def logged_in?
-    !!current_user
+    current_user.is_a? User
   end
 
   def require_login
@@ -42,7 +42,7 @@ module ControllerExtension::Authentication
   end
 
   def admin?
-    current_user && current_user.is_admin?
+    current_user.is_admin?
   end
 
   def require_admin
@@ -71,5 +71,11 @@ module ControllerExtension::Authentication
   def attempted_login?
     request.env['warden.options'] &&
       request.env['warden.options'][:attempted_path]
+  end
+
+  protected
+
+  def anonymous
+    AnonymousUser.new
   end
 end

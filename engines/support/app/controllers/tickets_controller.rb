@@ -5,7 +5,8 @@ class TicketsController < ApplicationController
   #has_scope :open, :type => boolean
 
   before_filter :require_login, :only => [:index]
-  before_filter :fetch_ticket, :only => [:show, :update, :destroy] # don't now have an edit method
+  before_filter :fetch_ticket, :only => [:show, :update, :destroy]
+  before_filter :require_ticket_access, :only => [:show, :update, :destroy]
   before_filter :fetch_user
   before_filter :set_title
 
@@ -17,11 +18,11 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(params[:ticket])
 
-    @ticket.comments.last.posted_by = (logged_in? ? current_user.id : nil) #protecting posted_by isn't working, so this should protect it.
+    #protecting posted_by isn't working, so this should protect it:
+    @ticket.comments.last.posted_by = current_user.id
     @ticket.comments.last.private = false unless admin?
-    @ticket.created_by = current_user.id if logged_in?
-    @ticket.email = current_user.email_address if logged_in? and current_user.email_address
-
+    @ticket.created_by = current_user.id
+    @ticket.email = current_user.email_address if current_user.email_address
     if @ticket.save
       flash[:notice] = t(:thing_was_successfully_created, :thing => t(:ticket))
 
@@ -58,7 +59,7 @@ class TicketsController < ApplicationController
       end
 
       if @ticket.comments_changed?
-        @ticket.comments.last.posted_by = (current_user ? current_user.id : nil)
+        @ticket.comments.last.posted_by = current_user.id
         @ticket.comments.last.private = false unless admin?
       end
 
@@ -120,17 +121,26 @@ class TicketsController < ApplicationController
     return ticket
   end
 
-  def ticket_access?
-    @ticket and (admin? or !@ticket.created_by or (current_user and current_user.id == @ticket.created_by))
-  end
-
   def fetch_ticket
     @ticket = Ticket.find(params[:id])
-    if !@ticket and admin?
-      redirect_to auto_tickets_path, :alert => t(:no_such_thing, :thing => 'ticket')
-      return
+    if !@ticket
+      if admin?
+        redirect_to auto_tickets_path,
+          alert: t(:no_such_thing, thing: 'ticket')
+      else
+        access_denied
+      end
     end
+  end
+
+  def require_ticket_access
     access_denied unless ticket_access?
+  end
+
+  def ticket_access?
+    admin? or
+      @ticket.created_by.blank? or
+      current_user.id == @ticket.created_by
   end
 
   def fetch_user

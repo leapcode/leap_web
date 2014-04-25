@@ -7,12 +7,11 @@ module V1
     respond_to :json
 
     def index
-      render json: (current_user ? current_user.messages : [] )
+      render json: current_user.messages
     end
 
     def update
-      message = Message.find(params[:id])
-      if (message and current_user)
+      if message = Message.find(params[:id])
         message.mark_as_read_by(current_user)
         message.save
         render json: true

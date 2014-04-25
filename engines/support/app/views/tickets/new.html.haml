@@ -2,22 +2,14 @@
 
 = render 'tickets/tabs'
 
-- if admin? && @user
-  - email = @user.email_address
-  - regarding = @user.login
-- elsif logged_in?
-  - email = current_user.email_address
-  - regarding = current_user.login
+- user = @user if admin?
+- user ||= current_user
 
 = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'} do |f|
   = hidden_ticket_fields
   = f.input :subject
-  - if logged_in?
-    = f.input :email, input_html: {value: email}
-    = f.input :regarding_user, input_html: {value: regarding}
-  - else
-    = f.input :email
-    = f.input :regarding_user
+  = f.input :email, input_html: {value: user.email_address}
+  = f.input :regarding_user, input_html: {value: user.login}
   = f.simple_fields_for :comments, @comment do |c|
     = c.input :body, :label => t(:description), :as => :text, :input_html => {:class => "full-width", :rows=> 5}
     - if admin?

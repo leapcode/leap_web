@@ -7,6 +7,6 @@
       = render :partial => 'tickets/comment', :collection => @ticket.comments
       %tr
         %td.user
-          = logged_in? ? current_user.login : t(:anonymous)
+          = current_user.login || t(:anonymous)
         %td.comment
           = render 'tickets/new_comment_form'

@@ -8,11 +8,11 @@
     %legend= t(:service_level)
     - if @user != current_user
       = t(:desired_service_level)
-    = f.select :desired_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.desired_service_level.id
+    = f.select :desired_service_level_code, ServiceLevel.select_options, :selected => @user.desired_service_level.id
     - if @user != current_user
       %p
       = t(:effective_service_level)
-      = f.select :effective_service_level_code, ServiceLevel.authenticated_select_options, :selected => @user.effective_service_level.id
+      = f.select :effective_service_level_code, ServiceLevel.select_options, :selected => @user.effective_service_level.id
     .control-group
       .controls
         = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}
