@@ -26,4 +26,11 @@ en:
     #   defaults:
     #     username: 'User name to sign in.'
     #     password: 'No special characters, please.'
+  helpers:
+    submit:
+      user:
+        create: "Sign up"
+        update: "Save"
+      session:
+        create: "Log in"
 
