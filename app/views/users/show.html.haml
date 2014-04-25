@@ -22,4 +22,4 @@
     %li= icon('shopping-cart') + link_to(t(:overview_billing), billing_top_link(@user)) if APP_CONFIG[:billing]
   .container-fluid
     .row-fluid
-      = home_page_buttons(true)
+      = render 'common/download_button'
