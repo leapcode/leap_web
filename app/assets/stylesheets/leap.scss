@@ -231,13 +231,13 @@ input, textarea {
   .download {
     a.btn {
       width: 14em;
+      font-weight: bold;
       small {
         font-weight: normal;
       }
     }
   }
   a.btn {
-    font-weight: bold;
     width: 11em;
     margin: 10px auto;
     display: block;
