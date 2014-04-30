@@ -123,6 +123,20 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?("server failed")
   end
 
+  test "does not render signup form without js" do
+    Capybara.current_driver = :rack_test # no js
+    visit '/signup'
+    assert page.has_no_content?("Username")
+    assert page.has_no_content?("Password")
+  end
+
+  test "does not render login form without js" do
+    Capybara.current_driver = :rack_test # no js
+    visit '/login'
+    assert page.has_no_content?("Username")
+    assert page.has_no_content?("Password")
+  end
+
   def attempt_login(username, password)
     click_on 'Log In'
     fill_in 'Username', with: username

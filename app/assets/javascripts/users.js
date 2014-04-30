@@ -160,6 +160,8 @@
 //
 
   $(document).ready(function() {
+    $('.hidden.js-show').removeClass('hidden');
+    $('.js-show').show();
     $('#new_user').submit(prevent_default);
     $('#new_user').submit(clear_field_errors);
     $('#new_user').submit(validate_password_length);

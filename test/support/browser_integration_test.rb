@@ -60,7 +60,6 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def save_state
-    page.save_screenshot screenshot_path
     File.open(logfile_path, 'w') do |test_log|
       test_log.puts self.class.name
       test_log.puts "========================="
@@ -76,6 +75,9 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
       test_log.puts "------------------------"
       test_log.puts `tail log/test.log -n 200`
     end
+    page.save_screenshot screenshot_path
+  # some drivers do not support screenshots
+  rescue Capybara::NotSupportedByDriverError
   end
 
 end
