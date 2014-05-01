@@ -48,7 +48,7 @@ class V1::SessionsControllerTest < ActionController::TestCase
     assert_response :success
     assert json_response.keys.include?("id")
     assert json_response.keys.include?("token")
-    assert token = Token.find(json_response['token'])
+    assert token = Token.find_by_token(json_response['token'])
     assert_equal @user.id, token.user_id
   end
 

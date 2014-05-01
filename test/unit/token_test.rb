@@ -14,17 +14,22 @@ class ClientCertificateTest < ActiveSupport::TestCase
     assert_equal @user, sample.authenticate
   end
 
-  test "token id is secure" do
+  test "token is secure" do
     sample = Token.new(:user_id => @user.id)
     other = Token.new(:user_id => @user.id)
-    assert sample.id,
-      "id is set on initialization"
-    assert sample.id[0..10] != other.id[0..10],
-      "token id prefixes should not repeat"
-    assert /[g-zG-Z]/.match(sample.id),
-      "should use non hex chars in the token id"
-    assert sample.id.size > 16,
-      "token id should be more than 16 chars long"
+    assert sample.token,
+      "token is set on initialization"
+    assert sample.token[0..10] != other.token[0..10],
+      "token prefixes should not repeat"
+    assert /[g-zG-Z]/.match(sample.token),
+      "should use non hex chars in the token"
+    assert sample.token.size > 16,
+      "token should be more than 16 chars long"
+  end
+
+  test "token id is hash of the token" do
+    sample = Token.new(:user_id => @user.id)
+    assert_equal Digest::SHA512.hexdigest(sample.token), sample.id
   end
 
   test "token checks for user" do

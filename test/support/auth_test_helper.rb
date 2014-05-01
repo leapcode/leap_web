@@ -46,8 +46,9 @@ module AuthTestHelper
   protected
 
   def header_for_token_auth
-    @token = find_record(:token, :authenticate => @current_user)
-    ActionController::HttpAuthentication::Token.encode_credentials @token.id
+    @token = stub_record(:token, :authenticate => @current_user)
+    Token.stubs(:find_by_token).with(@token.token).returns(@token)
+    ActionController::HttpAuthentication::Token.encode_credentials @token.token
   end
 
   def expect_warden_logout

@@ -27,7 +27,7 @@ class TestHelpersTest < ActionController::TestCase
   def test_login_adds_token_header
     login
     token_present = @controller.authenticate_with_http_token do |token, options|
-      assert_equal @token.id, token
+      assert_equal @token.to_s, token
     end
     # authenticate_with_http_token just returns nil and does not
     # execute the block if there is no token. So we have to also
