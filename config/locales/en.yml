@@ -1,10 +1,19 @@
 en:
+  home: Home
   privacy_policy: Privacy Policy
   terms_of_service: Terms of Service
   pricing: Pricing
   about: About Us
   contact: Contact
+
+  not_found_title: Page not found.
+  not_found_subtitle: "The page you were looking for doesn't exist."
+  not_found_lead: "You may have mistyped the address or the page may have moved."
+  server_error_title: Ouch!
+  server_error_subtitle: We ran into a server error.
+  server_error_lead: The problem has been logged and we will look into it.
   no_such_thing: "No such %{thing}."
+
   thing_was_successfully_created: "%{thing} was successfully created."
   create_thing: "Create %{thing}"
 

@@ -1,7 +1,7 @@
 .hero-unit
-  %h1 Ouch!
-  %h2 We ran into a server error.
-  %p.lead The problem has been logged and we will look into it.
+  %h1=t :server_error_title
+  %h2=t :server_error_subtitle
+  %p.lead=t :server_error_lead
   %a.btn.btn-primary.btn-large{href:'/'}
     %i.icon-home.icon-white
-    Home
+    =t :home
