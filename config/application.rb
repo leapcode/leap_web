@@ -91,5 +91,7 @@ module LeapWeb
     ## see initializers/customization.rb
     ##
     config.paths['app/views'].unshift "config/customization/views"
+
+    config.exceptions_app = self.routes
   end
 end
