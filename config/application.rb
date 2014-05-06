@@ -92,6 +92,7 @@ module LeapWeb
     ##
     config.paths['app/views'].unshift "config/customization/views"
 
+    # handle http errors ourselves
     config.exceptions_app = self.routes
   end
 end
