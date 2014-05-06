@@ -20,6 +20,11 @@
     - # %li= icon('envelope') + link_to(t(:overview_email), {insert path for user identities, presuambly}
     %li= icon('question-sign') + link_to(t(:overview_tickets), user_tickets_path(@user))
     %li= icon('shopping-cart') + link_to(t(:overview_billing), billing_top_link(@user)) if APP_CONFIG[:billing]
+
+
   .container-fluid
     .row-fluid
-      = render 'common/download_button'
+      %h4 To use bitmask services:
+      = link_to client_download_url, class: "btn btn-primary" do
+        %i.icon-arrow-down.icon-white
+        = t(:download_client)
