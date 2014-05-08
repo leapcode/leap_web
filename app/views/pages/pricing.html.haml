@@ -16,6 +16,6 @@
           - if level[:rate].nil? || level[:rate] == 0
             = t(:free)
           - else
-            = level[:rate].join(', ')
+            = level[:rate].collect{|currency, price| "#{currency} #{price}"}.join(', ')
 - else
   No service levels are configured.
