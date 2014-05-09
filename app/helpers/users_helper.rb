@@ -1,7 +1,7 @@
 module UsersHelper
 
   def user_form_class(*classes)
-    (classes + ['user', 'form', (@user.new_record? ? 'new' : 'edit')]).compact.join(' ')
+    (classes + ['user', 'hidden', 'js-show', (@user.new_record? ? 'new' : 'edit')]).compact.join(' ')
   end
 
   def wrapped(item, options = {})
