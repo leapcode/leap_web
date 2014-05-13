@@ -98,7 +98,11 @@ class Ticket < CouchRest::Model::Base
   end
 
   def created_by_user
-    User.find(self.created_by) || AnonymousUser.new
+    if self.created_by
+      User.find(self.created_by) || AnonymousUser.new
+    else
+      AnonymousUser.new
+    end
   end
 
   def regarding_user_actual_user

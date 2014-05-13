@@ -85,7 +85,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "should create authenticated ticket" do
 
-    params = {:subject => "auth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
+    params = {:subject => "auth ticket test subject",:email => "", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 
     login
 
@@ -97,7 +97,7 @@ class TicketsControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:ticket).created_by
     assert_equal assigns(:ticket).created_by, @current_user.id
-    assert_equal assigns(:ticket).email, @current_user.email_address
+    assert_equal "", assigns(:ticket).email
 
     assert_equal 1, assigns(:ticket).comments.count
     assert_not_nil assigns(:ticket).comments.first.posted_by

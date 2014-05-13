@@ -27,10 +27,10 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "creation validated" do
+    user = FactoryGirl.create :user
     @sample = Ticket.new
     assert !@sample.is_creator_validated?
-    #p current_user
-    @sample.created_by = 22 #current_user
+    @sample.created_by = user.id
     assert @sample.is_creator_validated?
   end
 
