@@ -61,10 +61,17 @@ class User < CouchRest::Model::Base
     login
   end
 
-  def email_address
+  # use this if you want to get a working email address only.
+  def email
     if effective_service_level.provides?('email')
-      LocalEmail.new(login)
+      email_address
     end
+  end
+
+  # use this if you want the email address associated with a
+  # user no matter if the user actually has a local email account
+  def email_address
+    LocalEmail.new(login)
   end
 
   # Since we are storing admins by login, we cannot allow admins to change their login.

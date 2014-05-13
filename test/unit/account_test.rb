@@ -8,7 +8,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "create a new account" do
     user = Account.create(FactoryGirl.attributes_for(:user))
-    assert user.valid?
+    assert user.valid?, "unexpected errors: #{user.errors.inspect}"
     assert user.persisted?
     assert id = user.identity
     assert_equal user.email_address, id.address
