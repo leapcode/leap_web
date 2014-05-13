@@ -22,7 +22,6 @@ class TicketsController < ApplicationController
     @ticket.comments.last.posted_by = current_user.id
     @ticket.comments.last.private = false unless admin?
     @ticket.created_by = current_user.id
-    @ticket.email = current_user.email_address if current_user.email_address
     if @ticket.save
       flash[:notice] = t(:thing_was_successfully_created, :thing => t(:ticket))
 

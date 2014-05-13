@@ -55,7 +55,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
 
   # currently this only works for tests with poltergeist.
   def login(user = nil)
-    user ||= @user ||= FactoryGirl.create(:user)
+    @user ||= user ||= FactoryGirl.create(:user)
     token = Token.create user_id: user.id
     page.driver.add_header "Authorization",
       'Token token="' + token.to_s + '"'

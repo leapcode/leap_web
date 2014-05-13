@@ -62,7 +62,9 @@ class User < CouchRest::Model::Base
   end
 
   def email_address
-    LocalEmail.new(login)
+    if effective_service_level.provides?('email')
+      LocalEmail.new(login)
+    end
   end
 
   # Since we are storing admins by login, we cannot allow admins to change their login.

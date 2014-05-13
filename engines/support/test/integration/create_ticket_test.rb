@@ -25,4 +25,32 @@ class CreateTicketTest < BrowserIntegrationTest
     assert page.has_content?("is invalid")
   end
 
+  test "prefills email when user has email service" do
+    login FactoryGirl.create(:premium_user)
+    visit '/'
+    click_on "Support Tickets"
+    click_on "New Ticket"
+    email = "#{@user.login}@#{APP_CONFIG[:domain]}"
+    assert_equal email, find_field('Email').value
+  end
+
+  test "no prefill of email without email service" do
+    login
+    visit '/'
+    click_on "Support Tickets"
+    click_on "New Ticket"
+    assert_equal "", find_field('Email').value
+  end
+
+  test "cleared email field should remain clear" do
+    login FactoryGirl.create(:premium_user)
+    visit '/'
+    click_on "Support Tickets"
+    click_on "New Ticket"
+    fill_in 'Subject', with: 'test ticket'
+    fill_in 'Email', with: ''
+    fill_in 'Description', with: 'description of the problem goes here'
+    click_on 'Create Ticket'
+    assert_nil Ticket.last.email
+  end
 end

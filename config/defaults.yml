@@ -54,12 +54,17 @@ service_levels: &service_levels
       description: "free account, with rate limited VPN"
       eip_rate_limit: true
       storage: 100
+      services:
+        - eip
     2:
       name: premium
       description: "premium account, with unlimited vpn"
       rate:
         USD: 10
         EUR: 10
+      services:
+        - eip
+        - email
   default_service_level: 1
 
 development:
