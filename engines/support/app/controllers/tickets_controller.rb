@@ -12,6 +12,7 @@ class TicketsController < ApplicationController
 
   def new
     @ticket = Ticket.new
+    @ticket.created_by = current_user.id
     @ticket.comments.build
   end
 
@@ -24,9 +25,7 @@ class TicketsController < ApplicationController
     @ticket.created_by = current_user.id
     if @ticket.save
       flash[:notice] = t(:thing_was_successfully_created, :thing => t(:ticket))
-
-      # cannot set this until ticket has been saved, as @ticket.id will not be set
-      if !logged_in? and flash[:notice]
+      if !logged_in?
         flash[:notice] += " " + t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
       end
     end

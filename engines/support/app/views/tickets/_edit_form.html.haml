@@ -1,6 +1,6 @@
 :ruby
   # created by user link
-  if @ticket.created_by_user
+  if @ticket.is_creator_validated?
     created_by = link_to @ticket.created_by_user.login, @ticket.created_by_user
   else
     created_by = t(:anonymous)
