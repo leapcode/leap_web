@@ -57,8 +57,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   def login(user = nil)
     @user ||= user ||= FactoryGirl.create(:user)
     token = Token.create user_id: user.id
-    page.driver.add_header "Authorization",
-      'Token token="' + token.to_s + '"'
+    page.driver.add_header "Authorization", %Q(Token token="#{token}")
     visit '/'
   end
 
