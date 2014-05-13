@@ -29,6 +29,8 @@
         %b{style: 'padding:10px'}= t(:closed)
         = f.button :loading, t(:open), value: 'open', class: 'btn-mini'
     %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
+= simple_form_for @ticket do |f|
+  = hidden_ticket_fields
   %div= t(:subject)
   = f.text_field :subject, :class => 'large full-width'
   .row-fluid
