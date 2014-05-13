@@ -38,7 +38,7 @@ module V1
 
     def login_response
       handshake = session.delete(:handshake) || {}
-      handshake.to_hash.merge(:id => current_user.id, :token => @token.id)
+      handshake.to_hash.merge(:id => current_user.id, :token => @token.to_s)
     end
 
   end

@@ -70,6 +70,12 @@ class Identity < CouchRest::Model::Base
     end
   end
 
+  def self.destroy_all_for(user)
+    Identity.by_user_id.key(user.id).each do |identity|
+      identity.destroy
+    end
+  end
+
   def self.destroy_all_disabled
     Identity.disabled.each do |identity|
       identity.destroy

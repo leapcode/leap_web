@@ -30,6 +30,10 @@ class Token < CouchRest::Model::Base
     end
   end
 
+  def to_s
+    id
+  end
+
   def authenticate
     if expired?
       destroy
