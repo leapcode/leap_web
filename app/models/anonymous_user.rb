@@ -13,6 +13,10 @@ class AnonymousUser < Object
     nil
   end
 
+  def email
+    nil
+  end
+
   def email_address
     nil
   end

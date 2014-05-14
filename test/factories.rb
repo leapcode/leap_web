@@ -22,6 +22,11 @@ FactoryGirl.define do
         admin.stubs(:is_admin?).returns(true)
       end
     end
+
+    factory :premium_user do
+      effective_service_level_code 2
+    end
+
   end
 
   factory :token do

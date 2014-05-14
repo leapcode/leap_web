@@ -19,8 +19,6 @@ class Ticket < CouchRest::Model::Base
 
   timestamps!
 
-  before_validation :set_email, :set_regarding_user, :on => :create
-
   design do
     view :by_updated_at
     view :by_created_at
@@ -34,7 +32,12 @@ class Ticket < CouchRest::Model::Base
   end
 
   validates :subject, :presence => true
-  validates :email, :allow_blank => true, :format => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/
+
+  # email can have three states:
+  # * nil - prefilled with created_by's email
+  # * "" - cleared
+  # * valid email address
+  validates :email, :allow_blank => true, :format => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/
 
   def self.search(options = {})
     @selection = TicketSelection.new(options)
@@ -48,15 +51,15 @@ class Ticket < CouchRest::Model::Base
   end
 
   def is_creator_validated?
-    !!created_by
+    created_by_user.is_a? User
   end
 
-  def set_email
-    self.email = nil if self.email == ""
+  def email
+    read_attribute(:email) || created_by_user.email
   end
 
-  def set_regarding_user
-    self.regarding_user = nil if self.regarding_user == ""
+  def regarding_user
+    read_attribute(:regarding_user) || created_by_user.login
   end
 
   def close
@@ -95,7 +98,11 @@ class Ticket < CouchRest::Model::Base
   end
 
   def created_by_user
-    User.find(self.created_by)
+    if self.created_by
+      User.find(self.created_by) || AnonymousUser.new
+    else
+      AnonymousUser.new
+    end
   end
 
   def regarding_user_actual_user

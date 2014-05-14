@@ -21,10 +21,8 @@ class V1::ServicesControllerTest < ActionController::TestCase
   test "user can see their service info" do
     login
     get :show, format: :json
-    assert_json_response name: 'free',
-      eip_rate_limit: true,
-      description: 'free account, with rate limited VPN',
-      storage: 100
+    default_level = APP_CONFIG[:default_service_level]
+    assert_json_response APP_CONFIG[:service_levels][default_level]
   end
 
 end

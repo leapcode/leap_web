@@ -53,6 +53,21 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     return username, password
   end
 
+  # currently this only works for tests with poltergeist.
+  def login(user = nil)
+    @user ||= user ||= FactoryGirl.create(:user)
+    token = Token.create user_id: user.id
+    page.driver.add_header "Authorization", %Q(Token token="#{token}")
+    visit '/'
+  end
+
+  teardown do
+    if @user && @user.reload
+      Identity.destroy_all_for @user
+      @user.destroy
+    end
+  end
+
   add_teardown_hook do |testcase|
     unless testcase.passed?
       testcase.save_state

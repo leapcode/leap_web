@@ -24,6 +24,14 @@ class ServiceLevel
     end
   end
 
+  def provides?(service)
+    services.include? service
+  end
+
+  def services
+    config_hash[:services] || []
+  end
+
   protected
 
   def limited_cert?

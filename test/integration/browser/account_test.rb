@@ -6,7 +6,7 @@ class AccountTest < BrowserIntegrationTest
     Identity.destroy_all_disabled
   end
 
-  test "normal account workflow" do
+  test "signup successfully" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
     click_on 'Logout'
@@ -14,6 +14,12 @@ class AccountTest < BrowserIntegrationTest
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
     user.account.destroy
+  end
+
+  test "signup with username ending in dot json" do
+    username = Faker::Internet.user_name + '.json'
+    submit_signup username
+    assert page.has_content?("Welcome #{username}")
   end
 
   test "successful login" do
@@ -51,7 +57,7 @@ class AccountTest < BrowserIntegrationTest
   end
 
   test "default user actions" do
-    username, password = submit_signup
+    login
     click_on "Account Settings"
     assert page.has_content? I18n.t('destroy_my_account')
     assert page.has_no_css? '#update_login_and_password'
@@ -59,8 +65,8 @@ class AccountTest < BrowserIntegrationTest
   end
 
   test "default admin actions" do
-    username, password = submit_signup
-    with_config admins: [username] do
+    login
+    with_config admins: [@user.login] do
       click_on "Account Settings"
       assert page.has_content? I18n.t('destroy_my_account')
       assert page.has_no_css? '#update_login_and_password'
@@ -70,7 +76,7 @@ class AccountTest < BrowserIntegrationTest
 
   test "change password" do
     with_config user_actions: ['change_password'] do
-      username, password = submit_signup
+      login
       click_on "Account Settings"
       within('#update_login_and_password') do
         fill_in 'Password', with: "other password"
@@ -78,16 +84,15 @@ class AccountTest < BrowserIntegrationTest
         click_on 'Save'
       end
       click_on 'Logout'
-      attempt_login(username, "other password")
-      assert page.has_content?("Welcome #{username}")
-      User.find_by_login(username).account.destroy
+      attempt_login(@user.login, "other password")
+      assert page.has_content?("Welcome #{@user.login}")
     end
   end
 
   test "change pgp key" do
     with_config user_actions: ['change_pgp_key'] do
       pgp_key = FactoryGirl.build :pgp_key
-      username, password = submit_signup
+      login
       click_on "Account Settings"
       within('#update_pgp_key') do
         fill_in 'Public key', with: pgp_key
@@ -97,9 +102,7 @@ class AccountTest < BrowserIntegrationTest
       # at some point we're done:
       page.assert_no_selector 'input[value="Saving..."]'
       assert page.has_field? 'Public key', with: pgp_key.to_s
-      user = User.find_by_login(username)
-      assert_equal pgp_key, user.public_key
-      user.account.destroy
+      assert_equal pgp_key, @user.reload.public_key
     end
   end
 
