@@ -8,5 +8,5 @@
     %li
       = link_to t(:logout), logout_path, :method => :delete
 - if @user && @show_navigation
-  .user_heading
+  .lead
     = @user.email_address
