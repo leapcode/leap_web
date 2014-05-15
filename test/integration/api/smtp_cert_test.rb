@@ -14,7 +14,7 @@ class SmtpCertTest < ApiIntegrationTest
     assert_response_includes "END CERTIFICATE"
   end
 
-  test "key matches the cert" do
+  test "cert and key" do
     @user = FactoryGirl.create :user, effective_service_level_code: 2
     login
     get '/1/smtp_cert', {}, RACK_ENV
@@ -22,17 +22,17 @@ class SmtpCertTest < ApiIntegrationTest
     cert = OpenSSL::X509::Certificate.new(get_response.body)
     key = OpenSSL::PKey::RSA.new(get_response.body)
     assert cert.check_private_key(key)
+    prefix = "/CN=#{@user.email_address}"
+    assert_equal prefix, cert.subject.to_s.slice(0,prefix.size)
   end
 
-  # we'll store the fingerprint later.
-  test "fingerprint matches" do
+  test "fingerprint is stored with identity" do
     @user = FactoryGirl.create :user, effective_service_level_code: 2
     login
     get '/1/smtp_cert', {}, RACK_ENV
     assert_text_response
     cert = OpenSSL::X509::Certificate.new(get_response.body)
     fingerprint = OpenSSL::Digest::SHA1.hexdigest(cert.to_der).scan(/../).join(':')
-    skip "we're not storing the fingerprints yet"
     assert_equal fingerprint, @user.identity.cert_fingerprints.last
   end
 

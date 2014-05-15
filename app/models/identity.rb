@@ -8,6 +8,7 @@ class Identity < CouchRest::Model::Base
   property :address, LocalEmail
   property :destination, Email
   property :keys, HashWithIndifferentAccess
+  property :cert_fingerprints, [String]
 
   validate :unique_forward
   validate :alias_available

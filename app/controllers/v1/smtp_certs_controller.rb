@@ -6,6 +6,8 @@ class V1::SmtpCertsController < ApplicationController
   # GET /cert
   def show
     @cert = ClientCertificate.new prefix: current_user.email_address
+    current_user.identity.cert_fingerprints << @cert.fingerprint
+    current_user.identity.save
     render text: @cert.to_s, content_type: 'text/plain'
   end
 
