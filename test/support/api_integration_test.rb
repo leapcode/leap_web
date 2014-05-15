@@ -6,6 +6,8 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
   def login(user = nil)
     @user ||= user ||= FactoryGirl.create(:user)
     @token ||= DUMMY_TOKEN
+    # make sure @token is up to date if it already exists
+    @token.reload if @token.persisted
     @token.user_id = @user.id
     @token.last_seen_at = Time.now
     @token.save

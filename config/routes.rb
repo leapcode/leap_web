@@ -26,6 +26,7 @@ LeapWeb::Application.routes.draw do
     resources :users, :only => [:create, :update, :destroy, :index]
     resources :messages, :only => [:index, :update]
     resource :cert, :only => [:show]
+    resource :smtp_cert, :only => [:show]
     resource :service, :only => [:show]
   end
 
