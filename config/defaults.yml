@@ -1,6 +1,6 @@
 dev_ca: &dev_ca
-  client_ca_key: "./certs/test/files/ca.key"
-  client_ca_cert: "./certs/test/files/ca.crt"
+  client_ca_key: "./test/files/ca.key"
+  client_ca_cert: "./test/files/ca.crt"
   ca_key_password: nil
 
 cert_options: &cert_options
@@ -49,23 +49,22 @@ common: &common
 
 service_levels: &service_levels
   service_levels:
-    0:
-      name: anonymous
-      cert_prefix: "LIMITED"
-      description: "anonymous account, with rate limited VPN"
     1:
       name: free
-      cert_prefix: "LIMITED"
       description: "free account, with rate limited VPN"
-      cost: 0
-      quota: 100
+      eip_rate_limit: true
+      storage: 100
+      services:
+        - eip
     2:
       name: premium
-      cert_prefix: "UNLIMITED"
       description: "premium account, with unlimited vpn"
-      cost:
+      rate:
         USD: 10
         EUR: 10
+      services:
+        - eip
+        - email
   default_service_level: 1
 
 development:

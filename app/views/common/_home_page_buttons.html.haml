@@ -1,0 +1,8 @@
+- icon_color = :black
+
+= render 'common/download_button'
+- if local_assigns[:divider]
+  .row-fluid
+    .span12
+      = render local_assigns[:divider]
+= render 'common/action_buttons', icon_color: icon_color

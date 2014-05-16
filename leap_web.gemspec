@@ -19,7 +19,4 @@ Gem::Specification.new do |s|
   s.email = 'azul@leap.se'
   s.homepage = 'http://leap.se'
 
-  # s.add_dependency 'leap_web_core'
-  s.add_dependency 'leap_web_certs', LeapWeb::VERSION
-  s.add_dependency 'leap_web_users', LeapWeb::VERSION
 end

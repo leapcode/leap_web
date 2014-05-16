@@ -1,0 +1,19 @@
+- @show_navigation = params[:user_id].present?
+
+= render 'tickets/tabs'
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th= t(:subject)
+      %th= t(:created)
+      %th= t(:updated)
+      %th= t(:voices)
+  %tbody
+    - if @tickets.any?
+      = render @tickets.all
+    - else
+      %tr
+        %td{:colspan=>4}= t(:none)
+
+= paginate @tickets

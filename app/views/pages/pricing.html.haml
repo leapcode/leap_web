@@ -13,9 +13,9 @@
         %td= level[:name]
         %td= level[:description]
         %td
-          - if level[:cost].nil? || level[:cost] == 0
+          - if level[:rate].nil? || level[:rate] == 0
             = t(:free)
           - else
-            = level[:cost].map{|currency,cost| "#{cost} #{currency}"}.join(', ')
+            = level[:rate].collect{|currency, price| "#{currency} #{price}"}.join(', ')
 - else
   No service levels are configured.

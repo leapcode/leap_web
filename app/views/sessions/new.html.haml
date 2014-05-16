@@ -1,0 +1,9 @@
+.span1
+.span9
+  %h2=t :login
+  .lead=t :login_info
+  = render :partial => 'users/warnings'
+  = simple_form_for [:api, @session], validate: true, html: { id: :new_session, class: 'form-horizontal hidden js-show', style: "display:none;" } do |f|
+    = f.input :login, :required => false, :label => t(:username), :input_html => { :id => :srp_username }
+    = f.input :password, :required => false, :input_html => { :id => :srp_password }
+    = f.button :wrapped, value: t(:login), cancel: home_path

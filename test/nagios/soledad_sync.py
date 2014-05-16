@@ -7,13 +7,15 @@
 
 
 import tempfile
-import requests
 import os
-import srp._pysrp as srp
 import shutil
 import u1db
+from support.api import Api
+from support.config import Config
+from support.user import User
+
+
 from u1db.remote.http_target import HTTPSyncTarget
-from webapp_login import read_config, parse, authenticate, fail
 
 
 # monkey patch U1DB's HTTPSyncTarget to perform token based auth
@@ -37,58 +39,39 @@ HTTPSyncTarget._sign_request = _sign_request
 # to actually use the Soledad client in the future.
 
 def get_soledad_info(config, tempdir):
-  # get login and get user info
-  user = config['user']
-  api = config['api']
-  usr = srp.User( user['username'], user['password'], srp.SHA256, srp.NG_1024 )
-  try:
-    auth = parse(authenticate(api, usr))
-  except requests.exceptions.ConnectionError:
-    fail('no connection to server')
-  # get soledad server url
-  service_url = 'https://%s:%d/%d/config/soledad-service.json' % \
-                (api['domain'], api['port'], api['version'])
-  soledad_hosts = requests.get(service_url).json['hosts']
-  host = soledad_hosts.keys()[0]
-  server_url = 'https://%s:%d/user-%s' % \
-               (soledad_hosts[host]['hostname'], soledad_hosts[host]['port'],
-                auth['id'])
-  # get provider ca certificate
-  #ca_cert = requests.get('https://127.0.0.1/ca.crt', verify=False).text
-  #cert_file = os.path.join(tempdir, 'ca.crt')
-  cert_file = None  # not used for now
-  #with open(cert_file, 'w') as f:
-  #  f.write(ca_cert)
-  return auth['id'], user['password'], server_url, cert_file, auth['token']
+    # get login and get user info
+    user = User(config)
+    api = Api(config, verify=False)
+    auth = user.login(api)
+    # get soledad server url
+    soledad_hosts = api.get('config/soledad-service.json')['hosts']
+    host = soledad_hosts.keys()[0]
+    server_url = 'https://%s:%d/user-%s' % \
+          (soledad_hosts[host]['hostname'], soledad_hosts[host]['port'],
+                  auth['id'])
+    # get provider ca certificate
+    #ca_cert = requests.get('https://127.0.0.1/ca.crt', verify=False).text
+    #cert_file = os.path.join(tempdir, 'ca.crt')
+    cert_file = None  # not used for now
+    #with open(cert_file, 'w') as f:
+    #  f.write(ca_cert)
+    return auth['id'], server_url, cert_file, auth['token']
 
 
-def run_tests():
-  tempdir = tempfile.mkdtemp()
-  uuid, password, server_url, cert_file, token = \
-    get_soledad_info(read_config(), tempdir)
-  exc = None
-  try:
-    # in the future, we can replace the following by an actual Soledad
-    # client sync, if needed
-    db = u1db.open(os.path.join(tempdir, '%s.db' % uuid), True)
-    creds = {'token': {'uuid': uuid, 'token': token}}
-    db.sync(server_url, creds=creds, autocreate=False)
-  except Exception as e:
-    exc = e
-  shutil.rmtree(tempdir)
-  exit(report(exc))
-
-
-def report(exc):
-  if exc is None:
-    print '0 soledad_sync - OK - can sync soledad fine'
-    return 0
-  if isinstance(exc, u1db.errors.U1DBError):
-    print '2 soledad_sync - CRITICAL - ' + exc.message
-  else:
-    print '2 soledad_sync - CRITICAL - ' + str(exc)
-  return 2
-
+def can_sync_soledad_fine():
+    tempdir = tempfile.mkdtemp()
+    try:
+        uuid, server_url, cert_file, token = \
+              get_soledad_info(Config(), tempdir)
+        # in the future, we can replace the following by an actual Soledad
+        # client sync, if needed
+        db = u1db.open(os.path.join(tempdir, '%s.db' % uuid), True)
+        creds = {'token': {'uuid': uuid, 'token': token}}
+        db.sync(server_url, creds=creds, autocreate=False)
+    finally:
+        shutil.rmtree(tempdir)
 
 if __name__ == '__main__':
-  run_tests()
+    from support import nagios_test
+    exit_code = nagios_test.run(can_sync_soledad_fine)
+    exit(exit_code)

@@ -1,0 +1,23 @@
+-#
+-# SORT ORDER TABS
+-#
+- unless action?(:new) or action?(:create)
+  %ul.nav.nav-pills.pull-right.slim
+    %li{:class=> ("active" if search_order.start_with? 'created_at')}
+      = link_to_order('created')
+    %li{:class=> ("active" if search_order.start_with? 'updated_at')}
+      = link_to_order('updated')
+
+-#
+-# STATUS FILTER TABS
+-#
+%ul.nav.nav-tabs
+  - if logged_in?
+    %li{:class => ("active" if search_status == 'open')}
+      = link_to_status 'open'
+    %li{:class => ("active" if search_status == 'closed')}
+      = link_to_status 'closed'
+    %li{:class => ("active" if search_status == 'all')}
+      = link_to_status 'all'
+  %li{:class => ("active" if action?(:new) || action?(:create))}
+    = link_to icon(:plus, :black) + t(:new_ticket), auto_new_ticket_path

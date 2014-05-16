@@ -14,6 +14,9 @@
       = render 'layouts/masthead'
       #main
         .container-fluid
+          - if @show_navigation
+            .row-fluid
+            %h1= t(:user_control_panel)
           - if logged_in?
             .row-fluid
               .span12

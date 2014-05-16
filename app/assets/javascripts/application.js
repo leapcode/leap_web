@@ -20,4 +20,4 @@
 //= require platform
 //= require tickets
 //= require users
-//= require_tree .
+//= require buttons
