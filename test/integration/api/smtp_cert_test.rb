@@ -33,7 +33,8 @@ class SmtpCertTest < ApiIntegrationTest
     assert_text_response
     cert = OpenSSL::X509::Certificate.new(get_response.body)
     fingerprint = OpenSSL::Digest::SHA1.hexdigest(cert.to_der).scan(/../).join(':')
-    assert_equal fingerprint, @user.identity.cert_fingerprints.last
+    today = DateTime.now.to_date.to_s
+    assert_equal({fingerprint => today}, @user.identity.cert_fingerprints)
   end
 
   test "fetching smtp certs requires email account" do

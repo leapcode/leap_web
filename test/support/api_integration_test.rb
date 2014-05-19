@@ -5,7 +5,8 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
 
   def login(user = nil)
     @user ||= user ||= FactoryGirl.create(:user)
-    @token ||= DUMMY_TOKEN
+    # DUMMY_TOKEN will be frozen. So let's use a dup
+    @token ||= DUMMY_TOKEN.dup
     # make sure @token is up to date if it already exists
     @token.reload if @token.persisted?
     @token.user_id = @user.id
