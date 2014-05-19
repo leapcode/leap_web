@@ -8,13 +8,13 @@ GIT
 PATH
   remote: engines/billing
   specs:
-    leap_web_billing (0.5.0)
+    leap_web_billing (0.5.1)
       braintree
 
 PATH
   remote: engines/support
   specs:
-    leap_web_help (0.5.0)
+    leap_web_help (0.5.1)
 
 GEM
   remote: https://rubygems.org/
