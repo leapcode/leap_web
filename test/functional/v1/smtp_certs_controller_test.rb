@@ -18,6 +18,7 @@ class V1::SmtpCertsControllerTest < ActionController::TestCase
   test "send cert with username" do
     login effective_service_level: ServiceLevel.new(id: 2)
     cert = expect_cert(@current_user.email_address)
+    cert.expects(:fingerprint).returns('fingerprint')
     get :show
     assert_response :success
     assert_equal cert.to_s, @response.body
