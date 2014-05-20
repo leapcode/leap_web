@@ -23,10 +23,11 @@ class TicketsController < ApplicationController
     @ticket.comments.last.posted_by = current_user.id
     @ticket.comments.last.private = false unless admin?
     @ticket.created_by = current_user.id
+    flash_for @ticket
     if @ticket.save && !logged_in?
       flash[:success] = t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
     end
-    respond_with(@ticket, :location => auto_ticket_path(@ticket))
+    respond_with @ticket, :location => auto_ticket_path(@ticket)
   end
 
   def show
@@ -61,6 +62,7 @@ class TicketsController < ApplicationController
       @ticket.comments.last.private = false unless admin?
     end
 
+    flash_for @ticket
     @ticket.save
     respond_with @ticket, location: redirection_path
   end
@@ -80,10 +82,6 @@ class TicketsController < ApplicationController
 
   def set_title
     @title = t(:tickets)
-  end
-
-  def self.responder
-    Responders::FlashResponder
   end
 
   private
