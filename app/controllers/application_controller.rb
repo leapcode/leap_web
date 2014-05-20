@@ -23,16 +23,6 @@ class ApplicationController < ActionController::Base
       json: {error: "The server failed to process your request. We'll look into it."}
   end
 
-  #
-  # Allows us to pass through bold text to flash messages. See format_flash() for where this is reversed.
-  #
-  # TODO: move to core
-  #
-  def bold(str)
-    "[b]#{str}[/b]"
-  end
-  helper_method :bold
-
   ##
   ## LOCALE
   ##
