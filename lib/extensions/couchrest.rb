@@ -1,5 +1,8 @@
 module CouchRest
   module Model
+    class Base
+      extend ActiveModel::Naming
+    end
     module Designs
 
       class View

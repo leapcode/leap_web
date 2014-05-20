@@ -1,4 +1,10 @@
 en:
+  flash:
+    success: "%{resource} was successfully saved."
+    create:
+      success: "%{resource} was successfully created."
+    update:
+      success: "%{resource} was successfully updated."
   home: Home
   privacy_policy: Privacy Policy
   terms_of_service: Terms of Service
