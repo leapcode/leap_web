@@ -62,7 +62,7 @@ class TicketsController < ApplicationController
       @ticket.comments.last.private = false unless admin?
     end
 
-    flash_for @ticket
+    flash_for @ticket, with_errors: true
     @ticket.save
     respond_with @ticket, location: redirection_path
   end
