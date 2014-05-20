@@ -112,5 +112,22 @@ class TicketsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:ticket).comments.first.posted_by
     assert_equal assigns(:ticket).comments.first.posted_by, @current_user.id
   end
+
+  test "close ticket" do
+    login
+    open_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    post :close, id: open_ticket.id
+    assert !open_ticket.reload.is_open
+  end
+
+  test "reopen ticket" do
+    login
+    open_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id, is_open: false
+    post :open, id: open_ticket.id
+    assert open_ticket.reload.is_open
+  end
+
 end
 

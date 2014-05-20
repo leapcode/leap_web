@@ -17,17 +17,18 @@
     regarding_user_link = ''
   end
 
-= simple_form_for @ticket do |f|
+- url = url_for([@ticket.is_open? ? :close : :open, @ticket])
+= simple_form_for @ticket, url: url do |f|
   = hidden_ticket_fields
   %p.first
     - if @ticket.is_open?
       %span.label.label-info
         %b{style: 'padding:10px'}= t(:open)
-        = f.button :loading, t(:close), value: 'close', class: 'btn-mini'
+        = f.button :loading, t(:close), class: 'btn-mini'
     - else
       %span.label.label-success
         %b{style: 'padding:10px'}= t(:closed)
-        = f.button :loading, t(:open), value: 'open', class: 'btn-mini'
+        = f.button :loading, t(:open), class: 'btn-mini'
     %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
 = simple_form_for @ticket do |f|
   = hidden_ticket_fields

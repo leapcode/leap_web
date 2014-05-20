@@ -1,0 +1,8 @@
+%table.table.table-striped.table-bordered
+  %tbody
+    = render :partial => 'tickets/comment', :collection => @ticket.comments
+    %tr
+      %td.user
+        = current_user.login || t(:anonymous)
+      %td.comment
+        = render 'tickets/new_comment_form'
