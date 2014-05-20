@@ -27,4 +27,6 @@ class ActiveSupport::TestCase
     File.join(Rails.root, 'test', 'files', name)
   end
 
+  require 'i18n/missing_translations'
+  at_exit { I18n.missing_translations.dump }
 end

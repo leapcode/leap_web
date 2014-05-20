@@ -60,6 +60,7 @@ end
 
 group :test, :development do
   gem 'thin'
+  gem 'i18n-missing_translations'
 end
 
 group :assets do
