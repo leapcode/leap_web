@@ -39,8 +39,7 @@ class TicketsCommentsTest < ActionController::TestCase
   end
 
 
-  test "cannot comment if it is not your ticket" do
-
+  test "cannot comment if it is another users ticket" do
     other_user = find_record :user
     login :is_admin? => false, :email => nil
     ticket = FactoryGirl.create :ticket, :created_by => other_user.id
@@ -50,8 +49,21 @@ class TicketsCommentsTest < ActionController::TestCase
     assert_access_denied
 
     assert_equal ticket.comments.map(&:body), assigns(:ticket).comments.map(&:body)
-
   end
+
+  test "authenticated comment on an anonymous ticket adds to my tickets" do
+    login
+    ticket = FactoryGirl.create :ticket
+    other_ticket = FactoryGirl.create :ticket
+    put :update, :id => ticket.id,
+      :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
+    assert_not_nil assigns(:ticket).comments.last.posted_by
+    assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
+    visible_tickets = Ticket.search admin_status: 'mine',
+      user_id: @current_user.id, is_admin: false
+    assert_equal [ticket], visible_tickets.all
+  end
+
 
 
   test "admin add comment to authenticated ticket" do

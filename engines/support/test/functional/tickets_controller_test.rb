@@ -155,51 +155,63 @@ class TicketsControllerTest < ActionController::TestCase
 
   end
 
-  test "tickets for regular user" do
+  test "own tickets include tickets commented upon" do
     login
     ticket = FactoryGirl.create :ticket
     other_ticket = FactoryGirl.create :ticket
-
-    put :update, :id => ticket.id,
-      :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
-    assert_not_nil assigns(:ticket).comments.last.posted_by
-    assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
+    comment = FactoryGirl.build(:ticket_comment, posted_by: @current_user.id)
+    ticket.comments << comment
+    ticket.save
 
     get :index, {:open_status => "open"}
     assert assigns(:all_tickets).count > 0
     assert assigns(:all_tickets).include?(ticket)
     assert !assigns(:all_tickets).include?(other_ticket)
+  end
 
-    # user should have one more ticket if a new tick gets a comment by this user
-    assert_difference('assigns[:all_tickets].count') do
-      put :update, :id => other_ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}}}
-      get :index, {:open_status => "open"}
-    end
-    assert assigns(:all_tickets).include?(other_ticket)
+  test "list all tickets created by user" do
+    login
+    ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    other_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    get :index, {:open_status => "open"}
+    assert_equal 2, assigns[:all_tickets].count
+  end
 
-   # if we close one ticket, the user should have 1 less open ticket
-    assert_difference('assigns[:all_tickets].count', -1) do
-      other_ticket.reload
-      other_ticket.close
-      other_ticket.save
-      get :index, {:open_status => "open"}
-    end
+  test "closing ticket removes from open tickets list" do
+    login
+    ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    other_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    other_ticket.reload
+    other_ticket.close
+    other_ticket.save
+    get :index, {:open_status => "open"}
+    assert_equal 1, assigns[:all_tickets].count
+  end
 
-    number_open_tickets = assigns(:all_tickets).count
-
-    # look at closed tickets:
+  test "list closed tickets only" do
+    login
+    open_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    closed_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id, is_open: false
     get :index, {:open_status => "closed"}
-    assert !assigns(:all_tickets).include?(ticket)
-    assert assigns(:all_tickets).include?(other_ticket)
-    number_closed_tickets = assigns(:all_tickets).count
+    assert_equal [closed_ticket], assigns(:all_tickets).all
+  end
 
-    # all tickets should equal closed + open
+  test "list all tickets inludes closed + open" do
+    login
+    open_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id
+    closed_ticket = FactoryGirl.create :ticket_with_comment,
+      created_by: @current_user.id, is_open: false
     get :index, {:open_status => "all"}
-    assert assigns(:all_tickets).include?(ticket)
-    assert assigns(:all_tickets).include?(other_ticket)
-    assert_equal assigns(:all_tickets).count, number_closed_tickets + number_open_tickets
-
-
+    assert_equal 2, assigns(:all_tickets).count
+    assert assigns(:all_tickets).include?(open_ticket)
+    assert assigns(:all_tickets).include?(closed_ticket)
   end
 
 end
