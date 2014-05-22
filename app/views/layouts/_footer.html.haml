@@ -6,5 +6,5 @@
     = link_to icon('info-sign') + t(:about), about_path
   - if lookup_context.exists?('pages/contact')
     = link_to icon('comment') + t(:contact), contact_path
-  - if APP_CONFIG[:service_levels].present?
+  - if paid_service_level?
     = link_to icon('shopping-cart') + t(:pricing), pricing_path
