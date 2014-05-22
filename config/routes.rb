@@ -6,6 +6,13 @@ LeapWeb::Application.routes.draw do
   root :to => "home#index"
   get '(:locale)' => 'home#index', :locale => MATCH_LOCALE, :as => 'home'
 
+  #
+  # HTTP Error Handling
+  # instead of the default error pages use the errors controller and views
+  #
+  match '/404' => 'errors#not_found'
+  match '/500' => 'errors#server_error'
+
   scope "(:locale)", :locale => MATCH_LOCALE, :controller => 'pages', :action => 'show' do
     get 'privacy-policy', :as => 'privacy_policy'
     get 'terms-of-service', :as => 'terms_of_service'
