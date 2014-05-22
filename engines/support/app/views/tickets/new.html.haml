@@ -11,7 +11,7 @@
   = f.input :email
   = f.input :regarding_user
   = f.simple_fields_for :comments, @comment do |c|
-    = c.input :body, :label => t(:description), :as => :text, :input_html => {:class => "full-width", :rows=> 5}
+    = c.input :body, :as => :text, :input_html => {:class => "full-width", :rows=> 5}
     - if admin?
       = c.input :private, :as => :boolean, :label => false, :inline_label => true
   = f.button :wrapped, cancel: (logged_in? ? auto_tickets_path : home_path)

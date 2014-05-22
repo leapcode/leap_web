@@ -1,0 +1,10 @@
+en:
+  flash:
+    success: "%{resource} was successfully saved."
+    error: "%{resource} could not be saved."
+    create:
+      success: "%{resource} was successfully created."
+      error: "%{resource} could not be created."
+    update:
+      success: "%{resource} was successfully updated."
+      error: "%{resource} could not be updated."

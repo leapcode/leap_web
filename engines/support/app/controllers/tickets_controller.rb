@@ -81,7 +81,7 @@ class TicketsController < ApplicationController
   protected
 
   def set_title
-    @title = t(:tickets)
+    @title = t("layouts.title.tickets")
   end
 
   private

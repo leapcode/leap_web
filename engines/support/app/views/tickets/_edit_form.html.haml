@@ -23,29 +23,24 @@
   %p.first
     - if @ticket.is_open?
       %span.label.label-info
-        %b{style: 'padding:10px'}= t(:open)
-        = f.button :loading, t(:close), class: 'btn-mini'
+        %b{style: 'padding:10px'}= t("tickets.status.open")
+        = f.button :loading, t("tickets.action.close"), class: 'btn-mini'
     - else
       %span.label.label-success
-        %b{style: 'padding:10px'}= t(:closed)
-        = f.button :loading, t(:open), class: 'btn-mini'
-    %span.label.label-clear= t(:created_by_on, :user => created_by, :time => @ticket.created_at.to_s(:short)).html_safe
+        %b{style: 'padding:10px'}= t("tickets.status.closed")
+        = f.button :loading, t("tickets.action.open"), class: 'btn-mini'
+    %span.label.label-clear
+      = t("tickets.created_by_on", user: created_by, time: @ticket.created_at.to_s(:short), cascade: true).html_safe
 = simple_form_for @ticket do |f|
   = hidden_ticket_fields
-  %div= t(:subject)
-  = f.text_field :subject, :class => 'large full-width'
+  = f.input :subject, input_html: {:class => 'large full-width'}
   .row-fluid
     .span4
-      %div= t(:status)
-      = f.select :is_open, [[t(:open), "true"], [t(:closed), "false"]]
+      = f.input :is_open, as: :select, collection: [:true, :false], include_blank: false
     .span4
-      %div= t(:email)
-      = f.text_field :email
+      = f.input :email
     .span4
-      %div
-        = t(:regarding_account)
-        = regarding_user_link
-      = f.text_field :regarding_user
-  = f.button :loading, t(:save), :value => 'save'
+      = f.input :regarding_user, label: Ticket.human_attribute_name(:regarding_user) + regarding_user_link
+  = f.button :loading
   - if admin?
-    = link_to t(:destroy), auto_ticket_path(@ticket),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn'
+    = link_to t(".destroy", cascade: true), auto_ticket_path(@ticket),  :confirm => t("tickets.confirm.destroy.are_you_sure", cascade: true), :method => :delete, :class => 'btn'
