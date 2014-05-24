@@ -2,10 +2,10 @@
   .row-fluid.second
     .login.span4
       %span.link= link_to(icon('ok-sign', icon_color) + t(:login), login_path, :class => 'btn')
-      %span.info= t(:login_info)
+      %span.info= t(:login_info, default: "")
     .signup.span4
       %span.link= link_to(icon('user', icon_color) + t(:signup), signup_path, :class => 'btn')
-      %span.info= t(:signup_info)
+      %span.info= t(:signup_info, default: "")
     .help.span4
-      %span.link= link_to(icon('question-sign', icon_color) + t(:get_help), new_ticket_path, :class => 'btn')
-      %span.info= t(:help_info)
+      %span.link= link_to(icon('question-sign', icon_color) + t(:support_tickets), new_ticket_path, :class => 'btn')
+      %span.info= t(:support_info, default: "")

@@ -2,9 +2,6 @@ en:
   account_settings: "Account Settings"
   logout: "Logout"
   none: "None"
-  signup: "Sign Up"
-  cancel: "Cancel"
-  login: "Log In"
   username: "Username"
   password: "Password"
   change_password: "Change Password"
@@ -42,11 +39,13 @@ en:
   #
   # overview
   #
-  overview_welcome: "Welcome %{username}."
-  overview_intro: "From this user control panel, you can:"
-  overview_tickets: "Create and check support tickets."
-  overview_email: "Modify email settings."
-  overview_account: "Destroy your account."
+  users:
+    overview:
+      welcome: "Welcome %{username}."
+      intro: "From this user control panel, you can:"
+      tickets: "Create and check support tickets."
+      email: "Modify email settings."
+      account: "Destroy your account."
 
   #
   # rails

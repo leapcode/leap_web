@@ -1,17 +1,7 @@
 en:
-  flash:
-    success: "%{resource} was successfully saved."
-    create:
-      success: "%{resource} was successfully created."
-    update:
-      success: "%{resource} was successfully updated."
   home: Home
-  privacy_policy: Privacy Policy
-  terms_of_service: Terms of Service
-  pricing: Pricing
-  about: About Us
-  contact: Contact
 
+  example_email: 'user@domain.org'
   not_found_title: Page not found.
   not_found_subtitle: "The page you were looking for doesn't exist."
   not_found_lead: "You may have mistyped the address or the page may have moved."
@@ -19,8 +9,6 @@ en:
   server_error_subtitle: We ran into a server error.
   server_error_lead: The problem has been logged and we will look into it.
   no_such_thing: "No such %{thing}."
-
-  thing_was_successfully_created: "%{thing} was successfully created."
   create_thing: "Create %{thing}"
 
   overview: "Overview"
@@ -39,23 +27,4 @@ en:
   remove: "Remove"
   changes_saved: "Changes saved successfully."
   are_you_sure: "Are you sure? This change cannot be undone."
-
-  download_client: "Download Bitmask"
-  client_info: "The Bitmask application allows you to use %{provider} services."
-  all_downloads_info: "It is available for %{clients}."
-  other_downloads_info: "Bitmask is also available for %{clients}."
-  login_info: "Log in to change your account settings, create support tickets, and manage payments."
-  signup_info: "Get a user account via this website. We recommend registering via the Bitmask application instead unless you are only using Bitmask for Android."
-  welcome: "Welcome to %{provider}."
-  get_help: "Get Help"
-  help_info: "Can't login? Create a new support ticket anonymously."
-  example_email: 'user@domain.org'
-  os:
-    linux32: "Linux (32 bit)"
-    linux64: "Linux (64 bit)"
-    linux: "GNU/Linux"
-    windows: "Windows"
-    android: "Android"
-    osx: "Mac OS"
-    other: "(not available for your OS)"
 

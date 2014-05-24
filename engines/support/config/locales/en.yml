@@ -1,4 +1,5 @@
 en:
+  support_tickets: "Support"
   # translations used in the layout views or @title
   layouts:
     # fallback for all translations of "tickets" nested below:
