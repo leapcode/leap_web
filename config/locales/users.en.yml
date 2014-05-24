@@ -1,7 +1,7 @@
 en:
+  overview: "Overview"
+  user_control_panel: "user control panel"
   account_settings: "Account Settings"
-  logout: "Logout"
-  none: "None"
   username: "Username"
   password: "Password"
   change_password: "Change Password"

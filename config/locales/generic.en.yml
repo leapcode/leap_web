@@ -1,4 +1,25 @@
 en:
   signup: "Sign Up"
   login: "Log In"
+  logout: "Log Out"
+  
   cancel: "Cancel"
+  
+  created: "Created"
+  created_by_on: "Created by %{user} on %{time}"
+  updated: "Updated"
+
+  none: "None"
+  unknown: "Unknown"
+  admin: "Admin"
+  anonymous: "Anonymous"
+  save: "Save"
+  add: "Add"
+  remove: "Remove"
+  changes_saved: "Changes saved successfully."
+  are_you_sure: "Are you sure? This change cannot be undone."
+
+  example_email: 'user@domain.org'
+
+  no_such_thing: "No such %{thing}."
+  create_thing: "Create %{thing}"

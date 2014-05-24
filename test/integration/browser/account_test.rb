@@ -9,7 +9,7 @@ class AccountTest < BrowserIntegrationTest
   test "signup successfully" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
-    click_on 'Logout'
+    click_on 'Log Out'
     assert page.has_content?("Log In")
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
@@ -24,7 +24,7 @@ class AccountTest < BrowserIntegrationTest
 
   test "successful login" do
     username, password = submit_signup
-    click_on 'Logout'
+    click_on 'Log Out'
     attempt_login(username, password)
     assert page.has_content?("Welcome #{username}")
     within('.sidenav li.active') do
@@ -83,7 +83,7 @@ class AccountTest < BrowserIntegrationTest
         fill_in 'Password confirmation', with: "other password"
         click_on 'Save'
       end
-      click_on 'Logout'
+      click_on 'Log Out'
       attempt_login(@user.login, "other password")
       assert page.has_content?("Welcome #{@user.login}")
     end

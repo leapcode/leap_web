@@ -1,4 +1,5 @@
 en:
+  home: Home
   welcome: "Welcome to %{provider}."
   download_bitmask: "Download Bitmask"
 
