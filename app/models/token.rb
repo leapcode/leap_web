@@ -1,3 +1,5 @@
+require 'digest/sha2'
+
 class Token < CouchRest::Model::Base
 
   use_database :tokens
@@ -11,8 +13,14 @@ class Token < CouchRest::Model::Base
 
   validates :user_id, presence: true
 
+  attr_accessor :token
+
   design do
     view :by_last_seen_at
+  end
+
+  def self.find_by_token(token)
+    self.find Digest::SHA512.hexdigest(token)
   end
 
   def self.expires_after
@@ -31,7 +39,7 @@ class Token < CouchRest::Model::Base
   end
 
   def to_s
-    id
+    token
   end
 
   def authenticate
@@ -65,7 +73,8 @@ class Token < CouchRest::Model::Base
   def initialize(*args)
     super
     if new_record?
-      self.id = SecureRandom.urlsafe_base64(32).gsub(/^_*/, '')
+      self.token = SecureRandom.urlsafe_base64(32).gsub(/^_*/, '')
+      self.id = Digest::SHA512.hexdigest(self.token)
       self.last_seen_at = Time.now
     end
   end
