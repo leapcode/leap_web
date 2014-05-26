@@ -4,14 +4,14 @@ class V1::SmtpCertsControllerTest < ActionController::TestCase
 
   test "no smtp cert without login" do
     with_config allow_anonymous_certs: true do
-      get :show, format: 'json'
+      post :create
       assert_access_denied
     end
   end
 
   test "require service level with email" do
     login
-    get :show
+    post :create
     assert_access_denied
   end
 
@@ -19,7 +19,7 @@ class V1::SmtpCertsControllerTest < ActionController::TestCase
     login effective_service_level: ServiceLevel.new(id: 2)
     cert = expect_cert(@current_user.email_address)
     cert.expects(:fingerprint).returns('fingerprint')
-    get :show
+    post :create
     assert_response :success
     assert_equal cert.to_s, @response.body
   end

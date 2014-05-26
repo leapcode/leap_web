@@ -4,8 +4,8 @@ class V1::SmtpCertsController < ApplicationController
   before_filter :require_email_account
   before_filter :fetch_identity
 
-  # GET /1/smtp_cert
-  def show
+  # POST /1/smtp_cert
+  def create
     @cert = ClientCertificate.new prefix: current_user.email_address
     @identity.register_cert(@cert)
     @identity.save
