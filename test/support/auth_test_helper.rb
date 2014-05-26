@@ -19,6 +19,10 @@ module AuthTestHelper
     return @current_user
   end
 
+  def assert_login_required
+    assert_access_denied(true, false)
+  end
+
   def assert_access_denied(denied = true, logged_in = true)
     if denied
       if @response.content_type == 'application/json'

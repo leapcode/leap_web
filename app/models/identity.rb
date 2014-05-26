@@ -8,6 +8,7 @@ class Identity < CouchRest::Model::Base
   property :address, LocalEmail
   property :destination, Email
   property :keys, HashWithIndifferentAccess
+  property :cert_fingerprints, Hash
 
   validate :unique_forward
   validate :alias_available
@@ -105,6 +106,16 @@ class Identity < CouchRest::Model::Base
   def set_key(type, key)
     return if keys[type] == key.to_s
     write_attribute('keys', keys.merge(type => key.to_s))
+  end
+
+  def cert_fingerprints
+    read_attribute('cert_fingerprints') || Hash.new
+  end
+
+  def register_cert(cert)
+    today = DateTime.now.to_date.to_s
+    write_attribute 'cert_fingerprints',
+      cert_fingerprints.merge(cert.fingerprint => today)
   end
 
   # for LoginFormatValidation

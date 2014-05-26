@@ -54,6 +54,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   # currently this only works for tests with poltergeist.
+  # ApiIntegrationTest has a working implementation for RackTest
   def login(user = nil)
     @user ||= user ||= FactoryGirl.create(:user)
     token = Token.create user_id: user.id

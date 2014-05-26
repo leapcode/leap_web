@@ -8,21 +8,27 @@ module AssertResponses
     @response || last_response
   end
 
-  def assert_attachement_filename(name)
-    assert_equal %Q(attachment; filename="#{name}"),
-      get_response.headers["Content-Disposition"]
+  def content_type
+    get_response.content_type.to_s.split(';').first
   end
 
   def json_response
+    return nil unless content_type == 'application/json'
     response = JSON.parse(get_response.body)
     response.respond_to?(:with_indifferent_access) ?
       response.with_indifferent_access :
       response
   end
 
+  def assert_text_response(body = nil)
+    assert_equal 'text/plain', content_type
+    unless body.nil?
+      assert_equal body, get_response.body
+    end
+  end
+
   def assert_json_response(object)
-    assert_equal 'application/json',
-      get_response.content_type.to_s.split(';').first
+    assert_equal 'application/json', content_type
     if object.is_a? Hash
       object.stringify_keys! if object.respond_to? :stringify_keys!
       assert_equal object, json_response
@@ -35,6 +41,20 @@ module AssertResponses
     object.stringify_keys! if object.respond_to? :stringify_keys!
     assert_json_response :errors => object
   end
+
+  # checks for the presence of a key in a json response
+  # or a string in a text response
+  def assert_response_includes(string_or_key)
+    response = json_response || get_response.body
+    assert response.include?(string_or_key),
+      "response should have included #{string_or_key}"
+  end
+
+  def assert_attachement_filename(name)
+    assert_equal %Q(attachment; filename="#{name}"),
+      get_response.headers["Content-Disposition"]
+  end
+
 end
 
 class ::ActionController::TestCase

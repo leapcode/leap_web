@@ -32,7 +32,8 @@ LeapWeb::Application.routes.draw do
     delete "logout" => "sessions#destroy", :as => "logout"
     resources :users, :only => [:create, :update, :destroy, :index]
     resources :messages, :only => [:index, :update]
-    resource :cert, :only => [:show]
+    resource :cert, :only => [:show, :create]
+    resource :smtp_cert, :only => [:create]
     resource :service, :only => [:show]
   end
 
