@@ -2,7 +2,7 @@
   %ul.nav.nav-tabs
     = # this navigation isn't quite right. also, we will want to active for an identity controller once it is added.
     %li{:class => ("active" if controller?('users', 'overviews') || params[:user_id])}
-      = link_to t(:users), users_path
+      = link_to t(".users"), users_path
     %li{:class => ("active" if controller?('tickets') && !params[:user_id])}
       = link_to t(".tickets", cascade: true), tickets_path
     %li

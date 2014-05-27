@@ -1,5 +1,6 @@
 en:
-  overview: "Overview"
+  layouts:
+    users: "Users"
   user_control_panel: "user control panel"
   account_settings: "Account Settings"
   username: "Username"
