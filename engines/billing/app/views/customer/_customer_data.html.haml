@@ -13,4 +13,4 @@
   %dt Expiration Date
   %dd= @default_cc.expiration_date
   - if current_user == @user
-    = link_to t(:edit_saved_data), edit_customer_path(@user.id), :class => :btn
+    = btn t(:edit_saved_data), edit_customer_path(@user.id)

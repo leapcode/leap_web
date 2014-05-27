@@ -10,4 +10,4 @@
   = f.button :loading, t(".post_reply"), class: 'btn-primary', value: 'post_reply'
   - if logged_in? && @ticket.is_open
     = f.button :loading, t(".reply_and_close"), value: 'reply_and_close'
-    = link_to t(".cancel"), auto_tickets_path, :class => :btn
+    = btn t(".cancel"), auto_tickets_path
