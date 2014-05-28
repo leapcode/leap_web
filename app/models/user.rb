@@ -42,6 +42,11 @@ class User < CouchRest::Model::Base
     view :by_created_at
   end # end of design
 
+  def reload
+    super
+    @identity = nil
+  end
+
   def to_json(options={})
     {
       :login => login,

@@ -109,7 +109,8 @@ class AccountTest < BrowserIntegrationTest
       # at some point we're done:
       page.assert_no_selector 'input[value="Saving..."]'
       assert page.has_field? 'Public key', with: pgp_key.to_s
-      assert_equal pgp_key, @user.reload.public_key
+      @user.reload
+      assert_equal pgp_key, @user.public_key
     end
   end
 
