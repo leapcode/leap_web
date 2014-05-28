@@ -8,7 +8,7 @@
   - else
     = t(:admin_destroy_account, :username => @user.login)
 %p= t(:destroy_account_info)
-= btn user_path(@user), :method => :delete, :confirm => t(:are_you_sure), :type => "danger" do
+= destroy_btn user_path(@user), :type => "danger" do
   %i.icon-remove.icon-white
   = t(:destroy_my_account)
 - if @user != current_user and @user.enabled?

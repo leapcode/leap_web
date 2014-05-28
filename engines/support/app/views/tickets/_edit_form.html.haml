@@ -43,4 +43,4 @@
       = f.input :regarding_user, label: Ticket.human_attribute_name(:regarding_user) + regarding_user_link
   = f.button :loading
   - if admin?
-    = btn t(".destroy", cascade: true), auto_ticket_path(@ticket), confirm: t("tickets.confirm.destroy.are_you_sure", cascade: true), method: :delete
+    = destroy_btn t(".destroy", cascade: true), auto_ticket_path(@ticket)
