@@ -130,7 +130,7 @@ class Identity < CouchRest::Model::Base
 
   def alias_available
     same_address = Identity.by_address.key(address)
-    if same_address.detect { |other| other.user != self.user }
+    if same_address.detect { |other| other != self && other.user != self.user }
       errors.add :address, :taken
     end
   end
