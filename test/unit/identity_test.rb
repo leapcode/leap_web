@@ -39,7 +39,7 @@ class IdentityTest < ActiveSupport::TestCase
     id = Identity.create_for @user, address: alias_name, destination: forward_address
     dup = Identity.build_for @user, address: alias_name, destination: forward_address
     assert !dup.valid?
-    assert_equal ["This alias already exists"], dup.errors[:base]
+    assert_equal ["has already been taken"], dup.errors[:destination]
     id.destroy
   end
 
@@ -48,7 +48,7 @@ class IdentityTest < ActiveSupport::TestCase
     id = Identity.create_for @user, address: alias_name, destination: forward_address
     taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
-    assert_equal ["This email has already been taken"], taken.errors[:base]
+    assert_equal ["has already been taken"], taken.errors[:address]
     id.destroy
   end
 
