@@ -18,6 +18,7 @@ class Account
   def self.create(attrs)
     @user = User.create(attrs).tap do |user|
       Identity.create_for user
+      user.refresh_identity
     end
   end
 
