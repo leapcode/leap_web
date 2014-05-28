@@ -10,8 +10,9 @@ class Identity < CouchRest::Model::Base
   property :keys, HashWithIndifferentAccess
   property :cert_fingerprints, Hash
 
-  validate :unique_forward
   validate :alias_available
+  validates :destination, presence: true,
+   uniqueness: {scope: :address}
   validate :address_local_email
   validate :destination_email
 
@@ -44,13 +45,12 @@ class Identity < CouchRest::Model::Base
 
   end
 
-  def self.for(user, attributes = {})
-    find_for(user, attributes) || build_for(user, attributes)
+  def self.for(user)
+    find_for(user) || build_for(user)
   end
 
-  def self.find_for(user, attributes = {})
-    attributes.reverse_merge! attributes_from_user(user)
-    find_by_address_and_destination [attributes[:address], attributes[:destination]]
+  def self.find_for(user)
+    find_by_user_id(user.id) if user && user.persisted?
   end
 
   def self.build_for(user, attributes = {})
@@ -125,23 +125,17 @@ class Identity < CouchRest::Model::Base
 
   protected
 
-  def unique_forward
-    same = Identity.find_by_address_and_destination([address, destination])
-    if same && same != self
-      errors.add :base, "This alias already exists"
-    end
-  end
-
   def alias_available
-    same = Identity.find_by_address(address)
-    if same && same.user != self.user
-      errors.add :base, "This email has already been taken"
+    same_address = Identity.by_address.key(address)
+    if same_address.detect { |other| other.user !=self.user }
+      errors.add :address, :taken
     end
   end
 
   def address_local_email
-    return if address.valid? #this ensures it is LocalEmail
-    self.errors.add(:address, address.errors.messages[:email].first) #assumes only one error
+    return if address.valid?
+    # we only hand on the first error for now.
+    self.errors.add(:address, address.errors.messages.values.first)
   end
 
   def destination_email

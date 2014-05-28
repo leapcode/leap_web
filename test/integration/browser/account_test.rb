@@ -22,6 +22,12 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?("Welcome #{username}")
   end
 
+  test "signup with reserved username" do
+    username = 'certmaster'
+    submit_signup username
+    assert page.has_content?("is reserved.")
+  end
+
   test "successful login" do
     username, password = submit_signup
     click_on 'Logout'
@@ -44,6 +50,7 @@ class AccountTest < BrowserIntegrationTest
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
     assert page.has_content?(I18n.t('account_destroyed'))
+    assert_equal 1, Identity.by_address.key("#{username}@test.me").count
     attempt_login(username, password)
     assert_invalid_login(page)
   end
