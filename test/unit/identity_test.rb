@@ -107,6 +107,7 @@ class IdentityTest < ActiveSupport::TestCase
     other_user = find_record :user
     taken = Identity.build_for other_user, address: id.address
     assert !taken.valid?
+    assert_equal ["has already been taken"], taken.errors[:address]
     Identity.destroy_all_disabled
   end
 

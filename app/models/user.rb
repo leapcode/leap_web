@@ -167,10 +167,10 @@ class User < CouchRest::Model::Base
   ##
 
   def identity_is_valid
-    refresh_identity
     return if identity.valid?
-    # hand on the first error only for now
-    self.errors.add(:login, identity.errors.messages.values.first)
+    identity.errors.each do |attribute, error|
+      self.errors.add(:login, error)
+    end
   end
 
   def password

@@ -141,15 +141,17 @@ class Identity < CouchRest::Model::Base
 
   def address_local_email
     return if address.valid? #this ensures it is a valid local email address
-    # we only hand on the first error for now.
-    self.errors.add(:address, address.errors.messages.values.first)
+    address.errors.each do |attribute, error|
+      self.errors.add(:address, error)
+    end
   end
 
   def destination_email
     return if destination.nil?   # this identity is disabled
     return if destination.valid? # this ensures it is Email
-    # we only hand on the first error for now.
-    self.errors.add(:destination, destination.errors.messages.values.first)
+    destination.errors.each do |attribute, error|
+      self.errors.add(:destination, error)
+    end
   end
 
 end
