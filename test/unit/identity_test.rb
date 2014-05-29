@@ -7,6 +7,22 @@ class IdentityTest < ActiveSupport::TestCase
     @user = find_record :user
   end
 
+  test "blank identity does not crash on valid?" do
+    id = Identity.new
+    assert !id.valid?
+  end
+
+  test "enabled identity requires destination" do
+    id = Identity.new user: @user, address: @user.email_address
+    assert !id.valid?
+    assert_equal ["can't be blank"], id.errors[:destination]
+  end
+
+  test "disabled identity requires no destination" do
+    id = Identity.new address: @user.email_address
+    assert id.valid?
+  end
+
   test "initial identity for a user" do
     id = Identity.for(@user)
     assert_equal @user.email_address, id.address

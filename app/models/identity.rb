@@ -10,7 +10,9 @@ class Identity < CouchRest::Model::Base
   property :keys, HashWithIndifferentAccess
   property :cert_fingerprints, Hash
 
-  validate :alias_available
+  validates :address, presence: true
+  validate :address_available
+  validates :destination, presence: true, if: :enabled?
   validates :destination, uniqueness: {scope: :address}
   validate :address_local_email
   validate :destination_email
@@ -94,7 +96,11 @@ class Identity < CouchRest::Model::Base
   end
 
   def enabled?
-    self.destination && self.user_id
+    self.user_id
+  end
+
+  def disabled?
+    !enabled?
   end
 
   def disable
@@ -123,12 +129,12 @@ class Identity < CouchRest::Model::Base
 
   # for LoginFormatValidation
   def login
-    self.address.handle
+    address.handle if address.present?
   end
 
   protected
 
-  def alias_available
+  def address_available
     blocking_identities = Identity.by_address.key(address).all
     blocking_identities.delete self
     if self.user
@@ -140,15 +146,18 @@ class Identity < CouchRest::Model::Base
   end
 
   def address_local_email
-    return if address.valid? #this ensures it is a valid local email address
+    # caught by presence validation
+    return if address.blank?
+    return if address.valid?
     address.errors.each do |attribute, error|
       self.errors.add(:address, error)
     end
   end
 
   def destination_email
-    return if destination.nil?   # this identity is disabled
-    return if destination.valid? # this ensures it is Email
+    # caught by presence validation or this identity is disabled
+    return if destination.blank?
+    return if destination.valid?
     destination.errors.each do |attribute, error|
       self.errors.add(:destination, error)
     end
