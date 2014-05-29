@@ -3,8 +3,8 @@
 This document is our Terms of Service, which describes what activities are allowed, under what conditions we may terminate your account, and asserts our limited liability. It applies to all interactions with **<%=APP_CONFIG[:domain]%>**. Your use of **<%=APP_CONFIG[:domain]%>** services will constitute your agreement to these Terms of Service.
 
 <p class="alert alert-info">
-  <b>Summary:</b><br/>
-  (1) If you do anything truly evil, we will terminate your account.<br/>
+  <b>Summary:</b><br>
+  (1) If you do anything truly evil, we will terminate your account.<br>
   (2) We are not liable for any damages related to the use of this service.
 </p>
 

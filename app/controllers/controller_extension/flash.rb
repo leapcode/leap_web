@@ -37,7 +37,7 @@ module ControllerExtension::Flash
 
   def add_flash_errors_for(resource)
     return if resource.valid?
-    flash[:error] += "<br/>"
-    flash[:error] += resource.errors.full_messages.join(". <br/>")
+    flash[:error] += "<br>"
+    flash[:error] += resource.errors.full_messages.join(". <br>")
   end
 end
