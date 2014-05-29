@@ -129,8 +129,12 @@ class Identity < CouchRest::Model::Base
   protected
 
   def alias_available
-    same_address = Identity.by_address.key(address)
-    if same_address.detect { |other| other != self && other.user != self.user }
+    blocking_identities = Identity.by_address.key(address).all
+    blocking_identities.delete self
+    if self.user
+      blocking_identities.reject! { |other| other.user == self.user }
+    end
+    if blocking_identities.any?
       errors.add :address, :taken
     end
   end
@@ -138,13 +142,14 @@ class Identity < CouchRest::Model::Base
   def address_local_email
     return if address.valid? #this ensures it is a valid local email address
     # we only hand on the first error for now.
-    self.errors.add(:address, address.errors.messages[:email].first)
+    self.errors.add(:address, address.errors.messages.values.first)
   end
 
   def destination_email
     return if destination.nil?   # this identity is disabled
     return if destination.valid? # this ensures it is Email
-    self.errors.add(:destination, destination.errors.messages[:email].first) #assumes only one error #TODO
+    # we only hand on the first error for now.
+    self.errors.add(:destination, destination.errors.messages.values.first)
   end
 
 end

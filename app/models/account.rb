@@ -16,10 +16,13 @@ class Account
 
   # Returns the user record so it can be used in views.
   def self.create(attrs)
-    @user = User.create(attrs).tap do |user|
-      Identity.create_for user
-      user.refresh_identity
+    @user = User.create(attrs)
+    if @user.persisted?
+      identity = @user.identity
+      identity.user_id = @user.id
+      identity.save
     end
+    return @user
   end
 
   def update(attrs)
