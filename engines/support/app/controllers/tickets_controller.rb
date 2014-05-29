@@ -25,7 +25,9 @@ class TicketsController < ApplicationController
     @ticket.created_by = current_user.id
     flash_for @ticket
     if @ticket.save && !logged_in?
-      flash[:success] = t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
+      flash[:success] += t 'tickets.access_ticket_text',
+        full_url: ticket_url(@ticket.id),
+        default: ""
     end
     respond_with @ticket, :location => auto_ticket_path(@ticket)
   end
