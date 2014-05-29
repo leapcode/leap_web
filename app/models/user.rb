@@ -43,8 +43,8 @@ class User < CouchRest::Model::Base
   end # end of design
 
   def reload
-    super
     @identity = nil
+    super
   end
 
   def to_json(options={})
