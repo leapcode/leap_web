@@ -24,7 +24,7 @@ class User < CouchRest::Model::Base
     :uniqueness => true,
     :if => :serverside?
 
-  validate :login_is_unique_alias
+  validate :identity_is_valid
 
   validates :password_salt, :password_verifier,
     :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
@@ -41,6 +41,11 @@ class User < CouchRest::Model::Base
     view :by_login
     view :by_created_at
   end # end of design
+
+  def reload
+    @identity = nil
+    super
+  end
 
   def to_json(options={})
     {
@@ -161,11 +166,10 @@ class User < CouchRest::Model::Base
   #  Validation Functions
   ##
 
-  def login_is_unique_alias
-    alias_identity = Identity.find_by_address(self.email_address)
-    return if alias_identity.blank?
-    if alias_identity.user != self
-      errors.add(:login, "has already been taken")
+  def identity_is_valid
+    return if identity.valid?
+    identity.errors.each do |attribute, error|
+      self.errors.add(:login, error)
     end
   end
 

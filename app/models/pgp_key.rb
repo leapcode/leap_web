@@ -25,9 +25,10 @@ class PgpKey
 
   # allow comparison with plain keyblock strings.
   def ==(other)
+    return false if (self.present? != other.present?)
     self.equal?(other) or
     # relax the comparison on line ends.
-    self.to_s.tr_s("\n\r", '') == other.tr_s("\r\n", '')
+    self.to_s.tr_s("\n\r", '') == other.tr_s("\n\r", '')
   end
 
   protected

@@ -58,11 +58,9 @@ class LocalEmail < Email
   end
 
   def handle_in_passwd?
-    begin
-      !!Etc.getpwnam(handle)
-    rescue ArgumentError
-      # handle was not found
-      return false
-    end
+    Etc.getpwnam(handle).present?
+  rescue ArgumentError
+    # handle was not found
+    return false
   end
 end
