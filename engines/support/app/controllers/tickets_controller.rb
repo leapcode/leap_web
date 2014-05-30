@@ -5,8 +5,8 @@ class TicketsController < ApplicationController
   #has_scope :open, :type => boolean
 
   before_filter :require_login, :only => [:index]
-  before_filter :fetch_ticket, :only => [:show, :update, :destroy]
-  before_filter :require_ticket_access, :only => [:show, :update, :destroy]
+  before_filter :fetch_ticket, except: [:new, :create, :index]
+  before_filter :require_ticket_access, except: [:new, :create, :index]
   before_filter :fetch_user
   before_filter :set_title
 
@@ -23,13 +23,13 @@ class TicketsController < ApplicationController
     @ticket.comments.last.posted_by = current_user.id
     @ticket.comments.last.private = false unless admin?
     @ticket.created_by = current_user.id
-    if @ticket.save
-      flash[:notice] = t(:thing_was_successfully_created, :thing => t(:ticket))
-      if !logged_in?
-        flash[:notice] += " " + t(:access_ticket_text, :full_url => ticket_url(@ticket.id))
-      end
+    flash_for @ticket
+    if @ticket.save && !logged_in?
+      flash[:success] += t 'tickets.access_ticket_text',
+        full_url: ticket_url(@ticket.id),
+        default: ""
     end
-    respond_with(@ticket, :location => auto_ticket_path(@ticket))
+    respond_with @ticket, :location => auto_ticket_path(@ticket)
   end
 
   def show
@@ -40,35 +40,33 @@ class TicketsController < ApplicationController
     end
   end
 
+  def close
+    @ticket.close
+    @ticket.save
+    redirect_to redirection_path
+  end
+
+  def open
+    @ticket.reopen
+    @ticket.save
+    redirect_to redirection_path
+  end
+
   def update
-    if params[:button] == 'close'
-      @ticket.is_open = false
-      @ticket.save
-      redirect_to_tickets
-    elsif params[:button] == 'open'
-      @ticket.is_open = true
-      @ticket.save
-      redirect_to auto_ticket_path(@ticket)
-    else
-      @ticket.attributes = cleanup_ticket_params(params[:ticket])
+    @ticket.attributes = cleanup_ticket_params(params[:ticket])
 
-      if params[:button] == 'reply_and_close'
-        @ticket.close
-      end
-
-      if @ticket.comments_changed?
-        @ticket.comments.last.posted_by = current_user.id
-        @ticket.comments.last.private = false unless admin?
-      end
-
-      if @ticket.changed? and @ticket.save
-        flash[:notice] = t(:changes_saved)
-        redirect_to_tickets
-      else
-        flash[:error] = @ticket.errors.full_messages.join(". ") if @ticket.changed?
-        redirect_to auto_ticket_path(@ticket)
-      end
+    if params[:button] == 'reply_and_close'
+      @ticket.close
     end
+
+    if @ticket.comments_changed?
+      @ticket.comments.last.posted_by = current_user.id
+      @ticket.comments.last.private = false unless admin?
+    end
+
+    flash_for @ticket, with_errors: true
+    @ticket.save
+    respond_with @ticket, location: redirection_path
   end
 
   def index
@@ -85,25 +83,20 @@ class TicketsController < ApplicationController
   protected
 
   def set_title
-    @title = t(:tickets)
+    @title = t("layouts.title.tickets")
   end
 
   private
 
   #
-  # redirects to ticket index, if appropriate.
-  # otherwise, just redirects to @ticket
+  # ticket index, if appropriate.
+  # otherwise, just @ticket
   #
-  def redirect_to_tickets
-    if logged_in?
-      if params[:button] == t(:reply_and_close)
-        redirect_to auto_tickets_path
-      else
-        redirect_to auto_ticket_path(@ticket)
-      end
+  def redirection_path
+    if logged_in? && params[:button] == t(:reply_and_close)
+      auto_tickets_path
     else
-      # if we are not logged in, there is no index to view
-      redirect_to auto_ticket_path(@ticket)
+      auto_ticket_path(@ticket)
     end
   end
 

@@ -1,7 +1,7 @@
 .hero-unit
-  %h1=t :server_error_title
-  %h2=t :server_error_subtitle
-  %p.lead=t :server_error_lead
+  %h1=t 'errors.title.server_error'
+  %h2=t 'errors.subtitle.server_error', default: ''
+  %p.lead=t 'errors.text.server_error', default: ''
   %a.btn.btn-primary.btn-large{href:'/'}
     %i.icon-home.icon-white
     =t :home

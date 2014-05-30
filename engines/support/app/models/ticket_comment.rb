@@ -18,6 +18,11 @@ class TicketComment
   #  view :by_body
   #end
 
+  # translations are in the same scope as those of a "proper" couchrest model
+  def self.i18n_scope
+    "couchrest"
+  end
+
   def is_comment_validated?
     !!posted_by
   end

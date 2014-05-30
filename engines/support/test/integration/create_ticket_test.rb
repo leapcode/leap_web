@@ -7,7 +7,7 @@ class CreateTicketTest < BrowserIntegrationTest
     click_on 'Get Help'
     fill_in 'Subject', with: 'test ticket'
     fill_in 'Description', with: 'description of the problem goes here'
-    click_on 'Create Ticket'
+    click_on 'Submit Ticket'
     assert page.has_content?("Ticket was successfully created.")
     assert page.has_content?("You can later access this ticket at the URL")
     assert page.has_content?(current_url)
@@ -20,12 +20,12 @@ class CreateTicketTest < BrowserIntegrationTest
     click_on 'Get Help'
     fill_in 'Subject', with: 'test ticket'
     fill_in 'Email', with: 'invalid data'
-    fill_in 'Regarding user', with: 'some user'
+    fill_in 'Regarding User', with: 'some user'
     fill_in 'Description', with: 'description of the problem goes here'
-    click_on 'Create Ticket'
+    click_on 'Submit Ticket'
     assert page.has_content?("is invalid")
     assert_equal 'invalid data', find_field('Email').value
-    assert_equal 'some user', find_field('Regarding user').value
+    assert_equal 'some user', find_field('Regarding User').value
   end
 
   test "prefills fields" do
@@ -35,7 +35,7 @@ class CreateTicketTest < BrowserIntegrationTest
     click_on "New Ticket"
     email = "#{@user.login}@#{APP_CONFIG[:domain]}"
     assert_equal email, find_field('Email').value
-    assert_equal @user.login, find_field('Regarding user').value
+    assert_equal @user.login, find_field('Regarding User').value
   end
 
   test "no prefill of email without email service" do
@@ -44,7 +44,7 @@ class CreateTicketTest < BrowserIntegrationTest
     click_on "Support Tickets"
     click_on "New Ticket"
     assert_equal "", find_field('Email').value
-    assert_equal @user.login, find_field('Regarding user').value
+    assert_equal @user.login, find_field('Regarding User').value
   end
 
   test "cleared email field should remain clear" do
@@ -55,7 +55,7 @@ class CreateTicketTest < BrowserIntegrationTest
     fill_in 'Subject', with: 'test ticket'
     fill_in 'Email', with: ''
     fill_in 'Description', with: 'description of the problem goes here'
-    click_on 'Create Ticket'
+    click_on 'Submit Ticket'
     ticket = Ticket.last
     assert_equal "", ticket.email
     ticket.destroy

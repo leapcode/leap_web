@@ -4,7 +4,7 @@ class SessionTest < BrowserIntegrationTest
 
   test "valid session" do
     login
-    assert page.has_content?("Logout")
+    assert page.has_content?("Log Out")
   end
 
   test "expired session" do

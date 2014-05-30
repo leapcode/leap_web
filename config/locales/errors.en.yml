@@ -1,0 +1,11 @@
+en:
+  errors:
+    title:
+      not_found: Page not found.
+      server_error: Ouch!
+    subtitle:
+      not_found: "The page you were looking for doesn't exist."
+      server_error: We ran into a server error.
+    text:
+      not_found: "You may have mistyped the address or the page may have moved."
+      server_error: The problem has been logged and we will look into it.

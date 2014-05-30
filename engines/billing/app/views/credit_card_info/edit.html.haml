@@ -13,5 +13,4 @@
       %dt= f.label :cvv, 'CVV'
       %dd= f.text_field :cvv
   = hidden_field_tag :tr_data, @tr_data
-  = f.submit 'Save Payment Info', :class => :btn
-  = link_to t(:cancel), edit_customer_path(@user.id), :class => :btn
+  = f.button :wrapped, 'Save Payment Info', cancel: edit_customer_path(@user.id)

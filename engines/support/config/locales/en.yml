@@ -1,22 +1,105 @@
 en:
-  access_ticket_text: >
-    You can later access this ticket at the URL %{full_url}. You might want to bookmark this page to find it again.
-    Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to
-    remove it from the browser history.
-  support_tickets: "Support Tickets"
-  all_tickets: "All Tickets"
-  my_tickets: "My Tickets"
-  open_tickets: "Open Tickets"
-  closed_tickets: "Closed Tickets"
-  new_ticket: "New Ticket"
-  tickets: "Tickets"
-  subject: "Subject"
-  destroy: "Destroy"
-  open: "Open"
-  closed: "Closed"
-  close: "Close"
-  post_reply: "Post Reply"
-  reply_and_close: "Reply and Close"
-  description: "Description"
-  ticket: "Ticket"
-  regarding_account: "Regarding Account"
+  support_tickets: "Support"
+  # translations used in the layout views or @title
+  layouts:
+    # fallback for all translations of "tickets" nested below:
+    tickets: "Tickets" 
+    title:
+      tickets: "Tickets"
+    header:
+      tickets: "Tickets"
+    navigation:
+      tickets: "Support Tickets"
+  # Translations used in the views inside the tickets directory
+  tickets:
+    # If these do not exist they will be looked up in the global scope.
+    all: "All Tickets"
+    open: "Open Tickets"
+    closed: "Closed Tickets"
+    new: "New Ticket"
+    created: "Created at"
+    updated: "Updated at"
+    subject: "couchrest.models.tickets.attributes.subject"
+    status:
+      open: "Open"
+      closed: "Closed"
+    action:
+      open: "Open"
+      close: "Close"
+    confirm:
+      destroy:
+        are_you_sure: "Are you sure you want to destroy this ticket?"
+    # If you want to be more specific you can use the partial as a scope:
+    tabs:
+      all: "All Tickets"
+      open: "Open Tickets"
+      closed: "Closed Tickets"
+    index:
+      none: "No tickets have been found."
+      voices: "Voices"
+    destroy: "Destroy"
+    post_reply: "Post Reply"
+    reply_and_close: "Reply and Close"
+    access_ticket_text: >
+      You can later access this ticket at the URL %{full_url}. You might want to bookmark this page to find it again.
+      Anybody with this URL will be able to access this ticket, so if you are on a shared computer you might want to
+      remove it from the browser history.
+  # rails i18n
+  helpers:
+    # translations used for submit buttons. simple form picks these up
+    submit:
+      ticket:
+        create: "Submit Ticket"
+        update: "Update Ticket"
+  # translations for the model and its attributes
+  # serve as fallback for simpleform labels
+  couchrest:
+    models:
+      ticket: "Ticket"
+      ticket_comment: "Comment"
+    attributes:
+      ticket:
+        # these will fallback to translations in the "attributes" scope
+        subject: "Subject"
+        email: "Email"
+        regarding_user: "Regarding User"
+        regarding_account: "Regarding Account"
+        is_open: "Status"
+      ticket_comment:
+        body: "Description"
+        private: "private"
+  simple_form:
+    # labels next to the field
+    labels:
+      # these will fallback to the human_name translations of the model
+      ticket:
+        # these will fallback to translations in "simple_form.labels.defaults"
+        regarding_:
+        # you can be specific about translations for a given action:
+        #edit:
+        #  regaring_user:
+        email: "Email"
+        comments:
+          # these will fall back to "simple_form.labels.comments"
+          body: "Description"
+        # comments: ~
+    options:
+      ticket:
+        is_open:
+          "true": "Open"
+          "false": "Closed"
+    # mouse over hints for the given fields
+    hints:
+      ticket: 
+        email: "Please provide an email address so we can get back to you."
+        # these will fallback to translations in "simple_form.hints.defaults"
+    # placeholders inside the fields before anything was typed
+    #placeholders:
+    # ticket: ~
+        # these will fallback to translations in "simple_form.placeholders.defaults"
+
+  # these are generic defaults. They should be moved into the toplevel
+    #  attributes:
+    #simple_form:
+    #labels:
+    # defaults:

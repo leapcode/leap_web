@@ -3,4 +3,5 @@
     Current
   Subscription
 = render :partial => "subscription_details",  :locals => {:subscription => @subscription}
-= link_to t(:cancel_subscription), user_subscription_path(@user, @subscription.id),  :confirm => t(:are_you_sure), :method => :delete, :class => 'btn btn-danger' if allow_cancel_subscription(@subscription)
+- if allow_cancel_subscription(@subscription)
+  = destroy_btn :cancel_subscription, user_subscription_path(@user, @subscription.id),  type: 'danger'

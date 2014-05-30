@@ -1,0 +1,8 @@
+en:
+  home: Home
+  welcome: "Welcome to %{provider}."
+  download_bitmask: "Download Bitmask"
+
+  login_info: "Log in to change your account settings, create support tickets, and manage payments."
+  signup_info: "Get a user account via this website. We recommend registering via the Bitmask application instead unless you are only using Bitmask for Android."
+  support_info: "Can't login? Create a new support ticket anonymously."

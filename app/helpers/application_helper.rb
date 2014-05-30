@@ -40,8 +40,9 @@ module ApplicationHelper
     end
   end
 
+  # fairly strict sanitation for flash messages
   def format_flash(msg)
-    html_escape(msg).gsub('[b]', '<b>').gsub('[/b]', '</b>').html_safe
+    sanitize(msg, tags: %w(em strong b br), attributes: [])
   end
 
 end
