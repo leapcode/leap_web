@@ -39,7 +39,7 @@ class Account
 
   def destroy
     return unless @user
-    Identity.disable_all_for(@user)
+    Identity.destroy_all_for(@user)
     @user.destroy
   end
 

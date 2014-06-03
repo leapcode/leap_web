@@ -55,12 +55,16 @@ class AccountTest < BrowserIntegrationTest
     assert_invalid_login(page)
   end
 
-  test "handle blocked after account destruction" do
+  # we will block handles of destroyed accounts from
+  # being reused to protect email.
+  # Currently we don't provide email yet and thus clean
+  # them up entirely.
+  test "handle not yet blocked after account destruction" do
     username, password = submit_signup
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
     submit_signup(username)
-    assert page.has_content?('has already been taken')
+    assert page.has_content?("Welcome #{username}")
   end
 
   test "default user actions" do
