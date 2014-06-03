@@ -45,8 +45,7 @@ class TicketsControllerTest < ActionController::TestCase
     user = find_record :user
     ticket = find_record :ticket, :created_by => user.id
     get :show, :id => ticket.id
-    assert_response :redirect
-    assert_redirected_to login_url
+    assert_login_required
   end
 
   test "user tickets are visible to creator" do
@@ -57,13 +56,19 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "other users tickets are not visible" do
+  test "ticket of other user is not visible" do
     other_user = find_record :user
     ticket = find_record :ticket, :created_by => other_user.id
     login
     get :show, :id => ticket.id
-    assert_response :redirect
-    assert_redirected_to home_url
+    assert_access_denied
+  end
+
+  test "ticket list of other user is not visible" do
+    other_user = find_record :user
+    login
+    get :index, :user_id => other_user.id
+    assert_access_denied
   end
 
   test "should create unauthenticated ticket" do
