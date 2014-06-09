@@ -5,4 +5,4 @@
     - pending_active_pastdue = true
   = render :partial => "subscription_details", :locals => {:subscription => s}
 - if !pending_active_pastdue and @user == current_user
-  = link_to 'subscribe to plan', new_subscription_path, :class => :btn
+  = btn 'subscribe to plan', new_subscription_path

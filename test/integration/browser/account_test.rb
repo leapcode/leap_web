@@ -9,7 +9,7 @@ class AccountTest < BrowserIntegrationTest
   test "signup successfully" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
-    click_on 'Logout'
+    click_on 'Log Out'
     assert page.has_content?("Log In")
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
@@ -22,9 +22,15 @@ class AccountTest < BrowserIntegrationTest
     assert page.has_content?("Welcome #{username}")
   end
 
+  test "signup with reserved username" do
+    username = 'certmaster'
+    submit_signup username
+    assert page.has_content?("is reserved.")
+  end
+
   test "successful login" do
     username, password = submit_signup
-    click_on 'Logout'
+    click_on 'Log Out'
     attempt_login(username, password)
     assert page.has_content?("Welcome #{username}")
     within('.sidenav li.active') do
@@ -44,6 +50,7 @@ class AccountTest < BrowserIntegrationTest
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
     assert page.has_content?(I18n.t('account_destroyed'))
+    assert_equal 1, Identity.by_address.key("#{username}@test.me").count
     attempt_login(username, password)
     assert_invalid_login(page)
   end
@@ -83,7 +90,7 @@ class AccountTest < BrowserIntegrationTest
         fill_in 'Password confirmation', with: "other password"
         click_on 'Save'
       end
-      click_on 'Logout'
+      click_on 'Log Out'
       attempt_login(@user.login, "other password")
       assert page.has_content?("Welcome #{@user.login}")
     end
@@ -102,7 +109,8 @@ class AccountTest < BrowserIntegrationTest
       # at some point we're done:
       page.assert_no_selector 'input[value="Saving..."]'
       assert page.has_field? 'Public key', with: pgp_key.to_s
-      assert_equal pgp_key, @user.reload.public_key
+      @user.reload
+      assert_equal pgp_key, @user.public_key
     end
   end
 

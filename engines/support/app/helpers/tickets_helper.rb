@@ -35,13 +35,7 @@ module TicketsHelper
   #
 
   def link_to_status(new_status)
-    if new_status == "open"
-      label = t(:open_tickets)
-    elsif new_status == "closed"
-      label = t(:closed_tickets)
-    elsif new_status == "all"
-      label = t(:all_tickets)
-    end
+    label = t(:".#{new_status}", cascade: true)
     link_to label, auto_tickets_path(:open_status => new_status, :sort_order => search_order)
   end
 
@@ -62,11 +56,7 @@ module TicketsHelper
       direction = 'desc'
     end
 
-    if order_field == 'updated'
-      label = t(:updated)
-    elsif order_field == 'created'
-      label = t(:created)
-    end
+    label = t(:".#{order_field}", cascade: true)
 
     link_to auto_tickets_path(:sort_order => order_field + '_at_' + direction, :open_status => search_status) do
       arrow + label

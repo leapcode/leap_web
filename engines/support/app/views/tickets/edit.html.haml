@@ -1,0 +1,6 @@
+- @show_navigation = params[:user_id].present?
+- @comment = TicketComment.new
+
+.ticket
+  = render 'tickets/edit_form'
+  = render 'tickets/comments'

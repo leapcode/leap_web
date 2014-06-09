@@ -7,6 +7,11 @@ class Email < String
       :message => "needs to be a valid email address"
     }
 
+  # Make sure we can call Email.new(nil) and get an invalid email address
+  def initialize(s)
+    super(s.to_s)
+  end
+
   def to_partial_path
     "emails/email"
   end

@@ -39,6 +39,8 @@ class Ticket < CouchRest::Model::Base
   # * valid email address
   validates :email, :allow_blank => true, :format => /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))?\Z/
 
+  #  validates :comments, presence: true
+
   def self.search(options = {})
     @selection = TicketSelection.new(options)
     @selection.tickets

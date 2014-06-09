@@ -7,6 +7,22 @@ class IdentityTest < ActiveSupport::TestCase
     @user = find_record :user
   end
 
+  test "blank identity does not crash on valid?" do
+    id = Identity.new
+    assert !id.valid?
+  end
+
+  test "enabled identity requires destination" do
+    id = Identity.new user: @user, address: @user.email_address
+    assert !id.valid?
+    assert_equal ["can't be blank"], id.errors[:destination]
+  end
+
+  test "disabled identity requires no destination" do
+    id = Identity.new address: @user.email_address
+    assert id.valid?
+  end
+
   test "initial identity for a user" do
     id = Identity.for(@user)
     assert_equal @user.email_address, id.address
@@ -39,7 +55,7 @@ class IdentityTest < ActiveSupport::TestCase
     id = Identity.create_for @user, address: alias_name, destination: forward_address
     dup = Identity.build_for @user, address: alias_name, destination: forward_address
     assert !dup.valid?
-    assert_equal ["This alias already exists"], dup.errors[:base]
+    assert_equal ["has already been taken"], dup.errors[:destination]
     id.destroy
   end
 
@@ -48,7 +64,7 @@ class IdentityTest < ActiveSupport::TestCase
     id = Identity.create_for @user, address: alias_name, destination: forward_address
     taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
-    assert_equal ["This email has already been taken"], taken.errors[:base]
+    assert_equal ["has already been taken"], taken.errors[:address]
     id.destroy
   end
 
@@ -107,6 +123,7 @@ class IdentityTest < ActiveSupport::TestCase
     other_user = find_record :user
     taken = Identity.build_for other_user, address: id.address
     assert !taken.valid?
+    assert_equal ["has already been taken"], taken.errors[:address]
     Identity.destroy_all_disabled
   end
 

@@ -29,8 +29,8 @@ en:
   helpers:
     submit:
       user:
-        create: "Sign up"
+        create: "Sign Up"
         update: "Save"
       session:
-        create: "Log in"
+        create: "Log In"
 

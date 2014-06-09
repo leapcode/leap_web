@@ -65,4 +65,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @user.public_key
   end
 
+  #
+  ## Regression tests
+  #
+  test "make sure valid does not crash" do
+    assert !User.new.valid?
+  end
+
 end

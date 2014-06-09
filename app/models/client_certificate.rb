@@ -43,7 +43,15 @@ class ClientCertificate
     self.key.to_pem + self.cert.to_pem
   end
 
+  def fingerprint
+    OpenSSL::Digest::SHA1.hexdigest(openssl_cert.to_der).scan(/../).join(':')
+  end
+
   private
+
+  def openssl_cert
+    cert.openssl_body
+  end
 
   def self.root_ca
     @root_ca ||= begin
