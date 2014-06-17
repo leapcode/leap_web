@@ -57,7 +57,9 @@ def local_config
         new_config = YAML.load_file(filepath)
         ['development', 'test','production'].each do |env|
           config[env] ||= empty_hash.dup
-          config[env].merge!(new_config[env])
+          if new_config[env]
+            config[env].merge!(new_config[env])
+          end
         end
       end
       config
