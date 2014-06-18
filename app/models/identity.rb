@@ -163,4 +163,5 @@ class Identity < CouchRest::Model::Base
     end
   end
 
+  ActiveSupport.run_load_hooks(:identity, self)
 end
