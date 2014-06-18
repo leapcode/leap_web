@@ -34,7 +34,7 @@ common: &common
     token_expires_after: 60
   # handles that will be blocked from being used as logins or email aliases
   # in addition to the ones in /etc/passwd and http://tools.ietf.org/html/rfc2142
-  handle_blacklist: [certmaster, ssladmin, arin-admin, administrator, www-data, maildrop]
+  handle_blacklist: ['certmaster', 'ssladmin', 'arin-admin', 'administrator', 'www-data', 'maildrop', 'postmaster', 'admin', 'contact', 'info']
   # handles that will be allowed despite being in /etc/passwd or rfc2142
   handle_whitelist: []
   # actions enabled in the account settings
@@ -46,6 +46,9 @@ common: &common
   available_locales:
     - :en
   minimum_client_version: "0.5"
+  engines:
+    - support
+    - billing
 
 service_levels: &service_levels
   service_levels:
