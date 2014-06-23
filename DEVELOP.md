@@ -70,3 +70,18 @@ For example:
       login_as @user
       visit robot_path(@robot, :locale => nil)
     end
+
+## Debugging
+
+Sometimes bugs only show up when deployed to the live production server. Debugging can be tricky,
+because the open source mod_passenger does not support debugger. You can't just run
+`rails server` because HSTS records for your site will make most browsers require TLS.
+
+One solution is to temporarily modify the apache config to proxypass the TLS requests to rails:
+
+    <virtualhost *:443>
+      ProxyPass / http://127.0.0.1:3000/
+      ProxyPassReverse / http://127.0.0.1:3000/
+      ProxyPreserveHost on
+      ....
+    </virtualhost>
