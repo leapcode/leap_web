@@ -16,11 +16,21 @@ class Account
 
   # Returns the user record so it can be used in views.
   def self.create(attrs)
-    @user = User.create(attrs)
+    @user = User.new(attrs)
+    @user.save
     if @user.persisted?
-      identity = @user.identity
-      identity.user_id = @user.id
-      identity.save
+      @identity = @user.identity
+      @identity.user_id = @user.id
+      @identity.save
+      @identity.errors.each do |attr, msg|
+        @user.errors.add(attr, msg)
+      end
+    end
+  rescue StandardError => ex
+    @user.errors.add(:base, ex.to_s)
+  ensure
+    if @user && @user.persisted? && (@identity.nil? || !@identity.persisted?)
+      @user.destroy
     end
     return @user
   end
