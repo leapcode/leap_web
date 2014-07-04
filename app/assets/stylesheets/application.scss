@@ -11,6 +11,8 @@
 //
 @import "bootstrap";
 @import "bootstrap-responsive";
+// backport bootstrap 3.2 features
+@import "backport";
 
 //
 // LEAP web app specific overrides
