@@ -29,6 +29,12 @@ FactoryGirl.define do
 
   end
 
+  # Identities can have a lot of different purposes - alias, forward, ...
+  # So far this is a blocked handle only.
+  factory :identity do
+    address {Faker::Internet.user_name + '@' + APP_CONFIG[:domain]}
+  end
+
   factory :token do
     user
   end

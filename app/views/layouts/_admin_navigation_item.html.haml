@@ -1,0 +1,3 @@
+- item = admin_navigation_item.to_s
+%li{:class => ("active" if controller?(item))}
+  = link_to t(".#{item}", cascade: true), path_for(item)

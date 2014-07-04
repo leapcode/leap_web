@@ -5,6 +5,8 @@
 #
 
 class BrowserIntegrationTest < ActionDispatch::IntegrationTest
+  # let's use dom_id inorder to identify sections
+  include ActionController::RecordIdentifier
 
   CONFIG_RU = (Rails.root + 'config.ru').to_s
   OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first

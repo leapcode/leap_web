@@ -145,6 +145,27 @@ input, textarea {
 }
 
 //
+// IDENTITIES
+//
+
+// Color code for the identity labels
+.identity{
+  &.main_email .label {
+    @extend .label-info
+  }
+  &.alias .label {
+    @extend .label-success
+  }
+  &.forward .label {
+    @extend .label-warning
+  }
+  &.disabled .label {
+    @extend .label-default
+  }
+}
+
+
+//
 // BORING DEFAULT MASTHEAD
 //
 

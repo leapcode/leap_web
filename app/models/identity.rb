@@ -95,12 +95,32 @@ class Identity < CouchRest::Model::Base
     }
   end
 
+  def status
+    return :blocked if disabled?
+    case destination
+    when address
+      :main_email
+    when /@#{APP_CONFIG[:domain]}\Z/i,
+      :alias
+    else
+      :forward
+    end
+  end
+
   def enabled?
     self.user_id
   end
 
   def disabled?
     !enabled?
+  end
+
+  def actions
+    if enabled?
+      [] # [:show, :edit]
+    else
+      [:destroy]
+    end
   end
 
   def disable
