@@ -4,10 +4,10 @@ class TicketsController < ApplicationController
   respond_to :html, :json
   #has_scope :open, :type => boolean
 
-  before_filter :fetch_user
   before_filter :require_login, :only => [:index]
   before_filter :fetch_ticket, except: [:new, :create, :index]
-  before_filter :require_ticket_access, except: [:new, :create]
+  before_filter :require_ticket_access, except: [:new, :create, :index]
+  before_filter :fetch_user
   before_filter :set_title
 
   def new
@@ -129,22 +129,14 @@ class TicketsController < ApplicationController
   end
 
   def ticket_access?
-    admin? or (
-      @ticket &&
-      @ticket.created_by.blank?
-    ) or (
-      @ticket &&
-      @ticket.created_by == current_user.id
-    ) or (
-      @ticket.nil? &&
-      @user &&
-      @user.id == current_user.id
-    )
+    admin? or
+      @ticket.created_by.blank? or
+      current_user.id == @ticket.created_by
   end
 
   def fetch_user
-    if params[:user_id]
-      @user = User.find(params[:user_id])
+    if admin?
+      @user = User.find(params[:user_id]) if params[:user_id]
     else
       @user = current_user
     end
@@ -156,7 +148,7 @@ class TicketsController < ApplicationController
   def search_options(params)
     params.merge(
       :admin_status => params[:user_id] ? 'mine' : 'all',
-      :user_id      => @user.id,
+      :user_id      => @user ? @user.id : current_user.id,
       :is_admin     => admin?
     )
   end
