@@ -1,7 +1,12 @@
 %ul.nav.sidenav
-  = link_to_navigation t(:overview), @user, :active => (controller?(:users) && action?(:show))
-  = link_to_navigation t(:account_settings), edit_user_path(@user), :active => (controller?(:users) && !action?(:show))
+  = link_to_navigation :overview, @user,
+    active: (controller?(:users) && action?(:show))
+  = link_to_navigation :account_settings, edit_user_path(@user),
+    active: (controller?(:users) && !action?(:show))
   - # will want link for identity settings
-  = link_to_navigation t(".tickets"), auto_tickets_path, :active => controller?(:tickets)
-  = link_to_navigation t(:billing_settings), billing_top_link(@user), :active => controller?(:customer, :payments, :subscriptions, :credit_card_info) if APP_CONFIG[:billing]
-  = link_to_navigation t(:logout), logout_path, :method => :delete
+  = link_to_navigation ".tickets", auto_tickets_path,
+    active: controller?(:tickets)
+  - if APP_CONFIG[:billing]
+    = link_to_navigation :billing_settings, billing_top_link(@user),
+      active: controller?(:customer, :payments, :subscriptions, :credit_card_info)
+  = link_to_navigation :logout, logout_path, method: :delete

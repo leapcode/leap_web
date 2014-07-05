@@ -35,32 +35,32 @@ module TicketsHelper
   #
 
   def link_to_status(new_status)
-    label = t(:".#{new_status}", cascade: true)
-    link_to label, auto_tickets_path(:open_status => new_status, :sort_order => search_order)
+    label = ".#{new_status}"
+    link_to_navigation label, auto_tickets_path(open_status: new_status, sort_order: search_order)
   end
 
   def link_to_order(order_field)
-    if search_order.start_with?(order_field)
-      # link for currently-filtered field. Link to other direction of this field.
-      if search_order.end_with? 'asc'
-        direction = 'desc'
-        icon_direction = 'up'
-      else
-        direction = 'asc'
-        icon_direction = 'down'
-      end
-      arrow = content_tag(:i, '', class: 'icon-arrow-'+ icon_direction)
-    else
-      # for not-currently-filtered field, don't display an arrow, and link to descending direction
-      arrow = ''
-      direction = 'desc'
-    end
+    direction = new_direction_for_order(order_field)
+    icon = icon_for_direction(direction)
+    # for not-currently-filtered field link to descending direction
+    direction ||= 'desc'
+    label = ".#{order_field}"
+    link_to_navigation label, auto_tickets_path(sort_order: order_field + '_at_' + direction, open_status: search_status),
+      icon: icon
+  end
 
-    label = t(:".#{order_field}", cascade: true)
 
-    link_to auto_tickets_path(:sort_order => order_field + '_at_' + direction, :open_status => search_status) do
-      arrow + label
-    end
+  def new_direction_for_order(order_field)
+    # return if we're not filtering by this field
+    return unless search_order.start_with?(order_field)
+    # Link to the other direction for the filtered field.
+    search_order.end_with?('asc') ? 'desc' : 'asc'
+  end
+
+  def icon_for_direction(direction)
+    # Don't display an icon if we do not filter this field
+    return if direction.blank?
+    direction == 'asc' ? 'arrow-down' : 'arrow-up'
   end
 
 end

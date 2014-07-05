@@ -1,3 +1,9 @@
+-#
+-# A very simple navigation link. It takes a symbol, uses it for the
+-# translation, path and determining if the link is active.
+-#
+-# For something more complex use link_to_navigation directly instead.
+-#
 - item = navigation_item.to_s
-%li{:class => ("active" if controller?(item))}
-  = link_to t(".#{item}", cascade: true), polymorphic_url(item)
+= link_to_navigation ".#{item}", polymorphic_url(item),
+  active: controller?(item)
