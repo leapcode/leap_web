@@ -36,7 +36,8 @@ module TicketsHelper
 
   def link_to_status(new_status)
     label = ".#{new_status}"
-    link_to_navigation label, auto_tickets_path(open_status: new_status, sort_order: search_order)
+    link_to_navigation label, auto_tickets_path(open_status: new_status),
+      active: search_status == new_status
   end
 
   def link_to_order(order_field)
@@ -45,10 +46,11 @@ module TicketsHelper
     # for not-currently-filtered field link to descending direction
     direction ||= 'desc'
     label = ".#{order_field}"
-    link_to_navigation label, auto_tickets_path(sort_order: order_field + '_at_' + direction, open_status: search_status),
+    link_to_navigation label,
+      auto_tickets_path(sort_order: order_field + '_at_' + direction),
+      active: search_order.start_with?(order_field),
       icon: icon
   end
-
 
   def new_direction_for_order(order_field)
     # return if we're not filtering by this field

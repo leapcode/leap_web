@@ -45,10 +45,8 @@ module AutoTicketsPathHelper
   private
 
   def ticket_view_options
-    hsh = {}
-    hsh[:open_status] = params[:open_status] if params[:open_status] && !params[:open_status].empty?
-    hsh[:sort_order]  = params[:sort_order]  if params[:sort_order]  && !params[:sort_order].empty?
-    hsh
+    hash = params.slice(:open_status, :sort_order)
+    hash.reject {|k,v| v.blank?}
   end
 
 end

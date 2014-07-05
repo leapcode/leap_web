@@ -13,7 +13,7 @@ class NavigationTest < BrowserIntegrationTest
       click_on 'Created at'
       uri = URI.parse(current_url)
       assert_equal '/tickets', uri.path
-      assert_equal 'open_status=open&sort_order=created_at_desc', uri.query
+      assert_equal 'sort_order=created_at_desc', uri.query
     end
   end
 end
