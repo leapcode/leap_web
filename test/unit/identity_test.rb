@@ -136,6 +136,22 @@ class IdentityTest < ActiveSupport::TestCase
     assert_equal 0, Identity.disabled.count
   end
 
+  test "store cert fingerprint" do
+    begin
+      id = Identity.for(@user)
+      cert = stub expiry: Time.now, fingerprint: "fp"
+      id.register_cert cert
+      id.save
+      entry = {cert.fingerprint => cert.expiry.to_date.to_s}
+      assert_equal entry, id.cert_fingerprints
+      row = Identity.cert_fingerprints_by_expiry.descending.rows.first
+      assert_equal row['key'], cert.expiry.to_date.to_s
+      assert_equal row['value'], cert.fingerprint
+    ensure
+      id.reload.destroy if id && id.persisted?
+    end
+  end
+
   def alias_name
     @alias_name ||= Faker::Internet.user_name
   end
