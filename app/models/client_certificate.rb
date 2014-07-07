@@ -25,7 +25,7 @@ class ClientCertificate
 
     # set expiration
     cert.not_before = last_month
-    cert.not_after = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
+    cert.not_after = expiry
 
     # generate key
     cert.serial_number.number = cert_serial_number
@@ -45,6 +45,10 @@ class ClientCertificate
 
   def fingerprint
     OpenSSL::Digest::SHA1.hexdigest(openssl_cert.to_der).scan(/../).join(':')
+  end
+
+  def expiry
+    @expiry ||= months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
   end
 
   private

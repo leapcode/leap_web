@@ -146,9 +146,9 @@ class Identity < CouchRest::Model::Base
   end
 
   def register_cert(cert)
-    today = DateTime.now.to_date.to_s
+    expiry = cert.expiry.to_data.to_s
     write_attribute 'cert_fingerprints',
-      cert_fingerprints.merge(cert.fingerprint => today)
+      cert_fingerprints.merge(cert.fingerprint => expiry)
   end
 
   # for LoginFormatValidation
