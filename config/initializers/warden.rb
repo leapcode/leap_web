@@ -1,4 +1,5 @@
 require "warden/session_serializer"
+require "extensions/warden"
 require "warden/strategies/secure_remote_password"
 
 Rails.configuration.middleware.use RailsWarden::Manager do |config|
