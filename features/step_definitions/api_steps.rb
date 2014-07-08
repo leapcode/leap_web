@@ -14,7 +14,10 @@ if defined?(Rack)
 end
 
 Given /^I set headers:$/ do |headers|
-  headers.rows_hash.each {|k,v| header k, v }
+  headers.rows_hash.each do |key,value|
+    value.sub!('MY_AUTH_TOKEN', @my_auth_token.to_s) if @my_auth_token
+    header key, value
+  end
 end
 
 Given /^I send and accept (XML|JSON)$/ do |type|

@@ -37,3 +37,20 @@ Feature: Download Provider Configuration
       """
       {"error": "Please log in to perform that action."}
       """
+
+  Scenario: Fetch list of available configs
+    Given I authenticated
+    And I set headers:
+      | Authorization | Token token="MY_AUTH_TOKEN" |
+    When I send a GET request to "/1/configs.json"
+    Then the response status should be "200"
+    And the response should be:
+      """
+      {
+        "services": {
+          "soledad": "/1/configs/soledad-service.json",
+          "eip": "/1/configs/eip-service.json",
+          "smtp": "/1/configs/smtp-service.json"
+        }
+      }
+      """
