@@ -16,6 +16,14 @@ class SessionsController < ApplicationController
   end
 
   #
+  # Warden will catch all 401s and run this instead:
+  #
+  def unauthenticated
+    render json: {error: t(:not_authorized_login)},
+      status: :unauthorized
+  end
+
+  #
   # this is a bad hack, but user_url(user) is not available
   # also, this doesn't work because the redirect happens as a PUT. no idea why.
   #
