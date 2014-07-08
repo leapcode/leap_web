@@ -17,7 +17,7 @@ class StaticConfigController < ActionController::Base
         render :text => File.read(PROVIDER_JSON)
       end
     else
-      render :text => 'not found', :status => 404
+      render json: {error: 'not found'}, status: 404
     end
   end
 
