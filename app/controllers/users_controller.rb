@@ -12,12 +12,12 @@ class UsersController < UsersBaseController
   respond_to :html
 
   def index
-    if params[:query]
+    if params[:query].present?
       if @user = User.find_by_login(params[:query])
         redirect_to @user
         return
       else
-        @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+        @users = User.login_starts_with(params[:query])
       end
     else
       @users = User.by_created_at.descending

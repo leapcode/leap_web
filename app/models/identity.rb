@@ -46,6 +46,10 @@ class Identity < CouchRest::Model::Base
 
   end
 
+  def self.address_starts_with(query)
+    self.by_address.startkey(query).endkey(query + "\ufff0")
+  end
+
   def self.for(user, attributes = {})
     find_for(user, attributes) || build_for(user, attributes)
   end
@@ -95,12 +99,32 @@ class Identity < CouchRest::Model::Base
     }
   end
 
+  def status
+    return :blocked if disabled?
+    case destination
+    when address
+      :main_email
+    when /@#{APP_CONFIG[:domain]}\Z/i,
+      :alias
+    else
+      :forward
+    end
+  end
+
   def enabled?
     self.user_id
   end
 
   def disabled?
     !enabled?
+  end
+
+  def actions
+    if enabled?
+      [] # [:show, :edit]
+    else
+      [:destroy]
+    end
   end
 
   def disable

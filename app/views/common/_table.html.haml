@@ -1,0 +1,18 @@
+-# 
+-# A simple table with headers, content and a message if there is no
+-# content.
+-# You can use the table helper method to translate the headers and
+-# error message.
+-#
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      - headers.each do |header|
+        %th= header
+  %tbody
+    - if content.present?
+      = render content.all
+    - else
+      %tr
+        %td{:colspan=>headers.count}= none
+

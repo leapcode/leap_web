@@ -1,5 +1,30 @@
 module LinkHelper
 
+  Action = Struct.new(:target, :verb, :options) do
+    def to_partial_path; 'common/action'; end
+    def label; options[:label]; end
+    def class; verb; end
+    def url
+      case verb
+      when :show, :destroy then target
+      when :edit, :new then [verb, target]
+      end
+    end
+
+    def html_options
+      if verb == :destroy
+        {method: :delete}
+      end
+    end
+  end
+
+  def actions(target)
+    target.actions.map do |action|
+      Action.new target, action,
+        label: t(".#{action}", cascade: true)
+    end
+  end
+
   #
   # markup for bootstrap button
   #

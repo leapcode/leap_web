@@ -1,6 +1,9 @@
 en:
-  layouts:
-    users: "Users"
+  common:
+    navigation_item:
+      users: "Users"
+      identities: "Usernames"
+      tickets: "Tickets"
   user_control_panel: "user control panel"
   account_settings: "Account Settings"
   username: "Username"

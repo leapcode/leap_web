@@ -11,7 +11,7 @@ module V1
     # used for autocomplete for admins in the web ui
     def index
       if params[:query]
-        @users = User.by_login.startkey(params[:query]).endkey(params[:query].succ)
+        @users = User.login_starts_with(params[:query])
         respond_with @users.map(&:login).sort
       else
         render :json => {'error' => 'query required', 'status' => :unprocessable_entity}

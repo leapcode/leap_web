@@ -1,12 +1,8 @@
 - if admin?
   %ul.nav.nav-tabs
-    = # this navigation isn't quite right. also, we will want to active for an identity controller once it is added.
-    %li{:class => ("active" if controller?('users', 'overviews') || params[:user_id])}
-      = link_to t(".users"), users_path
-    %li{:class => ("active" if controller?('tickets') && !params[:user_id])}
-      = link_to t(".tickets", cascade: true), tickets_path
-    %li
-      = link_to t(:logout), logout_path, :method => :delete
+    = render partial: 'common/navigation_item',
+      collection: [:users, :identities, :tickets]
+    = link_to_navigation :logout, logout_path, :method => :delete
 - if @user && @show_navigation
   .lead
     = @user.email_address

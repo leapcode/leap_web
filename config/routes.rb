@@ -48,6 +48,8 @@ LeapWeb::Application.routes.draw do
       post 'deactivate', on: :member
       post 'enable', on: :member
     end
+
+    resources :identities, :only => [:index, :destroy]
   end
 
   get "/.well-known/host-meta" => 'webfinger#host_meta'

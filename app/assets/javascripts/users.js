@@ -14,6 +14,7 @@
   //
 
   var poll_users,
+      poll_identities,
       prevent_default,
       clear_errors,
       clear_field_errors,
@@ -27,6 +28,12 @@
 
   poll_users = function(query, process) {
     return $.get("/1/users.json", {
+      query: query
+    }).done(process);
+  };
+
+  poll_identities = function(query, process) {
+    return $.get("/identities.json", {
       query: query
     }).done(process);
   };
@@ -173,9 +180,8 @@
     $('#update_login_and_password').submit(srp.update);
     $('#update_pgp_key').submit(prevent_default);
     $('#update_pgp_key').submit(update_user);
-    return $('#user-typeahead').typeahead({
-      source: poll_users
-    });
+    $('#user-typeahead').typeahead({ source: poll_users });
+    $('#identity-typeahead').typeahead({ source: poll_identities });
   });
 
 }).call(this);

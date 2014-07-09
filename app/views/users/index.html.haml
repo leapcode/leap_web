@@ -1,13 +1,4 @@
 - @show_navigation = false
 
-= form_tag users_path, :method => :get, :class => "form-search" do
-  .input-append
-    = text_field_tag :query, params[:query], :id => 'user-typeahead', :class => "search-query", :autocomplete => :off
-    %button.btn{:type => :submit}= t(:search)
-
-%table.table.table-striped
-  %tr
-    %th= t(:username)
-    %th= t(:created)
-    %th= t(:updated)
-  = render @users.all
+= search :users
+= table @users, %w(username, created, updated)

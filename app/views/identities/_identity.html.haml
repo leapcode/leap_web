@@ -1,0 +1,7 @@
+%tr[identity]{class: identity.status}
+  %td
+    %span.label= t(".#{identity.status}", cascading: true)
+  %td= identity.login
+  %td= identity.destination
+  %td
+    %ul.list-inline= render actions(identity)

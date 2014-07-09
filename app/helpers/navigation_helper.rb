@@ -1,19 +1,19 @@
 module NavigationHelper
 
   #
-  # used to create a side navigation link.
+  # Create a navigation link.
   #
-  # Signature is the same as link_to, except it accepts an :active value in the html_options
+  # Signature is the same as link_to, except...
+  # * it accepts an :active flag in the html_options
+  # * it accepts an :icon string in the html_options
+  # * the label (first arg) will be translated
   #
   def link_to_navigation(*args)
-    if args.last.is_a? Hash
-      html_options = args.pop.dup
-      active_class = html_options.delete(:active) ? 'active' : nil
-      html_options[:class] = [html_options[:class], active_class].join(' ')
-      args << html_options
-    else
-      active_class = nil
-    end
+    html_options = args.extract_options! || {}
+    active_class = extract_active_class!(html_options)
+    icon = extract_icon!(html_options)
+    args[0] = icon + translate(args[0], cascade: true)
+    args << html_options if html_options.present?
     content_tag :li, :class => active_class do
       link_to(*args)
     end
@@ -58,6 +58,21 @@ module NavigationHelper
   end
 
   private
+
+  def extract_active_class!(options)
+    active_class = options.delete(:active) ? 'active' : nil
+    options[:class] = [options[:class], active_class].compact.join(' ')
+    active_class
+  end
+
+  def extract_icon!(options)
+    icon = options.delete(:icon)
+    if icon.present?
+      content_tag(:i, '', class: 'icon-'+ icon)
+    else
+      ""
+    end
+  end
 
   def controller_string
     @controller_string ||= params[:controller].to_s.gsub(/^\//, '')
