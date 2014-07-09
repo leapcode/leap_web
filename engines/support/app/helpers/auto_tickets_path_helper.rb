@@ -15,7 +15,7 @@ module AutoTicketsPathHelper
   def auto_tickets_path(options={})
     return unless options.class == Hash
     options = ticket_view_options.merge options
-    if @user
+    if @user.is_a? User
       user_tickets_path(@user, options)
     else
       tickets_path(options)
@@ -25,7 +25,7 @@ module AutoTicketsPathHelper
   def auto_ticket_path(ticket, options={})
     return unless ticket.persisted?
     options = ticket_view_options.merge options
-    if @user
+    if @user.is_a? User
       user_ticket_path(@user, ticket, options)
     else
       ticket_path(ticket, options)
