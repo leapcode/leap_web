@@ -24,7 +24,7 @@ class ClientCertificate
     cert.subject.common_name = common_name(options[:prefix])
 
     # set expiration
-    cert.not_before = yesterday
+    cert.not_before = last_month
     cert.not_after = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
 
     # generate key
@@ -108,6 +108,11 @@ class ClientCertificate
 
   def yesterday
     t = Time.now - 24*60*60
+    Time.utc t.year, t.month, t.day
+  end
+
+  def last_month
+    t = Time.now - 24*60*60*30
     Time.utc t.year, t.month, t.day
   end
 
