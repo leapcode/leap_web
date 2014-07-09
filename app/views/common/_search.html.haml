@@ -1,0 +1,8 @@
+= form_tag path, :method => :get, :class => "form-search" do
+  .input-append
+    = text_field_tag :query, params[:query],
+      id: "#{id}-typeahead",
+      class: "search-query",
+      autocomplete: :off
+    %button.btn{:type => :submit}= submit_label
+

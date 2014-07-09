@@ -42,6 +42,10 @@ class User < CouchRest::Model::Base
     view :by_created_at
   end # end of design
 
+  def self.login_starts_with(query)
+    self.by_login.startkey(query).endkey(query + "\ufff0")
+  end
+
   def reload
     @identity = nil
     super

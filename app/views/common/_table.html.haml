@@ -10,7 +10,7 @@
       - headers.each do |header|
         %th= header
   %tbody
-    - if content.any?
+    - if content.present?
       = render content.all
     - else
       %tr

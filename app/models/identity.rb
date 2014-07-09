@@ -46,6 +46,10 @@ class Identity < CouchRest::Model::Base
 
   end
 
+  def self.address_starts_with(query)
+    self.by_address.startkey(query).endkey(query + "\ufff0")
+  end
+
   def self.for(user, attributes = {})
     find_for(user, attributes) || build_for(user, attributes)
   end
