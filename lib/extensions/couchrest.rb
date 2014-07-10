@@ -24,7 +24,6 @@ module CouchRest
           Dir.glob("#{dir}/*.js") do |js|
             name = File.basename(js, '.js')
             file = File.open(js, 'r')
-            reduce =
             view name.to_sym,
               map: file.read,
               reduce: reduce

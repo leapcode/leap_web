@@ -108,7 +108,7 @@ class TicketsListTest < ActionController::TestCase
     assert_equal [closed_ticket], assigns(:all_tickets).all
   end
 
-  test "list all tickets inludes closed + open" do
+  test "list all tickets" do
     login
     open_ticket = FactoryGirl.create :ticket_with_comment,
       created_by: @current_user.id
