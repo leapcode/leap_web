@@ -19,8 +19,12 @@ module V1
     end
 
     def create
-      @user = Account.create(params[:user])
-      respond_with @user # return ID instead?
+      if APP_CONFIG[:allow_registration]
+        @user = Account.create(params[:user])
+        respond_with @user # return ID instead?
+      else
+        head :forbidden
+      end
     end
 
     def update

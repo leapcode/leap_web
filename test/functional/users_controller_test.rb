@@ -162,4 +162,11 @@ class UsersControllerTest < ActionController::TestCase
     assert !assigns(:user).enabled?
   end
 
+  test "new redirects if registration is closed" do
+    with_config(allow_registration: false) do
+      get :new
+      assert_response :redirect
+      assert_redirected_to home_path
+    end
+  end
 end

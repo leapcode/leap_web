@@ -71,4 +71,12 @@ class V1::UsersControllerTest < ActionController::TestCase
     assert assigns(:users)
   end
 
+  test "create returns forbidden if registration is closed" do
+    user_attribs = record_attributes_for :user
+    with_config(allow_registration: false) do
+      post :create, :user => user_attribs, :format => :json
+      assert_response :forbidden
+    end
+  end
+
 end

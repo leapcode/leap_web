@@ -3,9 +3,12 @@
     .login.span4
       %span.link= btn icon('ok-sign') + t(:login), login_path
       %span.info= t(:login_info, default: "")
-    .signup.span4
-      %span.link= btn icon('user') + t(:signup), signup_path
-      %span.info= t(:signup_info, default: "")
+    - if APP_CONFIG[:allow_registration]
+      .signup.span4
+        %span.link= btn icon('user') + t(:signup), signup_path
+        %span.info= t(:signup_info, default: "")
+    - else
+      .signup.span4
     .help.span4
       %span.link= btn icon('question-sign') + t(:get_help), new_ticket_path
       %span.info= t(:support_info, default: "")

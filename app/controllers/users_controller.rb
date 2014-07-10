@@ -26,7 +26,11 @@ class UsersController < UsersBaseController
   end
 
   def new
-    @user = User.new
+    if APP_CONFIG[:allow_registration]
+      @user = User.new
+    else
+      redirect_to home_path
+    end
   end
 
   def show
