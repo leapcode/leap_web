@@ -14,6 +14,11 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
     @token.save
   end
 
+  def assert_login_required
+    assert_equal 401, get_response.status
+    assert_json_response error: I18n.t(:not_authorized_login)
+  end
+
   teardown do
     if @user && @user.persisted?
       Identity.destroy_all_for @user

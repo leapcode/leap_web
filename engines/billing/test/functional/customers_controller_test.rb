@@ -27,11 +27,11 @@ class CustomersControllerTest < ActionController::TestCase
 
   test "no access if not logged in" do
     get :new
-    assert_access_denied(true, false)
+    assert_login_required
     get :show, :id => @customer.braintree_customer_id
-    assert_access_denied(true, false)
+    assert_login_required
     get :edit, :id => @customer.braintree_customer_id
-    assert_access_denied(true, false)
+    assert_login_required
   end
 
 

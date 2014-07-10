@@ -27,26 +27,24 @@ module ControllerExtension::Authentication
   end
 
   def access_denied
-    respond_to do |format|
-      format.html do
-        redirect_to home_url, :alert => t(:not_authorized)
-      end
-      format.json do
-        render :json => {'error' => t(:not_authorized)}, status: :forbidden
-      end
-    end
+    respond_to_error :not_authorized, :forbidden, home_url
   end
 
   def login_required
+    # Warden will intercept the 401 response and call
+    # SessionController#unauthenticated instead.
+    respond_to_error :not_authorized_login, :unauthorized, login_url
+  end
+
+  def respond_to_error(message, status=nil, redirect=nil)
+    message = t(message) if message.is_a?(Symbol)
     respond_to do |format|
       format.html do
-        redirect_to login_url, alert: t(:not_authorized_login)
+        redirect_to redirect, alert: message
       end
       format.json do
-        # Warden will intercept the 401 response and call
-        # SessionController#unauthenticated instead.
-        render json: {error: t(:not_authorized_login)},
-          status: :unauthorized
+        status ||= :unprocessable_entity
+        render json: {error: message}, status: status
       end
     end
   end

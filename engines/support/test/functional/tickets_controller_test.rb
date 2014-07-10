@@ -45,7 +45,7 @@ class TicketsControllerTest < ActionController::TestCase
     user = find_record :user
     ticket = find_record :ticket, :created_by => user.id
     get :show, :id => ticket.id
-    assert_login_required
+    assert_access_denied
   end
 
   test "user tickets are visible to creator" do

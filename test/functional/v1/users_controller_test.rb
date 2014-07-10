@@ -34,7 +34,9 @@ class V1::UsersControllerTest < ActionController::TestCase
   test "user cannot update other user" do
     user = find_record :user
     login
-    put :update, :user => record_attributes_for(:user_with_settings), :id => user.id, :format => :json
+    put :update, id: user.id,
+      user: record_attributes_for(:user_with_settings),
+      :format => :json
     assert_access_denied
   end
 

@@ -12,7 +12,7 @@ module ControllerExtension::TokenAuthentication
   end
 
   def require_token
-    access_denied unless token_authenticate
+    login_required unless token_authenticate
   end
 
   def logout

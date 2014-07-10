@@ -13,7 +13,12 @@ class RackTest < ActiveSupport::TestCase
 
   def assert_access_denied
     assert_json_response('error' => I18n.t(:not_authorized))
-    assert_response :unprocessable_entity
+    assert_response :forbidden
+  end
+
+  def assert_login_required
+    assert_json_response('error' => I18n.t(:not_authorized_login))
+    assert_response :unauthorized
   end
 
   # inspired by rails 4

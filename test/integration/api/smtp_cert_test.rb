@@ -48,7 +48,7 @@ class SmtpCertTest < ApiIntegrationTest
   test "no anonymous smtp certs" do
     with_config allow_anonymous_certs: true do
       post '/1/smtp_cert', {}, RACK_ENV
-      assert_json_response error: I18n.t(:not_authorized)
+      assert_login_required
     end
   end
 end

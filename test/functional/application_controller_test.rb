@@ -9,13 +9,13 @@ class ApplicationControllerTest < ActionController::TestCase
 
   def test_require_login_redirect
     @controller.send(:require_login)
-    assert_access_denied(true, false)
+    assert_login_required
   end
 
   def test_require_login
     login
     @controller.send(:require_login)
-    assert_access_denied(false)
+    assert_access_granted
   end
 
   def test_require_admin

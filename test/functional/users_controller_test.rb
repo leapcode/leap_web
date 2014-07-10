@@ -52,7 +52,7 @@ class UsersControllerTest < ActionController::TestCase
     nonid = 'thisisnotanexistinguserid'
 
     get :show, :id => nonid
-    assert_access_denied(true, false)
+    assert_login_required
   end
 
   test "may not show non-existing user without admin" do
