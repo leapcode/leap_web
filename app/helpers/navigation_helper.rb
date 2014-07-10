@@ -68,7 +68,7 @@ module NavigationHelper
   def extract_icon!(options)
     icon = options.delete(:icon)
     if icon.present?
-      content_tag(:i, '', class: 'icon-'+ icon)
+      content_tag(:i, '', class: "icon-#{icon}")
     else
       ""
     end

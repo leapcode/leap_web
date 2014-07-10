@@ -4,8 +4,7 @@
 - unless action?(:new) or action?(:create)
   %ul.nav.nav-pills.pull-right.slim
     - %w(created updated).each do |order|
-      %li{:class=> ("active" if search_order.start_with? order)}
-        = link_to_order(order)
+      = link_to_order(order)
 
 -#
 -# STATUS FILTER TABS
@@ -13,7 +12,7 @@
 %ul.nav.nav-tabs
   - if logged_in?
     - %w(open closed all).each do |status|
-      %li{:class => ("active" if search_status == status)}
-        = link_to_status status
-  %li{:class => ("active" if action?(:new) || action?(:create))}
-    = link_to icon(:plus, :black) + t(".new", cascade: true), auto_new_ticket_path
+      = link_to_status status
+  = link_to_navigation ".new", auto_new_ticket_path,
+    active: action?(:new) || action?(:create),
+    icon: :plus

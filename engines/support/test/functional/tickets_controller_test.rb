@@ -64,11 +64,12 @@ class TicketsControllerTest < ActionController::TestCase
     assert_access_denied
   end
 
-  test "ticket list of other user is not visible" do
+  test "normal user only gets own ticket list" do
     other_user = find_record :user
     login
     get :index, :user_id => other_user.id
-    assert_access_denied
+    assert_equal @current_user, assigns(:user)
+    assert_nil assigns(:tickets).detect{|t| t.created_by != @user}
   end
 
   test "should create unauthenticated ticket" do
