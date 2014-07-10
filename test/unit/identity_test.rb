@@ -177,7 +177,9 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   def cert_stub
-    @cert_stub ||= stub expiry: 1.month.from_now,
+    # make this expire later than the others so it's on top
+    # when sorting by expiry descending.
+    @cert_stub ||= stub expiry: 2.month.from_now,
     fingerprint: SecureRandom.hex
   end
 end
