@@ -49,6 +49,7 @@ common: &common
   engines:
     - support
     - billing
+  allow_registration: true
 
 service_levels: &service_levels
   service_levels:
