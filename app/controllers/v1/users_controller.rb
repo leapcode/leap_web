@@ -5,6 +5,7 @@ module V1
     before_filter :fetch_user, :only => [:update]
     before_filter :require_admin, :only => [:index]
     before_filter :require_token, :only => [:update]
+    before_filter :require_registration_allowed, only: :create
 
     respond_to :json
 
@@ -19,17 +20,19 @@ module V1
     end
 
     def create
-      if APP_CONFIG[:allow_registration]
-        @user = Account.create(params[:user])
-        respond_with @user # return ID instead?
-      else
-        head :forbidden
-      end
+      @user = Account.create(params[:user])
+      respond_with @user # return ID instead?
     end
 
     def update
       @user.account.update params[:user]
       respond_with @user
+    end
+
+    def require_registration_allowed
+      unless APP_CONFIG[:allow_registration]
+        head :forbidden
+      end
     end
 
   end

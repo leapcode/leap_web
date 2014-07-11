@@ -8,6 +8,7 @@ class UsersController < UsersBaseController
   before_filter :redirect_if_logged_in, :only => [:new]
   before_filter :require_admin, :only => [:index, :deactivate, :enable]
   before_filter :fetch_user, :only => [:show, :edit, :update, :destroy, :deactivate, :enable]
+  before_filter :require_registration_allowed, only: :new
 
   respond_to :html
 
@@ -26,11 +27,7 @@ class UsersController < UsersBaseController
   end
 
   def new
-    if APP_CONFIG[:allow_registration]
-      @user = User.new
-    else
-      redirect_to home_path
-    end
+    @user = User.new
   end
 
   def show
@@ -67,6 +64,14 @@ class UsersController < UsersBaseController
       # let's remove the invalid session
       logout
       redirect_to bye_url
+    end
+  end
+
+  protected
+
+  def require_registration_allowed
+    unless APP_CONFIG[:allow_registration]
+      redirect_to home_path
     end
   end
 
