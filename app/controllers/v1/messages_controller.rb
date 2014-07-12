@@ -11,9 +11,9 @@ module V1
       if message = Message.find(params[:id])
         message.mark_as_read_by(current_user)
         message.save
-        render json: true
+        render json: success(:marked_as_read)
       else
-        render json: false
+        render json: error(:not_found), status: :not_found
       end
     end
 

@@ -47,4 +47,8 @@ FactoryGirl.define do
 -----END PGP PUBLIC KEY BLOCK-----
     EOPGP
   end
+
+  factory :message do
+    text Faker::Lorem.paragraph
+  end
 end
