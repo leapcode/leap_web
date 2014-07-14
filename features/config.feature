@@ -29,10 +29,7 @@ Feature: Download Provider Configuration
   Scenario: Missing provider config
     When I send a GET request to "/provider.json"
     Then the response status should be "404"
-    And the response should be:
-      """
-      {"error": "not found"}
-      """
+    And the response should have ".error" with the text "not_found"
 
   Scenario: Fetch list of available configs
     When I send a GET request to "/1/configs.json"

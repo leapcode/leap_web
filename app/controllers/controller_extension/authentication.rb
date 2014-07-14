@@ -26,29 +26,6 @@ module ControllerExtension::Authentication
     redirect_to home_url if logged_in?
   end
 
-  def access_denied
-    respond_to_error :not_authorized, :forbidden, home_url
-  end
-
-  def login_required
-    # Warden will intercept the 401 response and call
-    # SessionController#unauthenticated instead.
-    respond_to_error :not_authorized_login, :unauthorized, login_url
-  end
-
-  def respond_to_error(message, status=nil, redirect=nil)
-    message = t(message) if message.is_a?(Symbol)
-    respond_to do |format|
-      format.html do
-        redirect_to redirect, alert: message
-      end
-      format.json do
-        status ||= :unprocessable_entity
-        render json: {error: message}, status: status
-      end
-    end
-  end
-
   def admin?
     current_user.is_admin?
   end

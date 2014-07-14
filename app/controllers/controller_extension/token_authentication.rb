@@ -1,6 +1,8 @@
 module ControllerExtension::TokenAuthentication
   extend ActiveSupport::Concern
 
+  protected
+
   def token
     @token ||= authenticate_with_http_token do |token, options|
       Token.find_by_token(token)

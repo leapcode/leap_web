@@ -1,5 +1,6 @@
 module ControllerExtension::JsonFile
   extend ActiveSupport::Concern
+  include ControllerExtension::Errors
 
   protected
 

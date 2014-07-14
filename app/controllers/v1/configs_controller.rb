@@ -22,7 +22,7 @@ class V1::ConfigsController < ApiController
   protected
 
   def service_paths
-    Hash[SERVICES.map{|k,v| [k,"/1/configs/#{str}"] } ]
+    Hash[SERVICES.map{|k,v| [k,"/1/configs/#{v}"] } ]
   end
 
   def sanitize_filename
