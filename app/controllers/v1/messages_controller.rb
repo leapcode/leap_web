@@ -1,10 +1,7 @@
 module V1
-  class MessagesController < ApplicationController
+  class MessagesController < ApiController
 
-    skip_before_filter :verify_authenticity_token
-    before_filter :require_token
-
-    respond_to :json
+    before_filter :require_login
 
     def index
       render json: current_user.messages

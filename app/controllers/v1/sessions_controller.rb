@@ -1,8 +1,7 @@
 module V1
-  class SessionsController < ApplicationController
+  class SessionsController < ApiController
 
-    skip_before_filter :verify_authenticity_token
-    before_filter :require_token, only: :destroy
+    before_filter :require_login, only: :destroy
 
     def new
       @session = Session.new

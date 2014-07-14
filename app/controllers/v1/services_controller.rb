@@ -1,6 +1,4 @@
-class V1::ServicesController < ApplicationController
-
-  respond_to :json
+class V1::ServicesController < ApiController
 
   def show
     respond_with current_user.effective_service_level
