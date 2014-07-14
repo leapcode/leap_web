@@ -18,32 +18,11 @@ class Identity < CouchRest::Model::Base
   validate :destination_email
 
   design do
+    own_path = Pathname.new(File.dirname(__FILE__))
+    load_views(own_path.join('..', 'designs', 'identity'), nil)
     view :by_user_id
     view :by_address_and_destination
     view :by_address
-    view :pgp_key_by_email,
-      map: <<-EOJS
-      function(doc) {
-        if (doc.type != 'Identity') {
-          return;
-        }
-        if (typeof doc.keys === "object") {
-          emit(doc.address, doc.keys["pgp"]);
-        }
-      }
-    EOJS
-    view :disabled,
-      map: <<-EOJS
-      function(doc) {
-        if (doc.type != 'Identity') {
-          return;
-        }
-        if (typeof doc.user_id === "undefined") {
-          emit(doc._id, 1);
-        }
-      }
-    EOJS
-
   end
 
   def self.address_starts_with(query)
@@ -146,9 +125,9 @@ class Identity < CouchRest::Model::Base
   end
 
   def register_cert(cert)
-    today = DateTime.now.to_date.to_s
+    expiry = cert.expiry.to_date.to_s
     write_attribute 'cert_fingerprints',
-      cert_fingerprints.merge(cert.fingerprint => today)
+      cert_fingerprints.merge(cert.fingerprint => expiry)
   end
 
   # for LoginFormatValidation

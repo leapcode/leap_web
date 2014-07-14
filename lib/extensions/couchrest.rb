@@ -15,13 +15,18 @@ module CouchRest
       end
 
       class DesignMapper
-        def load_views(dir)
+        DEFAULT_REDUCE = <<-EOJS
+          function(key, values, rereduce) {
+            return sum(values);
+          }
+          EOJS
+        def load_views(dir, reduce=DEFAULT_REDUCE)
           Dir.glob("#{dir}/*.js") do |js|
             name = File.basename(js, '.js')
             file = File.open(js, 'r')
             view name.to_sym,
-              :map => file.read,
-              :reduce => "function(key, values, rereduce) { return sum(values); }"
+              map: file.read,
+              reduce: reduce
           end
         end
       end

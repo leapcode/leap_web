@@ -25,7 +25,7 @@ class ClientCertificate
 
     # set expiration
     cert.not_before = last_month
-    cert.not_after = months_from_yesterday(APP_CONFIG[:client_cert_lifespan])
+    cert.not_after = expiry
 
     # generate key
     cert.serial_number.number = cert_serial_number
@@ -45,6 +45,10 @@ class ClientCertificate
 
   def fingerprint
     OpenSSL::Digest::SHA1.hexdigest(openssl_cert.to_der).scan(/../).join(':')
+  end
+
+  def expiry
+    @expiry ||= lifespan.months.from_now.utc.at_midnight
   end
 
   private
@@ -99,28 +103,18 @@ class ClientCertificate
     }
   end
 
-  ##
-  ## TIME HELPERS
-  ##
-  ## note: we use 'yesterday' instead of 'today', because times are in UTC, and some people on the planet
-  ## are behind UTC.
-  ##
-
-  def yesterday
-    t = Time.now - 24*60*60
-    Time.utc t.year, t.month, t.day
-  end
+  #
+  # TIME HELPERS
+  #
+  # We normalize timestamps at utc and midnight
+  # to reduce the fingerprinting possibilities.
+  #
 
   def last_month
-    t = Time.now - 24*60*60*30
-    Time.utc t.year, t.month, t.day
+    1.month.ago.utc.at_midnight
   end
 
-  def months_from_yesterday(num)
-    t = yesterday
-    date = Date.new t.year, t.month, t.day
-    date = date >> num # >> is months in the future operator
-    Time.utc date.year, date.month, date.day
+  def lifespan
+    APP_CONFIG[:client_cert_lifespan]
   end
-
 end
