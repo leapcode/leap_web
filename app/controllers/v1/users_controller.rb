@@ -1,5 +1,6 @@
 module V1
   class UsersController < ApiController
+    include ControllerExtension::FetchUser
 
     before_filter :fetch_user, :only => [:update]
     before_filter :require_admin, :only => [:index]
@@ -35,13 +36,5 @@ module V1
         head :forbidden
       end
     end
-
-    def fetch_user
-      @user = User.find(params[:id])
-      if @user != current_user
-        access_denied
-      end
-    end
-
   end
 end

@@ -1,8 +1,10 @@
 #
-# common base class for all user related controllers
+# fetch the user taking into account permissions.
+# While normal users can only change settings for themselves
+# admins can change things for all users.
 #
-
-class UsersBaseController < ApplicationController
+module ControllerExtension::FetchUser
+  extend ActiveSupport::Concern
 
   protected
 
