@@ -1,0 +1,4 @@
+en:
+  messages:
+    not_found: That message could not be found.
+    marked_as_read: Message has been marked as read.

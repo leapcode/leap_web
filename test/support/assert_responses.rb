@@ -20,6 +20,22 @@ module AssertResponses
       response
   end
 
+  def response_content
+    json_response || get_response.body
+  end
+
+  def assert_success(message)
+    assert_response :success
+    assert_response_includes :success
+    assert_equal message.to_s, json_response[:success] if message.present?
+  end
+
+  def assert_not_found
+    assert_response :not_found
+    assert_response_includes :error
+    assert_equal 'not_found', json_response[:error]
+  end
+
   def assert_text_response(body = nil)
     assert_equal 'text/plain', content_type
     unless body.nil?
@@ -45,8 +61,7 @@ module AssertResponses
   # checks for the presence of a key in a json response
   # or a string in a text response
   def assert_response_includes(string_or_key)
-    response = json_response || get_response.body
-    assert response.include?(string_or_key),
+    assert response_content.include?(string_or_key),
       "response should have included #{string_or_key}"
   end
 
