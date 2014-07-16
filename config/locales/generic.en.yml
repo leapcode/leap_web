@@ -23,3 +23,5 @@ en:
 
   no_such_thing: "No such %{thing}."
   create_thing: "Create %{thing}"
+
+  overview: "Overview"
