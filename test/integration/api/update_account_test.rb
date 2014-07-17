@@ -16,7 +16,7 @@ class UpdateAccountTest < SrpTest
     authenticate
     put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
       user_params(password: "No! Verify me instead.")
-    assert_access_denied
+    assert_login_required
   end
 
   test "update password via api" do

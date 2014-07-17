@@ -14,23 +14,23 @@ class IdentityTest < ActiveSupport::TestCase
     end
   end
 
-  test "blank @identity does not crash on valid?" do
+  test "blank identity does not crash on valid?" do
     @id = Identity.new
     assert !@id.valid?
   end
 
-  test "enabled @identity requires destination" do
+  test "enabled identity requires destination" do
     @id = Identity.new user: @user, address: @user.email_address
     assert !@id.valid?
     assert_equal ["can't be blank"], @id.errors[:destination]
   end
 
-  test "disabled @identity requires no destination" do
+  test "disabled identity requires no destination" do
     @id = Identity.new address: @user.email_address
     assert @id.valid?
   end
 
-  test "initial @identity for a user" do
+  test "initial identity for a user" do
     @id = Identity.for(@user)
     assert_equal @user.email_address, @id.address
     assert_equal @user.email_address, @id.destination
@@ -90,7 +90,7 @@ class IdentityTest < ActiveSupport::TestCase
     assert_equal @id.keys[:pgp], result["value"]
   end
 
-  test "fail to add non-local email address as @identity address" do
+  test "fail to add non-local email address as identity address" do
     @id = Identity.for @user, address: forward_address
     assert !@id.valid?
     assert_match /needs to end in/, @id.errors[:address].first
@@ -110,7 +110,7 @@ class IdentityTest < ActiveSupport::TestCase
     assert @id.errors.messages[:destination].include? "needs to be a valid email address"
   end
 
-  test "disabled @identity" do
+  test "disabled identity" do
     @id = Identity.for(@user)
     @id.disable
     assert_equal @user.email_address, @id.address
@@ -120,7 +120,7 @@ class IdentityTest < ActiveSupport::TestCase
     assert @id.valid?
   end
 
-  test "disabled @identity blocks handle" do
+  test "disabled identity blocks handle" do
     @id = Identity.for(@user)
     @id.disable
     @id.save
@@ -177,7 +177,9 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   def cert_stub
-    @cert_stub ||= stub expiry: 1.month.from_now,
+    # make this expire later than the others so it's on top
+    # when sorting by expiry descending.
+    @cert_stub ||= stub expiry: 2.month.from_now,
     fingerprint: SecureRandom.hex
   end
 end

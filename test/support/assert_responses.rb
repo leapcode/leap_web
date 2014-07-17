@@ -55,6 +55,25 @@ module AssertResponses
       get_response.headers["Content-Disposition"]
   end
 
+  def assert_login_required
+    assert_error_response :not_authorized_login, :unauthorized
+  end
+
+  def assert_access_denied
+    assert_error_response :not_authorized, :forbidden
+  end
+
+  def assert_error_response(key, status=nil)
+    message = I18n.t(key)
+    if content_type == 'application/json'
+      status ||= :unprocessable_entity
+      assert_json_response('error' => key.to_s, 'message' => message)
+      assert_response status
+    else
+      assert_equal({:alert => message}, flash.to_hash)
+    end
+  end
+
 end
 
 class ::ActionController::TestCase

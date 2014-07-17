@@ -35,6 +35,7 @@ LeapWeb::Application.routes.draw do
     resource :cert, :only => [:show, :create]
     resource :smtp_cert, :only => [:create]
     resource :service, :only => [:show]
+    resources :configs, :only => [:index, :show]
   end
 
   scope "(:locale)", :locale => MATCH_LOCALE do

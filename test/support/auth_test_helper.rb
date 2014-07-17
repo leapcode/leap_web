@@ -19,27 +19,9 @@ module AuthTestHelper
     return @current_user
   end
 
-  def assert_login_required
-    assert_access_denied(true, false)
-  end
-
-  def assert_access_denied(denied = true, logged_in = true)
-    if denied
-      if @response.content_type == 'application/json'
-        assert_json_response('error' => I18n.t(:not_authorized))
-        assert_response :unprocessable_entity
-      else
-        if logged_in
-          assert_equal({:alert => I18n.t(:not_authorized)}, flash.to_hash)
-          assert_redirected_to home_url
-        else
-          assert_equal({:alert => I18n.t(:not_authorized_login)}, flash.to_hash)
-          assert_redirected_to login_url
-        end
-      end
-    else
-      assert flash[:alert].blank?
-    end
+  def assert_access_granted
+    assert flash[:alert].blank?,
+      "expected to have access but there was a flash alert"
   end
 
   def expect_logout

@@ -2,7 +2,8 @@
 # This is an HTML-only controller. For the JSON-only controller, see v1/users_controller.rb
 #
 
-class UsersController < UsersBaseController
+class UsersController < ApplicationController
+  include ControllerExtension::FetchUser
 
   before_filter :require_login, :except => [:new]
   before_filter :redirect_if_logged_in, :only => [:new]

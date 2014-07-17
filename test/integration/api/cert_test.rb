@@ -14,7 +14,7 @@ class CertTest < ApiIntegrationTest
 
   test "fetching certs requires login by default" do
     get '/1/cert', {}, RACK_ENV
-    assert_json_response error: I18n.t(:not_authorized)
+    assert_login_required
   end
 
   test "retrieve anonymous eip cert" do

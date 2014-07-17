@@ -1,6 +1,8 @@
 module ControllerExtension::TokenAuthentication
   extend ActiveSupport::Concern
 
+  protected
+
   def token
     @token ||= authenticate_with_http_token do |token, options|
       Token.find_by_token(token)
@@ -12,7 +14,7 @@ module ControllerExtension::TokenAuthentication
   end
 
   def require_token
-    access_denied unless token_authenticate
+    login_required unless token_authenticate
   end
 
   def logout

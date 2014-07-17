@@ -16,7 +16,7 @@ module ControllerExtension::Authentication
   end
 
   def require_login
-    access_denied unless logged_in?
+    login_required unless logged_in?
   end
 
   # some actions only make sense if you are not logged in yet.
@@ -24,21 +24,6 @@ module ControllerExtension::Authentication
   # be redirected to their dashboard.
   def redirect_if_logged_in
     redirect_to home_url if logged_in?
-  end
-
-  def access_denied
-    respond_to do |format|
-      format.html do
-        if logged_in?
-          redirect_to home_url, :alert => t(:not_authorized)
-        else
-          redirect_to login_url, :alert => t(:not_authorized_login)
-        end
-      end
-      format.json do
-        render :json => {'error' => t(:not_authorized)}, status: :unprocessable_entity
-      end
-    end
   end
 
   def admin?

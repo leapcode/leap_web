@@ -45,6 +45,6 @@ class LoginTest < SrpTest
   test "logout requires token" do
     authenticate
     logout(nil, {})
-    assert_equal 422, last_response.status
+    assert_login_required
   end
 end

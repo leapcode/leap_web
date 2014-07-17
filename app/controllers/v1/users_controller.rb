@@ -1,10 +1,10 @@
 module V1
-  class UsersController < UsersBaseController
+  class UsersController < ApiController
+    include ControllerExtension::FetchUser
 
-    skip_before_filter :verify_authenticity_token
     before_filter :fetch_user, :only => [:update]
     before_filter :require_admin, :only => [:index]
-    before_filter :require_token, :only => [:update]
+    before_filter :require_login, :only => [:index, :update]
     before_filter :require_registration_allowed, only: :create
 
     respond_to :json
@@ -29,11 +29,12 @@ module V1
       respond_with @user
     end
 
+    protected
+
     def require_registration_allowed
       unless APP_CONFIG[:allow_registration]
         head :forbidden
       end
     end
-
   end
 end

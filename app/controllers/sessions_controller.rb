@@ -16,6 +16,13 @@ class SessionsController < ApplicationController
   end
 
   #
+  # Warden will catch all 401s and run this instead:
+  #
+  def unauthenticated
+    login_required
+  end
+
+  #
   # this is a bad hack, but user_url(user) is not available
   # also, this doesn't work because the redirect happens as a PUT. no idea why.
   #

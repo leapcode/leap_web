@@ -51,7 +51,7 @@ class V1::MessagesControllerTest < ActionController::TestCase
 
   test "fails if not authenticated" do
     get :index, :format => :json
-    assert_access_denied
+    assert_login_required
   end
 
 end
