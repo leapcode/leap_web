@@ -3,22 +3,13 @@ require_relative 'assert_responses'
 class RackTest < ActiveSupport::TestCase
   include Rack::Test::Methods
   include Warden::Test::Helpers
+  include AssertResponses
 
   CONFIG_RU = (Rails.root + 'config.ru').to_s
   OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
 
   def app
     OUTER_APP
-  end
-
-  def assert_access_denied
-    assert_json_response('error' => I18n.t(:not_authorized))
-    assert_response :forbidden
-  end
-
-  def assert_login_required
-    assert_json_response('error' => I18n.t(:not_authorized_login))
-    assert_response :unauthorized
   end
 
   # inspired by rails 4

@@ -19,26 +19,6 @@ module AuthTestHelper
     return @current_user
   end
 
-  def assert_login_required
-    assert_error_response :not_authorized_login, :unauthorized, login_url
-  end
-
-  def assert_access_denied
-    assert_error_response :not_authorized, :forbidden, home_url
-  end
-
-  def assert_error_response(message, status=nil, redirect=nil)
-    message = I18n.t(message) if message.is_a? Symbol
-    if @response.content_type == 'application/json'
-      status ||= :unprocessable_entity
-      assert_json_response('error' => message)
-      assert_response status
-    else
-      assert_equal({:alert => message}, flash.to_hash)
-      assert_redirected_to redirect
-    end
-  end
-
   def assert_access_granted
     assert flash[:alert].blank?,
       "expected to have access but there was a flash alert"

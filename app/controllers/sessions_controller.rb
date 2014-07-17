@@ -19,8 +19,7 @@ class SessionsController < ApplicationController
   # Warden will catch all 401s and run this instead:
   #
   def unauthenticated
-    render json: {error: t(:not_authorized_login)},
-      status: :unauthorized
+    login_required
   end
 
   #

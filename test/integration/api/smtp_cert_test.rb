@@ -42,7 +42,7 @@ class SmtpCertTest < ApiIntegrationTest
   test "fetching smtp certs requires email account" do
     login
     post '/1/smtp_cert', {}, RACK_ENV
-    assert_json_response error: I18n.t(:not_authorized)
+    assert_access_denied
   end
 
   test "no anonymous smtp certs" do
