@@ -44,22 +44,16 @@ Feature: Receive messages for the user
     Given there is a message for me with:
       | id   | 1a2b3c4d |
     When I send a PUT request to "/1/messages/1a2b3c4d.json"
-    Then the response status should be "200"
-    And the response should be:
-      """
-      { "success": "marked as read",
-        "message": "The message has been marked as read" }
-      """
-    And that message should be marked as read
+    Then that message should be marked as read
+    And the response status should be "200"
+    And the response should have "success" with "marked_as_read"
+    And the response should have "message"
 
   Scenario: Message not found
     When I send a PUT request to "/1/messages/1a2b3c4d.json"
     Then the response status should be "404"
-    And the response should be:
-      """
-      { "error": "not found",
-        "message": "The message could not be found" }
-      """
+    And the response should have "error" with "not_found"
+    And the response should have "message"
 
   Scenario: Do not send read messages
     Given there is a message for me
@@ -70,5 +64,3 @@ Feature: Receive messages for the user
       """
       []
       """
-
-
