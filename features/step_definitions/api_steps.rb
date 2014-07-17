@@ -1,5 +1,3 @@
-require 'jsonpath'
-
 if defined?(Rack)
 
   # Monkey patch Rack::MockResponse to work properly with response debugging
@@ -76,39 +74,37 @@ Then /^the response status should be "([^"]*)"$/ do |status|
   end
 end
 
-Then /^the response should (not)?\s?have "([^"]*)"$/ do |negative, json_path|
+Then /^the response should (not)?\s?have "([^"]*)"$/ do |negative, key|
   json    = JSON.parse(last_response.body)
-  results = JsonPath.new(json_path).on(json).to_a.map(&:to_s)
   if self.respond_to?(:should)
     if negative.present?
-      results.should be_empty
+      json[key].should be_blank
     else
-      results.should_not be_empty
+      json[key].should be_present
     end
   else
     if negative.present?
-      assert results.empty?
+      assert json[key].blank?
     else
-      assert !results.empty?
+      assert json[key].present?
     end
   end
 end
 
 
-Then /^the response should (not)?\s?have "([^"]*)" with the text "([^"]*)"$/ do |negative, json_path, text|
+Then /^the response should (not)?\s?have "([^"]*)" with(?: the text)? "([^"]*)"$/ do |negative, key, text|
   json    = JSON.parse(last_response.body)
-  results = JsonPath.new(json_path).on(json).to_a.map(&:to_s)
   if self.respond_to?(:should)
     if negative.present?
-      results.should_not include(text)
+      json[key].should_not == text
     else
-      results.should include(text)
+      results.should == text
     end
   else
     if negative.present?
-      assert !results.include?(text)
+      assert ! json[key] == text
     else
-      assert results.include?(text)
+      assert_equal text, json[key]
     end
   end
 end

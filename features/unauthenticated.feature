@@ -24,8 +24,6 @@ Feature: Unauthenticated API endpoints
   Scenario: Authentication required for all other API endpoints
     When I send a GET request to "/1/configs"
     Then the response status should be "401"
-    And the response should be:
-      """
-      {"error": "Please log in to perform that action."}
-      """
+    And the response should have "error" with "not_authorized_login"
+    And the response should have "message"
 

@@ -58,7 +58,6 @@ group :test do
 
   # we use cucumber to document and test the api
   gem 'cucumber-rails', require: false
-  gem 'jsonpath', require: false
 end
 
 group :test, :development do
