@@ -13,8 +13,9 @@ end
 
 Given /^I set headers:$/ do |headers|
   headers.rows_hash.each do |key,value|
-    value.sub!('MY_AUTH_TOKEN', @my_auth_token.to_s) if @my_auth_token
-    header key, value
+    replace = value.dup
+    replace.sub!('MY_AUTH_TOKEN', @my_auth_token.to_s) if @my_auth_token
+    header key, replace
   end
 end
 
@@ -36,7 +37,7 @@ When /^I digest\-authenticate as the user "(.*?)" with the password "(.*?)"$/ do
   digest_authorize user, pass
 end
 
-When /^I send a (GET|POST|PUT|DELETE) request (?:for|to) "([^"]*)"(?: with the following:)?$/ do |*args|
+When /^I (?:have sent|send) a (GET|POST|PUT|DELETE) request (?:for|to) "([^"]*)"(?: with the following:)?$/ do |*args|
   request_type = args.shift
   path = args.shift
   input = args.shift
@@ -50,7 +51,6 @@ When /^I send a (GET|POST|PUT|DELETE) request (?:for|to) "([^"]*)"(?: with the f
       request_opts[:input] = input
     end
   end
-
   request path, request_opts
 end
 

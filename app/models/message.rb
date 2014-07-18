@@ -26,4 +26,8 @@ class Message < CouchRest::Model::Base
   def unread_by?(user)
     user_ids_to_show.include?(user.id)
   end
+
+  def as_json(*args, &block)
+    {"id" => id, "text" => text}.as_json(*args, &block)
+  end
 end

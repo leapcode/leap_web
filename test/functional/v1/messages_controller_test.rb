@@ -30,7 +30,7 @@ class V1::MessagesControllerTest < ActionController::TestCase
     @message.reload
     assert !@message.user_ids_to_show.include?(@user.id)
     assert @message.user_ids_have_shown.include?(@user.id)
-    assert_json_response true
+    assert_success :marked_as_read
   end
 
   test "do not get seen messages" do
@@ -46,7 +46,7 @@ class V1::MessagesControllerTest < ActionController::TestCase
   test "mark read responds even with bad inputs" do
     login @user
     put :update, :id => 'more nonsense'
-    assert_json_response false
+    assert_not_found
  end
 
   test "fails if not authenticated" do

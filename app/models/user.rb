@@ -92,12 +92,9 @@ class User < CouchRest::Model::Base
     Ticket.for_user(self).limit(count).all #defaults to having most recent updated first
   end
 
-  def messages(unseen = true)
+  def messages
     #TODO for now this only shows unseen messages. Will we ever want seen ones? Is it necessary to store?
-
-    # we don't want to emit all the userids associated with a message, so only emit id and text.
-    Message.by_user_ids_to_show.key(self.id).map { |message| [message.id, message.text] }
-
+    Message.by_user_ids_to_show.key(self.id)
   end
 
   # DEPRECATED
