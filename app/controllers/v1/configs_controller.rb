@@ -1,7 +1,7 @@
 class V1::ConfigsController < ApiController
   include ControllerExtension::JsonFile
 
-  before_filter :require_login
+  before_filter :require_login, :unless => :anonymous_certs_allowed?
   before_filter :sanitize_filename, only: :show
   before_filter :fetch_file, only: :show
 
@@ -20,6 +20,10 @@ class V1::ConfigsController < ApiController
   }
 
   protected
+
+  def anonymous_certs_allowed?
+    APP_CONFIG[:allow_anonymous_certs]
+  end
 
   def service_paths
     Hash[SERVICES.map{|k,v| [k,"/1/configs/#{v}"] } ]
