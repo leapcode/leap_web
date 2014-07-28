@@ -50,6 +50,10 @@ common: &common
     - support
     - billing
   allow_registration: true
+  config_file_paths:
+    soledad-service: 'public/1/config/soledad-service.json'
+    eip-service: 'public/1/config/eip-service.json'
+    smtp-service: 'public/1/config/smtp-service.json'
 
 service_levels: &service_levels
   service_levels:

@@ -15,16 +15,10 @@ Feature: Download Provider Configuration
 
   @tempfile
   Scenario: Fetch provider config
-    Given the provider config is:
-      """
-      {"config": "me"}
-      """
+    Given there is a config for the provider
     When I send a GET request to "/provider.json"
     Then the response status should be "200"
-    And the response should be:
-      """
-      {"config": "me"}
-      """
+    And the response should be that config
 
   Scenario: Missing provider config
     When I send a GET request to "/provider.json"
@@ -44,3 +38,19 @@ Feature: Download Provider Configuration
         }
       }
       """
+  
+  Scenario: Attempt to fetch an invalid config
+    When I send a GET request to "/1/configs/non-existing.json"
+    Then the response status should be "403"
+
+  Scenario: Attempt to fetch a config that is missing on the server
+    When I send a GET request to "/1/configs/eip-service.json"
+    Then the response status should be "404"
+
+  @tempfile, @config
+  Scenario: Attempt to fetch the EIP config
+    Given there is a config for the eip
+    When I send a GET request to "/1/configs/eip-service.json"
+    Then the response status should be "200"
+    And the response should be that config
+

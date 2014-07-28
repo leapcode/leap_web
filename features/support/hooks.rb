@@ -5,10 +5,8 @@ After '@tempfile' do
   end
 end
 
-Around '@config' do |scenario, block|
-  old_config = APP_CONFIG.dup
-  block.call
-  APP_CONFIG.replace old_config
+After '@config' do |scenario, block|
+  APP_CONFIG.replace @orig_config if @orig_config
 end
 
 # store end of server log for failing scenarios
