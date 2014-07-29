@@ -77,7 +77,7 @@ development:
   <<: *cert_options
   <<: *common
   <<: *service_levels
-  admins: [blue, admin, admin2]
+  admins: [blue, red, staff]
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   reraise_errors: true
