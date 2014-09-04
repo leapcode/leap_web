@@ -32,7 +32,7 @@ class V1::ConfigsController < ApiController
   def sanitize_filename
     @filename = params[:id].downcase
     @filename += '.json' unless @filename.ends_with?('.json')
-    access_denied unless SERVICES.values.include? name
+    access_denied unless SERVICES.values.include? @filename
     @filename = Rails.root.join('public', '1', 'config', @filename)
   end
 end
