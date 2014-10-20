@@ -9,4 +9,4 @@ en:
     text:
       not_found: "You may have mistyped the address or the page may have moved."
       server_error: The problem has been logged and we will look into it.
-  not_found: Not found.
+  #not_found: Not found.
