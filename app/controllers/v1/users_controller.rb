@@ -2,9 +2,9 @@ module V1
   class UsersController < ApiController
     include ControllerExtension::FetchUser
 
-    before_filter :fetch_user, :only => [:update]
+    before_filter :fetch_user, :only => [:update, :destroy]
     before_filter :require_admin, :only => [:index]
-    before_filter :require_login, :only => [:index, :update]
+    before_filter :require_login, :only => [:index, :update, :destroy]
     before_filter :require_registration_allowed, only: :create
 
     respond_to :json
@@ -27,6 +27,14 @@ module V1
     def update
       @user.account.update params[:user]
       respond_with @user
+    end
+
+    def destroy
+      @user.account.destroy
+      if @user == current_user
+        logout
+      end
+      render :json => {'success' => 'user deleted'}
     end
 
     protected
