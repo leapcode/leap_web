@@ -4,9 +4,8 @@ class V1::ServicesControllerTest < ActionController::TestCase
 
   test "anonymous user gets login required service info" do
     get :show, format: :json
-    assert_json_response name: 'anonymous',
-      eip_rate_limit: false,
-      description: 'please login to access our services'
+    assert_json_response error: 'not_authorized_login',
+      message: 'Please log in to perform that action.'
   end
 
   test "anonymous user gets vpn service info" do

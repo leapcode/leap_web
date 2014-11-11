@@ -10,22 +10,10 @@ Feature: Unauthenticated API endpoints
 
   @tempfile
   Scenario: Fetch provider config
-    Given the provider config is:
-      """
-      {"config": "me"}
-      """
+    Given there is a config for the provider
     When I send a GET request to "/provider.json"
     Then the response status should be "200"
-    And the response should be:
-      """
-      {"config": "me"}
-      """
-
-  @config
-  Scenario: Fetch configs when anonymous certs are allowed
-    Given "allow_anonymous_certs" is enabled in the config
-    When I send a GET request to "/1/configs.json"
-    Then the response status should be "200"
+    And the response should be that config
 
   Scenario: Authentication required response
     When I send a GET request to "/1/configs"
@@ -38,5 +26,6 @@ Feature: Unauthenticated API endpoints
     When I send requests to these endpoints:
       |  GET   | /1/configs                |
       |  GET   | /1/configs/config_id.json |
+      |  GET   | /1/service                |
       | DELETE | /1/logout                 |
     Then they should require authentication
