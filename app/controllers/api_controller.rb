@@ -5,8 +5,18 @@ class ApiController < ApplicationController
 
   protected
 
+  #
+  # For now, we are going to allow cookie authentication if there is
+  # no "Authorization" header in the request. This is to keep backward
+  # compatibility with older clients. In the future, this should be
+  # disabled.
+  #
   def require_login
-    require_token
+    if ActionController::HttpAuthentication::Token.token_and_options(request)
+      require_token
+    else
+      super
+    end
   end
 
   def anonymous_access_allowed?
