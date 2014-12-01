@@ -15,9 +15,7 @@ gem "rails_warden"
 gem 'http_accept_language'
 
 # To use debugger
-gem 'debugger', :platforms => :mri_19
-# ruby 1.8 is not supported anymore
-# gem 'ruby-debug', :platforms => :mri_18
+# gem 'debugger', :platforms => :mri_19
 
 gem "haml", "~> 3.1.7"
 gem "bootstrap-sass", "= 2.3.2.2"
