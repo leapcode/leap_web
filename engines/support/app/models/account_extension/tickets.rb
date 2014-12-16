@@ -1,9 +1,9 @@
 module AccountExtension::Tickets
   extend ActiveSupport::Concern
 
-  def destroy_with_tickets
+  def destroy_with_tickets(destroy_identities=false)
     Ticket.destroy_all_from(self.user)
-    destroy_without_tickets
+    destroy_without_tickets(destroy_identities)
   end
 
   included do
