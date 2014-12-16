@@ -47,9 +47,13 @@ class Account
     @user.refresh_identity
   end
 
-  def destroy
+  def destroy(destroy_identity=false)
     return unless @user
-    Identity.disable_all_for(@user)
+    if destroy_identity == false
+      Identity.disable_all_for(@user)
+    else
+      Identity.destroy_all_for(@user)
+    end
     @user.destroy
   end
 

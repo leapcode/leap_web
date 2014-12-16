@@ -30,7 +30,7 @@ module V1
     end
 
     def destroy
-      @user.account.destroy
+      @user.account.destroy(params[:identities] == "destroy")
       if @user == current_user
         logout
       end
