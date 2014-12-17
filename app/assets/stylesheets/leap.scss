@@ -160,7 +160,6 @@ input, textarea {
     @extend .label-warning
   }
   &.disabled .label {
-    @extend .label-default
   }
 }
 
