@@ -10,3 +10,4 @@ before_script:
   - "mv test/config/couchdb.yml.user config/couchdb.yml"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
+bundler_args: --without development debug

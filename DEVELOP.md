@@ -1,6 +1,10 @@
 # Development #
 
-## Hacking ##
+## Continuous Integration ##
+
+See https://travis-ci.org/leapcode/leap_web for CI reports.
+
+## Views ##
 
 Some tips on modifying the views:
 
