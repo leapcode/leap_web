@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 
-gem "rails", "~> 3.2.18"
+gem "rails", "~> 3.2.21"
 gem "couchrest", "~> 1.1.3"
 gem "couchrest_model", "~> 2.0.0"
 gem "couchrest_session_store", "~> 0.2.4"
-gem "json"
+#gem "json"
 
 # user management
 gem "ruby-srp", "~> 0.2.1"
@@ -19,13 +19,13 @@ gem 'debugger', :platforms => :mri_19
 # ruby 1.8 is not supported anymore
 # gem 'ruby-debug', :platforms => :mri_18
 
-gem "haml", "~> 3.1.7"
+#gem "haml", "~> 3.1.7"
 gem "bootstrap-sass", "= 2.3.2.2"
 gem "jquery-rails"
 gem "simple_form"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
-gem "bootswatch-rails", "~> 0.5.0"
+#gem "bootswatch-rails", "~> 0.5.0"
 
 gem 'kaminari', "0.13.0" # for pagination. trying 0.13.0 as there seem to be
                          # issues with 0.14.0 when using couchrest
@@ -66,9 +66,9 @@ group :test, :development do
 end
 
 group :assets do
-  gem "haml-rails", "~> 0.3.4"
+  gem "haml-rails", "= 0.4.0"
   gem "sass-rails", "~> 3.2.5"
-  gem "coffee-rails", "~> 3.2.2"
+  #gem "coffee-rails", "~> 3.2.2"
   gem "uglifier", "~> 1.2.7"
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
