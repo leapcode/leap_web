@@ -5,8 +5,7 @@ notifications:
 before_script:
   - "test/setup_couch.sh"
   - "mv test/config/couchdb.yml.admin config/couchdb.yml"
-  - "bundle exec rake couchrest:migrate_with_proxies"
-  - "bundle exec rake couchrest:migrate_with_proxies"  # looks like this needs to run twice
+  - "bundle exec rake RAILS_ENV=test couchrest:migrate_with_proxies"
   - "mv test/config/couchdb.yml.user config/couchdb.yml"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests

@@ -1,0 +1,17 @@
+These files are used for Travis tests to test admin and user permissions:
+
+couchdb.yml.admin:
+
+  when activated, leap_web has admin permissions (e.g. ability to create
+  databases, upload design docs).
+
+couchdb.yml.user:
+
+  when activited, leap_web has normal permissions (e.g. can modify all the
+  records).
+
+The term 'user' here is misleading. It is really two different types of admin
+permissions.
+
+Rails or rake must be run with 'test' environment for these configs to be
+used.
