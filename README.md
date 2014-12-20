@@ -113,6 +113,7 @@ Running
 To run leap_web:
 
     cd leap_web
+    bin/rake couchrest:migrate
     bin/rails server
 
 Then open http://localhost:3000 in your web browser.
@@ -128,7 +129,8 @@ Testing
 
 To run all tests
 
-    rake test
+    bin/rake couchrest:migrate # if not already run
+    bin/rake test
 
 To run an individual test:
 
