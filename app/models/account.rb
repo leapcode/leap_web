@@ -16,23 +16,26 @@ class Account
 
   # Returns the user record so it can be used in views.
   def self.create(attrs)
-    @user = User.new(attrs)
-    @user.save
-    if @user.persisted?
-      @identity = @user.identity
-      @identity.user_id = @user.id
-      @identity.save
-      @identity.errors.each do |attr, msg|
-        @user.errors.add(attr, msg)
+    identity = nil
+    user = nil
+    user = User.new(attrs)
+    user.save
+    if user.persisted?
+      identity = user.identity
+      identity.user_id = user.id
+      identity.save
+      identity.errors.each do |attr, msg|
+        user.errors.add(attr, msg)
       end
     end
   rescue StandardError => ex
-    @user.errors.add(:base, ex.to_s)
+    user.errors.add(:base, ex.to_s) if user
   ensure
-    if @user && @user.persisted? && (@identity.nil? || !@identity.persisted?)
-      @user.destroy
+    if creation_problem?(user, identity)
+      user.destroy     if user     && user.persisted?
+      identity.destroy if identity && identity.persisted?
     end
-    return @user
+    return user
   end
 
   def update(attrs)
@@ -78,6 +81,15 @@ class Account
 
   def save_identities
     @new_identity.try(:save) && @old_identity.try(:save)
+  end
+
+  def self.creation_problem?(user, identity)
+    user.nil? ||
+    !user.persisted? ||
+    identity.nil? ||
+    !identity.persisted? ||
+    user.errors.any? ||
+    identity.errors.any?
   end
 
   # You can hook into the account lifecycle from different engines using
