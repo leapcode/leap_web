@@ -6,7 +6,9 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 gem "rails", "~> 3.2.21"
 gem "couchrest", "~> 1.1.3"
 gem "couchrest_model", "~> 2.0.0"
-gem "couchrest_session_store", "~> 0.2.4"
+unless ARGV.grep(/assets:precompile/)
+  gem "couchrest_session_store", "~> 0.2.4"
+end
 
 ## AUTHENTICATION
 gem "ruby-srp", "~> 0.2.1"
