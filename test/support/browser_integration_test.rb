@@ -71,9 +71,9 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     end
   end
 
-  add_teardown_hook do |testcase|
-    unless testcase.passed?
-      testcase.save_state
+  teardown do
+    unless self.passed?
+      self.save_state
     end
   end
 
