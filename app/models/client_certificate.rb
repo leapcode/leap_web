@@ -48,7 +48,7 @@ class ClientCertificate
   end
 
   def expiry
-    @expiry ||= lifespan.months.from_now.utc.at_midnight
+    @expiry ||= lifespan
   end
 
   private
@@ -109,12 +109,14 @@ class ClientCertificate
   # We normalize timestamps at utc and midnight
   # to reduce the fingerprinting possibilities.
   #
-
   def last_month
     1.month.ago.utc.at_midnight
   end
 
   def lifespan
-    APP_CONFIG[:client_cert_lifespan]
+    number, unit = APP_CONFIG[:client_cert_lifespan].split(' ')
+    unit ||= :months
+    Time.now.utc.at_midnight.advance(unit.to_sym => number.to_i)
   end
+
 end

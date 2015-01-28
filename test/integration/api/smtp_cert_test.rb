@@ -33,7 +33,8 @@ class SmtpCertTest < ApiIntegrationTest
     assert_text_response
     cert = OpenSSL::X509::Certificate.new(get_response.body)
     fingerprint = OpenSSL::Digest::SHA1.hexdigest(cert.to_der).scan(/../).join(':')
-    expiry = APP_CONFIG[:client_cert_lifespan].months.from_now.utc.midnight
+    number, unit = APP_CONFIG[:client_cert_lifespan].split(' ')
+    expiry = Time.now.utc.at_midnight.advance(unit.to_sym => number.to_i)
     expiry_string = expiry.to_date.to_s
     fingerprints = {fingerprint => expiry_string}
     assert_equal fingerprints, @user.reload.identity.cert_fingerprints

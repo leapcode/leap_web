@@ -4,7 +4,7 @@ dev_ca: &dev_ca
   ca_key_password: nil
 
 cert_options: &cert_options
-  client_cert_lifespan: 2
+  client_cert_lifespan: "2 months"
   client_cert_bit_size: 2024
   client_cert_hash: "SHA256"
   allow_limited_certs: false
