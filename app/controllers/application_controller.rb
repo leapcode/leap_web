@@ -4,23 +4,33 @@ class ApplicationController < ActionController::Base
   before_filter :no_cache_header
   before_filter :no_frame_header
   before_filter :language_header
+  rescue_from StandardError, :with => :default_error_handler
+  rescue_from RestClient::Exception, :with => :default_error_handler
 
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   protected
 
-  rescue_from StandardError do |e|
+  def default_error_handler(exc)
     respond_to do |format|
-      format.json { render_json_error(e) }
-      format.all  { raise e }  # reraise the exception so the normal thing happens.
+      format.json { render_json_error(exc) }
+      format.all  { raise exc }  # reraise the exception so the normal thing happens.
     end
   end
 
+  #
+  # I think this should be 'errors', not 'error', since that is what
+  # `respond_with @object` will return. For now, I am leaving this as 'error',
+  # since there is some code that depends on this.
+  #
   def render_json_error(e)
     Rails.logger.error e
     Rails.logger.error e.backtrace.join("\n")
-    render status: 500,
-      json: {error: "The server failed to process your request. We'll look into it."}
+    if e.is_a?(CouchRest::StorageMissing)
+      render status: 500, json: {error: "The database '#{e.db}' does not exist!"}
+    else
+      render status: 500, json: {error: "The server failed to process your request. We'll look into it (#{e.class})."}
+    end
   end
 
   ##
