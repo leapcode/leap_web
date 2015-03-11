@@ -25,8 +25,9 @@ run `cap deploy` to deploy to the server.
 
 Please make sure your deploy includes the following files:
 
-* public/config/provider.json
-* config/couchdb.yml
+* `public/config/provider.json` -- provider bootstrap file.
+* `config/couchdb.yml` -- normal webapp couchdb configuration.
+* `config/couchdb.admin.yml` -- configuration used for rake tasks.
 
 ## Couch Security ##
 

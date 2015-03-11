@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ClientCertificateTest < ActiveSupport::TestCase
+class TokenTest < ActiveSupport::TestCase
   include StubRecordHelper
 
   setup do

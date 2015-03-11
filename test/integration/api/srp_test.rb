@@ -32,11 +32,11 @@ class SrpTest < RackTest
 
   attr_reader :server_auth
 
-  def register_user(login = "integration_test_user", password = 'srp, verify me!')
+  def register_user(login = "integration_test", password = 'srp, verify me!')
     cleanup_user(login)
     post 'http://api.lvh.me:3000/1/users.json',
       user_params(login: login, password: password)
-    @user = User.find_by_login(login)
+    assert(@user = User.find_by_login(login), 'user should have been created: %s' % last_response_errors)
     @login = login
     @password = password
   end
@@ -100,5 +100,11 @@ class SrpTest < RackTest
       params.reverse_merge! password: @password
       SRP::Client.new(params.delete(:login) || @login, params)
     end
+  end
+
+  def last_response_errors
+    JSON.parse(last_response.body)['errors']
+  rescue
+    ""
   end
 end

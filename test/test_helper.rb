@@ -30,3 +30,12 @@ class ActiveSupport::TestCase
   require 'i18n/missing_translations'
   at_exit { I18n.missing_translations.dump }
 end
+
+#
+# Create databases, since the temporary databases might not have been created
+# when `rake couchrest:migrate` was run.
+#
+
+Token.create_database! if Token.respond_to?(:create_database)
+CouchRest::Session::Document.create_database! if CouchRest::Session::Document.respond_to?(:create_database)
+User.create_tmp_database! if User.respond_to?(:create_tmp_database)

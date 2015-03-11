@@ -20,7 +20,7 @@ class Account
     user = nil
     user = User.new(attrs)
     user.save
-    if user.persisted?
+    if !user.tmp? && user.persisted?
       identity = user.identity
       identity.user_id = user.id
       identity.save
@@ -52,10 +52,12 @@ class Account
 
   def destroy(destroy_identity=false)
     return unless @user
-    if destroy_identity == false
-      Identity.disable_all_for(@user)
-    else
-      Identity.destroy_all_for(@user)
+    if !user.tmp?
+      if destroy_identity == false
+        Identity.disable_all_for(@user)
+      else
+        Identity.destroy_all_for(@user)
+      end
     end
     @user.destroy
   end
@@ -84,12 +86,11 @@ class Account
   end
 
   def self.creation_problem?(user, identity)
-    user.nil? ||
-    !user.persisted? ||
-    identity.nil? ||
-    !identity.persisted? ||
-    user.errors.any? ||
-    identity.errors.any?
+    return true if user.nil? || !user.persisted? || user.errors.any?
+    if !user.tmp?
+      return true if identity.nil? || !identity.persisted? || identity.errors.any?
+    end
+    return false
   end
 
   # You can hook into the account lifecycle from different engines using

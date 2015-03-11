@@ -1,8 +1,15 @@
 require 'digest/sha2'
 
 class Token < CouchRest::Model::Base
+  def self.expires_after
+    APP_CONFIG[:auth] && APP_CONFIG[:auth][:token_expires_after]
+  end
 
-  use_database :tokens
+  include CouchRest::Model::Rotation
+  rotate_database :tokens,
+    :every => 1.month,
+    :timestamp_field => :last_seen_at,
+    :timeout => self.expires_after.to_i # in minutes
 
   belongs_to :user
 
@@ -21,10 +28,6 @@ class Token < CouchRest::Model::Base
 
   def self.find_by_token(token)
     self.find Digest::SHA512.hexdigest(token)
-  end
-
-  def self.expires_after
-    APP_CONFIG[:auth] && APP_CONFIG[:auth][:token_expires_after]
   end
 
   def self.expired
