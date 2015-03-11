@@ -31,20 +31,18 @@ gem "jquery-rails"
 gem "simple_form"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
-group :assets do
-  gem "bootstrap-sass", "= 2.3.2.2" # The last 2.x version. Bootstrap-sass versions
-                                    # tracks the version of Bootstrap. We currently require
-                                    # Bootstrap v2 because client side validations is incompatible
-                                    # with Bootstrap v3. When upgrading to Rails 4, see
-                                    # https://github.com/twbs/bootstrap-sass
-  gem "haml-rails", "= 0.4.0"   # The last version of haml-rails to support Rails 3.
-  gem "sass-rails", "~> 3.2.5"  # Only version supported by bootstrap-sass 2.3.2.2
-  gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
-  gem 'quiet_assets'            # stops logging all the asset requests
-  gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
-  #   ^^ See https://github.com/sstephenson/execjs#readme
-  #      for list of supported runtimes.
-end
+gem "haml-rails", "= 0.4.0"   # The last version of haml-rails to support Rails 3.
+gem "bootstrap-sass", "= 2.3.2.2" # The last 2.x version. Bootstrap-sass versions
+                                  # tracks the version of Bootstrap. We currently require
+                                  # Bootstrap v2 because client side validations is incompatible
+                                  # with Bootstrap v3. When upgrading to Rails 4, see
+                                  # https://github.com/twbs/bootstrap-sass
+gem "sass-rails", "~> 3.2.5"  # Only version supported by bootstrap-sass 2.3.2.2
+gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
+gem 'quiet_assets'            # stops logging all the asset requests
+gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
+#   ^^ See https://github.com/sstephenson/execjs#readme
+#      for list of supported runtimes.
 
 ## MISC
 gem 'certificate_authority', # unreleased so far ... but leap_web_certs need it
