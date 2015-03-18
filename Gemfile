@@ -31,13 +31,13 @@ gem "jquery-rails"
 gem "simple_form"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
+gem "haml-rails", "= 0.4.0"   # The last version of haml-rails to support Rails 3.
 group :assets do
   gem "bootstrap-sass", "= 2.3.2.2" # The last 2.x version. Bootstrap-sass versions
                                     # tracks the version of Bootstrap. We currently require
                                     # Bootstrap v2 because client side validations is incompatible
                                     # with Bootstrap v3. When upgrading to Rails 4, see
                                     # https://github.com/twbs/bootstrap-sass
-  gem "haml-rails", "= 0.4.0"   # The last version of haml-rails to support Rails 3.
   gem "sass-rails", "~> 3.2.5"  # Only version supported by bootstrap-sass 2.3.2.2
   gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
   gem 'quiet_assets'            # stops logging all the asset requests
