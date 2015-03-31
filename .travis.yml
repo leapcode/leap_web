@@ -3,10 +3,13 @@ services:
 notifications:
   email: false
 before_script:
-  - "test/setup_couch.sh"
-  - "mv test/config/couchdb.yml.admin config/couchdb.yml"
-  - "bundle exec rake RAILS_ENV=test couchrest:migrate_with_proxies"
-  - "mv test/config/couchdb.yml.user config/couchdb.yml"
+  - "rm .ruby-version"
+  - "mv test/travis/ruby-version .ruby-version"
+  - "test/travis/setup_couch.sh"
+  - "mv test/config/couchdb.admin.yml config/couchdb.admin.yml"
+  - "mv test/config/couchdb.yml config/couchdb.yml"
+  - "bundle exec rake RAILS_ENV=test db:rotate"
+  - "bundle exec rake RAILS_ENV=test db:migrate"
 after_script:
   - "cat tmp/*.test*.log" # printing logs from the failed integration tests
 bundler_args: --without development debug

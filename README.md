@@ -113,7 +113,8 @@ Running
 To run leap_web:
 
     cd leap_web
-    bin/rake couchrest:migrate
+    bin/rake db:rotate
+    bin/rake db:migrate
     bin/rails server
 
 Then open http://localhost:3000 in your web browser.
@@ -124,12 +125,19 @@ powers by creating an account with username 'staff', 'blue', or 'red'
 
 To peruse the database, visit http://localhost:5984/_utils/
 
+The task `db:rotate` must come before `db:migrate`, in order to assure that
+the special rotating databases get created.
+
+Do not run the normal CouchRest task 'couchrest:migrate'. Instead, use
+'db:rotate' since the latter will correctly use the couchdb.admin.yml file.
+
 Testing
 --------------------------------
 
 To run all tests
 
-    bin/rake couchrest:migrate # if not already run
+    bin/rake RAILS_ENV=test db:rotate    # if not already run
+    bin/rake RAILS_ENV=test db:migrate   # if not already run
     bin/rake test
 
 To run an individual test:

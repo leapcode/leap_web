@@ -1,6 +1,7 @@
 # Deployment #
 
-These instructions are targeting a Debian GNU/Linux system. You might need to change the commands to match your own needs.
+These instructions are targeting a Debian GNU/Linux system. You might need to
+change the commands to match your own needs.
 
 ## Server Preperation ##
 
@@ -15,7 +16,9 @@ The following packages need to be installed:
 
 ### Setup Capistrano ###
 
-We use puppet to deploy. But we also ship an example deploy.rb in config/deploy.rb.example. Edit it to match your needs if you want to use capistrano.
+We use puppet to deploy. But we also ship an example deploy.rb in
+config/deploy.rb.example. Edit it to match your needs if you want to use
+capistrano.
 
 run `cap deploy:setup` to create the directory structure.
 
@@ -31,12 +34,15 @@ Please make sure your deploy includes the following files:
 
 ## Couch Security ##
 
-We recommend against using an admin user for running the webapp. To avoid this couch design documents need to be created ahead of time and the auto update mechanism needs to be disabled.
-Take a look at test/setup_couch.sh for an example of securing the couch.
+We recommend against using an admin user for running the webapp. To avoid this
+couch design documents need to be created ahead of time and the auto update
+mechanism needs to be disabled. Take a look at `test/travis/setup_couch.sh`
+for an example of securing the couch.
 
 ### DESIGN DOCUMENTS ###
 
-After securing the couch design documents need to be deployed with admin permissions. There are two ways of doing this:
+After securing the couch design documents need to be deployed with admin
+permissions. There are two ways of doing this:
  * rake couchrest:migrate_with_proxies
  * dump the documents as files with `rake couchrest:dump` and deploy them
    to the couch by hand or with puppet.
@@ -46,10 +52,10 @@ After securing the couch design documents need to be deployed with admin permiss
 The before_script block in .travis.yml illustrates how to do this:
 
 ```bash
-mv test/config/couchdb.yml.admin config/couchdb.yml  # use admin privileges
-bundle exec rake couchrest:migrate_with_proxies      # run the migrations
-bundle exec rake couchrest:migrate_with_proxies      # looks like this needs to run twice
-mv test/config/couchdb.yml.user config/couchdb.yml   # drop admin privileges
+mv test/config/couchdb.yml config/couchdb.yml
+mv test/config/couchdb.admin.yml config/couchdb.admin.yml
+bundle exec rake db:rotate          # create dbs
+bundle exec rake couchrest:migrate  # run migrations
 ```
 
 #### Deploy design docs from CouchRest::Dump ####
@@ -61,4 +67,6 @@ First of all we get the design docs as files:
 bundle exec rake couchrest:dump
 ```
 
-Then we add them to files/design in the site_couchdb module in leap_platform so they get deployed with the couch. You could also upload them using curl or sth. similar.
+Then we add them to files/design in the site_couchdb module in leap_platform
+so they get deployed with the couch. You could also upload them using curl or
+sth. similar.

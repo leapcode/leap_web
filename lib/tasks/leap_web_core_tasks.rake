@@ -22,7 +22,21 @@ namespace :cleanup do
   end
 end
 
+def use_admin_conf(couchrest_model_class)
+  couchrest_model_class.configure do |conf|
+    conf.environment = Rails.env
+    conf.connection_config_file = File.join(Rails.root, 'config', 'couchdb.admin.yml')
+  end
+end
+
 namespace :db do
+  desc "Migrate all design documents (using couchdb.admin.yml)"
+  task :migrate => :environment do
+    use_admin_conf(CouchRest::Model::Base)
+    CouchRest::Model::Utils::Migrate.load_all_models
+    CouchRest::Model::Utils::Migrate.all_models
+  end
+
   desc "Rotate the databases, as needed."
   task :rotate => :environment do
     #
@@ -31,26 +45,19 @@ namespace :db do
     # override the default config twice.
     #
 
-    CouchRest::Model::Base.configure do |conf|
-      conf.environment = Rails.env
-      conf.connection_config_file = File.join(Rails.root, 'config', 'couchdb.admin.yml')
-    end
+    use_admin_conf(CouchRest::Model::Base)
     Token.rotate_database_now(:window => 1.day)
+    User.create_tmp_database!
+    User.design_doc.sync!(User.tmp_database)
 
-    CouchRest::Session::Document.configure do |conf|
-      conf.environment = Rails.env
-      conf.connection_config_file = File.join(Rails.root, 'config', 'couchdb.admin.yml')
-    end
+    use_admin_conf(CouchRest::Session::Document)
     CouchRest::Session::Document.rotate_database_now(:window => 1.day)
   end
 
   desc "Delete and recreate temporary databases."
   task :deletetmp => :environment do
     # db deletion and creation must be performed by admin
-    CouchRest::Model::Base.configure do |conf|
-      conf.environment = Rails.env
-      conf.connection_config_file = File.join(Rails.root, 'config', 'couchdb.admin.yml')
-    end
+    use_admin_conf(CouchRest::Model::Base)
     User.tmp_database.recreate!
     User.design_doc.sync!(User.tmp_database)
   end
