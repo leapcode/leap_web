@@ -38,11 +38,15 @@ gem "bootstrap-sass", "= 2.3.2.2" # The last 2.x version. Bootstrap-sass version
                                   # with Bootstrap v3. When upgrading to Rails 4, see
                                   # https://github.com/twbs/bootstrap-sass
 gem "sass-rails", "~> 3.2.5"  # Only version supported by bootstrap-sass 2.3.2.2
-gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
 gem 'quiet_assets'            # stops logging all the asset requests
-gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
-#   ^^ See https://github.com/sstephenson/execjs#readme
-#      for list of supported runtimes.
+group :production do
+  gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
+                                # this must not be included in development mode, or js
+                                # will get included twice.
+  gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
+  #   ^^ See https://github.com/sstephenson/execjs#readme
+  #      for list of supported runtimes.
+end
 
 ## MISC
 gem 'certificate_authority', # unreleased so far ... but leap_web_certs need it
