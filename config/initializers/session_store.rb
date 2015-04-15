@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-unless ARGV.grep(/assets:precompile/)
+unless ARGV.grep(/assets:precompile/).any?
 
   LeapWeb::Application.config.session_store CouchRest::Session::Store,
     expire_after: 1800
