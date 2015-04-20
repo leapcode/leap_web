@@ -108,4 +108,6 @@ production:
   <<: *common
   admins: []
   domain: example.net
+  engines:
+    - support
   # logfile: /path/to/your/logs

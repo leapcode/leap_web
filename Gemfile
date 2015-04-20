@@ -95,24 +95,10 @@ end
 ## OPTIONAL GEMS AND ENGINES
 ##
 
-group :test do
-  enabled_engines('test').each do |gem_name, gem_dir|
-    gem gem_name, :path => gem_dir
-  end
+enabled_engines.each do |name, gem_info|
+  gem gem_info[:name], :path => gem_info[:path], :groups => gem_info[:env]
 end
 
-group :development do
-  enabled_engines('development').each do |gem_name, gem_dir|
-    gem gem_name, :path => gem_dir
-  end
-end
-
-group :production do
-  enabled_engines('production').each do |gem_name, gem_dir|
-    gem gem_name, :path => gem_dir
-  end
-end
-
-custom_gems.each do |gem_name, gem_dir|
-  gem gem_name, :path => gem_dir
+custom_gems.each do |name, gem_info|
+  gem gem_info[:name], :path => gem_info[:path]
 end

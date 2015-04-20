@@ -17,29 +17,44 @@ require 'yaml'
 # The Gemfile.lock is then rebuilt to take these into account.
 #
 def custom_gems
+  custom_gems = {}
   custom_gem_dir = File.expand_path('../../config/customization/gems', __FILE__)
-  Dir["#{custom_gem_dir}/*"].collect{|gem_dir|
-    resolve_gem_directory(gem_dir)
-  }.compact
+  Dir["#{custom_gem_dir}/*"].each do |gem_dir|
+    custom_gems[File.basename(gem_dir)] = gem_info(gem_dir)
+  end
+  custom_gems
 end
 
 #
-# returns an array of [engine_name, engine_path] from Rails.root/engines/* that are
-# enabled. Uses the 'engines' key from config.yml to determine if engine is enabled
+# Returns a hash of which gems are enabled. For example:
 #
-def enabled_engines(environment)
-  if local_config[environment]
-    if local_config[environment][:engines]
-      local_config[environment][:engines].collect {|engine_dir|
-        full_dir_path = File.join(File.expand_path("../../engines", __FILE__), engine_dir)
-        resolve_gem_directory(full_dir_path)
-      }.compact
-    else
-      []
+#  {
+#    "support" => {
+#      :name => 'leap_web_help',
+#      :path => 'path/to/engines/support',
+#      :env => ['test', 'development']
+#    }
+#  }
+#
+# This is built using the 'engines' key from config.yml.
+#
+# NOTE:
+#
+# * The name of an engine in config.yml is based on the directory name in Rails.root/engines,
+#   but this is not necessarily the name of the gem.
+#
+def enabled_engines
+  engines = {}
+  ['test', 'development', 'production'].each do |env|
+    if local_config[env] && local_config[env][:engines]
+      local_config[env][:engines].each do |engine|
+        gem_dir = File.join(File.expand_path("../../engines", __FILE__), engine)
+        engines[engine] ||= gem_info(gem_dir)
+        engines[engine][:env] << env
+      end
     end
-  else
-    []
   end
+  engines
 end
 
 #
@@ -71,15 +86,18 @@ end
 # return [gem_name, relative_gem_path] for gem at the specific directory
 # or nil if not actually a gem directory
 #
-def resolve_gem_directory(gem_dir)
+def gem_info(gem_dir)
   if Dir.exists?(gem_dir)
     gemspec = Dir["#{gem_dir}/*.gemspec"]
     if gemspec.any?
       gem_name = File.basename(gemspec.first).sub(/\.gemspec$/,'')
-      [gem_name, gem_dir]
+      {:name => gem_name, :path => gem_dir, :env => []}
+    else
+      puts "Warning: no gemspec at `#{gem_dir}`"
+      {}
     end
   else
     puts "Warning: no gem at `#{gem_dir}`"
-    nil
+    {}
   end
 end
