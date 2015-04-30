@@ -28,4 +28,8 @@ class AnonymousUser < Object
   def messages
     []
   end
+
+  def is_anonymous?
+    true
+  end
 end

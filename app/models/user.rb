@@ -6,6 +6,8 @@ class User < CouchRest::Model::Base
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
+  property :contact_email, String, :accessible => true
+  property :contact_email_key, String, :accessible => true
 
   property :enabled, TrueClass, :default => true
 
@@ -32,6 +34,10 @@ class User < CouchRest::Model::Base
   validates :password, :presence => true,
     :confirmation => true,
     :format => { :with => /.{8}.*/, :message => "needs to be at least 8 characters long" }
+
+  validates :contact_email, :allow_blank => true,
+    :email => true,
+    :mx_with_fallback => true
 
   timestamps!
 
@@ -88,6 +94,10 @@ class User < CouchRest::Model::Base
   # Since we are storing admins by login, we cannot allow admins to change their login.
   def is_admin?
     APP_CONFIG['admins'].include? self.login
+  end
+
+  def is_anonymous?
+    false
   end
 
   def most_recent_tickets(count=3)

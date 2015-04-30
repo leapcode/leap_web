@@ -2,7 +2,7 @@ FactoryGirl.define do
 
   factory :ticket do
     subject { Faker::Lorem.sentence }
-    email { Faker::Internet.email }
+    email { "fake@example.org" }
 
     factory :ticket_with_comment do
       comments_attributes do

@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.version     = LeapWeb::VERSION
   s.authors     = ["Jessib"]
   s.email       = ["jessib@leap.se"]
-  s.homepage    = "http://www.leap.se"
-  s.summary     = "Help Desk for LeapWeb"
-  s.description = "Managing Tickets for a Leap provider"
+  s.homepage    = "https://www.leap.se"
+  s.summary     = "Help Desk for LEAP webapp"
+  s.description = "Managing help tickets for a LEAP provider"
 
   s.files = Dir["{app,config,lib}/**/*"] + ["Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]

@@ -1,9 +1,11 @@
 en:
   support_tickets: "Support"
+  email_notice_text: "A new comment has been added to this help ticket."
+  email_no_reply_text: "Do not reply to this email."
   # translations used in the layout views or @title
   layouts:
     # fallback for all translations of "tickets" nested below:
-    tickets: "Tickets" 
+    tickets: "Tickets"
     title:
       tickets: "Tickets"
     header:
@@ -90,8 +92,8 @@ en:
           "false": "Closed"
     # mouse over hints for the given fields
     hints:
-      ticket: 
-        email: "Please provide an email address so we can get back to you."
+      ticket:
+        email: "Provide an email address in order to notified when this ticket is updated."
         # these will fallback to translations in "simple_form.hints.defaults"
     # placeholders inside the fields before anything was typed
     #placeholders:

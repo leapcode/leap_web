@@ -40,7 +40,10 @@ class UsersController < ApplicationController
   ## added so updating service level works, but not sure we will actually want this. also not sure that this is place to prevent user from updating own effective service level, but here as placeholder:
   def update
     @user.update_attributes(params[:user]) unless (!admin? and params[:user][:effective_service_level])
-    respond_with @user
+    if @user.valid?
+      flash[:notice] = I18n.t(:changes_saved)
+    end
+    respond_with @user, :location => edit_user_path(@user)
   end
 
   def deactivate

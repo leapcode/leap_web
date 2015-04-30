@@ -48,10 +48,6 @@ group :production do
   #      for list of supported runtimes.
 end
 
-## MISC
-gem 'certificate_authority', # unreleased so far ... but leap_web_certs need it
-  :git => 'https://github.com/cchandler/certificate_authority.git'
-
 ##
 ## ENVIRONMENT SPECIFIC GEMS
 ##
@@ -102,3 +98,12 @@ end
 custom_gems.each do |name, gem_info|
   gem gem_info[:name], :path => gem_info[:path]
 end
+
+##
+## DEPENDENCIES FOR OPTIONAL ENGINES
+##
+
+gem 'certificate_authority', # unreleased so far ... but leap_web_certs need it
+  :git => 'https://github.com/cchandler/certificate_authority.git'
+
+gem 'valid_email' # used by leap_web_help

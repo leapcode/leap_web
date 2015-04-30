@@ -39,6 +39,11 @@ en:
   payment_one_month_warning: "We hope you have been enjoying this service this past month. Please sign up to pay within the next month, by %{date_in_one_month}. Directions for payment are available at INSERT_URL"
   bye: "Goodbye!"
   bye_message: "So long and thanks for all the fish."
+  contact_email: "Contact Email"
+  contact_email_info: >
+    You may specify an email address where we can contact you if there is a
+    problem with your account. For privacy reasons, you might prefer to leave
+    this empty.
 
   #
   # overview

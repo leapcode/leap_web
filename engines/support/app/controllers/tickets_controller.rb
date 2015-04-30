@@ -62,6 +62,7 @@ class TicketsController < ApplicationController
     if @ticket.comments_changed?
       @ticket.comments.last.posted_by = current_user.id
       @ticket.comments.last.private = false unless admin?
+      send_email_update(@ticket, @ticket.comments.last)
     end
 
     flash_for @ticket, with_errors: true
@@ -151,6 +152,13 @@ class TicketsController < ApplicationController
       :user_id      => @user ? @user.id : current_user.id,
       :is_admin     => admin?
     )
+  end
+
+  def send_email_update(ticket, comment)
+    TicketMailer.send_notice(ticket, comment, ticket_url(ticket))
+  rescue StandardError => exc
+    flash_for(exc)
+    raise exc if Rails.env == 'development'
   end
 
 end

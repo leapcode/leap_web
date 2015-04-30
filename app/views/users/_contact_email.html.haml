@@ -1,0 +1,9 @@
+%legend= t(:contact_email)
+= simple_form_for @user, {:validate => true} do |f|
+  %p= t(:contact_email_info)
+  = f.input :contact_email, :label => false
+  -# %p= t(:public_key)
+  -# = f.text_area :contact_email_key, {:class => "full-width", :rows => 4}
+  .control-group
+    .controls
+      = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}

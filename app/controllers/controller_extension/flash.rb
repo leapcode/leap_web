@@ -4,9 +4,13 @@ module ControllerExtension::Flash
   protected
 
   def flash_for(resource, options = {})
-    return unless resource.changed?
-    add_flash_message_for resource
-    add_flash_errors_for resource  if options[:with_errors]
+    if resource.is_a? Exception
+      add_flash_message_for_exception resource
+    else
+      return unless resource.changed?
+      add_flash_message_for resource
+      add_flash_errors_for resource  if options[:with_errors]
+    end
   end
 
   def add_flash_message_for(resource)
@@ -40,4 +44,12 @@ module ControllerExtension::Flash
     flash[:error] += "<br>"
     flash[:error] += resource.errors.full_messages.join(". <br>")
   end
+
+  #
+  # This is pretty crude. It would be good to l10n in the future.
+  #
+  def add_flash_message_for_exception(exc)
+    flash[:error] = exc.to_s
+  end
+
 end

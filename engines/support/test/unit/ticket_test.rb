@@ -13,7 +13,7 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "ticket validates email format" do
-    t = FactoryGirl.build :ticket, email: "aswerssfd"
+    t = FactoryGirl.build :ticket, email: "invalid email"
     assert !t.valid?
   end
 
