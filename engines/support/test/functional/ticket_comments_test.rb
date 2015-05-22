@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../test_helper'
 
 class TicketsCommentsTest < ActionController::TestCase
   tests TicketsController
@@ -67,9 +67,9 @@ class TicketsCommentsTest < ActionController::TestCase
 
 
   test "admin add comment to authenticated ticket" do
-
-    other_user = find_record :user
     login :is_admin? => true
+    admin = find_record :user, @current_user
+    other_user = find_record :user
 
     ticket = FactoryGirl.create :ticket, :created_by => other_user.id
 

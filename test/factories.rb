@@ -6,7 +6,9 @@ end
 FactoryGirl.define do
 
   factory :user do
-    login { Faker::Internet.user_name }
+    # Faker::Internet.user_name alone was sometimes
+    # producing duplicate usernames.
+    login { Faker::Internet.user_name + '_' + SecureRandom.hex(4) }
     password_verifier "1234ABCD"
     password_salt "4321AB"
 
