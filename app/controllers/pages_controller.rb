@@ -12,7 +12,7 @@ class PagesController < ApplicationController
   private
 
   def page_name
-    request.path.sub(/^\/(#{MATCH_LOCALE}\/)?/, '')
+    request.path.sub(/^\/(#{CommonLanguages.match_available}\/)?/, '')
   end
 
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  scope "(:locale)", :locale => MATCH_LOCALE do
+  scope "(:locale)", :locale => CommonLanguages.match_available do
     match 'payments/new' => 'payments#new', :as => :new_payment
     match 'payments/confirm' => 'payments#confirm', :as => :confirm_payment
     resources :users do

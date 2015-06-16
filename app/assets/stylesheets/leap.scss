@@ -269,6 +269,18 @@ html, body {
 #footer {
   padding-top: $footer-gutter;
   height: $footer-height - $footer-border-width;
+  .locales {
+    text-align: center;
+    margin-bottom: 15px;
+    a {
+      padding: 4px;
+      &.active {
+        font-weight: bold;
+        background-color: #eee;
+        border-radius: 4px;
+      }
+    }
+  }
   .full-height {
     text-align: center;
     line-height: $footer-height - $footer-border-width;

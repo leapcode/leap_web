@@ -4,7 +4,7 @@ LeapWeb::Application.routes.draw do
   # so that the path will be correctly prefixed with the locale.
   #
   root :to => "home#index"
-  get '(:locale)' => 'home#index', :locale => MATCH_LOCALE, :as => 'home'
+  get '(:locale)' => 'home#index', :locale => CommonLanguages.match_available, :as => 'home'
 
   #
   # HTTP Error Handling
@@ -13,7 +13,7 @@ LeapWeb::Application.routes.draw do
   match '/404' => 'errors#not_found'
   match '/500' => 'errors#server_error'
 
-  scope "(:locale)", :locale => MATCH_LOCALE, :controller => 'pages', :action => 'show' do
+  scope "(:locale)", :locale => CommonLanguages.match_available, :controller => 'pages', :action => 'show' do
     get 'privacy-policy', :as => 'privacy_policy'
     get 'terms-of-service', :as => 'terms_of_service'
     get 'about', :as => 'about'
@@ -38,7 +38,7 @@ LeapWeb::Application.routes.draw do
     resources :configs, :only => [:index, :show]
   end
 
-  scope "(:locale)", :locale => MATCH_LOCALE do
+  scope "(:locale)", :locale => CommonLanguages.match_available do
     get "login" => "sessions#new", :as => "login"
     delete "logout" => "sessions#destroy", :as => "logout"
 

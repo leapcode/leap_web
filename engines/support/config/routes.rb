@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope "(:locale)", locale: MATCH_LOCALE do
+  scope "(:locale)", locale: CommonLanguages.match_available do
 
     resources :tickets, except: :edit do
       member do

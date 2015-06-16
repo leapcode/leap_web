@@ -38,41 +38,30 @@ class ApplicationController < ActionController::Base
   ##
 
   #
-  # URL paths for which we don't enforce the locale as the prefix of the path.
-  #
-  NON_LOCALE_PATHS = /^\/(assets|webfinger|.well-known|rails|key|[0-9]+)($|\/)/
-
-  #
   # Before filter to set the current locale. Possible outcomes:
   #
   #   (a) do nothing for certain routes and requests.
   #   (b) if path already starts with locale, set I18n.locale and default_url_options.
   #   (c) otherwise, redirect so that path starts with locale.
   #
-  # If the locale happens to be the default local, no paths are prefixed with the locale.
-  #
   def set_locale
-    if request.method == "GET" && request.format == 'text/html' && request.path !~ NON_LOCALE_PATHS
-      if params[:locale] && LOCALES_STRING.include?(params[:locale])
+    if request_may_have_locale?(request)
+      if CommonLanguages::available_code?(params[:locale])
         I18n.locale = params[:locale]
-        update_default_url_options
       else
         I18n.locale = http_accept_language.compatible_language_from(I18n.available_locales) || I18n.default_locale
-        update_default_url_options
         if I18n.locale != I18n.default_locale
           redirect_to url_for(params.merge(:locale => I18n.locale))
         end
       end
-    else
-      update_default_url_options
     end
   end
 
-  def update_default_url_options
-    if I18n.locale != I18n.default_locale
-      self.default_url_options[:locale] = I18n.locale
+  def default_url_options(options={})
+    if request_may_have_locale?(request)
+      { :locale => I18n.locale }
     else
-      self.default_url_options[:locale] = nil
+      { :locale => nil }
     end
   end
 
@@ -104,4 +93,17 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "0"
   end
 
+  private
+
+  #
+  # URL paths for which we don't enforce the locale as the prefix of the path.
+  #
+  NON_LOCALE_PATHS = /^\/(assets|webfinger|.well-known|rails|key|[0-9]+)($|\/)/
+
+  #
+  # For some requests, we ignore locale determination.
+  #
+  def request_may_have_locale?(request)
+    request.method == "GET" && request.format == 'text/html' && request.path !~ NON_LOCALE_PATHS
+  end
 end

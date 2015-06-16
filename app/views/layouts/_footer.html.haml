@@ -1,3 +1,6 @@
+- if CommonLanguages.available.size > 1
+  .locales
+    = locales_links
 .full-height
   = link_to icon('home') + t(:home), home_path
   = link_to icon('eye-close') + t(:privacy_policy), privacy_policy_path

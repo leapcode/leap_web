@@ -20,6 +20,7 @@ gem 'rails-i18n'  # locale files for built-in validation messages and times
                   # https://github.com/svenfuchs/rails-i18n
                   # for a list of keys:
                   # https://github.com/svenfuchs/rails-i18n/blob/master/rails/locale/en.yml
+gem 'common_languages', :path => 'vendor/gems/common_languages'
 
 ## VIEWS
 gem 'kaminari', "0.13.0" # for pagination. trying 0.13.0 as there seem to be
