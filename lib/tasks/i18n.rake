@@ -47,14 +47,21 @@ namespace :i18n do
     end
   end
 
-
-  # elijah: this does not actually work, but I think could be a starting point
-  # for something that will work.
   desc "pull translations from transifex"
   task :download do
-    Conf.enabled_languages.each do |lang|
-      next unless lang == 'en'
-      `curl -L --user #{Conf.transifex_user}:#{Conf.transifex_password} -X GET https://www.transifex.net/api/2/project/crabgrass/resource/master/translation/#{lang}/?file > config/locales/#{lang}.yml`
+    Dir.chdir('config/') do
+      if !File.exists?('transifex.netrc')
+        puts "In order to download translations, you need a config/transifex.netrc file."
+        puts "For example:"
+        puts "machine www.transifex.com login yourusername password yourpassword"
+        exit
+      end
+      APP_CONFIG[:available_locales].each do |lang|
+        next if lang == :en
+        puts "downloading #{lang}"
+        `curl -L --netrc-file transifex.netrc -X GET 'https://www.transifex.com/api/2/project/bitmask/resource/leap_web/translation/#{lang}/?file' > locales/#{lang}.yml`
+      end
     end
   end
+
 end

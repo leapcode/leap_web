@@ -1,0 +1,126 @@
+pl:
+  errors:
+    title:
+      not_found: Nie znaleziono strony.
+      server_error: Ała!
+    subtitle:
+      not_found: Strona której szukasz nie istnieje.
+      server_error: Napotkaliśmy błąd serwera.
+    text:
+      not_found: Być może źle wpisałeś adres strony, lub strona zmieniła lokalizacje.
+      server_error: Problem został zalogowany i wkrótce zajmiemy się nim.
+  flash:
+    success: '%{resource} został pomyślnie zapisany.'
+    error: '%{resource} nie mógł być zapisany.'
+    create:
+      success: '%{resource} został pomyślnie utworzony.'
+      error: '%{resource} nie mógł być utworzony.'
+    update:
+      success: '%{resource} został pomyślnie zaktualizowany.'
+      error: '%{resource} nie mógł być zaktualizowany.'
+  privacy_policy: Polityka Prywatności
+  terms_of_service: Warunki korzystania z usługi
+  pricing: Koszty
+  about: O Nas
+  contact: Kontakt
+  signup: Zapisz się
+  login: Zaloguj
+  logout: Wyloguj
+  cancel: Anuluj
+  created: Utworzono
+  created_by_on: Utworzone przez %{user}, %{time}
+  updated: Zaktualizowano
+  none: Brak
+  unknown: Nieznane
+  admin: Admin
+  anonymous: Anonimowy
+  save: Zapisz
+  add: Dodaj
+  remove: Usuń
+  changes_saved: Zmiany zostały zapisane.
+  are_you_sure: Czy jesteś pewny? Zmiana ta nie będzie mogła być cofnięta.
+  example_email: user@domain.org
+  no_such_thing: Nie ma czegoś takiego jak %{thing}.
+  create_thing: Utwórz %{thing}
+  overview: Przegląd
+  home: Home
+  welcome: Witamy w %{provider}.
+  download_bitmask: Pobierz Bitmask
+  login_info: Zaloguj się, aby zmienić ustawienia Twojego konta, utwórz bilety wsparcia i zarządzaj płatnościami.
+  signup_info: Utwórz nowe konto. Dla większego bezpieczeństwa, zalecamy, abyś utworzył swoje konto używając Bitmask.
+  support_info: Nie możesz się zalogować? Utwórz nowy bilecik wsparcia anonimowo.
+  messages:
+    not_found: Nie można było znaleźć tej wiadomości.
+    marked_as_read: Wiadomość została oznaczona jako przeczytana.
+  helpers:
+    submit:
+      user:
+        create: Zapisz się
+        update: Zapisz
+      session:
+        create: Zaloguj
+  common:
+    navigation_item:
+      users: Użytkownicy
+      identities: Nazwy użytkowników
+      tickets: Bilety
+  user_control_panel: panel sterowania użytkownika
+  account_settings: Ustawienia Konta
+  username: Użytkownik
+  password: Hasło
+  change_password: Zmień hasło
+  invalid_user_pass: Nieprawidłowa nazwa użytkownika lub hasło.
+  invalid_ephemeral: Użyto nieprawidłowego klucza losowego. Wygląda to tak jakby ktoś próbować włamać się na naszą stronę. Jeśli nie, to skontaktuj się z obsługą.
+  all_strategies_failed: Nie można zrozumieć próby logowania. Proszę najpierw wysłać swój login i SRP efemeryczną wartość A, a następnie wysłać client_auth w tej samej sesji (używając cookies).
+  update_login_and_password: Aktualizuj Login i Hasło
+  destroy_my_account: Zniszcz moje konto
+  destroy_account_info: Twoje konto zostanie pernamentnie zniszczone oraz wszelkie dane z nim powiązane. Postępuj ostrożnie!
+  admin_destroy_account: Zniszcz konto %{username}
+  account_destroyed: Konto zostało pomyślnie zniszczone.
+  set_email_address: Ustaw adres email
+  forward_email: Przekaż dalej email
+  email_aliases: Aliasy Email
+  public_key: Klucz Publiczny
+  add_email_alias: Dodaj Alias Emaila
+  user_updated_successfully: Ustawienia zostały pomyślnie zaktualizowane.
+  user_created_successfully: Pomyślnie utworzono Twoje konto.
+  email_alias_destroyed_successfully: Usunięto email alias %{alias}.
+  use_ascii_key: Klucz publiczny OpenPGP. Nie zmieniaj tej wartości, chyba że wiesz co robisz.
+  advanced_options: Opcje Zaawansowane
+  not_authorized: Przepraszamy, ale nie masz uprawnień, aby wykonać tę czynność.
+  not_authorized_login: Zaloguj się, aby wykonać tę czynność.
+  search: Szukaj
+  cookie_disabled_warning: Masz wyłączone pliki cookies. Nie będziesz wstanie zalogować się do momentu aż włączysz cookies.
+  js_required_html: Przepraszamy, ale to nie działa bez włączonego javascript. Dzieje się tak, ponieważ użyty system uwierzytelniania <a href='http://srp.stanford.edu/'>SRP</a>, wymaga javascript.
+  enable_account: Włącz konto %{username}
+  enable_description: Spowoduje to przywrócenie konta do pełnej funkcjonalności
+  deactivate_account: Deaktywuj konto %{username}
+  deactivate_description: Spowoduje to tymczasowe wyłączenie niektórych funkcji konta.
+  payment_one_month_warning: Mamy nadzieję, że jesteś zadowolony z naszej usługi w zeszłym miesiącu. Zaloguj się, aby zapłacić w ciągu najbliższego miesiąca, przez %{date_in_one_month}. Wskazówki dotyczące płatności dostępne są w INSERT_URL
+  bye: Do widzenia!
+  bye_message: Na razie i dzięki za wizytę.
+  users:
+    overview:
+      welcome: Witamy %{username}.
+      intro: 'Z tego panelu sterowania użytkownika możesz:'
+      tickets: Utwórz i sprawdź bilety wsparcia.
+      email: Modyfikuj ustawienia email.
+      account: Zniszcz swoje konto.
+  activemodel:
+    models:
+      user:
+        one: Użytkownik
+        few: '%{count} Użytkowników'
+        other: '%{count} Użytkowników'
+  simple_form:
+    labels:
+      user:
+        email_forward: Przekaż dalej email
+    hints:
+      user:
+        email_forward: 'Przekazuj wszystkie wiadomości email do tego adresu. Wiadomości będą zaszyfrowane przed ich wysłaniem. To jest opcja dla uzytkowników zaawansowanych, którzy znają OpenPGP.
+
+          '
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

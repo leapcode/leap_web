@@ -1,0 +1,124 @@
+zh:
+  errors:
+    title:
+      not_found: 找不到页面。
+      server_error: 噢！
+    subtitle:
+      not_found: 您要找的页面不存在。
+      server_error: 我们遇到了一个服务器错误。
+    text:
+      not_found: 您可能输错了地址，或者该页面可能已转移。
+      server_error: 该问题已被记录，我们会考虑处理它。
+  flash:
+    success: '%{resource} 已成功保存。'
+    error: '%{resource} 未成功保存。'
+    create:
+      success: '%{resource} 已成功创建。'
+      error: '%{resource} 未成功创建。'
+    update:
+      success: '%{resource} 已成功更新。'
+      error: '%{resource} 未成功更新。'
+  privacy_policy: 隐私政策
+  terms_of_service: 服务条款
+  pricing: 价格
+  about: 关于我们
+  contact: 联系
+  signup: 注册
+  login: 登录
+  logout: 退出
+  cancel: 取消
+  created: 已创建
+  created_by_on: 创建者 %{user} 于 %{time}
+  updated: 已上传
+  none: 无
+  unknown: 未知
+  admin: 管理
+  anonymous: 匿名
+  save: 保存
+  add: 添加
+  remove: 移除
+  changes_saved: 更改保存成功。
+  are_you_sure: 您确定？此更改不可撤销。
+  example_email: user@domain.org
+  no_such_thing: 没有 %{thing}。
+  create_thing: 创建 %{thing}
+  overview: 概述
+  home: 首页
+  welcome: 欢迎使用 %{provider}。
+  download_bitmask: 下载 Bitmask
+  login_info: 登录才能更改您的账号设置、创建支持工单和管理付款。
+  signup_info: 创建一个新的用户账号。为了更高的安全性，我们建议您通过 Bitmask 应用程序创建您的账号。
+  support_info: 不能登录？匿名创建一个新的支持工单。
+  messages:
+    not_found: 无法找到该消息。
+    marked_as_read: 消息已被标记为已读。
+  helpers:
+    submit:
+      user:
+        create: 注册
+        update: 保存
+      session:
+        create: 登录
+  common:
+    navigation_item:
+      users: 用户
+      identities: 用户名
+      tickets: 工单
+  user_control_panel: 用户控制面板
+  account_settings: 账号设置
+  username: 用户名
+  password: 密码
+  change_password: 更改密码
+  invalid_user_pass: 不是有效的用户名/密码组合
+  invalid_ephemeral: 使用的随机密钥无效。这看起来像是试图在破解该网站。如果不是，请联系支持以便我们关注此问题。
+  all_strategies_failed: 未理解您的登录尝试。请先发送您的登录和 SRP 暂时值 A，然后在同一个会话中发送 client_auth（使用 Cookie）。
+  update_login_and_password: 更新登录名和密码
+  destroy_my_account: 删除我的账号
+  destroy_account_info: 这将永久删除您的账号和有关的所有数据。请谨慎操作！
+  admin_destroy_account: 彻底删除账号 %{username}
+  account_destroyed: 该账号已被成功删除。
+  set_email_address: 设置电子邮件地址
+  forward_email: 转发邮件
+  email_aliases: 邮箱别名
+  public_key: 公钥
+  add_email_alias: 添加邮箱别名
+  user_updated_successfully: 设置更新成功。
+  user_created_successfully: 您的账号创建成功。
+  email_alias_destroyed_successfully: 已移除邮箱别名 %{alias}。
+  use_ascii_key: OpenPGP 公钥。除非您知道自己在做什么，否则不要更改此值。
+  advanced_options: 高级选项
+  not_authorized: 抱歉，但您无权执行此操作。
+  not_authorized_login: 请登录以执行此操作。
+  search: 搜索
+  cookie_disabled_warning: 您已禁用 Cookie。在未启用 Cookie 时您将无法登录。
+  js_required_html: 很抱歉，但这在 JavaScript 未启用时不能工作。这是因为，验证系统使用了 <a href='http://srp.stanford.edu/'>SRP</a>，这需要 JavaScript。
+  enable_account: 启用账号 %{username}
+  enable_description: 这将恢复该账号到完全功能
+  deactivate_account: 停用账号 %{username}
+  deactivate_description: 这将暂时停用一些账号功能。
+  payment_one_month_warning: 我们希望您在过去的一个月里喜欢本服务。请注册以支付下一个月的费用，%{date_in_one_month}。付款的操作方法在 INSERT_URL
+  bye: 再见！
+  bye_message: 感谢大家的支持。
+  users:
+    overview:
+      welcome: 欢迎你，%{username}。
+      intro: '从这个用户控制面板，您可以：'
+      tickets: 创建和检查支持工单。
+      email: 修改电子邮件设置。
+      account: 删除您的账号。
+  activemodel:
+    models:
+      user:
+        other: '%{count} 个用户'
+  simple_form:
+    labels:
+      user:
+        email_forward: 邮件转发
+    hints:
+      user:
+        email_forward: '转发所有电子邮件到此地址。邮件将在转发前被加密。这是为熟悉使用 OpenPGP 的高级用户的一个选项。
+
+          '
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

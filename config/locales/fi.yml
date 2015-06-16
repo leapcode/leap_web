@@ -1,0 +1,125 @@
+fi:
+  errors:
+    title:
+      not_found: Sivua ei löytynyt.
+      server_error: Hups!
+    subtitle:
+      not_found: Etsimääsi sivua ei ole olemassa.
+      server_error: Kohtasimme palvelinvirheen.
+    text:
+      not_found: Kirjoitit ehkä osoitteen väärin tai sivu on siirretty.
+      server_error: Pulma on merkitty lokitiedostoon ja tutkimme sitä myöhemmin.
+  flash:
+    success: '%{resource} -tallennus onnistui.'
+    error: '%{resource} -tallennus epäonnistui.'
+    create:
+      success: '%{resource} -luominen onnistui.'
+      error: '%{resource} -luominen epäonnistui.'
+    update:
+      success: '%{resource} -päivitys onnistui.'
+      error: '%{resource} -päivitys epäonnistui.'
+  privacy_policy: Yksityisyyskäytäntö
+  terms_of_service: Palveluehdot
+  pricing: Hinnoittelu
+  about: Tietoja
+  contact: Yhteystiedot
+  signup: Tilaa
+  login: Kirjaudu
+  logout: Kirjaud ulos
+  cancel: Peru
+  created: Luotu
+  created_by_on: 'Käyttäjä: %{user} luotu %{time}'
+  updated: Päivitetty
+  none: Ei mitään
+  unknown: Tuntematon
+  admin: Ylläpitäjä
+  anonymous: Anonyymi
+  save: Tallenna
+  add: Lisää
+  remove: Poista
+  changes_saved: Muutosten tallentaminen onnistui.
+  are_you_sure: Oletko varma? Tätä muutosta ei voi perua.
+  example_email: user@domain.org
+  no_such_thing: Ei löydy %{thing}.
+  create_thing: Luo %{thing}
+  overview: Yleiskatsaus
+  home: Koti
+  welcome: Tervetuloa sivustolle %{provider}.
+  download_bitmask: Lataa Bitmask
+  login_info: Kirjaudu muuttamaan tiliasetuksiasi, luomaan tukilippuja ja hallinnoimaan maksujasi.
+  signup_info: Luo käyttäjätili. Paremmaksi turvaksi suosittelemme sinua sen sijaan luomaan tilin Bitmask-sovelluksen kautta.
+  support_info: Kirjautuminen ei onnistu? Luo tukilippu anonyymisti.
+  messages:
+    not_found: Tuota viestiä ei löytynyt.
+    marked_as_read: Viesti on merkitty luetuksi.
+  helpers:
+    submit:
+      user:
+        create: Tilaa
+        update: Tallenna
+      session:
+        create: Kirjaudu
+  common:
+    navigation_item:
+      users: Käyttäjät
+      identities: Käyttäjätunnukset
+      tickets: Liput
+  user_control_panel: käyttäjäohjauspaneeli
+  account_settings: Tiliasetukset
+  username: Käyttäjätunnus
+  password: Salasana
+  change_password: Vaihda salasana
+  invalid_user_pass: Käyttäjätunnus/salasana-yhdistelmä ei ole kelvollinen
+  invalid_ephemeral: Käytetty virheellistä satunnaisavainta. Tämä näyttää siltä kun joku yrittää hakkeroida sivustomme. Jos näin ei ollut, ota yhteys tukeen, niin tutkimme tätä asiaa.
+  all_strategies_failed: Kirjautumisyrityksesi ymmärtäminen epäonnistui. Lähetä ensin kirjautumisesi ja lyhytaikainen SRP-arvo A ja lähetä client_auth samassa istunnossa (käyttäen evästeitä).
+  update_login_and_password: Päivitä kirjautuminen ja salasana
+  destroy_my_account: Tuhoa tilini
+  destroy_account_info: Tämä tuhoaa tilisi ja kaikki siihen liittyvät tiedot pysyvästi. Etene varovasti!
+  admin_destroy_account: Tuhoa tili %{username}
+  account_destroyed: Tilin tuhoaminen onnistui.
+  set_email_address: Aseta sähköpostiosoite
+  forward_email: Lähetä sähköposti edelleen
+  email_aliases: Sähköpostialiakset
+  public_key: Julkinen avain
+  add_email_alias: Lisää sähköpostialias
+  user_updated_successfully: Asetusten päivittäminen onnistui.
+  user_created_successfully: Tilisi luominen onnistui.
+  email_alias_destroyed_successfully: Poista kaikki sähköpostialiakset %{alias}.
+  use_ascii_key: OpenPGP-julkinen avain. Älä vaihda tätä arvoa, jos et tiedä mitä olet tekemässä.
+  advanced_options: Lisävalitsimet
+  not_authorized: Sinulla ei ole valtuutusta tuon toiminnon suorittamiseen.
+  not_authorized_login: Kirjaudu tuon toiminnon suorittamiseksi.
+  search: Etsi
+  cookie_disabled_warning: Sinulla on evästeet poissa käytöstä. Et kykene kirjautumaan ennen kuin otat evästeet käyttöön.
+  js_required_html: Tämä ei toimi ilman, että javascript on otettu käyttöön. Tämä johtuu käytetystä todentamisjärjestelmästä, <a href='http://srp.stanford.edu/'>SRP</a>, joka vaatii javascript-käytön.
+  enable_account: Ota käyttöön tili %{username}
+  enable_description: Tämä palauttaa tilin täyteen toiminnallisuuteen
+  deactivate_account: Poista tilin %{username} aktivointi
+  deactivate_description: Tämä poistaa tilapäisesti käytöstä tilin joitakin toimintoja.
+  payment_one_month_warning: Toivomme, etttä olet nauttinut tästä palvelusta kuluneen kuukauden aikana. Tilaa ja maksa seuraava kuukausi, päivään %{date_in_one_month} mennessä. Ohjeet maksamisesta ovat saatavilla osoitteesta LISAA_VERKKO-OSOITE
+  bye: Heippa!
+  bye_message: Näkemiin ja kiitos kaikesta.
+  users:
+    overview:
+      welcome: Tervetuloa %{username}.
+      intro: 'Tästä käyttäjäohjainpaneelista voit:'
+      tickets: Luo ja tarkista tukilippuja.
+      email: Muokkaa sähköpostiasetuksia.
+      account: Tuhoa tilisi.
+  activemodel:
+    models:
+      user:
+        one: käyttäjä
+        other: '%{count} käyttäjää'
+  simple_form:
+    labels:
+      user:
+        email_forward: Sähköpostiedelleenlähetys
+    hints:
+      user:
+        email_forward: 'Lähetä kaikki sähköpostiviestit tähän osoitteeseen. Viestit salakirjoitetaan ennen edelleenlähetystä. Tämä on valitsin kokeneille käyttäjille, joille OpenPGP on tuttu.
+
+          '
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

@@ -1,0 +1,113 @@
+nl:
+  errors:
+    title:
+      not_found: Pagina niet gevonden.
+      server_error: Auw!
+    subtitle:
+      not_found: De pagina die je zoekt bestaat niet.
+      server_error: We liepen tegen een server fout aan.
+    text:
+      not_found: Je hebt het adres verkeerd getypt of de pagina werd verplaatst.
+      server_error: Het probleem werd opgeslagen en we zullen dit bekijken.
+  flash:
+    success: '%{resource} werd succesvol opgeslagen.'
+    error: '%{resource} kon niet worden opgeslagen.'
+    create:
+      success: '%{resource} werd succesvol aangemaakt.'
+      error: '%{resource} kon niet worden aangemaakt.'
+    update:
+      success: '%{resource} werd succesvol upgedate.'
+      error: '%{resource} kon niet worden upgedate.'
+  privacy_policy: Privacybeleid
+  terms_of_service: Servicevoorwaarden
+  pricing: Prijzen
+  about: Over ons
+  contact: Contacteren
+  signup: Registeren
+  login: Inloggen
+  logout: Uitloggen
+  cancel: Annuleren
+  created: Gemaakt
+  created_by_on: Gemaakt door %{user} op %{time}
+  updated: Upgedate
+  none: Geen
+  unknown: Onbekend
+  admin: Admin
+  anonymous: Anoniem
+  save: Opslaan
+  add: Toevoegen
+  remove: Verwijderen
+  changes_saved: Veranderingen succesvol opgeslagen.
+  are_you_sure: Zeker? Deze verandering kan niet ongedaan gemaakt worden.
+  example_email: Gebruiker@domain.org
+  no_such_thing: Geen %{thing}.
+  create_thing: Gemaakt %{thing}
+  overview: Overzicht
+  home: Home
+  welcome: Welkom bij %{provider}.
+  download_bitmask: Download Bitmask
+  login_info: Log in om je accountinstellingen te veranderen, support tickets te maken en betalingen te beheren.
+  signup_info: Maak een nieuwe gebruikersaccount aan. Voor hogere veiligheid raden we aan een account aan te maken via de Bitmask applicatie.
+  support_info: Je kan niet inloggen? Maak een nieuw support ticket anoniem aan.
+  messages:
+    not_found: Dat bericht kon niet worden gevonden.
+    marked_as_read: Bericht werd gemarkeerd als gelezen.
+  helpers:
+    submit:
+      user:
+        create: Registeren
+        update: Opslaan
+      session:
+        create: Inloggen
+  common:
+    navigation_item:
+      users: Gebruikers
+      identities: Gebruikersnamen
+      tickets: Tickets
+  user_control_panel: configuratiescherm gebruiker
+  account_settings: Account instellingen
+  username: Gebruikersnaam
+  password: Wachtwoord
+  change_password: Wachtwoord veranderen
+  invalid_user_pass: Geen geldige gebruikersnaam/wachtwoord combinatie
+  invalid_ephemeral: Ongeldige willekeurige sleutel gebruikt. Dit lijkt als een poging om de site te hacken. Als dit niet zo is, contacteer support zodat we het probleem kunnen inkijken.
+  update_login_and_password: Login en wachtwoord updaten
+  destroy_my_account: Mijn account vernietigen
+  destroy_account_info: Dit zal je account permanent vernietigen en alle data geassocieerd met het account. Ga voorzichtig verder!
+  admin_destroy_account: Vernietig account %{username}
+  account_destroyed: Dit account werd succesvol vernietigd.
+  set_email_address: e-mailadres instellen
+  forward_email: E-mail doorsturen
+  email_aliases: E-mail aliassen
+  public_key: Publieke sleutel
+  add_email_alias: E-mail alias toevoegen
+  user_updated_successfully: Instellingen werden succesvol upgedate.
+  user_created_successfully: Account succesvol aangemaakt.
+  email_alias_destroyed_successfully: Verwijderde e-mail alias %{alias}.
+  use_ascii_key: OpenPGP publieke sleutel. Wijzig deze waarde niet tenzij je weet wat je doet.
+  advanced_options: Geavanceerde instellingen
+  not_authorized: Sorry, maar je hebt onvoldoende rechten om deze actie uit te voeren.
+  not_authorized_login: Log in om deze actie uit te voeren.
+  search: Zoeken
+  cookie_disabled_warning: Je cookies zijn uitgeschakeld. Je zult niet in staat zijn in te loggen tot cookies zijn ingeschakeld.
+  js_required_html: Het spijt ons, maar dit werkt niet zonder javascript in te schakelen. Dit kom omdat het authenticatie systeem gebruik maakt van <a href='http://srp.stanford.edu/'>SRP</a>, dit vereist javascript.
+  enable_account: Schakel het account %{username} in
+  enable_description: Dit zal het account herstellen naar zijn volle functionaliteit
+  deactivate_account: Deactiveer account %{username}
+  deactivate_description: Dit zal tijdelijk sommige account functionaliteiten deactiveren.
+  bye: Tot ziens!
+  bye_message: Tot ziens en bedankt voor alle vis.
+  users:
+    overview:
+      welcome: Welkom %{username}.
+      intro: 'Vanop dit configuratiescherm kun je:'
+      tickets: Creëer en bekijk support tickets.
+      email: E-mail instellingen aanpassen.
+      account: Vernietig je account.
+  simple_form:
+    labels:
+      user:
+        email_forward: E-mail doorsturen
+    placeholders:
+      user:
+        email_forward: mijn_ander_email@domain.net

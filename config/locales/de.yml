@@ -1,0 +1,123 @@
+de:
+  errors:
+    title:
+      not_found: Seite wurde nicht gefunden.
+      server_error: Aua!
+    subtitle:
+      not_found: Die Seite die sie sie am suchen sind existiert nicht.
+      server_error: Wir liefen in einen Serverfehler.
+    text:
+      not_found: Sie haben sich vielleicht vertippt oder die Seite wurde verschoben.
+      server_error: Das Problem wurde angemeldet und wir werden das prüfen.
+  flash:
+    success: '%{resource} wurde erfolgreich gespeichert.'
+    error: '%{resource} konnte nicht gespeichert werden.'
+    create:
+      success: '%{resource} wurde erfolgreich erstellt.'
+      error: '%{resource} konnte nicht erstellt werden.'
+    update:
+      success: '%{resource} wurde erfolgreich aktuaslisiert.'
+      error: '%{resource} konnte nicht aktuaslisiert werden.'
+  privacy_policy: Datenschutz-Bestimmungen
+  terms_of_service: Allgemeine Geschaefts Bedingungen
+  pricing: Kosten
+  about: über uns
+  contact: Kontakt
+  signup: Registrieren
+  login: Anmelden
+  logout: Abmelden
+  cancel: Abbrechen
+  created: Erstellt
+  created_by_on: Erstellt von %{user} um %{time}
+  updated: Aktualisiert
+  none: Nichts
+  unknown: Unbekannt
+  admin: Administrator
+  anonymous: Anonym
+  save: peichern
+  add: Hinzufügen
+  remove: Entfernen
+  changes_saved: Änderungen erfolgreich gespeichert.
+  are_you_sure: Sind sie sich sicher? Änderungen können nicht rückgängig gemacht werden.
+  example_email: user@domain.org
+  no_such_thing: Kein solches %{ding}.
+  create_thing: '%{thing} erstellen'
+  overview: Übersicht
+  home: Home
+  welcome: Willkommen bei %{provider}
+  download_bitmask: Bitmask herunterladen
+  login_info: Loggen Sie sich ein, um ihre Kontoeinstellungen zu ändern, Support-Tickets zu erstellen und Zahlungen zu verwalten.
+  signup_info: Erstellen Sie ein neues Benutzerkonto. Aus Sicherheitsgründen empfehlen wir Ihnen, Ihr Konto über die Bitmask Anwendung zu erstellen.
+  support_info: Können Sie sich nicht einloggen? Erstellen Sie ein neues Support-Ticket anonym.
+  messages:
+    not_found: Diese Nachricht konnte nicht gefunden werden.
+    marked_as_read: Die Nachricht wurde als gelesen markiert.
+  helpers:
+    submit:
+      user:
+        create: Registrieren
+        update: Speichern
+      session:
+        create: Anmelden
+  common:
+    navigation_item:
+      users: Nutzer
+      identities: Nutzernamen
+      tickets: Tickets
+  user_control_panel: Benutzerkontrollzentrum
+  account_settings: Benutzerkonto Einstellungen
+  username: Nutzername
+  password: Passwort
+  change_password: Passwort ändern
+  invalid_user_pass: Keine gültige Benutzername / Passwort-Kombination
+  invalid_ephemeral: Ungültiger Zufallsschlüssel verwendet. Das sah aus wie ein Versuch, die Website über uns zu hacken. Wenn Sie es nicht waren, wenden Sie sich an unserem Support damit wir uns mit dem Problem befassen.
+  all_strategies_failed: Ihr Login-Versuch konnte nicht verstanden werden. Bitte senden Sie Ihren Benutzernamen und ein SRP ephemere Wert A und dann senden Sie die client_auth in derselben Sitzung (mit Hilfe von Cookies).
+  update_login_and_password: Einloggen und Passwort Aktualisieren
+  destroy_my_account: Benutzerkonto löschen
+  destroy_account_info: Dies wird dauerhaft Ihr Konto und alle zugehörigen Daten löschen. Gehen Sie mit Vorsicht damit um!
+  admin_destroy_account: Benutzerkonto löschen %{Benutzername}
+  account_destroyed: Das Konto wurde erfolgreich gelöscht.
+  set_email_address: E-Mail-Adresse einstellen
+  forward_email: vorwärts per E-Mail
+  email_aliases: E-Mail genutzte Aliases
+  public_key: Öffentlicher Schlüssel
+  add_email_alias: E-Mail Alias Hinzufügen
+  user_updated_successfully: Die Einstellungen wurden erfolgreich aktualisiert.
+  user_created_successfully: Ihr Konto wurde erfolgreich erstellt
+  email_alias_destroyed_successfully: Entfernter E-Mail Alias %{alias}.
+  use_ascii_key: Öffentlicher OpenPGP Schlüssel. Ändern Sie diesen Wert nur, wenn Sie wissen, was Sie tun.
+  advanced_options: Erweiterte Optionen
+  not_authorized: Es tut uns leid, aber Sie sind nicht berechtigt, diese Aktion durchzuführen.
+  not_authorized_login: Bitte loggen Sie sich ein, um diese Aktion durchzuführen.
+  search: Suche
+  cookie_disabled_warning: Sie haben Cookies deaktiviert. Sie werden nicht in der Lage sein sich anzumelden, bis die Cookies aktiviert werden.
+  js_required_html: Es tut uns leid,  Javascript muss aktiviert sein. Dies liegt daran, das dass Authentifizierungssystem das verwendet wird, <a href='http://srp.stanford.edu/'>SRP</a>, Javascript braucht
+  enable_account: Dieses Konto aktivieren %{benutzername}
+  enable_description: Dies wird das Konto die volle Funktionalität wiederherstellen
+  deactivate_account: Dieses Konto deaktivieren %{benutzername}
+  deactivate_description: Dies wird vorübergehend einige Konto-Funktionen deaktivieren.
+  payment_one_month_warning: Wir hoffen, Sie haben im letzten Monat diesen Service genoßen. Bitte melden Sie sich an, um innerhalb des nächsten Monats zu zahlen, durch %{date_in_one_month}. Richtungen zur Zahlung sind verfügbar über  INSERT_URL
+  bye: Auf Wiedersehen!
+  bye_message: So lange und danke für den Fisch.
+  users:
+    overview:
+      welcome: Willkommen %{benutzername}.
+      intro: 'Vom Benutzerkontrollzentrum aus können Sie:'
+      tickets: Erstellen und Überprüfen von Support-Tickets.
+      email: E-Mail-Einstellungen ändern.
+      account: Benutzerkonto löschen.
+  activemodel:
+    models:
+      user:
+        one: Benutzer
+        other: '%{count} Benutzer'
+  simple_form:
+    labels:
+      user:
+        email_forward: E-Mail weiterleiten
+    hints:
+      user:
+        email_forward: "Leiten Sie alle E-Mails an diese Adresse. Nachrichten werden vor der Weiterleitung verschlüsselt. Dies ist eine Option für fortgeschrittene Benutzer, die vertraut mit OpenPGP sind. \n"
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

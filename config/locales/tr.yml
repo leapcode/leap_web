@@ -1,0 +1,105 @@
+tr:
+  errors:
+    title:
+      not_found: Sayfa bulunamadı.
+      server_error: Ah!
+    subtitle:
+      not_found: Aradığınız sayfa mevcut değil.
+      server_error: Bir sunucu hatası oluştu.
+    text:
+      not_found: Adresi yanlış yazmış olabilirsiniz ya da sayfa taşınmış olabilir.
+      server_error: Sorun kaydedildi ve biz buna bakacağız.
+  flash:
+    success: '%{resource} başarılı şekilde kaydedildi.'
+    error: '%{resource} kaydedilemedi.'
+    create:
+      success: '%{resource} başarılı şekilde oluşturuldu.'
+      error: '%{resource} oluşturulamadı.'
+    update:
+      success: '%{resource} başarılı şekilde güncellendi.'
+      error: '%{resource} güncellenemedi.'
+  privacy_policy: Gizlilik Politikası
+  terms_of_service: Hizmet Şartları
+  pricing: Ücretlendirme
+  about: Hakkımızda
+  contact: İletişim
+  signup: Üye Ol
+  login: Giriş Yap
+  logout: Çıkış Yap
+  cancel: İptal
+  created: Oluşturuldu
+  created_by_on: '%{time} tarihinde %{user} tarafından oluşturuldu'
+  updated: Güncellendi
+  none: Hiçbiri
+  unknown: Bilinmeyen
+  admin: Yönetici
+  anonymous: Anonim
+  save: Kaydet
+  add: Ekle
+  remove: Kaldır
+  changes_saved: Değişiklikler başarılı şekilde kaydedildi.
+  are_you_sure: Emin misiniz? Bu değişiklik geri alınamaz.
+  example_email: user@domain.org
+  no_such_thing: '%{thing} diye bir şey yok.'
+  create_thing: '%{thing} oluştur'
+  overview: Genel Bakış
+  home: Ana Sayfa
+  welcome: '%{provider}''a hoşgeldiniz.'
+  download_bitmask: Bitmask'ı İndir
+  support_info: Giriş yapamadınız mı? Anonim olarak yeni bir destek talebi oluştur.
+  messages:
+    not_found: Bu mesaj bulunamadı.
+    marked_as_read: İleti okundu olarak işaretlendi.
+  helpers:
+    submit:
+      user:
+        create: Üye Ol
+        update: Kaydet
+      session:
+        create: Giriş Yap
+  common:
+    navigation_item:
+      users: Kullanıcılar
+      identities: Kullanıcı adları
+      tickets: Destek Talepleri
+  user_control_panel: kullanıcı denetim paneli
+  account_settings: Hesap Ayarları
+  username: Kullanıcı Adı
+  password: Şifre
+  change_password: Şifre Değiştir
+  invalid_user_pass: Geçerli bir kullanıcı adı/şifre eşleşmesi değil
+  update_login_and_password: Giriş ve Şifreyi Güncelle
+  destroy_my_account: Hesabımı imha et
+  admin_destroy_account: '%{username} hesabını imha et'
+  account_destroyed: Hesap başarılı şekilde yok edildi.
+  set_email_address: E-posta adresi belirle
+  forward_email: E-postayı İlet
+  user_updated_successfully: Ayarlar başarılı şekilde güncellendi.
+  user_created_successfully: Hesabınız başarılı şekilde oluşturuldu.
+  advanced_options: Gelişmiş Ayarlar
+  not_authorized: Üzgünüz, ama bu eylemi gerçekleştirmek için yetkiniz yok.
+  not_authorized_login: Bu işlemi gerçekleştirmek için lütfen giriş yapınız
+  search: Ara
+  cookie_disabled_warning: Çerezleri devre dışı bırakmışsınız. Çerezleri etkinleştirene kadar giriş yapamayacaksınız.
+  enable_account: '%{username} hesabını etknleştir'
+  deactivate_account: '%{username} hesabını devre dışı bırak'
+  bye: Güle güle!
+  users:
+    overview:
+      welcome: Hoşgeldin %{username}.
+      intro: 'Bu kontrol panelinde yapabilecekleriniz:'
+      tickets: Destek talepleri oluşturun ve kontrol edin.
+      email: E-posta ayarlarını düzenle.
+      account: Hesabını imha et.
+  activemodel:
+    models:
+      user:
+        one: Kullanıcı
+        other: '%{count} Kullanıcı'
+  simple_form:
+    labels:
+      user:
+        email_forward: E-posta İlet
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

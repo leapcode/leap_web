@@ -1,0 +1,118 @@
+fr:
+  errors:
+    title:
+      not_found: Page non trouvée.
+      server_error: Oops!
+    subtitle:
+      not_found: La page que vous recherchiez n'existe pas.
+      server_error: Nous avons rencontré une erreur au niveau du serveur.
+    text:
+      not_found: Vous avez mal écrit l'adresse ou alors la page que vous cherchez n'existe pas.
+      server_error: Le problème a été répertorié et nous allons y travailler.
+  flash:
+    success: '%{resource} a bien été enregistré.'
+    error: '%{resource} n''a pas pu etre enregistrée.'
+    create:
+      success: '%{resource} a bien été crée'
+      error: '%{resource} ne peut être créée.'
+    update:
+      success: '%{resource} a bien été mise à jour.'
+      error: '%{resource} ne peut être mise a jour.'
+  privacy_policy: Politique de vie privée
+  terms_of_service: Conditions d'utilisation
+  pricing: Tarifs
+  about: A Propos de nous
+  contact: Contact
+  signup: S'enregistrer
+  login: Connection
+  logout: Déconnecter
+  cancel: Annuler
+  created: Créee
+  created_by_on: Créée par %{user} à %{time}
+  updated: Mise à jour
+  none: Aucun
+  unknown: Inconnue
+  admin: Administrateur
+  anonymous: Anonyme
+  save: Enregistrer
+  add: Ajouter
+  remove: Supprimer
+  changes_saved: Modifications enregistrées avec succès.
+  are_you_sure: Etes-vous sûr? Cette modificiation ne peut être annulée.
+  example_email: user@domain.org
+  create_thing: Créer %{thing}
+  overview: Aperçu
+  home: Accueil
+  welcome: Bienvenue à %{provider}.
+  download_bitmask: Télécharger Bitmask
+  login_info: Connectez-vous à votre compte pour changer vos réglages, créer des billets de support et gérer les paiments.
+  signup_info: Créer un nouveau compte utilisateur. Pour plus de sécurité nous vous recommandons de créer votre compte via l'application Bitmask.
+  support_info: Vous n'arrivez pas à vous connecter? Créez un billet de support anonyme.
+  messages:
+    not_found: Ce message ne peut être trouvé.
+    marked_as_read: Message marqué comme "Lû"
+  helpers:
+    submit:
+      user:
+        create: Enregistrez-vous
+        update: Enregistrer
+      session:
+        create: Connectez-vous
+  common:
+    navigation_item:
+      users: Utilisateurs
+      identities: Noms d'utilisateurs
+      tickets: Billets
+  user_control_panel: Panneau de controle d'utilisateurs
+  account_settings: Réglages de Comptes
+  username: Nom d'utilisateur
+  password: Mot de passe
+  change_password: Modifier le mot de passe
+  invalid_user_pass: Combinaison "nom d'utilisateur/mot de passe" invalide
+  invalid_ephemeral: Clé invalide. Ceci ressemble vraisemblablement à une attaque. Si ce n'est pas le cas merci de contacter le support pour que nous nous occupions de ce problème.
+  update_login_and_password: Mettre à jour les identifiants de connexion
+  destroy_my_account: Supprimer mon compte
+  destroy_account_info: Ceci va supprimer votre compte ainsi que les données y relatives. Faites attentions!
+  admin_destroy_account: Supprimer le compte %{username}
+  account_destroyed: Le compte a bien été supprimé.
+  set_email_address: Définir l'adresse mail
+  forward_email: Transferer l'email
+  email_aliases: Alias emails
+  public_key: Clée publique
+  add_email_alias: Ajouter un alias e-mail
+  user_updated_successfully: Les réglages ont bien été mis à jour.
+  user_created_successfully: Compte créé avec succès.
+  email_alias_destroyed_successfully: Alias %{alias} supprimé.
+  advanced_options: Option avancées
+  not_authorized: Désolé mais vous n'êtes pas autorisé a effectuer cette action.
+  not_authorized_login: Veuillez vous connecter pour effectuer cette action.
+  search: Recherche
+  cookie_disabled_warning: Les cookies sont désactivés. Vous ne serez pas en mesure de vous connecter.
+  enable_account: Activer le compte %{username}
+  enable_description: Ceci va restaurer le compte aux fonctionnalités avancées.
+  deactivate_account: Désactiver le compte %{username}
+  deactivate_description: Ceci va temporairement désactiver certaines fonctionnalités du compte.
+  payment_one_month_warning: Nous espérons que vous avez profité du service ce dernier mois. Merci de vous connecter pour effectuer le paiement durant le mois suivant, du %{date_in_on_month}. Les méthodes de paiement sont disponibles à INSERT_URL
+  bye: Au revoir!
+  bye_message: Salut, et encore merci pour le poisson.
+  users:
+    overview:
+      welcome: Bienvenue %{username}.
+      intro: 'De ce poste de travail, vous pouvez:'
+      tickets: Créer et vérifier les tickets de support.
+      email: Modifier vos réglages mails.
+      account: Supprimer votre compte.
+  activemodel:
+    models:
+      user:
+        one: Utilisateur
+        other: '%{count} Utilisateurs'
+  simple_form:
+    labels:
+      user:
+        email_forward: Transfert d'e-mail
+    hints:
+      user:
+        email_forward: 'Transferer tous les e-mails à cette adresse. Les messages seront encrypté avant l''envoie. C''est une option pour utilisateurs avancés qui sont familiers avec OpenPGP.
+
+          '

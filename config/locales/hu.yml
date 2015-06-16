@@ -1,0 +1,125 @@
+hu:
+  errors:
+    title:
+      not_found: Oldal nem található.
+      server_error: Hoppá!
+    subtitle:
+      not_found: Az oldal amit megtekintene nem létezik
+      server_error: Szerver hibába futottunk.
+    text:
+      not_found: Vagy elírta a címet, vagy az oldalt mozgatták el.
+      server_error: A hiba feljegyzésre került és utána járunk.
+  flash:
+    success: '%{resource} sikeresen mentve.'
+    error: '%{resource} nem menthető.'
+    create:
+      success: '%{resource} sikeresen létrehozva.'
+      error: '%{resource} nem létrehozható.'
+    update:
+      success: '%{resource} sikeresen frissítve.'
+      error: '%{resource} nem frissíthető.'
+  privacy_policy: Adatvédelmi szabályzat
+  terms_of_service: Szolgáltatási feltételek
+  pricing: Árazés
+  about: Névjegy
+  contact: Kapcsolat
+  signup: Feliratkozás
+  login: Belépés
+  logout: Kilépés
+  cancel: Mégsem
+  created: Létrehozva
+  created_by_on: Létrehozva %{user} által %{time} időpontban
+  updated: Frissítve
+  none: Nincs
+  unknown: Ismeretlen
+  admin: Admin
+  anonymous: Névtelen
+  save: Mentés
+  add: Hozzáadás
+  remove: Eltávolítás
+  changes_saved: A változások sikeresen mentve.
+  are_you_sure: Biztos benne? Ez a változtatás nem visszavonható.
+  example_email: user@domain.org
+  no_such_thing: Nincs ilyen %{thing}.
+  create_thing: '%{thing} létrehozása'
+  overview: Áttekintés
+  home: Kezdőlap
+  welcome: Köszöntjük %{provider} oldalán.
+  download_bitmask: Bitmask letöltése
+  login_info: Lépjen be a fiók beállítások módosításához, támogatási jegyek létrehozásához és a fizetések kezeléséhez.
+  signup_info: Új fiók létrehozva. A nagyobb biztonság érdekében ajánljuk, hogy a Bitmask alkalmazáson keresztül hozza inkább létre fiókját.
+  support_info: Nem tud belépni? Hozzon létre jegyet névtelenül.
+  messages:
+    not_found: Az üzenet nem található.
+    marked_as_read: Az üzenet olvasottnak jelölve.
+  helpers:
+    submit:
+      user:
+        create: Feliratkozás
+        update: Mentés
+      session:
+        create: Belépés
+  common:
+    navigation_item:
+      users: Felhasználók
+      identities: Felhasználónevek
+      tickets: Jegyek
+  user_control_panel: felhasználói vezérlő pult
+  account_settings: Fiók beállítások
+  username: Felhasználónév
+  password: Jelsző
+  change_password: Jelszó változtatása
+  invalid_user_pass: Nem érvényes felhasználónév/jelszó kombináció
+  invalid_ephemeral: Érvénytelen véletlen kulcs került használatra. Ez úgy tűnik egy próbálkozás az oldal megtörésére. Ha mégsem az volt, vegye fel a kapcsolatot a támogatással, így utána járhatunk a dolognak.
+  all_strategies_failed: Nem értelmezhető a belépési kérelme. Először küldje a logint és az SRP efemerális A értéket majd utána küldje a client_auth-ot, ugyanazon session-ben (sütiket felhasználva).
+  update_login_and_password: Felhasznlónév és jelszó frissítése
+  destroy_my_account: Törölje a fiókom
+  destroy_account_info: Ez véglegesen megszünteti a fiókot, és a kapcsolódó adatokat. Óvatosan bánjon vele!
+  admin_destroy_account: '%{username} fiók megsemmisítése'
+  account_destroyed: A fiók megsemmisítése sikeresen megtörtént.
+  set_email_address: Email cím beállítása
+  forward_email: Továbbítási email cím
+  email_aliases: Email aliasok
+  public_key: Publikus kulcs
+  add_email_alias: Email alias hozzáadása
+  user_updated_successfully: A beállítások sikeresen frissítve.
+  user_created_successfully: A fiók létrehozása sikeres.
+  email_alias_destroyed_successfully: A %{alias} email alias eltávolítva.
+  use_ascii_key: OpenPGP publikus kulcs. Ne változtasson ezen az értéken, ha nem tudja mit is csinál.
+  advanced_options: Haladó beállítások
+  not_authorized: Elnézést, de nem jogosult e művelet végzésére.
+  not_authorized_login: Kérjük lépjen be a művelet végrehajtásához.
+  search: Keresés
+  cookie_disabled_warning: A sütik tiltva vannak. Nem tud addig bejelentkezni, amíg nem engedélyezi a sütiket.
+  js_required_html: Sajnáljuk, de a javascript engedélyezése nélkül ez nem fog működni. Ez azért van, mert az mert a használt authentikációs rendszer, az <a href='http://srp.stanford.edu/'>SRP</a>, javascriptet igényel.
+  enable_account: '%{username} fiók engedélyezése'
+  enable_description: Ez visszaállítja a fiók teljes funkcionalitását.
+  deactivate_account: '%{username} fiók deaktiválása'
+  deactivate_description: Ez átmenetileg a fiók néhány funkcióját kikapcsolja.
+  payment_one_month_warning: 'Reméljük, hogy a szolgáltatás hasznos volt az elmúlt hónapban. Kérjük iratkozzon fel a fizetéshez a %{date_in_one_month} napjáig. A fizetési lehetőséget itt található: INSERT_URL'
+  bye: Viszontlátásra!
+  bye_message: Oly sokáig, és köszönet a halakért.
+  users:
+    overview:
+      welcome: Köszöntjük %{username}.
+      intro: 'Erről a felhasználói pultról elréhető:'
+      tickets: Támogatási jegyek létrehozása és ellenőrzése
+      email: Email beállítások módosítása
+      account: Fiók megsemmisítése
+  activemodel:
+    models:
+      user:
+        one: Felhasználó
+        other: '%{count} felhasználó'
+  simple_form:
+    labels:
+      user:
+        email_forward: Email továbbítás
+    hints:
+      user:
+        email_forward: 'Az összes email továbbítása erre a címre. Az üzenetek titkosításra kerülnek továbbítás előtt. Ez egy lehetőség a haladó felhasználók részére akiknek az OpenPGP ismerős techológia.
+
+          '
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net

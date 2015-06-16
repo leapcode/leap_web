@@ -1,0 +1,120 @@
+cs:
+  errors:
+    title:
+      not_found: Stránka nenalezena.
+      server_error: Jejda!
+    subtitle:
+      not_found: Stránka kterou hledáte nebyla nalezena.
+      server_error: Narazili jsme na chybu serveru.
+    text:
+      not_found: Možná jste spatně napsali adresu nebo mohla být stránka přemístěna.
+      server_error: Problém byl zaznamenán a my se na něj podíváme.
+  flash:
+    success: '%{zdroj} byl úspěšně uložen. '
+    error: '%{zdroj} nemohl být uložen.'
+    create:
+      success: '%{zdroj} byl úspěšně vytvořen.'
+      error: '%{zdroj} nemohl být vytvořen.'
+    update:
+      success: '%{zdroj} byl úspěšně aklualizován.'
+      error: '%{zdroj} nemohl být aktualizován.'
+  privacy_policy: Zásady ochrany osobních údajů
+  terms_of_service: Podmínky užívání
+  pricing: Stanovéní cen
+  about: O nás
+  contact: Kontakt
+  signup: Registrovat
+  login: Přihlásit
+  logout: Odhlásit
+  cancel: Zrušit
+  created: Vytvořeno
+  created_by_on: Vytvořeno uživatelem %{user} v %{time}
+  updated: Aktualizováno
+  none: Žádný
+  unknown: Neznámý
+  admin: Administrátor
+  anonymous: Anonymní
+  save: Uložit
+  add: Přidat
+  remove: Odstranit
+  changes_saved: Změny úspěšně uloženy
+  are_you_sure: Jste si jisti? Tyto změny nemohou být vráceny zpět.
+  example_email: user@domain.org
+  no_such_thing: Nic takového jako %{thing}.
+  create_thing: Vytvořit %{thing}
+  overview: Přehled
+  home: Domů
+  welcome: Vítejte u %{provider}
+  download_bitmask: Stáhnout Bitmask
+  login_info: Přihlaste se pro změny ve vašem účtu, vytvářejte vstupenky podpory a spravujte své platby.
+  signup_info: Vytvořit nový účet. Pro vyšší zabezpečení doporučujeme aby jste vytvořili svůj účet přes aplikaci Bitmask.
+  support_info: Nemůžete se přihlásit? Vytvořte anonymně novou vstupenku podpory.
+  messages:
+    not_found: Tato zpráva nebyla nalezena.
+    marked_as_read: Zpráva byla označena jako přečtená.
+  helpers:
+    submit:
+      user:
+        create: Registrovat
+        update: Uložit
+      session:
+        create: Prihlásit se
+  common:
+    navigation_item:
+      users: Uživatelé
+      identities: Uživatelská jména
+      tickets: Lístky
+  user_control_panel: uživatelský ovládací panel
+  account_settings: Nastavení účtu
+  username: Uživatelské jméno
+  password: Heslo
+  change_password: Změnit heslo
+  invalid_user_pass: Neplatná kombinace uživatelského jména/hesla
+  invalid_ephemeral: Použit neplatný náhodný klíč. Vypadá to jako pokus se nám nabourat do stránky, Pokud to tak není kontaktujte nás, prosím, ať se můžeme na danou problematiku podívat.
+  all_strategies_failed: Vašemu pokusu o přihlášení nebylo porozuměno. Prosím, nejprve pošlete vášě přihlašovací jméno a SRP ephermal value A a poté pošlete client_auth ve stejné relaci (použijte cookies).
+  update_login_and_password: Aktualizovat přihlašovací jméno a heslo
+  destroy_my_account: Vymazat můj účet
+  destroy_account_info: Toto navždy vymaže váš účet a všechna data s ním spojená. Používejte s opatrností!
+  admin_destroy_account: Vymazat účet %{username}
+  account_destroyed: Váš účet byl úspěšně smazán.
+  set_email_address: Nastavit emailovou adresu
+  forward_email: Přeposlat email
+  email_aliases: Emailové alias
+  public_key: Veřejný klíč
+  add_email_alias: Přidat emailové alias
+  user_updated_successfully: Nastavení byla úspěšně akualizována
+  user_created_successfully: Váš účet byl úspěšně vytvořen.
+  email_alias_destroyed_successfully: Odstranit emailové alias %{alias}
+  use_ascii_key: OtevřítPGP veřejný klíč. Toto nastavení neměňte dokud nevíte co přesně děláte.
+  advanced_options: Pokročilá nastavení
+  not_authorized: Promiňte ale nemáte dostatečná oprávnění pro provedení této akce.
+  not_authorized_login: Prosím přihlašte se pro provedení této akce.
+  search: Vyhledávání
+  cookie_disabled_warning: Máte vypnuté cookies. Nebudete schopni se přihlásit dokud nezapnete cookies.
+  js_required_html: 'Omlouváme se, ale toto nepracuje bez povoleného javascriptu. Je to proto že ověřovací systém využívá, <a href=''http://srp.stanford.edu/''>SRP</a>, a to vyžaduje javascript. '
+  enable_account: Povolit účet %{username}
+  enable_description: 'Toto obnoví účet do plné funkčnosti. '
+  deactivate_account: Deaktivovat účet %{username}
+  deactivate_description: Toto nenávratně deaktivuje některé funkce účtu.
+  payment_one_month_warning: Doufáme že jste si tento měsíc užili naši službu. Prosíme přihlaste se k platbě pro příští měsíc %{date_in_one_month}. Instrukce k platbě jsou k dispozici na INSERT_URL
+  bye: Nashledanou!
+  bye_message: Sbohem a šáteček.
+  users:
+    overview:
+      welcome: Vítejte %{username}
+      intro: 'Z toho uživatelského panelu nastavení můžete:'
+      tickets: Vytvořte a prověřujte vstupenky podpory.
+      email: Modifikovat nastavení emailu.
+      account: Vymazat můj účet.
+  simple_form:
+    labels:
+      user:
+        email_forward: Přeposlat email
+    hints:
+      user:
+        email_forward: 'Přeposlat všechny zprávy na tuto adresu. Zprávy budou před přeposláním zašifrovány. Toto je nastavení pro pokročilé uživatele kteří jsou obeznámeni s OpenPGP.
+
+          '
+    placeholders:
+      user:
+        email_forward: my_other_email@domain.net
