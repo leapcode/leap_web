@@ -35,5 +35,6 @@ public/img
 config/couchdb.yml.*
 config/provider/*
 config/customization/*
+config/transifex.netrc
 !config/provider/.gitkeep
 !config/customization/.gitkeep
