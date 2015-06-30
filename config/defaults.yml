@@ -60,7 +60,23 @@ common: &common
   billing: ~
   default_locale: :en
   available_locales:
+    - :cs
+    - :de
+    - :el
     - :en
+    - :es
+    - :fi
+    - :fr
+    - :hu
+    - :it
+    - :lt
+    - :nb
+    - :nl
+    - :pl
+    - :pt
+    - :ru
+    - :tr
+    - :zh
   minimum_client_version: "0.5"
   engines:
     - support

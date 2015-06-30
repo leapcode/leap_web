@@ -52,13 +52,6 @@ zh:
   messages:
     not_found: 无法找到该消息。
     marked_as_read: 消息已被标记为已读。
-  helpers:
-    submit:
-      user:
-        create: 注册
-        update: 保存
-      session:
-        create: 登录
   common:
     navigation_item:
       users: 用户
@@ -99,6 +92,10 @@ zh:
   payment_one_month_warning: 我们希望您在过去的一个月里喜欢本服务。请注册以支付下一个月的费用，%{date_in_one_month}。付款的操作方法在 INSERT_URL
   bye: 再见！
   bye_message: 感谢大家的支持。
+  contact_email: 联系人邮箱
+  contact_email_info: '您可以指定一个电子邮件地址以便我们在需要时（您的账号存在问题时）与您取得联系。如果出于保护隐私的目的，您可以将此框留空。
+
+    '
   users:
     overview:
       welcome: 欢迎你，%{username}。
@@ -110,15 +107,87 @@ zh:
     models:
       user:
         other: '%{count} 个用户'
+  create_new_customer: 创建一个新的 Braintree 客户
+  must_create_customer: 您在订阅套餐前必须在 Braintree 中存储一个客户
+  subscribe: 订阅
+  save_customer_info: 保存客户信息
+  donation_not_payment: '注意，这是一个捐赠，不会对您的账号应用什么。'
+  no_relevant_subscription: 没有活动、待定或过期的订阅
+  plan: 套餐
+  description: 描述
+  cost: 费用
+  free: 免费
+  support_tickets: 支持
+  email_notice_text: 一个新评论已添加到此帮助工单。
+  email_no_reply_text: 不要回复此邮件。
+  layouts:
+    tickets: 工单
+    title:
+      tickets: 工单
+    header:
+      tickets: 工单
+    navigation:
+      tickets: 支持工单
+  tickets:
+    all: 所有工单
+    open: 开放工单
+    closed: 已关闭工单
+    new: 新建工单
+    created: 创建时间
+    updated: 更新时间
+    subject: couchrest.模块.工单.属性.主题
+    status:
+      open: 开放
+      closed: 已关闭
+    action:
+      open: 打开
+      close: 关闭
+    confirm:
+      destroy:
+        are_you_sure: 您确定要销毁此工单吗？
+    tabs:
+      all: 所有工单
+      open: 开放工单
+      closed: 已关闭工单
+    index:
+      none: 没有找到工单。
+      voices: 声音
+    destroy: 销毁
+    post_reply: 发布回复
+    reply_and_close: 回复并关闭
+    access_ticket_text: '您以后可以以如下网址访问此工单: %{full_url}。您可以将此页面加入书签以便以后找到它。任何人只要拥有此网址就均可访问此工单，因此如果您在使用一个共用的计算机，您可能需要从浏览器的历史记录中删除它。
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: 提交工单
+        update: 更新工单
+  couchrest:
+    models:
+      ticket: 工单
+      ticket_comment: 评论
+    attributes:
+      ticket:
+        subject: 主题
+        email: 电子邮件
+        regarding_user: 涉及用户
+        regarding_account: 涉及账号
+        is_open: 状态
+      ticket_comment:
+        body: 描述
+        private: 私人
   simple_form:
     labels:
-      user:
-        email_forward: 邮件转发
+      ticket:
+        email: 电子邮件
+        comments:
+          body: 描述
+    options:
+      ticket:
+        is_open:
+          'true': 开放
+          'false': 已关闭
     hints:
-      user:
-        email_forward: '转发所有电子邮件到此地址。邮件将在转发前被加密。这是为熟悉使用 OpenPGP 的高级用户的一个选项。
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net
+      ticket:
+        email: 提供一个电子邮件地址以获得此工单的更新通知。

@@ -43,7 +43,9 @@ module CommonLanguages
     ['sr', 'Serbian'],
     ['el', 'Ελληνικά', 'Greek'],
     ['ca', 'Català', 'Catalan'],
-    ['he', 'עברית', 'Hebrew', true]
+    ['he', 'עברית', 'Hebrew', true],
+    ['sl', 'Slovenščina', 'Slovenian'],
+    ['lt', 'Lietuvių kalba', 'Lithuanian']
   ]
 
   # just the codes, in sorted order
@@ -91,7 +93,6 @@ end
 # [:ka, 'Georgian']
 # [:km, 'Central Khmer']
 # [:lv, 'Latvian']
-# [:lt, 'Lithuanian']
 # [:mr, 'Marathi']
 # [:mk, 'Macedonian']
 # [:mt, 'Maltese']
@@ -103,7 +104,6 @@ end
 # [:pa, 'Panjabi']
 # [:qu, 'Quechua']
 # [:sk, 'Slovak']
-# [:sl, 'Slovenian']
 # [:sm, 'Samoan']
 # [:sq, 'Albanian']
 # [:sv, 'Swedish']
@@ -111,6 +111,5 @@ end
 # [:tt, 'Tatar']
 # [:te, 'Telugu']
 # [:to, 'Tonga']
-# [:tr, 'Turkish']
 # [:ur, 'Urdu']
 # [:xh, 'Xhosa']

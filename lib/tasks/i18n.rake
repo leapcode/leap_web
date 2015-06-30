@@ -47,6 +47,11 @@ namespace :i18n do
     end
   end
 
+  LOCALE_ALIAS_MAP = {
+    :nb => 'nb-no',
+    :pt => 'pt-br'
+  }
+
   desc "pull translations from transifex"
   task :download do
     Dir.chdir('config/') do
@@ -58,8 +63,12 @@ namespace :i18n do
       end
       APP_CONFIG[:available_locales].each do |lang|
         next if lang == :en
+        puts
         puts "downloading #{lang}"
-        `curl -L --netrc-file transifex.netrc -X GET 'https://www.transifex.com/api/2/project/bitmask/resource/leap_web/translation/#{lang}/?file' > locales/#{lang}.yml`
+        lang_url = LOCALE_ALIAS_MAP[lang] || lang
+        command = %[curl -L --netrc-file transifex.netrc -X GET 'https://www.transifex.com/api/2/project/bitmask/resource/leap_web/translation/#{lang_url}/?file' > locales/#{lang}.yml]
+        puts command
+        `#{command}`
       end
     end
   end

@@ -52,13 +52,6 @@ fi:
   messages:
     not_found: Tuota viestiä ei löytynyt.
     marked_as_read: Viesti on merkitty luetuksi.
-  helpers:
-    submit:
-      user:
-        create: Tilaa
-        update: Tallenna
-      session:
-        create: Kirjaudu
   common:
     navigation_item:
       users: Käyttäjät
@@ -99,6 +92,10 @@ fi:
   payment_one_month_warning: Toivomme, etttä olet nauttinut tästä palvelusta kuluneen kuukauden aikana. Tilaa ja maksa seuraava kuukausi, päivään %{date_in_one_month} mennessä. Ohjeet maksamisesta ovat saatavilla osoitteesta LISAA_VERKKO-OSOITE
   bye: Heippa!
   bye_message: Näkemiin ja kiitos kaikesta.
+  contact_email: Yhteystietosähköposti
+  contact_email_info: 'Voit määritellä yhteystietosähköpostiosoitteen, jolla voimme ottaa sinuun yhteyttä, jos tililläsi ilmenee pulmia. Yksityisyyssyistä saatat pitää parhaimpana jättää tämän tyhjäksi.
+
+    '
   users:
     overview:
       welcome: Tervetuloa %{username}.
@@ -111,15 +108,87 @@ fi:
       user:
         one: käyttäjä
         other: '%{count} käyttäjää'
+  create_new_customer: Luo uusi Braintree-asiakas
+  must_create_customer: Asiakas on tallennettava kohteeseen braintree ennen kuin suunnitelma tilataan
+  subscribe: Tilaa
+  save_customer_info: Tallenna asiakastiedot
+  donation_not_payment: 'Huomaa: Tämä on lahjoitus, ja ei koske tiliäsi.'
+  no_relevant_subscription: Ei tilausta, joka on aktiivi, odottamassa, tai vanhentunut
+  plan: Suunnitelma
+  description: Kuvaus
+  cost: Kustannukset
+  free: Ilmainen
+  support_tickets: Tuki
+  email_notice_text: Uusi kommentti on lisätty tähän opastelippuun.
+  email_no_reply_text: Älä vastaa tähän sähköpostiviestiin.
+  layouts:
+    tickets: Liput
+    title:
+      tickets: Liput
+    header:
+      tickets: Liput
+    navigation:
+      tickets: Tukiliput
+  tickets:
+    all: Kaikki liput
+    open: Avoimet liput
+    closed: Suljetut liput
+    new: Uusi lippu
+    created: 'Luotu:'
+    updated: 'Päivitetty:'
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Avaa
+      closed: Suljettu
+    action:
+      open: Avaa
+      close: Sulje
+    confirm:
+      destroy:
+        are_you_sure: Oletko varma, että haluat tuhota tämän lipun?
+    tabs:
+      all: Kaikki liput
+      open: Kaikki liput
+      closed: Suljetut liput
+    index:
+      none: Yhtään lippua ei löytynyt.
+      voices: Äänet
+    destroy: Tuhoa
+    post_reply: Vastaa
+    reply_and_close: Vastaa ja sulje
+    access_ticket_text: 'Voit myöhemmin päästä tähän lippuun verkko-osoitteella %{full_url}. Saatat haluta merkitä tämän sivun kirjanmerkillä löytääksesi sen uudelleen. Kuka tahansa voi löytää tällä verkko-osoitteella lipun, joten jos tietokoneella on useita käyttäjiä, niin haluat ehkä poistaa verkko-osoitteen selaimen historiatiedoista.
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: Lähetä lippu
+        update: Päivitä lippua
+  couchrest:
+    models:
+      ticket: Lippu
+      ticket_comment: Kommentti
+    attributes:
+      ticket:
+        subject: Aihe
+        email: Sähköposti
+        regarding_user: Koskien käyttäjää
+        regarding_account: Koskien tiliä
+        is_open: Tila
+      ticket_comment:
+        body: Kuvaus
+        private: yksityinen
   simple_form:
     labels:
-      user:
-        email_forward: Sähköpostiedelleenlähetys
+      ticket:
+        email: Sähköposti
+        comments:
+          body: Kuvaus
+    options:
+      ticket:
+        is_open:
+          'true': Avaa
+          'false': Suljettu
     hints:
-      user:
-        email_forward: 'Lähetä kaikki sähköpostiviestit tähän osoitteeseen. Viestit salakirjoitetaan ennen edelleenlähetystä. Tämä on valitsin kokeneille käyttäjille, joille OpenPGP on tuttu.
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net
+      ticket:
+        email: Tarjoa sähköpostiosoite, johon voidaan ilmoittaa, että tämä lippu on päivitetty.

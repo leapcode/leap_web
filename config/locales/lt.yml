@@ -1,0 +1,51 @@
+lt:
+  errors:
+    title:
+      not_found: Puslapis nerastas.
+    subtitle:
+      not_found: Puslapio, kurio ieškote, nėra.
+    text:
+      not_found: Jūs neteisingai įvedėte adresą arba puslapis buvo perkeltas.
+  privacy_policy: Privatumo Politika
+  terms_of_service: Naudojimosi Sąlygos
+  pricing: Kainynas
+  about: Apie Mus
+  login: Prisijungti
+  logout: Atsijungti
+  cancel: Atšaukti
+  unknown: Nežinoma
+  admin: Administratorius
+  save: Išsaugoti
+  add: Pridėti
+  remove: Šalinti
+  changes_saved: Pakeitimai sėkmingai išsaugoti.
+  are_you_sure: Ar tikrai? Šis pakeitimas negali būti atšauktas.
+  overview: Apžvalga
+  download_bitmask: Atsisiųsti Bitmask
+  messages:
+    marked_as_read: Pranešimas pažymėtas kaip perskaitytas.
+  account_settings: Paskyros Nustatymai
+  username: Vartotojo Vardas
+  password: Slaptažodis
+  destroy_my_account: Sunaikinti mano paskyrą
+  destroy_account_info: Tai visam laikui sunaikins jūsų paskyrą ir visus su ja susietus duomenis. Elkitės atsargiai!
+  admin_destroy_account: Sunaikinti paskyrą %{username}
+  account_destroyed: Paskyra sėkmingai sunaikinta.
+  public_key: Viešas Raktas
+  user_updated_successfully: Nustatymai sėkmingai atnaujinti.
+  use_ascii_key: OpenPGP viešasis raktas. Nekeiskite šios reikšmės, nebent žinote ką darote.
+  advanced_options: Išplėstinės Parinktys
+  not_authorized_login: Prisijunkite, norėdami atlikti veiksmą.
+  cookie_disabled_warning: Jūs esate išjungę slapukus. Jūs negalėsite prisijungti tol, kol neįjungsite slapukus.
+  enable_description: Tai atkurs pilną paskyros funkcionalumą
+  bye: Viso gero!
+  users:
+    overview:
+      welcome: Sveiki Atvykę %{username}.
+      account: Sunaikinti jūsų paskyrą.
+  activemodel:
+    models:
+      user:
+        one: Vartotojas
+        few: '%{count} Vartotojai'
+        other: '%{count} Vartotojų'

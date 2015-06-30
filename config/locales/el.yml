@@ -52,13 +52,6 @@ el:
   messages:
     not_found: Αυτό το μήνυμα δεν μπόρεσε να βρεθεί.
     marked_as_read: Το μήνυμα έχει επισημανθεί ως διαβάσμενο.
-  helpers:
-    submit:
-      user:
-        create: Εγγραφή
-        update: Αποθήκευση
-      session:
-        create: Σύνδεση
   common:
     navigation_item:
       users: Χρήστες
@@ -111,16 +104,3 @@ el:
       user:
         one: ' Χρήστης'
         other: '%{count} Χρήστες'
-  simple_form:
-    labels:
-      user:
-        email_forward: Αποστολή Email προς τα εμπρός
-    hints:
-      user:
-        email_forward: 'Προωθήστε όλων των μηνυμάτων email σε αυτήν τη διεύθυνση. Τα μηνύματα θα κρυπτογραφούνται πριν διαβιβαστούν. Αυτή είναι μια επιλογή για προχωρημένους χρήστες που είναι οίκειοι με τπ OpenPGP.
-
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net

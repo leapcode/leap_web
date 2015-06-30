@@ -52,13 +52,6 @@ cs:
   messages:
     not_found: Tato zpráva nebyla nalezena.
     marked_as_read: Zpráva byla označena jako přečtená.
-  helpers:
-    submit:
-      user:
-        create: Registrovat
-        update: Uložit
-      session:
-        create: Prihlásit se
   common:
     navigation_item:
       users: Uživatelé
@@ -106,15 +99,3 @@ cs:
       tickets: Vytvořte a prověřujte vstupenky podpory.
       email: Modifikovat nastavení emailu.
       account: Vymazat můj účet.
-  simple_form:
-    labels:
-      user:
-        email_forward: Přeposlat email
-    hints:
-      user:
-        email_forward: 'Přeposlat všechny zprávy na tuto adresu. Zprávy budou před přeposláním zašifrovány. Toto je nastavení pro pokročilé uživatele kteří jsou obeznámeni s OpenPGP.
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net

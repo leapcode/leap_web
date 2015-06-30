@@ -50,13 +50,6 @@ tr:
   messages:
     not_found: Bu mesaj bulunamadı.
     marked_as_read: İleti okundu olarak işaretlendi.
-  helpers:
-    submit:
-      user:
-        create: Üye Ol
-        update: Kaydet
-      session:
-        create: Giriş Yap
   common:
     navigation_item:
       users: Kullanıcılar
@@ -96,10 +89,3 @@ tr:
       user:
         one: Kullanıcı
         other: '%{count} Kullanıcı'
-  simple_form:
-    labels:
-      user:
-        email_forward: E-posta İlet
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net

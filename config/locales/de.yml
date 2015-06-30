@@ -52,13 +52,6 @@ de:
   messages:
     not_found: Diese Nachricht konnte nicht gefunden werden.
     marked_as_read: Die Nachricht wurde als gelesen markiert.
-  helpers:
-    submit:
-      user:
-        create: Registrieren
-        update: Speichern
-      session:
-        create: Anmelden
   common:
     navigation_item:
       users: Nutzer
@@ -111,13 +104,3 @@ de:
       user:
         one: Benutzer
         other: '%{count} Benutzer'
-  simple_form:
-    labels:
-      user:
-        email_forward: E-Mail weiterleiten
-    hints:
-      user:
-        email_forward: "Leiten Sie alle E-Mails an diese Adresse. Nachrichten werden vor der Weiterleitung verschlüsselt. Dies ist eine Option für fortgeschrittene Benutzer, die vertraut mit OpenPGP sind. \n"
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net

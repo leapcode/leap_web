@@ -1,1 +1,100 @@
-pt: {}
+pt_BR:
+  errors:
+    title:
+      not_found: Página não encontrada.
+      server_error: Ai!
+    subtitle:
+      not_found: A página que você está procurando não existe.
+      server_error: Deparamo-nos com um erro no servidor.
+    text:
+      not_found: Você digitou o endereço incorretamente ou a página talvez foi movida.
+      server_error: O problema foi registrado e vamos olhar ele.
+  flash:
+    success: '%{resource} foi salvo com sucesso.'
+    error: '%{resource} não pode ser salvo.'
+    create:
+      success: '%{resource} foi criado com sucesso.'
+      error: '%{resource} não pode ser criado.'
+    update:
+      success: '%{resource} foi atualizado com sucesso.'
+      error: '%{resource} não pode ser atualizado.'
+  privacy_policy: Política De Privacidade
+  terms_of_service: Termos de Serviço
+  pricing: Preço
+  about: Sobre Nós
+  contact: Contato
+  signup: Cadastrar
+  login: Entrar
+  logout: Sair
+  cancel: Cancelar
+  created: Criado
+  created_by_on: Criado por %{user} em %{time}
+  updated: Atualizado
+  none: Nenhum
+  unknown: Desconhecido
+  admin: Administrador
+  anonymous: Anônimo
+  save: Salvar
+  add: Adicionar
+  remove: Remover
+  changes_saved: Modificações salvas com sucesso
+  are_you_sure: Você tem certeza? Esta modificação não pode ser desfeita.
+  example_email: usuario@dominio.org
+  no_such_thing: Não há %{thing}
+  create_thing: Criar %{thing}
+  overview: Resumo
+  home: Início
+  welcome: Seja bem vindo ao %{provider}.
+  download_bitmask: Baixar Bitmask
+  login_info: Logue-se para mudar as configurações da sua conta, criar tíquete de suporte e gerenciar pagamentos.
+  support_info: Não consegue logar-se? Crie um novo tíquete de suporte anonimamente.
+  messages:
+    not_found: A mensagem não pode ser encontrada.
+    marked_as_read: Mensagem foi marcada como lida.
+  common:
+    navigation_item:
+      users: Usuários
+      identities: Nomes de usuário
+      tickets: Tíquetes
+  user_control_panel: painel de controle do usuário
+  account_settings: Configurações de Conta
+  username: Nome de usuário
+  password: Senha
+  change_password: Trocar Senha
+  invalid_user_pass: Não é uma combinação válidade de usuário/senha
+  update_login_and_password: Atualizar Login e Senha
+  destroy_my_account: Destruir minha conta
+  destroy_account_info: Isto vai destruir permanentemente sua conta e todos os dados associados a ela. Proceda com cuidado!
+  admin_destroy_account: Destruir a conta %{username}
+  account_destroyed: A conta foi destruída com sucesso.
+  set_email_address: Configurar endereço de email
+  forward_email: Encaminhar Email
+  email_aliases: Pseudônimo de Email
+  public_key: Chave Pública
+  add_email_alias: Adicionar Pseudônimo de Email
+  user_updated_successfully: Configurações foram atualizadas com sucesso.
+  user_created_successfully: Sua conta foi criada com sucesso.
+  email_alias_destroyed_successfully: Removido pseudônimo de email %{alias}.
+  use_ascii_key: Chave pública OpenPGP. Não altere este conteúdo a menos que você saiba o que está fazendo.
+  advanced_options: Opções Avançadas
+  not_authorized: Desculpe, mas você não está autorizado a fazer essa ação.
+  not_authorized_login: Por favor, faça o login para executar essa ação.
+  search: Procurar
+  cookie_disabled_warning: Você tem os cookies desativados. Você não será capaz de acessar até ativar os cookies.
+  enable_account: Ativar a conta %{username}
+  enable_description: Isto irá restaurar a conta com total funcionalidade
+  deactivate_account: Desativar a conta %{username}
+  bye: Adeus!
+  bye_message: Até mais, e obrigado por todos os peixes.
+  users:
+    overview:
+      welcome: Bem vindo %{username}.
+      intro: 'Deste painel de controle do usuário, você pode:'
+      tickets: Criar e conferir tíquetes de suporte.
+      email: Modificar configurações de email.
+      account: Destrua sua conta.
+  activemodel:
+    models:
+      user:
+        one: Usuário
+        other: '%{count} Usuários'

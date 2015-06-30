@@ -1,0 +1,98 @@
+it:
+  errors:
+    title:
+      not_found: Pagina non trovata.
+      server_error: Ouch!
+    subtitle:
+      not_found: La pagina che stavi cercando non esiste.
+      server_error: C'è stato un problema sul server.
+    text:
+      not_found: Potresti avere scritto l'indirizzo in modo errato, oppure la pagina potrebbe essere stata spostata da qualche altra parte.
+      server_error: Il problema in questione è stato registrato e ci stiamo investigando.
+  flash:
+    success: '%{resource} è stata salvata correttamente.'
+    error: '%{resource} non può essere salvata.'
+    create:
+      success: '%{resource} è stata creata correttamente.'
+      error: '%{resource} non può essere creata.'
+    update:
+      success: '%{resource} è stata aggiornata correttamente.'
+      error: '%{resource} non può essere aggiornata.'
+  privacy_policy: Privacy Policy
+  terms_of_service: Termini di Servizio
+  pricing: Prezzario
+  about: A proposito di
+  contact: Contatti
+  signup: Registrati
+  login: Accedi
+  logout: Log Out
+  cancel: Annulla
+  created: Creata
+  created_by_on: Creata da %{user} il {%time}
+  updated: Aggiornata
+  none: Nessuno
+  unknown: Sconosciuto
+  admin: Admin
+  anonymous: Anonimo
+  save: Salva
+  add: Aggiungi
+  remove: Rimuovi
+  changes_saved: Modifiche salvate con successo.
+  are_you_sure: Sei sucuro? Questa modifica non può essere annullata.
+  example_email: utente@dominio.org
+  no_such_thing: Non esiste %{elemento}.
+  create_thing: Crea %{thing}
+  overview: Panoramica
+  home: Home
+  welcome: Benvenuto su %{provider}.
+  download_bitmask: Scarica Bitmask
+  login_info: Esegui l'accesso per modificare le tue impostazioni account, crea tickets di supporto, e gestisci i tuoi pagamenti.
+  signup_info: Crea un nuovo account utente. Per ovvie ragioni di sicurezza, ti raccomandiamo però di creare un account direttamente da dentro Bitmask.
+  support_info: Non puoi effettuare l'accesso? Crea un nuovo ticket di supporto in maniera anonima.
+  messages:
+    not_found: Quel messaggio non può essere trovato.
+    marked_as_read: Il messaggio è stato segnato come "già letto".
+  common:
+    navigation_item:
+      users: Utenti
+      identities: Usernames
+      tickets: Tickets
+  user_control_panel: Pannello di Controllo Utente
+  account_settings: Impostazioni Account
+  username: Username
+  password: Password
+  change_password: Cambia Password
+  invalid_user_pass: Non è una combinazione username/password valida
+  invalid_ephemeral: 'Password non valida. Questo potrebbe essere un attacco al nostro sito. Per favore contatta il supporto così potremo esaminare il problema. '
+  all_strategies_failed: Tentativo di login non valido. Per favore invia (usando i cookies) in questa stessa sessione i tuoi dati di login, il valore A temporaneo di SRP e successivamente il tuo client_auth (autentificazione cliente).
+  update_login_and_password: Aggiorna Login e Password
+  destroy_my_account: Elimina il tuo account
+  destroy_account_info: Il tuo account e tutti i dati associati ad esso verranno eliminati in maniera definitiva. Procedi con cautela!
+  admin_destroy_account: Elimina l'account %{username}
+  account_destroyed: 'L''account è stato eliminato con successo. '
+  set_email_address: Imposta indirizzo e-mail
+  forward_email: Inoltra e-mail
+  email_aliases: Alias e-mail
+  public_key: Chiave pubblica
+  add_email_alias: Aggiungi alias e-mail
+  user_updated_successfully: Impostazioni aggiornate con successo.
+  user_created_successfully: Account creato con successo.
+  email_alias_destroyed_successfully: Alias e-mail %{alias} eliminata.
+  use_ascii_key: Chiave pubblica OpenPGP. Non modificare questo valore.
+  advanced_options: Opzioni avanzate
+  not_authorized: 'Siamo spiacenti, ma non sei autorizzato ad eseguire l'' azione. '
+  not_authorized_login: Per favore, esegui l'accesso per eseguire l'azione.
+  search: Cerca
+  cookie_disabled_warning: 'I tuoi cookies sono disabilitati. Per eseguire l''accesso devi attivare i cookies. '
+  js_required_html: 'Siamo spiacenti, ma devi attivare Javascript. Il sistema di autenticazione usato, <a href=''http://srp.stanford.edu/''>SRP</a>, richiede Javascript. '
+  enable_account: Attiva l'account %{username}
+  enable_description: Questo consentirà di ripristinare l'account in tutte le sue funzionalità
+  deactivate_account: Disattiva l'account %{username}
+  deactivate_description: Questo disattiverà momentaneamente alcune funzionalità dell'account.
+  payment_one_month_warning: Speriamo che il servizio di questo mese ti sia piaciuto. Per favore, registrati e effetua il pagamento entro la fine del prossimo mense entro il %{date_in_one_month}. Indicazioni per il pagamento sono disponibili qui INSERT_URL
+  bye: Arrivederci!
+  bye_message: Addio, e grazie per tutto il pesce.
+  contact_email: E-mail contatti
+  contact_email_info: 'È possibile specificare un indirizzo email dove possiamo contattarti nel caso di problemi con il tuo account. Per motivi di privacy, puoi scegliere di lasciare vuoto questo campo.
+
+    '

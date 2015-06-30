@@ -52,13 +52,6 @@ ru:
   messages:
     not_found: Это сообщение не найдено.
     marked_as_read: Сообщение было помечено как прочтённое.
-  helpers:
-    submit:
-      user:
-        create: Зарегистрироваться
-        update: Сохранить
-      session:
-        create: Войти в систему
   common:
     navigation_item:
       users: Пользователи
@@ -113,15 +106,3 @@ ru:
         few: Пользователя
         many: '%{count} Пользователей'
         other: '%{count} Пользователей'
-  simple_form:
-    labels:
-      user:
-        email_forward: Перенаправить электронную почту
-    hints:
-      user:
-        email_forward: 'Переслать все сообщения электронной почты на этот адрес. Перед отправкой, все сообщения будут зашифрованы. Эта настройка для продвинутых пользователей, знакомых с OpenPGP.
-
-          '
-    placeholders:
-      user:
-        email_forward: мой_другой_адрес_email@domain.net

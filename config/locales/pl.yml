@@ -52,13 +52,6 @@ pl:
   messages:
     not_found: Nie można było znaleźć tej wiadomości.
     marked_as_read: Wiadomość została oznaczona jako przeczytana.
-  helpers:
-    submit:
-      user:
-        create: Zapisz się
-        update: Zapisz
-      session:
-        create: Zaloguj
   common:
     navigation_item:
       users: Użytkownicy
@@ -112,15 +105,78 @@ pl:
         one: Użytkownik
         few: '%{count} Użytkowników'
         other: '%{count} Użytkowników'
+  subscribe: Subskrybuj
+  save_customer_info: Zapisz informacje kupcy
+  plan: Plan
+  description: Opis
+  cost: Koszt
+  free: Za darmo
+  support_tickets: Pomoc
+  email_notice_text: Nowy komentarz zostal dodany do tego biletu.
+  email_no_reply_text: Nie odpowiadaj na ten email.
+  layouts:
+    tickets: Bilety
+    title:
+      tickets: Bilety
+    header:
+      tickets: Bilety
+    navigation:
+      tickets: Bilety pomocy
+  tickets:
+    all: Wszystkie bilety
+    open: Otwarte bilety
+    closed: Zamknięte bilety
+    new: Nowe bilety
+    created: Utworzony
+    updated: Aktualizowany
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Otwarte
+      closed: Zamknięte
+    action:
+      open: Otwórz
+      close: Zamknij
+    confirm:
+      destroy:
+        are_you_sure: Czy jesteś pewny/a, że chcesz usunąć ten bilet?
+    tabs:
+      all: Wszystkie bilety
+      open: Otwarte bilety
+      closed: Zamknięte bilety
+    index:
+      none: Nie znaleziono żadnych biletów
+      voices: Głosy
+    destroy: Zniszcz
+    post_reply: Napisz odpowiedź
+    reply_and_close: Odpowiedz i zamknij
+  helpers:
+    submit:
+      ticket:
+        create: Wyślij bilet
+        update: Aktualizuj bilet
+  couchrest:
+    models:
+      ticket: Bilet
+      ticket_comment: Komentarz
+    attributes:
+      ticket:
+        subject: Temat
+        email: Email
+        is_open: Status
+      ticket_comment:
+        body: Opis
+        private: prywatne
   simple_form:
     labels:
-      user:
-        email_forward: Przekaż dalej email
+      ticket:
+        email: Email
+        comments:
+          body: Opis
+    options:
+      ticket:
+        is_open:
+          'true': Otwarte
+          'false': Zamknięte
     hints:
-      user:
-        email_forward: 'Przekazuj wszystkie wiadomości email do tego adresu. Wiadomości będą zaszyfrowane przed ich wysłaniem. To jest opcja dla uzytkowników zaawansowanych, którzy znają OpenPGP.
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net
+      ticket:
+        email: Wprowadź adres email, aby być powiadomionym o wszelkich zmianach w  tym bilecie.

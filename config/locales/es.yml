@@ -1,1 +1,194 @@
-es: {}
+es:
+  errors:
+    title:
+      not_found: Página no encontrada.
+      server_error: ¡Ouch!
+    subtitle:
+      not_found: La página que estaba buscando no existe.
+      server_error: Nos topamos con un error de servidor.
+    text:
+      not_found: Puede que haya escrito mal la dirección o que la página haya sido trasladada.
+      server_error: El problema ha sido registrado y lo examinaremos.
+  flash:
+    success: '%{resource} se ha guardado con éxito.'
+    error: '%{resource} no pudo ser guardado.'
+    create:
+      success: '%{resource} fue creado con éxito.'
+      error: '%{resource} no pudo ser creado.'
+    update:
+      success: '%{resource} fue actualizado con éxito.'
+      error: '%{resource} no pudo ser actualizado.'
+  privacy_policy: Política de privacidad
+  terms_of_service: Condiciones del servicio
+  pricing: Tarifas
+  about: Sobre nosotros
+  contact: Contacto
+  signup: Registrarse
+  login: Iniciar sesión
+  logout: Cerrar sesión
+  cancel: Cancelar
+  created: Creado
+  created_by_on: Creado por %{user} el %{time}
+  updated: Actualizado
+  none: Ninguno
+  unknown: Desconocido
+  admin: Administrador
+  anonymous: Anónimo
+  save: Guardar
+  add: Añadir
+  remove: Eliminar
+  changes_saved: Los cambios se guardaron con éxito.
+  are_you_sure: ¿Está seguro? Este cambio no puede deshacerse.
+  example_email: usuario@dominio.org
+  no_such_thing: No hay tal %{thing}.
+  create_thing: Crear %{thing}
+  overview: Panorama
+  home: Página principal
+  welcome: Bienvenido a %{provider}.
+  download_bitmask: Descargar Bitmask
+  login_info: Inicie sesión para cambiar la configuración de su cuenta, crear instancias de soporte, y gestionar los pagos.
+  signup_info: Cree una nueva cuenta de usuario. Para mayor seguridad, le recomendamos que cree su cuenta a través de la aplicación Bitmask, en lugar de la web.
+  support_info: ¿No puede iniciar sesión? Cree una nueva instancia de soporte de forma anónima.
+  messages:
+    not_found: No se pudo encontrar ese mensaje.
+    marked_as_read: El mensaje ha sido marcado como leído.
+  common:
+    navigation_item:
+      users: Usuarios
+      identities: Nombres de usuario
+      tickets: Instancias
+  user_control_panel: panel de control del usuario
+  account_settings: Configuración de cuenta
+  username: Nombre de usuario
+  password: Contraseña
+  change_password: Cambiar contraseña
+  invalid_user_pass: No es una combinación válida de nombre-de-usuario/contraseña
+  invalid_ephemeral: Clave aleatoria usada no válida. A nosotros nos parece un intento de hackerar el sitio. Si no lo fuera, por favor contacte con el soporte para que podamos examinar el asunto.
+  all_strategies_failed: Su intento de inicio de sesión no pudo entenderse. Por favor envíe primero su nombre de usuario y el valor efímero A de SRP (protocolo de constraseña remota segura), y luego envíe el valor client_auth en la misma sesión (usando cookies).
+  update_login_and_password: Actualizar nombre de usuario y contraseña
+  destroy_my_account: Destruir mi cuenta
+  destroy_account_info: Esto destruírá permanentemente su cuenta y todos los datos asociados con ella. ¡Proceda con cuidado!
+  admin_destroy_account: Destruir la cuenta %{username}
+  account_destroyed: La cuenta ha sido destruida con éxito.
+  set_email_address: Configurar dirección de correo electrónico
+  forward_email: Dirección de reenvío
+  email_aliases: Alias de correo electrónico
+  public_key: Clave pública
+  add_email_alias: Añadir alias de correo electrónico
+  user_updated_successfully: La configuración ha sido actualizada con éxito.
+  user_created_successfully: Su cuenta se creó con éxito.
+  email_alias_destroyed_successfully: Se eliminó el alias de correo electrónico %{alias}.
+  use_ascii_key: Clave pública OpenPGP. No cambie este valor a menos que sepa realmente lo que está haciendo.
+  advanced_options: Opciones avanzadas
+  not_authorized: Lo sentimos, pero no está autorizado a realizar esta acción.
+  not_authorized_login: Por favor inicie sesión para realizar esta acción.
+  search: Buscar
+  cookie_disabled_warning: Tiene las cookies deshabilitadas. No podrá iniciar sesión hasta que habilite las cookies.
+  js_required_html: Lo sentimos, pero esto no funciona sin javascript habilitado. Esto es a causa del sistema de autentificación usado, <a href='http://srp.stanford.edu/'>SRP</a>, requiere javascript.
+  enable_account: Habilitar la cuenta %{username}
+  enable_description: Esto devolverá a la cuenta la funcionalidad completa.
+  deactivate_account: Desactivar la cuenta %{username}
+  deactivate_description: Esto desactivará temporalmente alguna funcionalidad de la cuenta.
+  payment_one_month_warning: Esperamos que haya disfrutado de este servicio durante el  mes pasado. Por favor regístrese para el pago durante el mes siguiente, antes del %{date_in_one_month}. Las direcciones para el pago están disponibles en INSERT_URL
+  bye: ¡Adiós!
+  bye_message: '''Hasta luego, y gracias por todo el pescado''.'
+  contact_email: Correo de contacto
+  contact_email_info: 'Puede especificar una dirección de correo electrónico donde podamos contactar con usted si hay un problema con su cuenta. Por razones de privacidad, podría preferir dejar esto vacío.
+
+    '
+  users:
+    overview:
+      welcome: Bienvenido %{username}.
+      intro: 'Desde este panel de control del usuario, puede:'
+      tickets: Crear y comprobar instancias de soporte.
+      email: Modificar configuración de correo electrónico.
+      account: Destruir su cuenta.
+  activemodel:
+    models:
+      user:
+        one: Usuario
+        other: '%{count} usuarios'
+  create_new_customer: Crear un nuevo Cliente de Braintree
+  must_create_customer: Tiene que almacenar un cliente en Braintree antes de suscribirse a un plan
+  subscribe: Suscribirse
+  save_customer_info: Guardar información del cliente
+  donation_not_payment: 'Nota: Esto es una donación, y no será aplicada hacia su cuenta.'
+  no_relevant_subscription: No hay suscripciones Activas, Pendientes, o Atrasadas
+  plan: Plan
+  description: Descripción
+  cost: Coste
+  free: Gratuito
+  support_tickets: Soporte
+  email_notice_text: Ha sido añadido un nuevo comentario a esta instancia de ayuda.
+  email_no_reply_text: No responda a este correo.
+  layouts:
+    tickets: Instancias
+    title:
+      tickets: Instancias
+    header:
+      tickets: Instancias
+    navigation:
+      tickets: Instancias de soporte
+  tickets:
+    all: Todas las instancias
+    open: Instancias abiertas
+    closed: Instancias cerradas
+    new: Nueva instancia
+    created: Creado el
+    updated: Actualizado el
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Abierta
+      closed: Cerrada
+    action:
+      open: Abrir
+      close: Cerrar
+    confirm:
+      destroy:
+        are_you_sure: ¿Está seguro de que quiere destruir esta instancia?
+    tabs:
+      all: Todas las instancias
+      open: Instancias abiertas
+      closed: Instancias cerradas
+    index:
+      none: No se han encontrado instancias
+      voices: Voces
+    destroy: Destruir
+    post_reply: Publicar respuesta
+    reply_and_close: Responder y cerrar
+    access_ticket_text: 'Puede acceder más tarde a esta instancia en la URL %{full_url}. Puede que quiera añadir un marcador a esta página para encontrarla de nuevo. Tenga en cuenta que cualquiera con esta URL podrá acceder a esa instancia, así que si está en una computadora compartida puede que esto no sea buena idea y que además quiera eliminarla del historial del navegador.
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: Crear instancia
+        update: Actualizar instancia
+  couchrest:
+    models:
+      ticket: Instancia
+      ticket_comment: Comentario
+    attributes:
+      ticket:
+        subject: Asunto
+        email: Correo electrónico
+        regarding_user: En relación al usuario
+        regarding_account: En relación a la cuenta
+        is_open: Estado
+      ticket_comment:
+        body: Descripción
+        private: privado
+  simple_form:
+    labels:
+      ticket:
+        email: Correo electrónico
+        comments:
+          body: Descripción
+    options:
+      ticket:
+        is_open:
+          'true': Abierta
+          'false': Cerrada
+    hints:
+      ticket:
+        email: Proporcione una dirección de correo electrónico para que se le notifique cuando se actualice esta instancia.

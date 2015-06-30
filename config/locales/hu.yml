@@ -20,7 +20,7 @@ hu:
       error: '%{resource} nem frissíthető.'
   privacy_policy: Adatvédelmi szabályzat
   terms_of_service: Szolgáltatási feltételek
-  pricing: Árazés
+  pricing: Árazás
   about: Névjegy
   contact: Kapcsolat
   signup: Feliratkozás
@@ -52,13 +52,6 @@ hu:
   messages:
     not_found: Az üzenet nem található.
     marked_as_read: Az üzenet olvasottnak jelölve.
-  helpers:
-    submit:
-      user:
-        create: Feliratkozás
-        update: Mentés
-      session:
-        create: Belépés
   common:
     navigation_item:
       users: Felhasználók
@@ -111,15 +104,78 @@ hu:
       user:
         one: Felhasználó
         other: '%{count} felhasználó'
+  plan: Terv
+  description: Leírás
+  cost: Költség
+  free: Igyen
+  support_tickets: Támogatás
+  email_notice_text: Új megjegyzés került hozzáadásra ehhez a jegyhez.
+  email_no_reply_text: Ne válaszoljon erre az emailre.
+  layouts:
+    tickets: Jegyek
+    title:
+      tickets: Jegyek
+    header:
+      tickets: Jegyek
+    navigation:
+      tickets: Támogatási jegyek
+  tickets:
+    all: Minden jegy
+    open: Nyitott jegyek
+    closed: Lezárt jegyek
+    new: Új jegy
+    created: 'Létrehozva ekkor:'
+    updated: 'Frissítve ekkor:'
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Nyitott
+      closed: Zárt
+    action:
+      open: Nyit
+      close: Bezár
+    confirm:
+      destroy:
+        are_you_sure: Biztos meg szeretné semmisíteni ezt a jegyet?
+    tabs:
+      all: Minden jegy
+      open: Nyitott jegyek
+      closed: Lezárt jegyek
+    index:
+      none: Nincsenek jegyek
+      voices: Hangok
+    destroy: Megsemmisít
+    post_reply: Válasz küldése
+    reply_and_close: Válasz és Bezárás
+  helpers:
+    submit:
+      ticket:
+        create: Jegy elküldése
+        update: Jegy frissítése
+  couchrest:
+    models:
+      ticket: Jegy
+      ticket_comment: Megjegyzés
+    attributes:
+      ticket:
+        subject: Alany
+        email: Email
+        regarding_user: Kapcsolódó felhasználó
+        regarding_account: Kapcsolódó fiók
+        is_open: Állapot
+      ticket_comment:
+        body: Leírás
+        private: privát
   simple_form:
     labels:
-      user:
-        email_forward: Email továbbítás
+      ticket:
+        email: Email
+        comments:
+          body: Leírás
+    options:
+      ticket:
+        is_open:
+          'true': Nyitott
+          'false': Zárt
     hints:
-      user:
-        email_forward: 'Az összes email továbbítása erre a címre. Az üzenetek titkosításra kerülnek továbbítás előtt. Ez egy lehetőség a haladó felhasználók részére akiknek az OpenPGP ismerős techológia.
-
-          '
-    placeholders:
-      user:
-        email_forward: my_other_email@domain.net
+      ticket:
+        email: Adjon meg egy email címet, hogy értesítve legyen, ha a jegy frissítésre kerül.

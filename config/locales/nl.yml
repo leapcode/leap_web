@@ -52,13 +52,6 @@ nl:
   messages:
     not_found: Dat bericht kon niet worden gevonden.
     marked_as_read: Bericht werd gemarkeerd als gelezen.
-  helpers:
-    submit:
-      user:
-        create: Registeren
-        update: Opslaan
-      session:
-        create: Inloggen
   common:
     navigation_item:
       users: Gebruikers
@@ -104,10 +97,3 @@ nl:
       tickets: Creëer en bekijk support tickets.
       email: E-mail instellingen aanpassen.
       account: Vernietig je account.
-  simple_form:
-    labels:
-      user:
-        email_forward: E-mail doorsturen
-    placeholders:
-      user:
-        email_forward: mijn_ander_email@domain.net
