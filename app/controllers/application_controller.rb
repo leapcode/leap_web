@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options={})
-    if request_may_have_locale?(request)
+    if request_may_have_locale?(request) && I18n.locale != I18n.default_locale
       { :locale => I18n.locale }
     else
       { :locale => nil }

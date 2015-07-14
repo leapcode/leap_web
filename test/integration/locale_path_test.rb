@@ -24,28 +24,35 @@ class LocalePathTest < ActionDispatch::IntegrationTest
   test "redirect if accept-language is not default locale" do
     get_via_redirect '/', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de'
     assert_equal '/de', path
-    assert_equal({:locale => :de}, @controller.default_url_options)
+    assert_equal({:locale => :de}, default_url_options)
   end
 
   test "no locale prefix" do
     get_via_redirect '/', {}, 'HTTP_ACCEPT_LANGUAGE' => 'en'
     assert_equal '/', path
-    assert_equal({:locale => nil}, @controller.default_url_options)
+    assert_equal({:locale => nil}, default_url_options)
 
     get_via_redirect '/', {}, 'HTTP_ACCEPT_LANGUAGE' => 'pt'
     assert_equal '/', path
-    assert_equal({:locale => nil}, @controller.default_url_options)
+    assert_equal({:locale => nil}, default_url_options)
   end
 
   test "no redirect if locale explicit" do
     get_via_redirect '/de', {}, 'HTTP_ACCEPT_LANGUAGE' => 'en'
     assert_equal '/de', path
-    assert_equal({:locale => :de}, @controller.default_url_options)
+    assert_equal({:locale => :de}, default_url_options)
   end
 
   test "strip prefix from url options if locale is default" do
     get_via_redirect '/en', {}, 'HTTP_ACCEPT_LANGUAGE' => 'en'
     assert_equal '/en', path
-    assert_equal({:locale => nil}, @controller.default_url_options)
+    assert_equal({:locale => nil}, default_url_options)
   end
+
+  protected
+
+  def default_url_options
+    @controller.send(:default_url_options)
+  end
+
 end
