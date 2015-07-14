@@ -1,13 +1,15 @@
 - if CommonLanguages.available.size > 1
-  .locales
-    = locales_links
-.full-height
-  = link_to icon('home') + t(:home), home_path
-  = link_to icon('eye-close') + t(:privacy_policy), privacy_policy_path
-  = link_to icon('file') + t(:terms_of_service), terms_of_service_path
-  - if lookup_context.exists?('pages/about')
-    = link_to icon('info-sign') + t(:about), about_path
-  - if lookup_context.exists?('pages/contact')
-    = link_to icon('comment') + t(:contact), contact_path
-  - if paid_service_level?
-    = link_to icon('shopping-cart') + t(:pricing), pricing_path
+  .locales.row
+    .wrap-text
+      = locales_links
+.links.row
+  .wrap-text
+    = link_to icon('home') + t(:home), home_path
+    = link_to icon('eye-close') + t(:privacy_policy), privacy_policy_path
+    = link_to icon('file') + t(:terms_of_service), terms_of_service_path
+    - if lookup_context.exists?('pages/about')
+      = link_to icon('info-sign') + t(:about), about_path
+    - if lookup_context.exists?('pages/contact')
+      = link_to icon('comment') + t(:contact), contact_path
+    - if paid_service_level?
+      = link_to icon('shopping-cart') + t(:pricing), pricing_path

@@ -243,7 +243,7 @@ input, textarea {
 // http://getbootstrap.com/examples/sticky-footer/
 //
 
-$footer-height: 60px;
+$footer-height: 100px;
 $footer-border-width: 1px;
 $footer-gutter: 20px; // vertical gap above footer
 $footer-combined: $footer-height + $footer-border-width + $footer-gutter;
@@ -269,22 +269,30 @@ html, body {
 #footer {
   padding-top: $footer-gutter;
   height: $footer-height - $footer-border-width;
+  display: table;
+  width: 100%;
+  .row {
+    height: $footer-height/2;
+    display: table-row;
+    .wrap-text {
+      vertical-align: middle;
+      text-align: center;
+      display: table-cell;
+    }
+  }
   .locales {
-    text-align: center;
-    margin-bottom: 15px;
     a {
       padding: 4px;
       &.active {
         font-weight: bold;
-        background-color: #eee;
+        background-color: #333;
+        color: white;
         border-radius: 4px;
       }
     }
   }
-  .full-height {
-    text-align: center;
-    line-height: $footer-height - $footer-border-width;
-    border-top: $footer-border-width solid darken($footer-color, 10%);
+  .links {
+    // border-top: $footer-border-width solid darken($footer-color, 10%);
     background-color: $footer-color;
     a {
       color: $black;
