@@ -1,4 +1,4 @@
-pt_BR:
+pt:
   errors:
     title:
       not_found: Página não encontrada.
@@ -47,6 +47,7 @@ pt_BR:
   welcome: Seja bem vindo ao %{provider}.
   download_bitmask: Baixar Bitmask
   login_info: Logue-se para mudar as configurações da sua conta, criar tíquete de suporte e gerenciar pagamentos.
+  signup_info: Crie uma nova conta de usuário. Para maior segurança, recomendamos que você crie sua conta através do aplicativo Bitmask.
   support_info: Não consegue logar-se? Crie um novo tíquete de suporte anonimamente.
   messages:
     not_found: A mensagem não pode ser encontrada.
@@ -62,6 +63,8 @@ pt_BR:
   password: Senha
   change_password: Trocar Senha
   invalid_user_pass: Não é uma combinação válidade de usuário/senha
+  invalid_ephemeral: Foi utilizada uma chave aleatória inválida. Isto pareceu para nós uma tentativa de hackear o site. Se não foi, por favor entre em contato com o suporte para que possamos verificar a questão.
+  all_strategies_failed: Não foi possível compreender sua tentativa de login. Por favor, primeiro envie seu login e um valor SRP efêmero A, e então envie o client_auth na mesma sessão (usando cookies).
   update_login_and_password: Atualizar Login e Senha
   destroy_my_account: Destruir minha conta
   destroy_account_info: Isto vai destruir permanentemente sua conta e todos os dados associados a ela. Proceda com cuidado!
@@ -81,11 +84,18 @@ pt_BR:
   not_authorized_login: Por favor, faça o login para executar essa ação.
   search: Procurar
   cookie_disabled_warning: Você tem os cookies desativados. Você não será capaz de acessar até ativar os cookies.
+  js_required_html: Desculpe, mas este sistema não funciona sem javascript habilitado. Isto acontece porque o sistema de autenticação utilizado, <a href='http://srp.stanford.edu/'>SRP</a>, requer javascript.
   enable_account: Ativar a conta %{username}
   enable_description: Isto irá restaurar a conta com total funcionalidade
   deactivate_account: Desativar a conta %{username}
+  deactivate_description: Isto vai desativar temporariamente algumas funcionalidades de conta.
+  payment_one_month_warning: Esperamos que você tenha aproveitado este serviço no mês passado. Por favor, registre-se para pagar no próximo mês, até %{date_in_one_month}. Instruções para pagamento estão disponíveis em INSERT_URL
   bye: Adeus!
   bye_message: Até mais, e obrigado por todos os peixes.
+  contact_email: Email de Contato
+  contact_email_info: 'Você pode especificar um endereço de email no qual possamos te contatar se houver algum problema com sua conta. Por motivos de privacidade, talvez você prefira deixar este campo em branco.
+
+    '
   users:
     overview:
       welcome: Bem vindo %{username}.
@@ -98,3 +108,85 @@ pt_BR:
       user:
         one: Usuário
         other: '%{count} Usuários'
+  create_new_customer: Criar um novo Cliente Braintree
+  must_create_customer: Você deve armazenar um cliente no braintree antes de inscrever-se em um plano
+  subscribe: Inscrever
+  save_customer_info: Salvar Informações de Cliente
+  donation_not_payment: 'Nota: Isto é uma doação, e não será direcionada à sua conta.'
+  no_relevant_subscription: Não há inscrições que estejam Ativas, Pendentes ou Vencidas.
+  plan: Plano
+  description: Descrição
+  cost: Custo
+  free: Grátis
+  support_tickets: Suporte
+  email_notice_text: Um novo comentário foi adicionado à este tíquete de ajuda.
+  email_no_reply_text: Não responda este email.
+  layouts:
+    tickets: Tíquetes
+    title:
+      tickets: Tíquetes
+    header:
+      tickets: Tíquetes
+    navigation:
+      tickets: Tíquetes de Suporte
+  tickets:
+    all: Todos os Tíquetes
+    open: Tíquetes Abertos
+    closed: Tíquetes Fechados
+    new: Novo Tíquete
+    created: Criado em
+    updated: Atualizado em
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Aberto
+      closed: Fechado
+    action:
+      open: Abrir
+      close: Fechar
+    confirm:
+      destroy:
+        are_you_sure: Você tem certeza de que deseja destruir este tíquete?
+    tabs:
+      all: Todos os Tíquetes
+      open: Tíquetes Abertos
+      closed: Tíquetes Fechados
+    index:
+      none: Nenhum tíquete foi encontrado.
+      voices: Vozes
+    destroy: Destruir
+    post_reply: Enviar Resposta
+    reply_and_close: Responder e Fechar
+    access_ticket_text: 'Você pode acessar este tíquete mais tarde na URL %{full_url}. Você pode guardar esta página nos favoritos para encontrá-la novamente. Qualquer pessoa com esta URL poderá acessar este tíquete, então se você estiver em um computador compartilhado talvez você queira removê-la do seu histórico de navegação.
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: Enviar Tíquete
+        update: Atualizar Tíquete
+  couchrest:
+    models:
+      ticket: Tíquete
+      ticket_comment: Comentário
+    attributes:
+      ticket:
+        subject: Assunto
+        email: Email
+        is_open: Estado
+      ticket_comment:
+        body: Descrição
+        private: privado
+  simple_form:
+    labels:
+      ticket:
+        email: Email
+        comments:
+          body: Descrição
+    options:
+      ticket:
+        is_open:
+          'true': Aberto
+          'false': Fechado
+    hints:
+      ticket:
+        email: Insira um endereço de email para receber uma notificação quando este tíquete for atualizado.

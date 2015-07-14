@@ -104,6 +104,8 @@ hu:
       user:
         one: Felhasználó
         other: '%{count} felhasználó'
+  subscribe: Feliratkozás
+  save_customer_info: Vásárlói információ mentése
   plan: Terv
   description: Leírás
   cost: Költség
