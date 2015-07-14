@@ -47,6 +47,12 @@ namespace :i18n do
     end
   end
 
+  #
+  # I have not been able to get fallback from :pt => :'pt-BR' working.
+  # The rails guide implies that it does not work, even though I18n has
+  # a fallback mechanism.
+  # For now, just use a single language for ever locale.
+  #
   LOCALE_ALIAS_MAP = {
     :nb => 'nb-no',
     :pt => 'pt-br'
@@ -65,8 +71,11 @@ namespace :i18n do
         next if lang == :en
         puts
         puts "downloading #{lang}"
-        lang_url = LOCALE_ALIAS_MAP[lang] || lang
-        command = %[curl -L --netrc-file transifex.netrc -X GET 'https://www.transifex.com/api/2/project/bitmask/resource/leap_web/translation/#{lang_url}/?file' > locales/#{lang}.yml]
+        lang_url_segment = LOCALE_ALIAS_MAP[lang] || lang
+        url = "https://www.transifex.com/api/2/project/bitmask/resource/leap_web/translation/#{lang_url_segment}/?file"
+        command = %[echo "#{lang}:" > locales/#{lang}.yml && ]+
+          %[curl -L --netrc-file transifex.netrc -X GET '#{url}' ]+
+          %[| tail -n +2 >> locales/#{lang}.yml]
         puts command
         `#{command}`
       end
