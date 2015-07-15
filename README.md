@@ -97,6 +97,15 @@ Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and
     cd /leap_web
     bundle exec rails server
 
+### To run the tests
+
+    cd leap_web/dev-infrastructure
+    vagrant ssh
+    cd /leap_web
+    bundle exec rake RAILS_ENV=test db:rotate    # if not already run
+    bundle exec rake RAILS_ENV=test db:migrate   # if not already run
+    bundle exec rake test
+
 
 Configuration
 ----------------------------
