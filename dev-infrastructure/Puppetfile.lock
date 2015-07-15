@@ -1,0 +1,19 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    puppetlabs-git (0.4.0)
+      puppetlabs-stdlib (>= 3.2.0)
+    puppetlabs-stdlib (4.6.0)
+
+GIT
+  remote: https://github.com/justindowning/puppet-rbenv.git
+  ref: master
+  sha: b3496c15f6ad24142b7be4c1736e86ab3754f521
+  specs:
+    jdowning-rbenv (1.5.1)
+      puppetlabs-git (< 1.0.0, >= 0.0.3)
+      puppetlabs-stdlib (< 5.0.0, >= 4.1.0)
+
+DEPENDENCIES
+  jdowning-rbenv (>= 0)
+
