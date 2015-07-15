@@ -1,0 +1,6 @@
+.tmp/
+.vagrant
+modules/**/tests
+modules/**/spec
+modules/**/log
+*.swp

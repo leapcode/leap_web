@@ -70,6 +70,43 @@ Typically, you run ``bundle`` as a normal user and it will ask you for a
 sudo password when it is time to install the required gems. If you don't
 have sudo, run ``bundle`` as root.
 
+With Vagrant - For development only
+----------------------------
+
+### Install system requirements
+
+Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads) and
+[Vagrant](http://docs.vagrantup.com/v2/installation/).
+
+
+### Download source
+
+    git clone git://leap.se/leap_web
+    cd leap_web
+    git submodule update --init
+
+### Install required ruby libraries
+
+    cd leap_web/dev-infrastructure
+    vagrant up
+
+### Run the application
+
+    cd leap_web/dev-infrastructure
+    vagrant ssh
+    cd /leap_web
+    bundle exec rails server
+
+### To run the tests
+
+    cd leap_web/dev-infrastructure
+    vagrant ssh
+    cd /leap_web
+    bundle exec rake RAILS_ENV=test db:rotate    # if not already run
+    bundle exec rake RAILS_ENV=test db:migrate   # if not already run
+    bundle exec rake test
+
+
 Configuration
 ----------------------------
 
