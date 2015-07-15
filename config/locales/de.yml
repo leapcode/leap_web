@@ -40,7 +40,7 @@ de:
   changes_saved: Änderungen erfolgreich gespeichert.
   are_you_sure: Sind sie sich sicher? Änderungen können nicht rückgängig gemacht werden.
   example_email: user@domain.org
-  no_such_thing: Kein solches %{ding}.
+  no_such_thing: Kein solches %{thing}.
   create_thing: '%{thing} erstellen'
   overview: Übersicht
   home: Home
@@ -68,7 +68,7 @@ de:
   update_login_and_password: Einloggen und Passwort Aktualisieren
   destroy_my_account: Benutzerkonto löschen
   destroy_account_info: Dies wird dauerhaft Ihr Konto und alle zugehörigen Daten löschen. Gehen Sie mit Vorsicht damit um!
-  admin_destroy_account: Benutzerkonto löschen %{Benutzername}
+  admin_destroy_account: Benutzerkonto löschen %{username}
   account_destroyed: Das Konto wurde erfolgreich gelöscht.
   set_email_address: E-Mail-Adresse einstellen
   forward_email: vorwärts per E-Mail
@@ -85,9 +85,9 @@ de:
   search: Suche
   cookie_disabled_warning: Sie haben Cookies deaktiviert. Sie werden nicht in der Lage sein sich anzumelden, bis die Cookies aktiviert werden.
   js_required_html: Es tut uns leid,  Javascript muss aktiviert sein. Dies liegt daran, das dass Authentifizierungssystem das verwendet wird, <a href='http://srp.stanford.edu/'>SRP</a>, Javascript braucht
-  enable_account: Dieses Konto aktivieren %{benutzername}
+  enable_account: Dieses Konto aktivieren %{username}
   enable_description: Dies wird das Konto die volle Funktionalität wiederherstellen
-  deactivate_account: Dieses Konto deaktivieren %{benutzername}
+  deactivate_account: Dieses Konto deaktivieren %{username}
   deactivate_description: Dies wird vorübergehend einige Konto-Funktionen deaktivieren.
   payment_one_month_warning: Wir hoffen, Sie haben im letzten Monat diesen Service genoßen. Bitte melden Sie sich an, um innerhalb des nächsten Monats zu zahlen, durch %{date_in_one_month}. Richtungen zur Zahlung sind verfügbar über  INSERT_URL
   bye: Auf Wiedersehen!
@@ -98,7 +98,7 @@ de:
     '
   users:
     overview:
-      welcome: Willkommen %{benutzername}.
+      welcome: Willkommen %{username}.
       intro: 'Vom Benutzerkontrollzentrum aus können Sie:'
       tickets: Erstellen und Überprüfen von Support-Tickets.
       email: E-Mail-Einstellungen ändern.
