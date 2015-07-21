@@ -13,6 +13,8 @@ lt:
   login: Prisijungti
   logout: Atsijungti
   cancel: Atšaukti
+  created: Sukurta
+  updated: Atnaujinta
   unknown: Nežinoma
   admin: Administratorius
   save: Išsaugoti
@@ -24,6 +26,7 @@ lt:
   download_bitmask: Atsisiųsti Bitmask
   messages:
     marked_as_read: Pranešimas pažymėtas kaip perskaitytas.
+  user_control_panel: naudotojo valdymo skydelis
   account_settings: Paskyros Nustatymai
   username: Vartotojo Vardas
   password: Slaptažodis

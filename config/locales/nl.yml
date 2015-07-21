@@ -10,14 +10,14 @@ nl:
       not_found: Je hebt het adres verkeerd getypt of de pagina werd verplaatst.
       server_error: Het probleem werd opgeslagen en we zullen dit bekijken.
   flash:
-    success: '%{resource} werd succesvol opgeslagen.'
+    success: '%{resource} is succesvol opgeslagen.'
     error: '%{resource} kon niet worden opgeslagen.'
     create:
-      success: '%{resource} werd succesvol aangemaakt.'
+      success: '%{resource} is succesvol aangemaakt.'
       error: '%{resource} kon niet worden aangemaakt.'
     update:
-      success: '%{resource} werd succesvol upgedate.'
-      error: '%{resource} kon niet worden upgedate.'
+      success: '%{resource} is succesvol geüpdatet.'
+      error: '%{resource} kon niet worden geüpdate.'
   privacy_policy: Privacybeleid
   terms_of_service: Servicevoorwaarden
   pricing: Prijzen
@@ -29,7 +29,7 @@ nl:
   cancel: Annuleren
   created: Gemaakt
   created_by_on: Gemaakt door %{user} op %{time}
-  updated: Upgedate
+  updated: Geüpdatet
   none: Geen
   unknown: Onbekend
   admin: Admin
@@ -47,7 +47,7 @@ nl:
   welcome: Welkom bij %{provider}.
   download_bitmask: Download Bitmask
   login_info: Log in om je accountinstellingen te veranderen, support tickets te maken en betalingen te beheren.
-  signup_info: Maak een nieuwe gebruikersaccount aan. Voor hogere veiligheid raden we aan een account aan te maken via de Bitmask applicatie.
+  signup_info: Maak een nieuwe gebruikersaccount aan. Voor betere veiligheid raden we aan een account aan te maken via de Bitmask applicatie.
   support_info: Je kan niet inloggen? Maak een nieuw support ticket anoniem aan.
   messages:
     not_found: Dat bericht kon niet worden gevonden.
@@ -74,7 +74,7 @@ nl:
   email_aliases: E-mail aliassen
   public_key: Publieke sleutel
   add_email_alias: E-mail alias toevoegen
-  user_updated_successfully: Instellingen werden succesvol upgedate.
+  user_updated_successfully: Instellingen werden succesvol geüpdate.
   user_created_successfully: Account succesvol aangemaakt.
   email_alias_destroyed_successfully: Verwijderde e-mail alias %{alias}.
   use_ascii_key: OpenPGP publieke sleutel. Wijzig deze waarde niet tenzij je weet wat je doet.
@@ -97,3 +97,45 @@ nl:
       tickets: Creëer en bekijk support tickets.
       email: E-mail instellingen aanpassen.
       account: Vernietig je account.
+  activemodel:
+    models:
+      user:
+        one: Gebruiker
+        other: '%{count} gebruikers'
+  must_create_customer: Je moet een klant bewaren in braintree voor je een abonnement kan kiezen.
+  subscribe: Abonneren
+  plan: Abonnementstype
+  description: Omschrijving
+  cost: Prijs
+  free: Gratis
+  layouts:
+    tickets: Tickets
+    title:
+      tickets: Tickets
+    header:
+      tickets: Tickets
+  tickets:
+    subject: couchrest.models.tickets.attributes.subject
+    status:
+      open: Open
+      closed: Gesloten
+    action:
+      open: Openen
+      close: Sluiten
+    tabs:
+      all: Alle tickets
+    post_reply: Beantwoorden
+    reply_and_close: Beantwoorden en sluiten
+  couchrest:
+    attributes:
+      ticket:
+        email: E-mail
+        is_open: Status
+  simple_form:
+    labels:
+      ticket:
+        email: E-mail
+    options:
+      ticket:
+        is_open:
+          'true': Open
