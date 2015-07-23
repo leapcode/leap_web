@@ -1,0 +1,43 @@
+$custom-color: #66bbaa;
+
+a {
+  color: $custom-color;
+}
+
+//
+// MASTHEAD
+//
+
+#masthead {
+  background-color: $custom-color;
+  border-bottom: none;
+
+  // make the masthead clickable by replacing the
+  // site name link with the masthead image:
+  .title {
+    padding: 0px;
+    .sitename a {
+      display: block;
+      background: url(/img/masthead.png) 0 0 no-repeat;
+      font-size: 0px;
+      height: 100px;
+      background-size: auto 100px;
+    }
+  }
+}
+
+// make the home page masthead slightly larger
+body.home #masthead {
+  .sitename a {
+    height: 150px;
+    background-size: auto 150px;
+  }
+}
+
+//
+// FOOTER
+//
+
+#footer .links {
+  background-color: $custom-color;
+}

@@ -21,6 +21,7 @@ test/dummy/tmp/*
 # ignore the disabled customization directories that
 # i keep around for testing purposes.
 config/customization.*
+!config/customization.example
 
 # ignore all deploy specific configuration
 config/couchdb.yml
