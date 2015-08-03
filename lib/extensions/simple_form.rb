@@ -6,7 +6,7 @@ module WrappedButton
       args.unshift :loading
       args << options
       if cancel = options.delete(:cancel)
-        cancel_link = template.link_to I18n.t('simple_form.buttons.cancel'),
+        cancel_link = template.link_to I18n.t('simple_form.buttons.cancel', :default => :cancel),
           cancel, class: :btn
         button(*args, &block) + ' ' + cancel_link
       else
@@ -20,7 +20,7 @@ SimpleForm::FormBuilder.send :include, WrappedButton
 module LoadingButton
   def loading_button(*args, &block)
     options = args.extract_options!
-    options[:"data-loading-text"] = I18n.t('simple_form.buttons.loading')
+    options[:"data-loading-text"] = I18n.t('simple_form.buttons.loading', :default => :loading)
     args << options
     button_button(*args, &block)
   end
