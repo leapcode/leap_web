@@ -1,6 +1,7 @@
 en:
   home: Home
   welcome: "Welcome to %{provider}."
+  welcome_message_html: "We provide secure communication services, including VPN and Email, with more services in the works."
   download_bitmask: "Download Bitmask"
 
   login_info: "Log in to change your account settings, create support tickets, and manage payments."
