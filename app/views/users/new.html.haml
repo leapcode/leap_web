@@ -17,5 +17,8 @@
     = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
     = f.input :password,              :required => false, :validate => true, :input_html => { :id => :srp_password }
     = f.input :password_confirmation, :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
-    = f.button :wrapped, cancel: home_path
+    = f.input :invite_code, :input_html => { :id => :srp_invite_code }
 
+
+    = f.button :wrapped, cancel: home_path
+-#

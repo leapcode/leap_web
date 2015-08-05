@@ -70,6 +70,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @user.public_key
   end
 
+  test "user should have an invite token" do
+    user = User.new
+    assert_nil(user.invite_code)
+  end
+
   #
   ## Regression tests
   #
