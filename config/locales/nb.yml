@@ -135,7 +135,6 @@ nb:
     new: Ny billett
     created: Opprettet den
     updated: Oppdatert den
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Åpen
       closed: Lukket

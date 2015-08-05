@@ -129,7 +129,6 @@ pl:
     new: Nowe bilety
     created: Utworzony
     updated: Aktualizowany
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Otwarte
       closed: Zamknięte

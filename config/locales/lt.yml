@@ -30,6 +30,7 @@ lt:
   account_settings: Paskyros Nustatymai
   username: Vartotojo Vardas
   password: Slaptažodis
+  invalid_user_pass: Neteisinga vartotojo vardo/slaptažodžio kombinacija
   destroy_my_account: Sunaikinti mano paskyrą
   destroy_account_info: Tai visam laikui sunaikins jūsų paskyrą ir visus su ja susietus duomenis. Elkitės atsargiai!
   admin_destroy_account: Sunaikinti paskyrą %{username}
@@ -52,3 +53,15 @@ lt:
         one: Vartotojas
         few: '%{count} Vartotojai'
         other: '%{count} Vartotojų'
+  description: Aprašas
+  couchrest:
+    attributes:
+      ticket:
+        email: El. paštas
+      ticket_comment:
+        body: Aprašas
+  simple_form:
+    labels:
+      ticket:
+        comments:
+          body: Aprašas

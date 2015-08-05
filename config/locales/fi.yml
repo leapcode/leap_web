@@ -136,7 +136,6 @@ fi:
     new: Uusi lippu
     created: 'Luotu:'
     updated: 'Päivitetty:'
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Avaa
       closed: Suljettu

@@ -45,10 +45,12 @@ es:
   overview: Panorama
   home: Página principal
   welcome: Bienvenido a %{provider}.
+  welcome_message_html: Proporcionamos servicios de comunicación seguros, incluyendo VPN y correo electrónico, con más servicios en camino.
   download_bitmask: Descargar Bitmask
   login_info: Inicie sesión para cambiar la configuración de su cuenta, crear instancias de soporte, y gestionar los pagos.
   signup_info: Cree una nueva cuenta de usuario. Para mayor seguridad, le recomendamos que cree su cuenta a través de la aplicación Bitmask, en lugar de la web.
   support_info: ¿No puede iniciar sesión? Cree una nueva instancia de soporte de forma anónima.
+  get_help: Obtener ayuda
   messages:
     not_found: No se pudo encontrar ese mensaje.
     marked_as_read: El mensaje ha sido marcado como leído.
@@ -136,7 +138,6 @@ es:
     new: Nueva instancia
     created: Creado el
     updated: Actualizado el
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Abierta
       closed: Cerrada

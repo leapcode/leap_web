@@ -128,7 +128,6 @@ hu:
     new: Új jegy
     created: 'Létrehozva ekkor:'
     updated: 'Frissítve ekkor:'
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Nyitott
       closed: Zárt

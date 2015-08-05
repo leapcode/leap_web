@@ -45,10 +45,12 @@ zh:
   overview: 概述
   home: 首页
   welcome: 欢迎使用 %{provider}。
+  welcome_message_html: 我们提供安全的通信服务，包括 VPN 和电子邮件，以及其他可以工作的服务。
   download_bitmask: 下载 Bitmask
   login_info: 登录才能更改您的账号设置、创建支持工单和管理付款。
   signup_info: 创建一个新的用户账号。为了更高的安全性，我们建议您通过 Bitmask 应用程序创建您的账号。
   support_info: 不能登录？匿名创建一个新的支持工单。
+  get_help: 获取帮助
   messages:
     not_found: 无法找到该消息。
     marked_as_read: 消息已被标记为已读。
@@ -135,7 +137,6 @@ zh:
     new: 新建工单
     created: 创建时间
     updated: 更新时间
-    subject: couchrest.模块.工单.属性.主题
     status:
       open: 开放
       closed: 已关闭

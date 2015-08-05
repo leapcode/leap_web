@@ -136,7 +136,6 @@ pt:
     new: Novo Tíquete
     created: Criado em
     updated: Atualizado em
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Aberto
       closed: Fechado

@@ -230,7 +230,6 @@ en_US:
     new: New Ticket
     created: Created at
     updated: Updated at
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Open
       closed: Closed

@@ -136,7 +136,6 @@ de:
     new: Neues Ticket
     created: Erstellt am
     updated: Aktualisiert am
-    subject: couchrest.models.tickets.attributes.subject
     status:
       open: Offen
       closed: Geschlossen
