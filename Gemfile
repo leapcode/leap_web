@@ -44,7 +44,7 @@ group :production do
   gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
                                 # this must not be included in development mode, or js
                                 # will get included twice.
-  gem 'therubyracer', "~> 0.10.2", :platforms => :ruby
+  gem 'therubyracer', "~> 0.12.2", :platforms => :ruby
   #   ^^ See https://github.com/sstephenson/execjs#readme
   #      for list of supported runtimes.
 end
