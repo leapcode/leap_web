@@ -21,7 +21,13 @@ class ClientCertificate
     cert = CertificateAuthority::Certificate.new
 
     # set subject
-    cert.subject.common_name = common_name(options[:prefix])
+    if options[:prefix]
+      cert.subject.common_name = common_name_with_prefix(options[:prefix])
+    elsif options[:common_name]
+      cert.subject.common_name = options[:common_name]
+    else
+      raise ArgumentError.new
+    end
 
     # set expiration
     cert.not_before = last_month
@@ -77,7 +83,7 @@ class ClientCertificate
     Digest::MD5.hexdigest("#{rand(10**10)} -- #{Time.now}").to_i(16)
   end
 
-  def common_name(prefix = nil)
+  def common_name_with_prefix(prefix = nil)
     [prefix, random_common_name].join
   end
 

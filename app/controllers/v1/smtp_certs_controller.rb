@@ -6,7 +6,7 @@ class V1::SmtpCertsController < ApiController
 
   # POST /1/smtp_cert
   def create
-    @cert = ClientCertificate.new prefix: current_user.email_address
+    @cert = ClientCertificate.new common_name: current_user.email_address
     @identity.register_cert(@cert)
     @identity.save
     render text: @cert.to_s, content_type: 'text/plain'

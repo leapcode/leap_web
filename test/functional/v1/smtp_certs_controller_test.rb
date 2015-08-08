@@ -26,11 +26,11 @@ class V1::SmtpCertsControllerTest < ActionController::TestCase
 
   protected
 
-  def expect_cert(prefix)
-    cert = stub to_s: "#{prefix.downcase} cert",
+  def expect_cert(email)
+    cert = stub to_s: "#{email.downcase} cert",
       expiry: 1.month.from_now.utc.at_midnight
     ClientCertificate.expects(:new).
-      with(:prefix => prefix).
+      with(:common_name => email).
       returns(cert)
     return cert
   end
