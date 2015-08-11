@@ -49,17 +49,11 @@ these instructions:
 
 ### Install system requirements
 
-    sudo apt-get install git ruby1.9.3 rubygems couchdb
-    sudo gem install bundler
-
-On Debian Wheezy or later, there is a Debian package for bundler, so you
-can alternately run ``sudo apt-get install bundler``.
+    sudo apt-get install git ruby1.9.3 rubygems couchdb bundler
 
 ### Download source
 
-    git clone git://leap.se/leap_web
-    cd leap_web
-    git submodule update --init
+    git clone --recursive git://leap.se/leap_web
 
 ### Install required ruby libraries
 
@@ -83,9 +77,9 @@ There are a few values you should make sure to modify:
       admins: ["myusername","otherusername"]
       domain: example.net
       force_ssl: true
-      secret_token: "4be2f60fafaf615bd4a13b96bfccf2c2c905898dad34..."
-      client_ca_key: "/etc/ssl/ca.key"
-      client_ca_cert: "/etc/ssl/ca.crt"
+      secret_token: "4be2f60fafaf615bd4a13b96bfccf2c2c905898dad34"
+      client_ca_key: "./test/files/ca.key"
+      client_ca_cert: "./test/files/ca.key"
       ca_key_password: nil
 
 * `admins` is an array of usernames that are granted special admin
