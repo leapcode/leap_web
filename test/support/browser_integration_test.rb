@@ -50,6 +50,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     visit '/users/new'
     fill_in 'Username', with: username
     fill_in 'Password', with: password
+    fill_in 'Invite code', with: 'testcode'
     fill_in 'Password confirmation', with: password
     click_on 'Sign Up'
     return username, password

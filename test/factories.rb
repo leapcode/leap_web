@@ -11,6 +11,8 @@ FactoryGirl.define do
     login { Faker::Internet.user_name + '_' + SecureRandom.hex(4) }
     password_verifier "1234ABCD"
     password_salt "4321AB"
+    invite_code "testcode"
+
 
     factory :user_with_settings do
       email_forward { Faker::Internet.email }

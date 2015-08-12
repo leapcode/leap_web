@@ -8,13 +8,13 @@ class TmpUserTest < ActiveSupport::TestCase
 
       assert_difference('User.database.info["doc_count"]') do
         normal_user = User.create!(:login => 'a'+SecureRandom.hex(5).downcase,
-          :password_verifier => 'ABCDEF0010101', :password_salt => 'ABCDEF')
+          :password_verifier => 'ABCDEF0010101', :password_salt => 'ABCDEF', :invite_code => 'testcode')
         refute normal_user.database.to_s.include?('tmp')
       end
 
       assert_difference('User.tmp_database.info["doc_count"]') do
         tmp_user = User.create!(:login => 'test_user_'+SecureRandom.hex(5).downcase,
-          :password_verifier => 'ABCDEF0010101', :password_salt => 'ABCDEF')
+          :password_verifier => 'ABCDEF0010101', :password_salt => 'ABCDEF', :invite_code => 'testcode')
         assert tmp_user.database.to_s.include?('tmp')
       end
     ensure

@@ -84,6 +84,11 @@ group :production do
   gem 'SyslogLogger', '~> 2.0'
 end
 
+group :development do
+  gem "better_errors", '1.1.0'
+  gem "binding_of_caller"
+end
+
 group :debug do
   gem 'debugger', :platforms => :mri_19
 end
