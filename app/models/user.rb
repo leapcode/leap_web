@@ -39,7 +39,7 @@ class User < CouchRest::Model::Base
     :email => true,
     :mx_with_fallback => true
 
-  validates :invite_code, inclusion: { in: ["testcode"], message: "%{value} is not a valid invite code" }
+  validates_with InviteCodeValidator
 
   timestamps!
 
