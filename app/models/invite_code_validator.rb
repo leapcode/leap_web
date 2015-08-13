@@ -7,7 +7,7 @@ class InviteCodeValidator < ActiveModel::Validator
 
   private
   def not_existent?(code)
-    InviteCode.find_by__id(code) == nil
+    InviteCode.find_by_invite_code(code) == nil
   end
 
   def add_error_to_user(error, user)

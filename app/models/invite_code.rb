@@ -4,7 +4,7 @@ class InviteCode < CouchRest::Model::Base
   timestamps!
 
   design do
-    view :by__id
+    view :by_invite_code
   end
 end
 
