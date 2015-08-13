@@ -2,6 +2,10 @@ require 'test_helper'
 
 class TicketTest < ActiveSupport::TestCase
 
+  setup do
+    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+  end
+
   test "ticket with default attribs is valid" do
     t = FactoryGirl.build :ticket
     assert t.valid?

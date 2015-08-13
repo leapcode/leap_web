@@ -3,6 +3,7 @@ require 'test_helper'
 class V1::MessagesControllerTest < ActionController::TestCase
 
   setup do
+    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
     @user = FactoryGirl.build(:user)
     @user.save
     @message = Message.new(:text => 'a test message')

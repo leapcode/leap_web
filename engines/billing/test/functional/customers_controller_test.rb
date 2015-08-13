@@ -5,6 +5,7 @@ class CustomersControllerTest < ActionController::TestCase
   tests CustomerController
 
   setup do
+    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
     @user = FactoryGirl.create :user
     @other_user = FactoryGirl.create :user
     #FakeBraintree.clear!

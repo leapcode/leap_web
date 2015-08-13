@@ -13,7 +13,6 @@ FactoryGirl.define do
     password_salt "4321AB"
     invite_code "testcode"
 
-
     factory :user_with_settings do
       email_forward { Faker::Internet.email }
       email_aliases_attributes do
