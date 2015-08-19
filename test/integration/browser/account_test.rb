@@ -81,21 +81,6 @@ class AccountTest < BrowserIntegrationTest
     end
   end
 
-  test "change password" do
-    with_config user_actions: ['change_password'] do
-      login
-      click_on "Account Settings"
-      within('#update_login_and_password') do
-        fill_in 'Password', with: "other password"
-        fill_in 'Password confirmation', with: "other password"
-        click_on 'Save'
-      end
-      click_on 'Log Out'
-      attempt_login(@user.login, "other password")
-      assert page.has_content?("Welcome #{@user.login}")
-    end
-  end
-
   test "change pgp key" do
     with_config user_actions: ['change_pgp_key'] do
       pgp_key = FactoryGirl.build :pgp_key
