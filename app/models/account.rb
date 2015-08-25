@@ -1,7 +1,7 @@
 #
-# The Account model takes care of the livecycle of a user.
+# The Account model takes care of the lifecycle of a user.
 # It composes a User record and it's identity records.
-# It also allows for other engines to hook into the livecycle by
+# It also allows for other engines to hook into the lifecycle by
 # monkeypatching the create, update and destroy methods.
 # There's an ActiveSupport load_hook at the end of this file to
 # make this more easy.
@@ -19,6 +19,7 @@ class Account
     identity = nil
     user = nil
     user = User.new(attrs)
+
     user.save
     if !user.tmp? && user.persisted?
       identity = user.identity

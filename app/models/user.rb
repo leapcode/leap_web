@@ -39,7 +39,9 @@ class User < CouchRest::Model::Base
     :email => true,
     :mx_with_fallback => true
 
+
   validates_with InviteCodeValidator
+
 
   timestamps!
 
