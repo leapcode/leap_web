@@ -20,29 +20,64 @@ class InviteCodeTest < ActiveSupport::TestCase
      assert_equal code1.invite_count, 0
   end
 
-   # TODO: does the count go up when code gets entered?
-   test "Invite code count goes up by 1 when the invite code is entered" do
+  test "Invite code count goes up by 1 when the invite code is entered" do
+    #TODO but onlz if there are no other errors on the form
 
-     validator = InviteCodeValidator.new nil
+    validator = InviteCodeValidator.new nil
 
-     user = FactoryGirl.build :user
-     user_code = InviteCode.new
-     user_code.save
-     user.invite_code = user_code.invite_code
+    user = FactoryGirl.build :user
+    user_code = InviteCode.new
+    user_code.save
+    user.invite_code = user_code.invite_code
 
+    validator.validate(user)
 
-     validator.validate(user)
+    user_code.reload
+    assert_equal 1, user_code.invite_count
 
-     user_code.reload
-     assert_equal 1, user_code.invite_count
+  end
 
-   end
-#
-#
-#   # TODO: count >0 is not accepted for signup
-   # test "Invite count >0 is not accepted for new account signup" do
+  test "Invite count >0 is not accepted for new account signup" do
+    validator = InviteCodeValidator.new nil
 
-  #  end
+    user_code = InviteCode.new
+    user_code.invite_count = 1
+    user_code.save
+
+    user = FactoryGirl.build :user
+    user.invite_code = user_code.invite_code
+
+    validator.validate(user)
+
+    assert_equal ["This code has already been used"], user.errors[:invite_code]
+
+  end
+
+  test "Invite count 0 is accepted for new account signup" do
+    validator = InviteCodeValidator.new nil
+
+    user_code = InviteCode.create
+
+    user = FactoryGirl.build :user
+    user.invite_code = user_code.invite_code
+
+    validator.validate(user)
+
+    assert_equal [], user.errors[:invite_code]
+  end
+
+  test "There is an error message if the invite code does not exist" do
+    validator = InviteCodeValidator.new nil
+
+    user = FactoryGirl.build :user
+    user.invite_code = "wrongcode"
+
+    validator.validate(user)
+
+    assert_equal ["This is not a valid code"], user.errors[:invite_code]
+
+  end
+
 
 end
 
