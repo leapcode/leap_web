@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   include SRP::Util
   setup do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+    InviteCodeValidator.any_instance.stubs(:validate)
     @user = FactoryGirl.build(:user)
   end
 
@@ -71,26 +71,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @user.public_key
   end
 
-  test "user should not be created with invalid invite code" do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(true)
-    invalid_user = FactoryGirl.build(:user)
 
-    assert !invalid_user.valid?
-  end
-
-  test "user should be created with valid invite code" do
-    assert @user.valid?
-  end
-
-  test "trying to create a user with invalid invite code should add error" do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(true)
-    invalid_user = FactoryGirl.build(:user)
-
-    invalid_user.valid?
-
-    errors = {invite_code: ["This is not a valid code"]}
-    assert_equal errors, invalid_user.errors.messages
-  end
 
   #
   ## Regression tests
