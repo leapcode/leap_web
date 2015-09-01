@@ -25,6 +25,7 @@ config/customization.*
 
 # ignore all deploy specific configuration
 config/couchdb.yml
+config/couchdb.admin.yml
 public/assets/*
 public/ca.crt
 public/config/*

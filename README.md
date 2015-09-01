@@ -1,21 +1,30 @@
 LEAP Web
 ---------------------
 
-"LEAP Web" is the web-based component of the LEAP Platform, providing
-the following services:
+The LEAP Web App provides the following functions:
 
-* REST API for user registration.
-* Admin interface to manage users.
-* Client certificate distribution and renewal.
-* User support help tickets.
-* Billing
+* User registration and management
+* Help tickets
+* Client certificate renewal
+* Webfinger access to user’s public keys
+* Email aliases and forwarding
+* Localized and Customizable documentation
 
-This web application is written in Ruby on Rails 3, using CouchDB as the
-backend data store.
+Written in: Ruby, Rails.
+
+The Web App communicates with:
+
+* CouchDB is used for all data storage.
+* Web browsers of users accessing the user interface in order to edit their settings or fill out help tickets. Additionally, admins may delete users.
+* LEAP Clients access the web app’s REST API in order to register new users, authenticate existing ones, and renew client certificates.
+* tokens are stored upon successful authentication to allow the client to authenticate against other services
+
+LEAP Web is provisioned and run as part of the overall [LEAP platform](https://leap.se/en/docs/platform).
 
 Original code specific to this web application is licensed under the GNU
 Affero General Public License (version 3.0 or higher). See
 http://www.gnu.org/licenses/agpl-3.0.html for more information.
+
 
 Documentation
 ---------------------------
@@ -25,6 +34,15 @@ For more information, see these files in the ``doc`` directory:
 * DEPLOY -- for notes on deployment.
 * DEVELOP -- for developer notes.
 * CUSTOM -- how to customize.
+
+External docs:
+
+* [Overview of LEAP architecture](https://leap.se/en/docs/design/overview) - Bird's eye view of how all the pieces fit together.
+* [Contributing](https://leap.se/en/docs/get-involved) - Contributing to LEAP software development.
+  * Contributing to LEAP software development
+  * How to issue a pull request
+  * Overview of the main code repositories
+  * Ideas for discrete, unclaimed development projects that would greatly benefit the LEAP ecosystem.
 
 Known problems
 ---------------------------
@@ -69,6 +87,11 @@ can alternately run ``sudo apt-get install bundler``.
 Typically, you run ``bundle`` as a normal user and it will ask you for a
 sudo password when it is time to install the required gems. If you don't
 have sudo, run ``bundle`` as root.
+
+### Installation for development purposes
+
+Please see `doc/DEVELOP.md` for further required steps when installing
+leap_web for development purposes.
 
 Configuration
 ----------------------------

@@ -1,0 +1,5 @@
+development:
+  auto_update_design_doc: false
+  username: "anna"
+  password: "secret"
+  prefix: ""
