@@ -60,7 +60,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   # currently this only works for tests with poltergeist.
   # ApiIntegrationTest has a working implementation for RackTest
   def login(user = nil)
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+    InviteCodeValidator.any_instance.stubs(:validate)
     @user ||= user ||= FactoryGirl.create(:user)
     token = Token.create user_id: user.id
     page.driver.add_header "Authorization", %Q(Token token="#{token}")

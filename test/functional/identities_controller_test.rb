@@ -3,7 +3,7 @@ require 'test_helper'
 class IdentitiesControllerTest < ActionController::TestCase
 
   setup do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+    InviteCodeValidator.any_instance.stubs(:validate)
   end
 
   test "admin can list active and blocked ids" do

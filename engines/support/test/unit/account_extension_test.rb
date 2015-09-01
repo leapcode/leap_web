@@ -3,7 +3,7 @@ require 'test_helper'
 class AccountExtensionTest < ActiveSupport::TestCase
 
   setup do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+    InviteCodeValidator.any_instance.stubs(:validate)
   end
 
   test "destroying an account triggers ticket destruction" do

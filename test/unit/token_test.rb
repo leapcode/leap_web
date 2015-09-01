@@ -4,7 +4,7 @@ class TokenTest < ActiveSupport::TestCase
   include StubRecordHelper
 
   setup do
-    InviteCodeValidator.any_instance.stubs(:not_existent?).returns(false)
+    InviteCodeValidator.any_instance.stubs(:validate)
     @user = find_record :user
   end
 

@@ -47,6 +47,7 @@ class AccountTest < BrowserIntegrationTest
 
   test "account destruction" do
     username, password = submit_signup
+
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
     assert page.has_content?(I18n.t('account_destroyed'))
@@ -102,6 +103,8 @@ class AccountTest < BrowserIntegrationTest
 
   # trying to seed an invalid A for srp login
   test "detects attempt to circumvent SRP" do
+    InviteCodeValidator.any_instance.stubs(:validate)
+
     user = FactoryGirl.create :user
     visit '/login'
     fill_in 'Username', with: user.login
