@@ -2,12 +2,17 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
 
+  setup do
+    @testcode = InviteCode.new
+    @testcode.save!
+  end
+
   teardown do
     Identity.destroy_all_disabled
   end
 
   test "create a new account" do
-    user = Account.create(FactoryGirl.attributes_for(:user))
+    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
     assert user.valid?, "unexpected errors: #{user.errors.inspect}"
     assert user.persisted?
     assert id = user.identity
@@ -20,14 +25,14 @@ class AccountTest < ActiveSupport::TestCase
     # We keep an identity that will block the handle from being reused.
     assert_difference "Identity.count" do
       assert_no_difference "User.count" do
-        user = Account.create(FactoryGirl.attributes_for(:user))
+        user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
         user.account.destroy
       end
     end
   end
 
   test "change username and create alias" do
-    user = Account.create(FactoryGirl.attributes_for(:user))
+    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
     old_id = user.identity
     old_email = user.email_address
     user.account.update(FactoryGirl.attributes_for(:user))
