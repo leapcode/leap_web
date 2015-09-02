@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CertTest < ApiIntegrationTest
 
+
   test "retrieve eip cert" do
     login
     get '/1/cert', {}, RACK_ENV

@@ -37,7 +37,8 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     Capybara.current_driver = Capybara.javascript_driver
     page.driver.add_headers 'ACCEPT-LANGUAGE' => 'en-EN'
-    @invite_code = InviteCode.create(invite_code: "testcode")
+    @testcode = InviteCode.new
+    @testcode.save!
   end
 
   teardown do
@@ -51,7 +52,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     visit '/users/new'
     fill_in 'Username', with: username
     fill_in 'Password', with: password
-    fill_in 'Invite code', with: "testcode"
+    fill_in 'Invite code', with: @testcode.invite_code
     fill_in 'Password confirmation', with: password
     click_on 'Sign Up'
     return username, password

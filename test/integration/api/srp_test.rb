@@ -1,5 +1,10 @@
 class SrpTest < RackTest
 
+  setup do
+    @testcode = InviteCode.new
+    @testcode.save!
+  end
+
   teardown do
     if @user
       cleanup_user
@@ -32,7 +37,7 @@ class SrpTest < RackTest
 
   attr_reader :server_auth
 
-  def register_user(login = "integration_test", password = 'srp, verify me!', invite_code = "testcode")
+  def register_user(login = "integration_test", password = 'srp, verify me!', invite_code = @testcode.invite_code)
     cleanup_user(login)
     post 'http://api.lvh.me:3000/1/users.json',
       user_params(login: login, password: password, invite_code: invite_code)

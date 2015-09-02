@@ -3,8 +3,13 @@ require 'openssl'
 
 class SmtpCertTest < ApiIntegrationTest
 
+  setup do
+    @testcode = InviteCode.new
+    @testcode.save!
+  end
+
   test "retrieve smtp cert" do
-    @user = FactoryGirl.create :user, effective_service_level_code: 2
+    @user = FactoryGirl.create :user, effective_service_level_code: 2, :invite_code => @testcode.invite_code
     login
     post '/1/smtp_cert', {}, RACK_ENV
     assert_text_response
@@ -15,7 +20,7 @@ class SmtpCertTest < ApiIntegrationTest
   end
 
   test "cert and key" do
-    @user = FactoryGirl.create :user, effective_service_level_code: 2
+    @user = FactoryGirl.create :user, effective_service_level_code: 2, :invite_code => @testcode.invite_code
     login
     post '/1/smtp_cert', {}, RACK_ENV
     assert_text_response
@@ -27,7 +32,7 @@ class SmtpCertTest < ApiIntegrationTest
   end
 
   test "fingerprint is stored with identity" do
-    @user = FactoryGirl.create :user, effective_service_level_code: 2
+    @user = FactoryGirl.create :user, effective_service_level_code: 2, :invite_code => @testcode.invite_code
     login
     post '/1/smtp_cert', {}, RACK_ENV
     assert_text_response
@@ -41,6 +46,7 @@ class SmtpCertTest < ApiIntegrationTest
   end
 
   test "fetching smtp certs requires email account" do
+
     login
     post '/1/smtp_cert', {}, RACK_ENV
     assert_access_denied
