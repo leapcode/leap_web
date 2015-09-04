@@ -19,8 +19,8 @@ class Account
     identity = nil
     user = nil
     user = User.new(attrs)
-
     user.save
+
     if !user.tmp? && user.persisted?
       identity = user.identity
       identity.user_id = user.id
@@ -28,6 +28,9 @@ class Account
       identity.errors.each do |attr, msg|
         user.errors.add(attr, msg)
       end
+      user_invite_code = InviteCode.find_by_invite_code user.invite_code
+      user_invite_code.invite_count += 1
+      user_invite_code.save
     end
   rescue StandardError => ex
     user.errors.add(:base, ex.to_s) if user

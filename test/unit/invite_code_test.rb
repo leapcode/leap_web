@@ -20,22 +20,6 @@ class InviteCodeTest < ActiveSupport::TestCase
      assert_equal code1.invite_count, 0
   end
 
-  test "Invite code count goes up by 1 when the invite code is entered" do
-    #TODO but onlz if there are no other errors on the form
-
-    validator = InviteCodeValidator.new nil
-
-    user = FactoryGirl.build :user
-    user_code = InviteCode.new
-    user_code.save
-    user.invite_code = user_code.invite_code
-
-    validator.validate(user)
-
-    user_code.reload
-    assert_equal 1, user_code.invite_count
-
-  end
 
   test "Invite count >0 is not accepted for new account signup" do
     validator = InviteCodeValidator.new nil

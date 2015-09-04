@@ -49,4 +49,24 @@ class AccountTest < ActiveSupport::TestCase
     user.account.destroy
   end
 
+  test "Invite code count goes up by 1 when the invite code is entered" do
+
+    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user_code = InviteCode.find_by_invite_code user.invite_code
+    user_code.save
+    user.save
+    assert user.persisted?
+    assert_equal 1, user_code.invite_count
+
+  end
+
+  test "Invite code stays zero when invite code is not used" do
+    #user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    invalid_user = FactoryGirl.build(:user, :invite_code => @testcode.invite_code)
+    invalid_user.save
+    user_code = InviteCode.find_by_invite_code invalid_user.invite_code
+    user_code.save
+
+    assert_equal 0, user_code.invite_count
+  end
 end

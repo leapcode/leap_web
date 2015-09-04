@@ -16,7 +16,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
   end
 
   test "trying to create a user with invalid invite code should add error" do
-    invalid_user = FactoryGirl.build(:user)
+    invalid_user = FactoryGirl.build(:user, :invite_code => "a non-existent code")
 
     invalid_user.valid?
 

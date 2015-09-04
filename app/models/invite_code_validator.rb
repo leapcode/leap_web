@@ -8,10 +8,6 @@ class InviteCodeValidator < ActiveModel::Validator
 
     elsif count_greater_than_zero?(user_invite_code.invite_count)
       add_error_to_user("This code has already been used", user)
-
-    else
-      user_invite_code.invite_count += 1
-      user_invite_code.save
     end
   end
 
