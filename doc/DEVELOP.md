@@ -1,5 +1,29 @@
 # Development #
 
+## Setting up the local CouchDB
+
+CouchDB operates in Admin Party by default, meaning there are no access
+control checks. This is handy for local development. However, there is
+the risk that running tests with Couch in Admin Party yields false
+results.
+
+You have two options:
+
+1) Use Admin Party and accept the risk
+2) Stop Admin Party by creating user accounts & security docs by running the
+following script:
+
+    test/travis/setup_couch.sh
+
+### Database configuration
+
+Copy & adapt the default database configuration:
+
+```
+mv config/couchdb.example.yml config/couchdb.yml
+mv config/couchdb.admin.example.yml config/couchdb.admin.yml
+```
+
 ## Continuous Integration ##
 
 See https://travis-ci.org/leapcode/leap_web for CI reports.
