@@ -2,7 +2,7 @@ class PaymentsController < BillingBaseController
   before_filter :require_login, :only => [:index]
 
   def new
-    fetch_transparent_redirect
+  @client_token = Braintree::ClientToken.generate
   end
 
   def confirm
@@ -25,10 +25,11 @@ class PaymentsController < BillingBaseController
 
   protected
 
-
+  
   def fetch_transparent_redirect
     @tr_data = Braintree::TransparentRedirect.transaction_data redirect_url: confirm_payment_url,
       transaction: { type: "sale", options: {submit_for_settlement: true } }
   end
+
 
 end
