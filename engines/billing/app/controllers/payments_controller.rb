@@ -6,13 +6,11 @@ class PaymentsController < BillingBaseController
   end
 
   def confirm
-    @result = Braintree::TransparentRedirect.confirm(request.query_string)
-    if @result.success?
-      render :action => "confirm"
-    else
-      fetch_transparent_redirect
-      render :action => "new"
-    end
+    result = Braintree::Transaction.sale(
+               amount: params[:amount],
+               payment_method_nonce: params[:payment_method_nonce]
+             )
+    redirect_to action: :new, flash: { success: "done" }
   end
 
   def index
