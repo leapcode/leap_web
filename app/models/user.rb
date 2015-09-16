@@ -177,6 +177,10 @@ class User < CouchRest::Model::Base
 
   end
 
+  def has_payment_info?
+    braintree_customer_id
+  end
+
   protected
 
   ##

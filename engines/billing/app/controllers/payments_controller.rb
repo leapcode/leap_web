@@ -6,11 +6,16 @@ class PaymentsController < BillingBaseController
   end
 
   def confirm
-    result = Braintree::Transaction.sale(
+    @result = Braintree::Transaction.sale(
                amount: params[:amount],
-               payment_method_nonce: params[:payment_method_nonce]
+               payment_method_nonce: params[:payment_method_nonce],
              )
-    redirect_to action: :new, flash: { success: "done" }
+    if @result.success? == true
+    redirect_to action: :new, notice: "Congraulations! Your transaction has been successfully!"
+    else
+    flash[:alert] = "Something went wrong while processing your donation. Please try again!"
+    redirect_to action: :new
+   end
   end
 
   def index

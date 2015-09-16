@@ -2,6 +2,8 @@
 <p>Please enter your donation details (this is a donation and will not be applied towards your account):</p>
 <br>
 <%= form_tag confirm_payment_path, id: "checkout-form" do %>
+  # add migration to user first. Not sure about the anonymous part.
+  # <%= render 'customer_form' unless current_user.has_payment_info? && current_user.where.not.is_anonymous? %>
   <div id="payment-form"></div>
   <div id='coinbase-container-id'></div>
   <input type="text" name="amount" placeholder="Enter amount">
