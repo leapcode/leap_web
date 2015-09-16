@@ -176,11 +176,10 @@ class User < CouchRest::Model::Base
     @message.save if @message
 
   end
-
-  def has_payment_info?
-    braintree_customer_id
-  end
-
+  
+  # def has_payment_info?
+  #  braintree_customer_id
+  # end
   protected
 
   ##
