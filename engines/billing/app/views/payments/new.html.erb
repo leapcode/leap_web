@@ -20,7 +20,7 @@ var clientToken = "<%= @client_token %>";
 braintree.setup(clientToken, "dropin", {
   container: "payment-form",
   form: "checkout-form",
-  coinbase: { container: "payment-form" }
+  coinbase: { container: "coinbase-container-id" }
 }
  );
 </script>
