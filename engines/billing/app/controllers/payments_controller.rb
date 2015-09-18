@@ -2,19 +2,10 @@ class PaymentsController < BillingBaseController
   before_filter :require_login, :only => [:index]
 
   def new
-  @client_token = Braintree::ClientToken.generate
-  end
-
-  def confirm
-    @result = Braintree::Transaction.sale(
-               amount: params[:amount],
-               payment_method_nonce: params[:payment_method_nonce],
-             )
-    if @result.success? == true
-    redirect_to action: :new, notice: "Congraulations! Your transaction has been successfully!"
+    if current_user.has_payment_info?
+      @client_token = Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
     else
-    flash[:alert] = "Something went wrong while processing your donation. Please try again!"
-    redirect_to action: :new
+      @client_token = Braintree::ClientToken.generate
    end
   end
 
@@ -26,13 +17,46 @@ class PaymentsController < BillingBaseController
     @transactions = braintree_data.transactions
   end
 
-  protected
-
-  
-  def fetch_transparent_redirect
-    @tr_data = Braintree::TransparentRedirect.transaction_data redirect_url: confirm_payment_url,
-      transaction: { type: "sale", options: {submit_for_settlement: true } }
+  def confirm
+    make_transaction
+    if @result.success?
+      flash[:success] = "Congratulations! Your transaction has been successfully!"
+    else
+      flash[:error] = "Something went wrong while processing your donation. Please try again!"
+    end
+    redirect_to action: :new, locale: params[:locale]
   end
 
+  private
+  def make_transaction
+    unless current_user.has_payment_info?
+      transact_with_user_info
+    else
+      transact_without_user_info
+    end
+  end
 
+  def transact_with_user_info
+    @result = Braintree::Transaction.sale(
+               amount: params[:amount],
+               payment_method_nonce: params[:payment_method_nonce],
+               customer: {
+                  first_name: params[:first_name],
+                  last_name: params[:last_name],
+                  company: params[:company],
+                  email: current_user.email,
+                  phone: params[:phone]
+                },
+                options: {
+                  store_in_vault: true
+                })
+    current_user.update_attributes(braintree_customer_id: @result.transaction.customer_details.id) if @result.success?
+  end
+
+  def transact_without_user_info
+    @result = Braintree::Transaction.sale(
+               amount: params[:amount],
+               payment_method_nonce: params[:payment_method_nonce],
+              )
+  end
 end

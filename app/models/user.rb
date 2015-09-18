@@ -9,6 +9,7 @@ class User < CouchRest::Model::Base
   property :contact_email, String, :accessible => true
   property :contact_email_key, String, :accessible => true
   property :invite_code, String, :accessible => true
+  property :braintree_customer_id, Integer, :accessible => true
   property :enabled, TrueClass, :default => true
 
   # these will be null by default but we shouldn't ever pull them directly, but only via the methods that will return the full ServiceLevel
@@ -176,10 +177,11 @@ class User < CouchRest::Model::Base
     @message.save if @message
 
   end
-  
-  # def has_payment_info?
-  #  braintree_customer_id
-  # end
+
+  def has_payment_info?
+    braintree_customer_id
+  end
+
   protected
 
   ##
