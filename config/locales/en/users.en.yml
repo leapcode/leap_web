@@ -56,7 +56,7 @@ en:
       email: "Modify email settings."
       account: "Destroy your account."
     actions:
-      toggle_user: "Toggle User"
+      toggle_user: "Enable / Disable User"
       enable_user: "Enable User"
       disable_user: "Disable User"
       confirm_user_deactivation: "Are you sure you want to deactive user with username '%{username}'?"

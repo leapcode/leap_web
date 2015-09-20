@@ -111,7 +111,7 @@ es:
         one: Usuario
         other: '%{count} usuarios'
   actions:
-    toggle_user: "Toggle User"
+    toggle_user: "Enable / Disable User"
     enable_user: "Enable User"
     disable_user: "Disable User"
     confirm_user_deactivation: "Estás seguro que quieres desactivar user con username '%{username}'?"
