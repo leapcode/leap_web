@@ -114,10 +114,10 @@ es:
     toggle_user: "Toggle User"
     enable_user: "Enable User"
     disable_user: "Disable User"
-    confirm_user_deactivation: "Are you sure you want to deactive user with username '%{username}'?"
-    confirm_user_activation: "Are you sure you want to activate user with username '%{username}'?"
-    user_disabled_message: "User with username '%{username}' has been disabled."
-    user_enabled_message: "User with username '%{username}' has been enabled."
+    confirm_user_deactivation: "Estás seguro que quieres desactivar user con username '%{username}'?"
+    confirm_user_activation: "Estás seguro que quieres activar user con username '%{username}'?"
+    user_disabled_message: "User con username '%{username}' ha sido desactivado."
+    user_enabled_message: "User with username '%{username}' ha sido activado."
   create_new_customer: Crear un nuevo Cliente de Braintree
   must_create_customer: Tiene que almacenar un cliente en Braintree antes de suscribirse a un plan
   subscribe: Suscribirse
