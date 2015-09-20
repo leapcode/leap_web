@@ -32,4 +32,13 @@ class SessionsController < ApplicationController
   # throw :warden, response.finish
   #end
 
+  Warden::Manager.after_set_user do |user, auth, opts|
+    scope = opts[:scope]
+    unless user.enabled?
+      auth.logout(scope)
+      throw(:warden, scope: scope, reason: "User not active")
+    end
+  end
+
+
 end

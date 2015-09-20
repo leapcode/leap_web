@@ -49,13 +49,15 @@ class UsersController < ApplicationController
   def deactivate
     @user.enabled = false
     @user.save
-    respond_with @user
+    flash[:notice] = I18n.t("actions.user_disabled_message", username: @user.username)
+    redirect_to :back
   end
 
   def enable
     @user.enabled = true
     @user.save
-    respond_with @user
+    flash[:notice] = I18n.t("actions.user_enabled_message", username: @user.username)
+    redirect_to :back
   end
 
   def destroy
