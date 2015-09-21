@@ -6,7 +6,7 @@ class AccountTest < BrowserIntegrationTest
     Identity.destroy_all_disabled
   end
 
-  test "signup successfully" do
+  test "signup successfully when invited" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
     click_on 'Log Out'
@@ -14,6 +14,22 @@ class AccountTest < BrowserIntegrationTest
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
     user.account.destroy
+  end
+
+  test "signup successfully without invitation" do
+    with_config invite_required: false do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+
+      assert page.has_content?("Welcome #{username}")
+    end
   end
 
   test "signup with username ending in dot json" do

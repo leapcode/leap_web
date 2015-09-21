@@ -11,7 +11,7 @@ class AccountTest < ActiveSupport::TestCase
     Identity.destroy_all_disabled
   end
 
-  test "create a new account" do
+  test "create a new account when invited" do
     user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
     assert user.valid?, "unexpected errors: #{user.errors.inspect}"
     assert user.persisted?
@@ -20,6 +20,16 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal user.email_address, id.destination
     user.account.destroy
   end
+
+  test "create a new account" do
+    with_config invite_required: false do
+    user = Account.create(FactoryGirl.attributes_for(:user))
+    assert user.valid?, "unexpected errors: #{user.errors.inspect}"
+    assert user.persisted?
+    user.account.destroy
+    end
+  end
+
 
   test "create and remove a user account" do
     # We keep an identity that will block the handle from being reused.
@@ -50,13 +60,14 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "Invite code count goes up by 1 when the invite code is entered" do
-
-    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
-    user_code = InviteCode.find_by_invite_code user.invite_code
-    user_code.save
-    user.save
-    assert user.persisted?
-    assert_equal 1, user_code.invite_count
+    with_config invite_required: true do
+      user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+      user_code = InviteCode.find_by_invite_code user.invite_code
+      user_code.save
+      user.save
+      assert user.persisted?
+      assert_equal 1, user_code.invite_count
+    end
 
   end
 

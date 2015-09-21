@@ -40,7 +40,7 @@ class User < CouchRest::Model::Base
     :mx_with_fallback => true
 
 
-  validates_with InviteCodeValidator, on: :create
+  validates_with InviteCodeValidator, on: :create, if: -> {APP_CONFIG[:invite_required]}
 
 
   timestamps!

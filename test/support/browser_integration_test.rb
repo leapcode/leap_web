@@ -47,15 +47,32 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def submit_signup(username = nil, password = nil)
-    username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
-    password ||= SecureRandom.base64
-    visit '/users/new'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: password
-    fill_in 'Invite code', with: @testcode.invite_code
-    fill_in 'Password confirmation', with: password
-    click_on 'Sign Up'
-    return username, password
+
+    with_config invite_required: true do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Invite code', with: @testcode.invite_code
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+      return username, password
+    end
+
+    with_config invite_required: false do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+      return username, password
+    end
+
   end
 
   # currently this only works for tests with poltergeist.

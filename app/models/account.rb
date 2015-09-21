@@ -28,9 +28,12 @@ class Account
       identity.errors.each do |attr, msg|
         user.errors.add(attr, msg)
       end
-      user_invite_code = InviteCode.find_by_invite_code user.invite_code
-      user_invite_code.invite_count += 1
-      user_invite_code.save
+
+      if APP_CONFIG[:invite_required]
+        user_invite_code = InviteCode.find_by_invite_code user.invite_code
+        user_invite_code.invite_count += 1
+        user_invite_code.save
+      end
     end
   rescue StandardError => ex
     user.errors.add(:base, ex.to_s) if user
