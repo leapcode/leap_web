@@ -1,4 +1,32 @@
-%tr
-  %td= link_to user.login, user
-  %td= l(user.created_at, :format => :short)
-  %td= l(user.updated_at, :format => :short)
+      %tr
+        %td
+          = link_to user.username, user
+        %td
+          = user.created_at.strftime("%d %b, %Y, %H:%M")
+        %td
+          = user.updated_at.strftime("%d %b, %Y, %H:%M")
+        %td
+          - if user.enabled
+            %button.btn.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
+              = t("actions.disable_user")
+            .modal.fade.hide{:id => "user-form-#{user.id}"}
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{:"data-dismiss" => "modal"} ×
+                    = t("actions.confirm_user_deactivation", username: user.username)
+                  .modal-footer
+                    = form_tag deactivate_user_path(user) do
+                      %input.btn.btn-default.btn-danger{:type => "submit", :value => "#{t("actions.disable_user")}"}
+          - else
+            %button.btn.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
+              = t("actions.enable_user")
+            .modal.fade.hide{:id => "user-form-#{user.id}"}
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{:"data-dismiss" => "modal"} ×
+                    = t("actions.confirm_user_activation", username: user.username)
+                  .modal-footer
+                    = form_tag enable_user_path(user) do
+                      %input.btn.btn-default.btn-danger{:type => "submit", :value => "#{t("actions.enable_user")}"}
