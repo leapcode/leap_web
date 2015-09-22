@@ -158,6 +158,7 @@ class UsersControllerTest < ActionController::TestCase
 
     login :is_admin? => true
 
+    @request.env['HTTP_REFERER'] = 'http://test.com/sessions/new'
     post :deactivate, :id => user.id
     assert !assigns(:user).enabled?
   end
