@@ -7,6 +7,8 @@
   = link_to_navigation ".tickets", auto_tickets_path,
     active: controller?(:tickets)
   - if APP_CONFIG[:billing]
+    = link_to_navigation :donations, new_payment_path,
+      active: (controller?(:payments) and action?(:new))
     = link_to_navigation :billing_settings, billing_top_link(@user),
-      active: controller?(:customer, :payments, :subscriptions, :credit_card_info)
+      active: controller?(:subscriptions)
   = link_to_navigation :logout, logout_path, method: :delete

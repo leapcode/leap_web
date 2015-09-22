@@ -1,0 +1,35 @@
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<h2 class="mbs">Subscriptions</h2>
+<br>
+<%= form_tag subscriptions_path, id: "checkout-form" do %>
+  <% if current_user and !current_user.has_payment_info? %>
+    <%= render 'customer_form' unless @anonymous_user%>
+  <% end %>
+<br>
+<p>Choose subcription:</p>
+<ul>
+  <% @subscriptions.each do |subscription| %>
+  <li>
+    <%= subscription.name %>
+    -
+    <%= subscription.price %>
+    <%= simple_form_for :subscription, :url => :subscriptions, :id => "checkout-form-#{subscription.id}" do |f| %>
+      <input type="hidden" name="plan_id" id="" value="<%= subscription.id%>" />
+      <div id="payment-form-<%= subscription.id%>"></div>
+      <div class="form-actions">
+        <%= f.submit t(:subscribe), :class => 'btn btn-primary' %>
+      </div>
+      <script type="text/javascript" charset="utf-8">
+        var clientToken = "<%= @client_token %>";
+        braintree.setup(clientToken, "dropin", {
+          container: "payment-form-<%= subscription.id%>",
+          coinbase: { container: "coinbase-container-id" }
+        });
+      </script>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
+<div id="payment-form"></div>
+<div id='coinbase-container-id'></div>
+<% end %>

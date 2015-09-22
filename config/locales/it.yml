@@ -23,6 +23,7 @@ it:
   pricing: Prezzario
   about: A proposito di
   contact: Contatti
+  donations: Donazioni
   signup: Registrati
   login: Accedi
   logout: Log Out
@@ -32,7 +33,7 @@ it:
   updated: Aggiornata
   none: Nessuno
   unknown: Sconosciuto
-  admin: Admin
+  admin: Administratore
   anonymous: Anonimo
   save: Salva
   add: Aggiungi

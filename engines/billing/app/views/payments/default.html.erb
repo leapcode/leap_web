@@ -1,0 +1,27 @@
+<h2 class="mbs">New Donation</h2>
+<br>
+<%= form_tag confirm_payment_path, id: "checkout-form" do %>
+  <% if current_user and !current_user.has_payment_info? %>
+              <%= render 'customer_form' unless @anonymous_user%>
+  <% end %>
+<br>
+<p>Please enter your donation details (this is a donation and will not be applied towards your account):</p>
+<div id="payment-form"></div>
+<div id='coinbase-container-id'></div>
+<input type="text" name="amount" placeholder="Enter amount">
+<input type="submit" class="btn btn-primary" value="Donate">
+<% end %>
+
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<script>
+  // We generated a client token for you so you can test out this code
+  // immediately. In a production-ready integration, you will need to
+  // generate a client token on your server (see section below).
+var clientToken = "<%= @client_token %>";
+braintree.setup(clientToken, "dropin", {
+  container: "payment-form",
+  form: "checkout-form",
+  coinbase: { container: "coinbase-container-id" }
+}
+ );
+</script>

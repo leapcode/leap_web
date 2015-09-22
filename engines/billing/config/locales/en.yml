@@ -9,3 +9,7 @@ en:
   description: "Description"
   cost: "Cost"
   free: "Free"
+  new_donation: "New Donation"
+  donation_info: "Please enter your donation details (this is a donation and will not be applied towards your account, if you have one):"
+  donation_amount: "Enter amount"
+  personal_info: "Please enter your personal info:"

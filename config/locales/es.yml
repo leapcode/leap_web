@@ -23,6 +23,8 @@ es:
   pricing: Tarifas
   about: Sobre nosotros
   contact: Contacto
+  donations: Donaciones
+  billing_settings: Configuración de cuenta
   signup: Registrarse
   login: Iniciar sesión
   logout: Cerrar sesión
@@ -120,6 +122,9 @@ es:
   description: Descripción
   cost: Coste
   free: Gratuito
+  new_donation: "Nueva Donación"
+  donation_info: "Por favor, llena los detalles de tu donación (esta no será cargada a tu cuenta, si tienes una):"
+  personal_info: "Por favor, ingresa tu información personal"
   support_tickets: Soporte
   email_notice_text: Ha sido añadido un nuevo comentario a esta instancia de ayuda.
   email_no_reply_text: No responda a este correo.

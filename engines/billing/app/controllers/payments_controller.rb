@@ -9,6 +9,7 @@ class PaymentsController < BillingBaseController
    end
   end
 
+# not sure if this should be kept
   def index
     access_denied unless admin? or (@user == current_user)
     customer = Customer.find_by_user_id(@user.id)
@@ -27,12 +28,15 @@ class PaymentsController < BillingBaseController
     redirect_to action: :new, locale: params[:locale]
   end
 
+
   private
   def make_transaction
-    unless current_user.has_payment_info?
-      transact_with_user_info
-    else
+    if current_user.has_payment_info?
       transact_without_user_info
+   elsif current_user.is_anonymous?
+      transact_without_user_info
+    else
+      transact_with_user_info
     end
   end
 
