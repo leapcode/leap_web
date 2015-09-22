@@ -14,7 +14,7 @@ module BillingHelper
     if (admin? and user == current_user)
       billing_admin_path
     else
-      show_or_new_customer_link(user)
+      new_subscription_path
     end
   end
 

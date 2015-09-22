@@ -1,24 +1,20 @@
-- if @result
-  #total-errors{:style => "color:red;"}
-    = h(@result.errors.size)
-    error(s)
-= braintree_form_for :customer do |f|
-  = field_set_tag "Customer" do
-    %dl
-      %dt= f.label :first_name, 'First Name'
-      %dd= f.text_field :first_name
-      %dt= f.label :last_name, 'Last Name'
-      %dd= f.text_field :last_name
-      %dt= f.label :phone, 'Phone'
-      %dd= f.text_field :phone
-  = field_set_tag "Credit Card" do
-    - f.fields_for :credit_card do |cc|
-      %dl
-        %dt= cc.label :number, 'Number'
-        %dd= cc.text_field :number
-        %dt= cc.label :expiration_date, 'Expiration Date (MM/YY)'
-        %dd= cc.text_field :expiration_date
-        %dt= cc.label :cvv, 'CVV'
-        %dd= cc.text_field :cvv
-  = hidden_field_tag :tr_data, @tr_data
-  = f.submit 'Save Payment Info'
+%h2.mbs New Customer
+%br/
+= form_tag new_customer_path, id: "checkout-form" do
+  - if current_user and !current_user.has_payment_info?
+    = render 'subs_form' unless current_user.is_anonymous?
+  %br/
+  %p
+    = t(:donation_info)
+  %div{:id => "payment-form" }
+  %div{:id => "coinbase-container-id" }
+  %input{:name => "amount", :placeholder => "Enter amount", :type => "text"}
+  %input.btn.btn-primary{:type => "submit", :value => "Donate"}
+%script{:src => "https://js.braintreegateway.com/v2/braintree.js"}
+:javascript
+  var clientToken = "#{@client_token}";
+  braintree.setup(clientToken, "dropin", {
+    container: "payment-form",
+    form: "checkout-form",
+    coinbase: { container: "coinbase-container-id" }
+  });

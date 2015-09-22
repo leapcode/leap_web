@@ -23,8 +23,8 @@ es:
   pricing: Tarifas
   about: Sobre nosotros
   contact: Contacto
-  donations: Donaciones
-  billing_settings: Configuración de cuenta
+  donations: "Donaciones"
+  subscriptions: "Subscripciones"
   signup: Registrarse
   login: Iniciar sesión
   logout: Cerrar sesión
