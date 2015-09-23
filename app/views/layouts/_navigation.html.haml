@@ -9,6 +9,6 @@
   - if APP_CONFIG[:billing]
     = link_to_navigation :donations, new_payment_path,
       active: (controller?(:payments) and action?(:new))
-    = link_to_navigation :subscriptions, billing_top_link(@user),
+    = link_to_navigation :subscriptions, billing_top_link(@braintree_customer_id),
       active: controller?(:subscriptions)
   = link_to_navigation :logout, logout_path, method: :delete

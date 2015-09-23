@@ -1,0 +1,23 @@
+<h2 class="mbs">Subscriptions</h2>
+<br>
+<br>
+<p>Choose subcription:</p>
+<br>
+<ul class="nav nav-tabs nav-stacked">
+   <% @subscriptions.each do |subscription| %>
+     <li>
+      <div class="btn-group">
+        <button class="btn"> <%= subscription.name %>
+          <%= subscription.price %> </button>
+      </div>
+      <div>
+        <%=link_to "Checkout", :show_subscription, class: "button" %>
+    </div>
+      </li>
+    <% end %>
+</ul>
+
+
+
+
+

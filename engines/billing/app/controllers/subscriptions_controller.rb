@@ -1,16 +1,20 @@
 class SubscriptionsController < BillingBaseController
   before_filter :require_login
   before_filter :confirm_cancel_subscription, :only => [:destroy]
-  before_filter :confirm_self_or_admin, :only => [:index]
-  before_filter :confirm_no_pending_active_pastdue_subscription, :only => [:new, :create]
-  # for now, admins cannot create or destroy subscriptions for others:
-  before_filter :confirm_self, :only => [:new, :create]
+
+  def index
+    @subscriptions = Braintree::Plan.all
+  end
+
+  def show
+    @subscription = Braintree::Plan.all.find params[:subscription_id]
+  end
 
   def new
     if current_user.braintree_customer_id
       @client_token = Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
     else
-      @client_token = Braintree::ClientToken.generate
+     @client_token = Braintree::ClientToken.generate
     end
     @subscriptions = Braintree::Plan.all
   end
@@ -41,7 +45,7 @@ class SubscriptionsController < BillingBaseController
   def confirm
     @result = Braintree::Subscription.sale(
       payment_method_token: params[:payment_method_nonce],
-      plans_id: params[:plan_id],
+      plan_id: params[:plan_id],
     )
   end
 
@@ -94,29 +98,5 @@ private
     @result = Braintree::Subscription.cancel params[:id]
   end
 
-  def index
-    customer = Customer.find_by_user_id(@user.id)
-    @subscriptions = customer.subscriptions(nil, false)
-  end
-
-
-  def confirm_cancel_subscription
-    access_denied unless view_context.allow_cancel_subscription(@subscription)
-  end
-
-  def confirm_no_pending_active_pastdue_subscription
-    #@customer = Customer.find_by_user_id(@user.id)
-    #if subscription = @customer.subscriptions # will return pending, active or pastdue subscription, if it exists
-      #redirect_to user_subscription_path(@user, subscription.id), :notice => 'You already have a subscription'
-    #end
-  end
-
-  def confirm_self
-    @user == current_user
-  end
-
-  def confirm_self_or_admin
-    access_denied unless confirm_self or admin?
-  end
 
 end
