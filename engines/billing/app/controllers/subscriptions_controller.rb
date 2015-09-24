@@ -7,7 +7,12 @@ class SubscriptionsController < BillingBaseController
   end
 
   def show
-    @subscription = Braintree::Plan.all.find params[:subscription_id]
+    @subscriptions = Braintree::Plan.all
+    @subscriptions = Braintree::Plan.all.find params[:subscription_id]
+  end
+
+  def search
+    @subscription = Braintree::Subscription.search params[:status]
   end
 
   def new
@@ -95,7 +100,7 @@ private
   end
 
   def destroy
-    @result = Braintree::Subscription.cancel params[:id]
+    @subscriptions = Braintree::Subscription.cancel params[:id]
   end
 
 
