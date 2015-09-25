@@ -21,9 +21,9 @@ class PaymentsController < BillingBaseController
   def confirm
     make_transaction
     if @result.success?
-      flash[:success] = "Congratulations! Your transaction has been successfully!"
+      flash[:success] = I18n.t(:donation_sucess)
     else
-      flash[:error] = "Something went wrong while processing your donation. Please try again!"
+      flash[:error] = I18n.t(:donation_not_sucess)
     end
     redirect_to action: :new, locale: params[:locale]
   end

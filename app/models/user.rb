@@ -10,6 +10,8 @@ class User < CouchRest::Model::Base
   property :contact_email_key, String, :accessible => true
   property :invite_code, String, :accessible => true
   property :braintree_customer_id, Integer, :accessible => true
+  property :subscription_id, String, :accessible => true
+
   property :enabled, TrueClass, :default => true
 
   # these will be null by default but we shouldn't ever pull them directly, but only via the methods that will return the full ServiceLevel

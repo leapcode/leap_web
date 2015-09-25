@@ -4,13 +4,12 @@
 = form_tag confirm_payment_path, id: "checkout-form" do
   - if current_user and !current_user.has_payment_info?
     = render 'customer_form' unless current_user.is_anonymous?
-  %br/
   %p
     = t(:donation_info)
   %div{:id => "payment-form" }
   %div{:id => "coinbase-container-id" }
-  %input{:name => "amount", :placeholder => "Enter amount", :type => "text"}
-  %input.btn.btn-primary{:type => "submit", :value => "Donate"}
+  %input{:name => "amount", :placeholder => "#{t(:donation_amount)}", :type => "text"}
+    %input.btn.btn-primary{:type => "submit", :value => "#{t(:donate)}"}
 %script{:src => "https://js.braintreegateway.com/v2/braintree.js"}
 :javascript
   var clientToken = "#{@client_token}";

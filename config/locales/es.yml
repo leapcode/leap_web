@@ -124,6 +124,8 @@ es:
   free: Gratuito
   new_donation: "Nueva Donación"
   donation_info: "Por favor, llena los detalles de tu donación (esta no será cargada a tu cuenta, si tienes una):"
+  donation_amount: "Ingrese el monto"
+  donate: "Donar"
   personal_info: "Por favor, ingresa tu información personal"
   support_tickets: Soporte
   email_notice_text: Ha sido añadido un nuevo comentario a esta instancia de ayuda.

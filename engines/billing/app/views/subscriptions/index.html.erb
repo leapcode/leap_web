@@ -1,33 +1,35 @@
 <h2 class="mbs">Subscriptions</h2>
 <br>
-<br>
-<div id="last"> Lastest Subscriptions:
-  <% if params[:search] == "active" %>
-    <%= render :partial => "subscriptions/subscription_details" %>
-    <%# Add destroy, route %>
-    <%=link_to "Unsubscribe", :show_subscription, class: "button" %>
-  </div>
+<h4><div id="last"> Lastest Subscriptions:</h4>
+  <% if @user.subscription_id %>
+  <ul>
+    <% @subscription.transactions.each do |transaction| %>
+      <li>
+        Date: <%= transaction.created_at %>
+        </li>
+    <% end %>
+  </ul>
+  <ul>
+    <%= link_to "Unsubscribe from #{@plan.name}", unsubscribe_subscription_path(@subscription.plan_id), method: :delete, class: "btn btn-danger" %>
+  </ul>
+</div>
   <br>
   <% else %>
-    <p> No subscriptions </p>
-    <p>Choose subcription:</p>
+    <p> No subscriptions. </p>
+    <br>
+    <h4>Choose subcription:</h4>
     <br>
     <ul class="nav nav-tabs nav-stacked">
       <% @subscriptions.each do |subscription| %>
         <li>
-        <div class="btn-group">
-          <button class="btn"> <%= subscription.name %>
-            <%= subscription.price %> </button>
+        <div class="well">
+           <%= subscription.name %>
+           <%= subscription.price %>
         </div>
         <div>
-          <%=link_to "Subscribe", :show_subscription, class: "button" %>
+          <%= link_to "Choose", subscription_path(subscription.id), class: "btn btn-info" %>
         </div> <br>
         </li>
       <% end %>
     <% end %>
 </ul>
-
-
-
-
-

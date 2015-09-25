@@ -14,7 +14,7 @@ module BillingHelper
     if (admin? and user == current_user)
       billing_admin_path
     else
-      :index_subscription
+      subscriptions_path
     end
   end
 
