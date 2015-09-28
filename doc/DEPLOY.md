@@ -14,6 +14,15 @@ The following packages need to be installed:
 * rubygems1.9
 * couchdb (if you want to use a local couch)
 
+### Configure User and Environment ###
+
+You probably want to run the application as it's own user.
+
+Please make sure to export `RAILS_ENV=production` in the shell of that user.
+leap_web allows configuring the engines to load per environment and a mismatch
+of the environments used for bundling and running can lead to missing dependency
+errors.
+
 ### Setup Capistrano ###
 
 We use puppet to deploy. But we also ship an example deploy.rb in
