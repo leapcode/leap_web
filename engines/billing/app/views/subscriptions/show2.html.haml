@@ -1,7 +1,0 @@
-%h1
-  - if @subscription.status == 'Active'
-    Current
-  Subscription
-= render :partial => "subscription_details",  :locals => {:subscription => @subscription}
-- if allow_cancel_subscription(@subscription)
-  = destroy_btn :cancel_subscription, user_subscription_path(@user, @subscription.id),  type: 'danger'

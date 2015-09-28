@@ -1,10 +1,10 @@
 %p
  = t(:personal_info)
 %div
- = text_field_tag :first_name, "",placeholder: "First Name", class: "radius"
+  = text_field_tag :first_name, "",placeholder: "#{t(:first_name)}", class: "radius"
 %div
- = text_field_tag :last_name, "",placeholder: "Last Name", class: "radius"
+ = text_field_tag :last_name, "",placeholder: "#{t(:last_name)}", class: "radius"
 %div
- = text_field_tag :company, "",placeholder: "Company", class: "radius"
+ = text_field_tag :company, "",placeholder: "#{t(:company)}", class: "radius"
 %div
- = text_field_tag :phone, "",placeholder: "Phone", class: "radius"
+ = text_field_tag :phone, "",placeholder: "#{t(:phone)}", class: "radius"

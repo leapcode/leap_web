@@ -13,6 +13,9 @@ class BillingBaseController < ApplicationController
     elsif params[:id]
       @user = User.find(params[:id])
     else
+      #not sure if this is still needed. Donations work with either customer or
+      #anonymous_user. Subscriptions work with customer. Customer belongs to
+      #user.
       # TODO
       # hacky, what are cases where @user hasn't yet been set? certainly some cases with subscriptions and payments
       @user = current_user

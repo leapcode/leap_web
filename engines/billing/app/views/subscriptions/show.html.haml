@@ -1,0 +1,19 @@
+%script{:src => "https://js.braintreegateway.com/v2/braintree.js"}
+%h2.mbs
+  = t(:new_subs)
+= simple_form_for :subscription, :url => subscribe_subscription_path(@plan.id), :id => "checkout-form" do |f|
+  - if current_user and !current_user.has_payment_info?
+    = render 'customer_form'
+  %br/
+  %p
+    =t(:pay_details)
+  #payment-form
+  #coinbase-container-id
+  .form-actions
+    = f.submit t(:subscribe), :class => 'btn btn-primary'
+  :javascript
+    var clientToken = "#{@client_token}";
+    braintree.setup(clientToken, "dropin", {
+    container: "payment-form",
+    coinbase: { container: "coinbase-container-id" }
+    });

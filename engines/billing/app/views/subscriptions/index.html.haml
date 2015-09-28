@@ -1,0 +1,29 @@
+%h2.mbs
+  = t(:subscriptions)
+%h4{ :style => "line-height: 300%;" }
+  .last
+    = t(:lastestsubs)
+  - if @user.subscription_id
+    %ul
+      - @subscription.transactions.each do |transaction|
+        %li
+          %p{ :style => "font-size: 14px; font-weight: normal;" }
+            #{t(:date)} #{transaction.created_at}
+    %ul
+      = link_to "#{t(:unsubscribe_from)} #{@plan.name}", unsubscribe_subscription_path(@subscription.plan_id), method: :delete, class: "btn btn-danger"
+      %br
+  - else
+    %p{ :style => "font-size: 14px; font-weight: normal;"}
+      =t(:no_subs)
+    %h4
+      =t(:choose_subs)
+    %br
+    %ul.nav.nav-tabs.nav-stacked
+      - @subscriptions.each do |subscription|
+        .well
+          = subscription.name
+          = "$" + subscription.price.to_s
+          %div{ :style => "line-height: 300%;" }
+            = link_to t(:choose_button), subscription_path(subscription.id), class: "btn btn-info"
+
+

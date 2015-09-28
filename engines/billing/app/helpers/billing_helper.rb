@@ -1,5 +1,6 @@
 module BillingHelper
 
+  #deprecated.. erase?
   def braintree_form_for(object, options = {}, &block)
     options.reverse_merge! params: @result && @result.params[object],
       errors: @result && @result.errors.for(object),
@@ -18,6 +19,7 @@ module BillingHelper
     end
   end
 
+  #deprecated.. erase?
   def show_or_new_customer_link(user)
     # Link to show if user is admin viewing another user, or user is already a customer.
     # Otherwise link to create a new customer.
@@ -28,6 +30,7 @@ module BillingHelper
     end
   end
 
+  #deprecated.. erase?
   # a bit strange to put here, but we don't have a subscription model
   def user_for_subscription(subscription)
 
@@ -44,6 +47,7 @@ module BillingHelper
 
   end
 
+  #customer needs to see active or pending?
   def allow_cancel_subscription(subscription)
     ['Active', 'Pending'].include? subscription.status or (admin? and subscription.status == 'Past Due')
   end

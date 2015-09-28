@@ -1,8 +1,0 @@
-%h2=t :all_subscriptions
-- pending_active_pastdue = false
-- @subscriptions.each do |s|
-  - if ['Pending', 'Active','Past Due'].include? s.status
-    - pending_active_pastdue = true
-  = render :partial => "subscription_details", :locals => {:subscription => s}
-- if !pending_active_pastdue and @user == current_user
-  = btn 'subscribe to plan', new_subscription_path

@@ -3,6 +3,7 @@ module BraintreeFormHelper
     include ActionView::Helpers::AssetTagHelper
     include ActionView::Helpers::TagHelper
 
+    #check if needed
     def initialize(object_name, object, template, options, proc)
       super
       @braintree_params = @options[:params]

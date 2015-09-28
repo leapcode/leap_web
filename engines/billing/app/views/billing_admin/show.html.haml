@@ -1,7 +1,9 @@
+/ same concern as in controller
 %legend= t(:more_than_90_days_past_due)
 = render(:partial => "subscriptions/subscription_details", :collection => @past_due_atleast_90_days, :as => 'subscription', :locals => {:show_user => true}) || t(:none)
 %legend= t(:all_past_due)
 = render(:partial => "subscriptions/subscription_details", :collection => @all_past_due, :as => 'subscription', :locals => {:show_user => true}) || t(:none)
 
-%legend= t(:your_settings)
-= link_to 'view own billing settings', show_or_new_customer_link(current_user)
+/needed?
+/%legend= t(:your_settings)
+/= link_to 'view own billing settings', show_or_new_customer_link(current_user)
