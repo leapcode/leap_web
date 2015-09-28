@@ -4,6 +4,8 @@ class TicketsController < ApplicationController
   respond_to :html, :json
   #has_scope :open, :type => boolean
 
+  skip_before_filter :verify_authenticity_token, :only => [:create]
+
   before_filter :require_login, :only => [:index]
   before_filter :fetch_ticket, except: [:new, :create, :index]
   before_filter :require_ticket_access, except: [:new, :create, :index]
