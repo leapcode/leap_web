@@ -58,7 +58,6 @@ consists of complementary client and server SDKs:
 1. The JS client SDK enables you to collect payment method (e.g. credit card,
 PayPal) details on your website
 2. The server SDKs manage all requests to the Braintree gateway.
-
 They represent the Client-side Encryption solution that combines Braintree’s
 traditional Server-to-Server (S2S) approach and  Transparent Redirect (TR)
 solution. It can be described as following:
@@ -80,11 +79,17 @@ What is included
 
 Current implementation with 'v.zero' provides:
 1. Donations and subscriptions.
+
 2. Three payment methods: Bitcoin, Pay Pal and Credit Cards.
+
 3. Creation and storage of customers (stored in 'The Vault')
+
 4. Ability to donate as anonymous user.
+
 5. Subscription or unsubscriptions to plans.
+
 6. Recurring billing.
+
 7. Storing Multiple Credit Cards.
 
 Bitcoin
@@ -92,6 +97,8 @@ Bitcoin
 
 In order for Bitcoin to work, you need to write Braintree's community and ask
 them to allow that payment method. Bitcoin is implemented via Coinbase.
+
 Learn about this here:
 https://developers.braintreepayments.com/javascript+ruby/guides/coinbase/configuration
+
 Contact: coinbase@braintreepayments.com
