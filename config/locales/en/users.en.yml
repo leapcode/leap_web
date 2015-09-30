@@ -8,6 +8,8 @@ en:
   account_settings: "Account Settings"
   username: "Username"
   password: "Password"
+  password_confirmation: "Password confirmation"
+  invite_code: "Invite code"
   change_password: "Change Password"
   invalid_user_pass: "Not a valid username/password combination"
   invalid_ephemeral: "Invalid random key used. This looked like an attempt to hack the site to us. If it wasn't please contact support so we can look into the issue."

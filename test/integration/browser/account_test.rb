@@ -6,7 +6,7 @@ class AccountTest < BrowserIntegrationTest
     Identity.destroy_all_disabled
   end
 
-  test "signup successfully" do
+  test "signup successfully when invited" do
     username, password = submit_signup
     assert page.has_content?("Welcome #{username}")
     click_on 'Log Out'
@@ -14,6 +14,22 @@ class AccountTest < BrowserIntegrationTest
     assert_equal '/', current_path
     assert user = User.find_by_login(username)
     user.account.destroy
+  end
+
+  test "signup successfully without invitation" do
+    with_config invite_required: false do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+
+      assert page.has_content?("Welcome #{username}")
+    end
   end
 
   test "signup with username ending in dot json" do
@@ -47,6 +63,7 @@ class AccountTest < BrowserIntegrationTest
 
   test "account destruction" do
     username, password = submit_signup
+
     click_on I18n.t('account_settings')
     click_on I18n.t('destroy_my_account')
     assert page.has_content?(I18n.t('account_destroyed'))
@@ -81,21 +98,6 @@ class AccountTest < BrowserIntegrationTest
     end
   end
 
-  test "change password" do
-    with_config user_actions: ['change_password'] do
-      login
-      click_on "Account Settings"
-      within('#update_login_and_password') do
-        fill_in 'Password', with: "other password"
-        fill_in 'Password confirmation', with: "other password"
-        click_on 'Save'
-      end
-      click_on 'Log Out'
-      attempt_login(@user.login, "other password")
-      assert page.has_content?("Welcome #{@user.login}")
-    end
-  end
-
   test "change pgp key" do
     with_config user_actions: ['change_pgp_key'] do
       pgp_key = FactoryGirl.build :pgp_key
@@ -117,6 +119,8 @@ class AccountTest < BrowserIntegrationTest
 
   # trying to seed an invalid A for srp login
   test "detects attempt to circumvent SRP" do
+    InviteCodeValidator.any_instance.stubs(:validate)
+
     user = FactoryGirl.create :user
     visit '/login'
     fill_in 'Username', with: user.login

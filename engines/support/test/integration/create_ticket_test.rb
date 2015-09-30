@@ -2,6 +2,11 @@ require 'test_helper'
 
 class CreateTicketTest < BrowserIntegrationTest
 
+  setup do
+    @testcode = InviteCode.new
+    @testcode.save!
+  end
+
   test "can submit ticket anonymously" do
     visit '/'
     click_on 'Get Help'
@@ -29,7 +34,7 @@ class CreateTicketTest < BrowserIntegrationTest
   end
 
   test "prefills fields" do
-    login FactoryGirl.create(:premium_user)
+    login FactoryGirl.create(:premium_user, :invite_code => @testcode.invite_code)
     visit '/'
     click_on "Support Tickets"
     click_on "New Ticket"
@@ -48,7 +53,7 @@ class CreateTicketTest < BrowserIntegrationTest
   end
 
   test "cleared email field should remain clear" do
-    login FactoryGirl.create(:premium_user)
+    login FactoryGirl.create(:premium_user, :invite_code => @testcode.invite_code)
     visit '/'
     click_on "Support Tickets"
     click_on "New Ticket"

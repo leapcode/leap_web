@@ -82,6 +82,7 @@ common: &common
     - support
     - billing
   allow_registration: true
+  invite_required: false
   config_file_paths:
     soledad-service: 'public/1/config/soledad-service.json'
     eip-service: 'public/1/config/eip-service.json'

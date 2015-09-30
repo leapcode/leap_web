@@ -2,6 +2,10 @@ require 'test_helper'
 
 class TmpUserTest < ActiveSupport::TestCase
 
+  setup do
+    InviteCodeValidator.any_instance.stubs(:validate)
+  end
+
   test "test_user saved to tmp_users" do
     begin
       assert User.ancestors.include?(TemporaryUser)

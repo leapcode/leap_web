@@ -37,6 +37,8 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     Capybara.current_driver = Capybara.javascript_driver
     page.driver.add_headers 'ACCEPT-LANGUAGE' => 'en-EN'
+    @testcode = InviteCode.new
+    @testcode.save!
   end
 
   teardown do
@@ -45,19 +47,38 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def submit_signup(username = nil, password = nil)
-    username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
-    password ||= SecureRandom.base64
-    visit '/users/new'
-    fill_in 'Username', with: username
-    fill_in 'Password', with: password
-    fill_in 'Password confirmation', with: password
-    click_on 'Sign Up'
-    return username, password
+
+    with_config invite_required: true do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Invite code', with: @testcode.invite_code
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+      return username, password
+    end
+
+    with_config invite_required: false do
+
+      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+      password ||= SecureRandom.base64
+      visit '/users/new'
+      fill_in 'Username', with: username
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password
+      click_on 'Sign Up'
+      return username, password
+    end
+
   end
 
   # currently this only works for tests with poltergeist.
   # ApiIntegrationTest has a working implementation for RackTest
   def login(user = nil)
+    InviteCodeValidator.any_instance.stubs(:validate)
     @user ||= user ||= FactoryGirl.create(:user)
     token = Token.create user_id: user.id
     page.driver.add_header "Authorization", %Q(Token token="#{token}")

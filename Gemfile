@@ -13,6 +13,7 @@ end
 ## AUTHENTICATION
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
+gem "coupon_code"
 
 ## LOCALIZATION
 gem 'http_accept_language'
@@ -82,6 +83,11 @@ end
 
 group :production do
   gem 'SyslogLogger', '~> 2.0'
+end
+
+group :development do
+  gem "better_errors", '1.1.0'
+  gem "binding_of_caller"
 end
 
 group :debug do

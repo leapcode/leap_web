@@ -88,11 +88,34 @@
     }
   };
 
+  var account = {
+
+    // Returns the user's identity
+    login: function() {
+      return document.getElementById("srp_username").value;
+    },
+
+    // Returns the password currently typed in
+    password: function() {
+      return document.getElementById("srp_password").value;
+    },
+
+    // The user's id
+    id: function() {
+      return document.getElementById("user_param").value;
+    },
+
+    // Returns the invite code currently typed in
+    loginParams: function () {
+      return { "invite_code": document.getElementById("srp_invite_code").value };
+    }
+  }
+
   //
   // PUBLIC FUNCTIONS
   //
 
-  srp.session = new srp.Session();
+  srp.session = new srp.Session(account);
 
   srp.signedUp = function() {
     return srp.login();

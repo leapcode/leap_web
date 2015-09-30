@@ -8,7 +8,7 @@ class User < CouchRest::Model::Base
   property :password_salt, String, :accessible => true
   property :contact_email, String, :accessible => true
   property :contact_email_key, String, :accessible => true
-
+  property :invite_code, String, :accessible => true
   property :enabled, TrueClass, :default => true
 
   # these will be null by default but we shouldn't ever pull them directly, but only via the methods that will return the full ServiceLevel
@@ -38,6 +38,10 @@ class User < CouchRest::Model::Base
   validates :contact_email, :allow_blank => true,
     :email => true,
     :mx_with_fallback => true
+
+
+  validates_with InviteCodeValidator, on: :create, if: -> {APP_CONFIG[:invite_required]}
+
 
   timestamps!
 

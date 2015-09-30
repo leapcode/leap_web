@@ -4,6 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   include SRP::Util
   setup do
+    InviteCodeValidator.any_instance.stubs(:validate)
     @user = FactoryGirl.build(:user)
   end
 
@@ -69,6 +70,8 @@ class UserTest < ActiveSupport::TestCase
     @user.public_key = key
     assert_equal key, @user.public_key
   end
+
+
 
   #
   ## Regression tests

@@ -1,7 +1,7 @@
 #
-# The Account model takes care of the livecycle of a user.
+# The Account model takes care of the lifecycle of a user.
 # It composes a User record and it's identity records.
-# It also allows for other engines to hook into the livecycle by
+# It also allows for other engines to hook into the lifecycle by
 # monkeypatching the create, update and destroy methods.
 # There's an ActiveSupport load_hook at the end of this file to
 # make this more easy.
@@ -20,12 +20,19 @@ class Account
     user = nil
     user = User.new(attrs)
     user.save
+
     if !user.tmp? && user.persisted?
       identity = user.identity
       identity.user_id = user.id
       identity.save
       identity.errors.each do |attr, msg|
         user.errors.add(attr, msg)
+      end
+
+      if APP_CONFIG[:invite_required]
+        user_invite_code = InviteCode.find_by_invite_code user.invite_code
+        user_invite_code.invite_count += 1
+        user_invite_code.save
       end
     end
   rescue StandardError => ex
