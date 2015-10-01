@@ -1,7 +1,10 @@
-      %tr
-        %td= link_to user.username, user
-        %td= user.created_at.strftime("%d %b, %Y, %H:%M")
-        %td= user.updated_at.strftime("%d %b, %Y, %H:%M")
+%tr
+        %td
+        = link_to user.username, user
+        %td
+        = user.created_at.strftime("%d %b, %Y, %H:%M")
+        %td
+        = user.updated_at.strftime("%d %b, %Y, %H:%M")
         %td
           - if user.enabled
             %button.btn.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
