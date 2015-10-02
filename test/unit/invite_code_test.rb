@@ -20,23 +20,6 @@ class InviteCodeTest < ActiveSupport::TestCase
      assert_equal code1.invite_count, 0
   end
 
-
-  # test "Invite count >0 is not accepted for new account signup" do
-  #   validator = InviteCodeValidator.new nil
-  #
-  #   user_code = InviteCode.new
-  #   user_code.invite_count = 1
-  #   user_code.save
-  #
-  #   user = FactoryGirl.build :user
-  #   user.invite_code = user_code.invite_code
-  #
-  #   validator.validate(user)
-  #
-  #   assert_equal ["This code has already been used"], user.errors[:invite_code]
-  #
-  # end
-
   test "Invite count >= invite max uses is not accepted for new account signup" do
     validator = InviteCodeValidator.new nil
 

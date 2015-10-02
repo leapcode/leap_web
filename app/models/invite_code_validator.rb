@@ -1,4 +1,5 @@
 class InviteCodeValidator < ActiveModel::Validator
+
   def validate(user)
 
     user_invite_code = InviteCode.find_by_invite_code user.invite_code
@@ -8,9 +9,6 @@ class InviteCodeValidator < ActiveModel::Validator
 
     elsif has_no_uses_left?(user_invite_code)
       add_error_to_user("This code has already been used", user)
-
-    # elsif count_greater_than_zero?(user_invite_code)
-    #   add_error_to_user("This code has already been used", user)
     end
   end
 
@@ -22,10 +20,6 @@ class InviteCodeValidator < ActiveModel::Validator
   def has_no_uses_left?(code)
     code.invite_count >= code.invite_max_uses
   end
-
-  # def count_greater_than_zero?(code)
-  #   code.invite_count > 0
-  # end
 
   def add_error_to_user(error, user)
     user.errors[:invite_code] << error
