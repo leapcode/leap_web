@@ -122,7 +122,7 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    fake_braintree (0.6.0)
+    fake_braintree (0.7.0)
       activesupport
       braintree (~> 2.32)
       capybara (>= 2.0.3)
@@ -216,6 +216,7 @@ GEM
     rdiscount (2.1.7.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    ref (2.0.0)
     rest-client (1.6.9)
       mime-types (~> 1.16)
     ruby-srp (0.2.1)
