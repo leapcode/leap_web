@@ -18,7 +18,7 @@ task :generate_invites, [:n, :u] => :environment do |task, args|
     x = InviteCode.new
     x.max_uses = max_uses
     x.save
-    puts "#{x.invite_code}"
+    puts x.invite_code
   end
 
 end
