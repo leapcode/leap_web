@@ -18,7 +18,7 @@ class InviteCodeValidator < ActiveModel::Validator
   end
 
   def has_no_uses_left?(code)
-    code.invite_count >= code.invite_max_uses
+    code.invite_count >= code.max_uses
   end
 
   def add_error_to_user(error, user)
