@@ -46,8 +46,8 @@ group :production do
                                 # this must not be included in development mode, or js
                                 # will get included twice.
   gem 'therubyracer', "~> 0.12.2", :platforms => :ruby
-  #   ^^ See https://github.com/sstephenson/execjs#readme
-  #      for list of supported runtimes.
+     #^^ See https://github.com/sstephenson/execjs#readme
+     #   for list of supported runtimes.
 end
 
 ##

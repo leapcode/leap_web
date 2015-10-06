@@ -14,7 +14,8 @@ FactoryGirl.define do
     first_name 'Big'
     last_name 'Spender'
     credit_card number: TEST_CC_NUMBER, expiration_date: '04/2016'
-    initialize_with { Braintree::Customer.create(attributes).customer }
+    initialize_with { Braintree::Configuration.environment = :sandbox
+                      Braintree::Customer.create(attributes).customer }
     skip_create
 
     factory :broken_customer do

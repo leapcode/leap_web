@@ -4,47 +4,56 @@ require 'fake_braintree'
 class PaymentsControllerTest < ActionController::TestCase
   include CustomerTestHelper
 
-  test "payment when unauthorized" do
+  def setup
+    FakeBraintree.activate!
+  end
+
+  def teardown
+    FakeBraintree.clear!
+  end
+
+  test "payment new" do
     get :new
-    assert_not_nil assigns(:tr_data)
+
+    assert_not_nil assigns(:client_token)
     assert_response :success
   end
 
-  test "successful confirmation renders confirm" do
-    Braintree::TransparentRedirect.expects(:confirm).returns(success_response)
-    get :confirm
+  test "sucess confirmation" do
+    #already included with FakeBraintree
+    #Braintree::Transaction.sale.expects(:confirm).returns(success_response)
+    post :confirm, {
+      amount: "100",
+      payment_method_nonce: "fake-valid-nonce",
+      customer: {
+         first_name: "Test",
+         last_name: "Testing",
+         company: "RGSoC",
+         email: "any@email.com",
+         phone: "555-888-1234" }
+    }
 
-    assert_response :success
-    assert_template :confirm
+    assert assigns(:result).success?
+    assert_not_nil flash[:success]
   end
 
   test "failed confirmation renders new" do
-    Braintree::TransparentRedirect.expects(:confirm).returns(failure_response)
-    get :confirm
+    FakeBraintree.decline_all_cards!
+    post :confirm, {
+      amount: "100",
+      payment_method_nonce: "fake-valid-nonce",
+      customer: {
+         first_name: "Test",
+         last_name: "Testing",
+         company: "RGSoC",
+         email: "any@email.com",
+         phone: "555-888-1234" }
+    }
 
-    assert_response :success
-    assert_not_nil assigns(:tr_data)
-    assert_template :new
-  end
-
-  def failure_response
-    stub success?: false,
-      errors: stub(for: nil, size: 0),
-      params: {},
-      transaction: stub(status: nil)
-  end
-
-  def success_response
-    stub success?: true,
-      transaction: stub_transaction
+    assert !assigns(:result).success?
+    assert_not_nil flash[:error]
+    FakeBraintree.clear!
   end
 
   # that's what you get when not following the law of demeter...
-  def stub_transaction
-    stub amount: "100.00",
-      id: "ASDF",
-      customer_details: FactoryGirl.build(:braintree_customer),
-      credit_card_details: FactoryGirl.build(:braintree_customer).credit_cards.first
-  end
-
 end

@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] = "test"
 
 require "rails/test_help"
+require 'mocha/setup'
 
 Rails.backtrace_cleaner.remove_silencers!
 
