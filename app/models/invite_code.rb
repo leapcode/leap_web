@@ -13,6 +13,8 @@ class InviteCode < CouchRest::Model::Base
 
   def initialize(attributes = {}, options = {})
     super(attributes, options)
+    write_attribute('invite_code', CouponCode.generate) if new?
+
   end
 
   def set_invite_code(code)
