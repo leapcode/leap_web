@@ -19,3 +19,4 @@ task :generate_invites, [:n, :u] => :environment do |task, args|
   end
 
 end
+
