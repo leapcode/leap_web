@@ -1,4 +1,5 @@
-require 'coupon_code'
+require 'base64'
+require 'securerandom'
 
 desc "Generate a batch of invite codes"
 task :generate_invites, [:n, :u] => :environment do |task, args|
@@ -14,8 +15,12 @@ task :generate_invites, [:n, :u] => :environment do |task, args|
     max_uses = max_uses.to_i
   end
 
+  def generate_invite
+    Base64.encode64(SecureRandom.random_bytes).downcase.gsub(/[0oil1+_\/]/,'')[0..7].scan(/..../).join('-')
+  end
+
   codes.times do |x|
-    new_code = CouponCode.generate
+    new_code = generate_invite
 
     x = InviteCode.new(:id => new_code)
     x.set_invite_code(new_code)

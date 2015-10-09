@@ -1,3 +1,5 @@
+require 'base64'
+require 'securerandom'
 
 class InviteCode < CouchRest::Model::Base
   use_database 'invite_codes'
@@ -14,8 +16,12 @@ class InviteCode < CouchRest::Model::Base
 
   def initialize(attributes = {}, options = {})
     super(attributes, options)
-    write_attribute('invite_code', CouponCode.generate) if new?
+    write_attribute('invite_code', generate_invite) if new?
 
+  end
+
+  def generate_invite
+    Base64.encode64(SecureRandom.random_bytes).downcase.gsub(/[0oil1+_\/]/,'')[0..7].scan(/..../).join('-')
   end
 
   def set_invite_code(code)
