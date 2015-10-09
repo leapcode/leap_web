@@ -13,7 +13,6 @@ end
 ## AUTHENTICATION
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
-gem "coupon_code"
 
 ## LOCALIZATION
 gem 'http_accept_language'
