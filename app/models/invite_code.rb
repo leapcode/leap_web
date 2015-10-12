@@ -20,7 +20,7 @@ class InviteCode < CouchRest::Model::Base
     end
 
     super(attributes, options)
-    
+
     write_attribute('invite_code', attributes[:id]) if new?
   end
 
