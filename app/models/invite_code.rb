@@ -15,17 +15,17 @@ class InviteCode < CouchRest::Model::Base
   end
 
   def initialize(attributes = {}, options = {})
+    if !attributes.has_key?("_id")
+      attributes[:id] = InviteCode.generate_invite
+    end
+
     super(attributes, options)
-    write_attribute('invite_code', generate_invite) if new?
 
+    write_attribute('invite_code', attributes[:id]) if new?
   end
 
-  def generate_invite
+  def self.generate_invite
     Base64.encode64(SecureRandom.random_bytes).downcase.gsub(/[0oil1+_\/]/,'')[0..7].scan(/..../).join('-')
-  end
-
-  def set_invite_code(code)
-    write_attribute(:invite_code, code)
   end
 end
 

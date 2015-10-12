@@ -15,15 +15,8 @@ task :generate_invites, [:n, :u] => :environment do |task, args|
     max_uses = max_uses.to_i
   end
 
-  def generate_invite
-    Base64.encode64(SecureRandom.random_bytes).downcase.gsub(/[0oil1+_\/]/,'')[0..7].scan(/..../).join('-')
-  end
-
   codes.times do |x|
-    new_code = generate_invite
-
-    x = InviteCode.new(:id => new_code)
-    x.set_invite_code(new_code)
+    x = InviteCode.new
     x.max_uses = max_uses
     x.save
     puts x.invite_code
