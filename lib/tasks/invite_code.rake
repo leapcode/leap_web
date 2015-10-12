@@ -6,12 +6,8 @@ task :generate_invites, [:n, :u] => :environment do |task, args|
   codes = args.n
   codes = codes.to_i
 
-  if args.u == nil
-    max_uses = 1
-
-  elsif
+  if args.u != nil
     max_uses = args.u
-    max_uses = max_uses.to_i
   end
 
   codes.times do |x|
