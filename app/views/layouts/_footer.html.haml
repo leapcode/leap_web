@@ -15,4 +15,4 @@
       = link_to icon('comment') + t(:contact), contact_path
     - if paid_service_level?
       = link_to icon('shopping-cart') + t(:pricing), pricing_path
-    = link_to icon('barcode') + t(:Donations), new_payment_path
+    = link_to icon('barcode') + t(:Donations), new_payment_path if APP_CONFIG[:payment].present?
