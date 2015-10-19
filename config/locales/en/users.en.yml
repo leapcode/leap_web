@@ -57,6 +57,14 @@ en:
       tickets: "Create and check support tickets."
       email: "Modify email settings."
       account: "Destroy your account."
+  actions:
+    toggle_user: "Enable / Disable User"
+    enable_user: "Enable User"
+    disable_user: "Disable User"
+    confirm_user_deactivation: "Are you sure you want to deactive user with username '%{username}'?"
+    confirm_user_activation: "Are you sure you want to activate user with username '%{username}'?"
+    user_disabled_message: "User with username '%{username}' has been disabled."
+    user_enabled_message: "User with username '%{username}' has been enabled."
 
   #
   # rails
@@ -78,4 +86,3 @@ en:
     placeholders:
       user:
         email_forward: "my_other_email@domain.net"
-

@@ -1,4 +1,5 @@
 - @show_navigation = false
 
 = search :users
-= table @users, %w(username, created, updated)
+= table @users, %w(username, created, updated, actions.toggle_user)
+
