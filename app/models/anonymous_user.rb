@@ -12,6 +12,10 @@ class AnonymousUser < Object
   def id
     nil
   end
+  
+  def has_payment_info?
+    false
+  end
 
   def email
     nil
@@ -32,4 +36,5 @@ class AnonymousUser < Object
   def is_anonymous?
     true
   end
+
 end

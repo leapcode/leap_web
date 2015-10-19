@@ -2,9 +2,9 @@ en:
   signup: "Sign Up"
   login: "Log In"
   logout: "Log Out"
-  
+
   cancel: "Cancel"
-  
+
   created: "Created"
   created_by_on: "Created by %{user} on %{time}"
   updated: "Updated"
@@ -25,3 +25,5 @@ en:
   create_thing: "Create %{thing}"
 
   overview: "Overview"
+  choose: "Choose"
+  enter_amount: "Enter amount"

@@ -1,6 +1,9 @@
 class BillingAdminController < BillingBaseController
   before_filter :require_admin
 
+  #not sure if this controller is still needed. Admin can easly acess
+  #braintree's dashboard and check subscriptions. Don't know if everything
+  #should be 'self contained' in web_app""
   def show
 
     br_atleast_90_days = Braintree::Subscription.search do |search|

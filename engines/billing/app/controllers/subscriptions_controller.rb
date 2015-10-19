@@ -1,63 +1,72 @@
 class SubscriptionsController < BillingBaseController
   before_filter :require_login
-  before_filter :fetch_subscription, :only => [:show, :destroy]
-  before_filter :confirm_cancel_subscription, :only => [:destroy]
-  before_filter :confirm_self_or_admin, :only => [:index]
-  before_filter :confirm_no_pending_active_pastdue_subscription, :only => [:new, :create]
-  # for now, admins cannot create or destroy subscriptions for others:
-  before_filter :confirm_self, :only => [:new, :create]
-
-  def new
-    # don't show link to subscribe if they are already subscribed?
-    credit_card = @customer.default_credit_card #safe to assume default?
-    @payment_method_token = credit_card.token
-    @plans = Braintree::Plan.all
-  end
-
-  # show has no content, so not needed at this point.
-
-  def create
-    @result = Braintree::Subscription.create( :payment_method_token => params[:payment_method_token], :plan_id => params[:plan_id] )
-    #if you want to test pastdue, can add :price => '2001', :trial_period => true,:trial_duration => 1,:trial_duration_unit => "day" and then wait a day
-  end
-
-  def destroy
-    @result = Braintree::Subscription.cancel params[:id]
-  end
+  before_filter :assign_user
+  before_filter :confirm_cancel_subscription, only: [:destroy]
+  before_filter :generate_client_token, only: [:show]
+  before_filter :get_braintree_customer, only: [:subscribe]
 
   def index
-    customer = Customer.find_by_user_id(@user.id)
-    @subscriptions = customer.subscriptions(nil, false)
-  end
-
-  private
-
-  def fetch_subscription
-    @subscription = Braintree::Subscription.find params[:id]
-    @credit_card = Braintree::CreditCard.find @subscription.payment_method_token
-    @subscription_customer_id = @credit_card.customer_id
-    current_user_customer = Customer.find_by_user_id(current_user.id)
-    access_denied unless admin? or (current_user_customer and current_user_customer.braintree_customer_id == @subscription_customer_id)
-
-  end
-
-  def confirm_cancel_subscription
-    access_denied unless view_context.allow_cancel_subscription(@subscription)
-  end
-
-  def confirm_no_pending_active_pastdue_subscription
-    @customer = Customer.find_by_user_id(@user.id)
-    if subscription = @customer.subscriptions # will return pending, active or pastdue subscription, if it exists
-      redirect_to user_subscription_path(@user, subscription.id), :notice => 'You already have a subscription'
+    if @user.subscription_id
+      @subscription = Braintree::Subscription.find @user.subscription_id
+      @plan = Braintree::Plan.all.select{ |plan| plan.id == @subscription.plan_id }.first
+    else
+      @subscriptions = Braintree::Plan.all
     end
   end
 
-  def confirm_self
-    @user == current_user
+  def show
+    @plan = Braintree::Plan.all.select{ |plan| plan.id == params[:id] }.first
   end
 
-  def confirm_self_or_admin
-    access_denied unless confirm_self or admin?
+  def subscribe
+    @result = Braintree::Subscription.create(payment_method_token: @customer.payment_methods.first.token,
+                                             plan_id: params[:id])
+    if @result.success?
+      @user.update_attributes subscription_id: @result.subscription.id
+      flash[:success] = I18n.t(:subscription_sucess)
+    else
+      flash[:error] = I18n.t(:subscription_not_sucess)
+    end
+    redirect_to action: :index, locale: params[:locale]
   end
 
+  def unsubscribe
+    @result = Braintree::Subscription.cancel(@user.subscription_id)
+    if @result.success?
+      @user.update_attributes subscription_id: nil
+      flash[:success] = I18n.t(:unsubscription_sucess)
+    else
+      flash[:error] = I18n.t(:unsubscription_not_sucess)
+    end
+    redirect_to action: :index, locale: params[:locale]
+  end
+
+  private
+  def assign_user
+    @user = current_user
+  end
+
+  def generate_client_token
+    if current_user.braintree_customer_id
+      @client_token = Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
+    else
+     @client_token = Braintree::ClientToken.generate
+    end
+  end
+
+  def get_braintree_customer
+    if current_user.braintree_customer_id
+      @customer = Braintree::Customer.find(current_user.braintree_customer_id)
+    else
+      @customer = Braintree::Customer.create(
+                              payment_method_nonce: params[:payment_method_nonce],
+                              first_name: params[:first_name],
+                              last_name: params[:last_name],
+                              company: params[:company],
+                              email: current_user.email,
+                              phone: params[:phone]
+                            ).customer
+      current_user.update_attributes braintree_customer_id: @customer.id
+    end
+  end
 end

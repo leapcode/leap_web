@@ -23,6 +23,8 @@ es:
   pricing: Tarifas
   about: Sobre nosotros
   contact: Contacto
+  donations: "Donaciones"
+  subscriptions: "Subscripciones"
   signup: Registrarse
   login: Iniciar sesión
   logout: Cerrar sesión
@@ -128,6 +130,11 @@ es:
   description: Descripción
   cost: Coste
   free: Gratuito
+  new_donation: "Nueva Donación"
+  donation_info: "Por favor, llena los detalles de tu donación (esta no será cargada a tu cuenta, si tienes una):"
+  donation_amount: "Ingrese el monto"
+  donate: "Donar"
+  personal_info: "Por favor, ingresa tu información personal"
   support_tickets: Soporte
   email_notice_text: Ha sido añadido un nuevo comentario a esta instancia de ayuda.
   email_no_reply_text: No responda a este correo.
@@ -201,3 +208,28 @@ es:
     hints:
       ticket:
         email: Proporcione una dirección de correo electrónico para que se le notifique cuando se actualice esta instancia.
+
+#Payment (except for some donation, which is in user, mostly)
+#donations
+  donation_sucess: "¡Felicitaciones! Tu donación ha sido exitosa"
+  donation_not_sucess: "Algo malo sucedió al procesar tu donación. Por favor, intenta de nuevo"
+#subscriptions
+  subscription_sucess: "¡Felicitaciones! Ahora estás suscrito"
+  subscription_not_sucess: "Algo malo sucedió al procesar tu subscripción. Por favor, intenta de nuevo"
+  unsubscription_sucess: "Tu subscripción ha sido cancelada"
+  unsubscription_not_sucess: "Algo malo sucedió. Por favor, intenta de nuevo"
+  subscriptions: "Subscripciones"
+  lastestsubs: "Últimas Subscripciones:"
+  date: "Fecha"
+  unsubscribe_from: "Cancelar la subscrición a"
+  no_subs: "Ninguna Sucripción"
+  choose_subs: "Elige una Subscripción:"
+  choose_button: "Elegir"
+  new_subs: "Nueva Subscripción"
+  #common
+  first_name: "Nombre"
+  last_name: "Apellido"
+  company: "Compañía"
+  phone: "Teléfono"
+  personal_info: "Por favor, ingresa tu información personal:"
+  pay_details: "Por favor, ingresa tus detalles de pago"

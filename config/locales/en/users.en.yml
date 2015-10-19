@@ -5,6 +5,8 @@ en:
       identities: "Usernames"
       tickets: "Tickets"
   user_control_panel: "user control panel"
+  donations: "Donations"
+  subscriptions: "Subscriptions"
   account_settings: "Account Settings"
   username: "Username"
   password: "Password"

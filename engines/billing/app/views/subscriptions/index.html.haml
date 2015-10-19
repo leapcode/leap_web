@@ -1,8 +1,29 @@
-%h2=t :all_subscriptions
-- pending_active_pastdue = false
-- @subscriptions.each do |s|
-  - if ['Pending', 'Active','Past Due'].include? s.status
-    - pending_active_pastdue = true
-  = render :partial => "subscription_details", :locals => {:subscription => s}
-- if !pending_active_pastdue and @user == current_user
-  = btn 'subscribe to plan', new_subscription_path
+%h2.mbs
+  = t(:subscriptions)
+%h4{ :style => "line-height: 300%;" }
+  .last
+    = t(:lastestsubs)
+  - if @user.subscription_id
+    %ul
+      - @subscription.transactions.each do |transaction|
+        %li
+          %p{ :style => "font-size: 14px; font-weight: normal;" }
+            #{t(:date)} #{transaction.created_at}
+    %ul
+      = link_to "#{t(:unsubscribe_from)} #{@plan.name}", unsubscribe_subscription_path(@subscription.plan_id), method: :delete, class: "btn btn-danger"
+      %br
+  - else
+    %p{ :style => "font-size: 14px; font-weight: normal;"}
+      =t(:no_subs)
+    %h4
+      =t(:choose_subs)
+    %br
+    %ul.nav.nav-tabs.nav-stacked
+      - @subscriptions.each do |subscription|
+        .well
+          = subscription.name
+          = "$" + subscription.price.to_s
+          %div{ :style => "line-height: 300%;" }
+            = link_to t(:choose_button), subscription_path(subscription.id), class: "btn btn-info"
+
+
