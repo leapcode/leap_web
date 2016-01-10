@@ -1,3 +1,11 @@
+version 0.8 - RGSoC
+------------------------------------------
+
+* Support for invite codes.
+* Support for braintree billing.
+* Ability to remove and disable users.
+* Localization fixes.
+
 version 0.7.1 - localization
 ------------------------------------------
 

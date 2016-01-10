@@ -67,7 +67,9 @@ these instructions:
 
 ### Install system requirements
 
-    sudo apt-get install git ruby1.9.3 rubygems couchdb bundler
+    sudo apt install git ruby couchdb bundler
+
+Your actual requirements might differ if you are running an older OS that defaults to ruby 1.9.
 
 ### Download source
 
