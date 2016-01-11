@@ -1,5 +1,5 @@
 - if admin?
-  %ul.nav.nav-tabs
+  %ul.nav.nav-pills.admin-area
     = render partial: 'common/navigation_item',
       collection: [:users, :identities, :tickets]
     = link_to_navigation :logout, logout_path, :method => :delete

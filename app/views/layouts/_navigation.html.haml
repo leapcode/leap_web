@@ -11,4 +11,5 @@
       active: (controller?(:donations) and action?(:new))
     = link_to_navigation :subscriptions, billing_top_link(@braintree_customer_id),
       active: controller?(:subscriptions)
-  = link_to_navigation :logout, logout_path, method: :delete
+  - unless admin?
+    = link_to_navigation :logout, logout_path, method: :delete
