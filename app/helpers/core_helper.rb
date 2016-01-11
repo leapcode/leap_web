@@ -29,4 +29,12 @@ module CoreHelper
     }.join(" ").html_safe
   end
 
+  #
+  # displays the datetime as time ago in words,
+  # but has the absolute time in a tooltip.
+  #
+  def simple_date(datetime)
+    content_tag :span, time_ago_in_words(datetime), :title => datetime.to_s, :class => 'date'
+  end
+
 end

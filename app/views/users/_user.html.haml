@@ -1,13 +1,13 @@
 %tr
   %td
-  = link_to user.username, user
+    = link_to user.username, user
   %td
-  = user.created_at.strftime("%d %b, %Y, %H:%M")
+    = simple_date(user.created_at)
   %td
-  = user.updated_at.strftime("%d %b, %Y, %H:%M")
+    = simple_date(user.updated_at)
   %td
     - if user.enabled
-      %button.btn.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
+      %button.btn.btn-sm.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
         = t("actions.disable_user")
       .modal.fade.hide{:id => "user-form-#{user.id}"}
         .modal-dialog
@@ -19,7 +19,7 @@
               = form_tag deactivate_user_path(user) do
                 %input.btn.btn-default.btn-danger{:type => "submit", :value => "#{t("actions.disable_user")}"}
     - else
-      %button.btn.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
+      %button.btn.btn-sm.btn-default{:"data-toggle" => "modal", :"data-target" => "#user-form-#{user.id}", :type => "button"}
         = t("actions.enable_user")
       .modal.fade.hide{:id => "user-form-#{user.id}"}
         .modal-dialog
