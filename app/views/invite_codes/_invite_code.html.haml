@@ -1,0 +1,9 @@
+%tr
+  %td
+    = simple_date(invite_code.created_at)
+  %td
+    %input.invite-code{:value => invite_code.invite_code}
+  %td
+    = "#{invite_code.invite_count}/#{invite_code.max_uses}"
+  %td
+    = btn t(".destroy", cascade: true), invite_code_path(invite_code), :method => 'delete'

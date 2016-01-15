@@ -1,0 +1,20 @@
+- @show_navigation = false
+
+= form_for @invite, :url => { :action => "create" } do |f|
+  %table
+    %tr
+      %td= t "code"
+      %td= t "uses"
+      %td
+    %tr
+      %td= f.text_field :invite_code, style: 'width: 10em'
+      %td= f.text_field :max_uses, style: 'width: 4em'
+      %td= f.submit t("helpers.submit.invites.create"), style: 'margin-bottom: 10px', class: 'btn btn-default'
+
+= table @invites, %w(created code uses actions)
+
+-# select the text of the invite code when you click on it:
+:javascript
+  $("input.invite-code").focus(function(){
+    this.select();
+  });

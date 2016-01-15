@@ -15,13 +15,12 @@ class InviteCode < CouchRest::Model::Base
   end
 
   def initialize(attributes = {}, options = {})
-    if !attributes.has_key?("_id")
-      attributes[:id] = InviteCode.generate_invite
-    end
-
+    attributes[:id] = attributes["invite_code"] || InviteCode.generate_invite
     super(attributes, options)
-
-    write_attribute('invite_code', attributes[:id]) if new?
+    if new?
+      write_attribute('invite_code', attributes[:id])
+      write_attribute('max_uses', attributes[:max_uses] || 1)
+    end
   end
 
   def self.generate_invite

@@ -50,6 +50,7 @@ LeapWeb::Application.routes.draw do
       post 'enable', on: :member
     end
 
+    resources :invite_codes, :only => [:index, :destroy, :create]
     resources :identities, :only => [:index, :destroy]
   end
 

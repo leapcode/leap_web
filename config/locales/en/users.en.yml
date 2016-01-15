@@ -11,7 +11,6 @@ en:
   username: "Username"
   password: "Password"
   password_confirmation: "Password confirmation"
-  invite_code: "Invite code"
   change_password: "Change Password"
   invalid_user_pass: "Not a valid username/password combination"
   invalid_ephemeral: "Invalid random key used. This looked like an attempt to hack the site to us. If it wasn't please contact support so we can look into the issue."
@@ -67,6 +66,19 @@ en:
     confirm_user_activation: "Are you sure you want to activate user with username '%{username}'?"
     user_disabled_message: "User with username '%{username}' has been disabled."
     user_enabled_message: "User with username '%{username}' has been enabled."
+
+  #
+  # Invites
+  #
+  invite_code: "Invite code"
+  invite_codes: "Invites"
+  invites: "Invites"
+  code: "Code"
+  uses: "Uses"
+  helpers:
+    submit:
+      invites:
+        create: "Create"
 
   #
   # rails

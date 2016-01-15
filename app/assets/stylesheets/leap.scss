@@ -245,6 +245,16 @@ input, textarea {
 }
 
 //
+// INVITES
+//
+
+input.invite-code {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+//
 // STICKY FOOTER for BOOSTRAP 2
 // http://getbootstrap.com/2.3.2/examples/sticky-footer.html
 // when upgrading to bootstrap 3, use this instead:
