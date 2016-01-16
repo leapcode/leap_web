@@ -104,6 +104,6 @@ class ApplicationController < ActionController::Base
   # For some requests, we ignore locale determination.
   #
   def request_may_have_locale?(request)
-    request.method == "GET" && request.format == 'text/html' && request.path !~ NON_LOCALE_PATHS
+    request.path !~ NON_LOCALE_PATHS
   end
 end

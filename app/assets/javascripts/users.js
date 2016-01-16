@@ -122,11 +122,21 @@
   };
 
   srp.loggedIn = function() {
-    return window.location = '/';
+    return srp.localeRedirect('/');
   };
 
   srp.updated = function() {
-    return window.location = '/users/' + srp.session.id();
+    return srp.localeRedirect('/users/' + srp.session.id());
+  };
+
+  // redirect, while preserving locale if set by url path.
+  srp.localeRedirect = function(path) {
+    var localeMatch = window.location.pathname.match(/^(\/[a-z]{2})\//)
+    if (localeMatch) {
+      return window.location = localeMatch[1] + path;
+    } else {
+      return window.location = path;
+    }
   };
 
   //
