@@ -40,7 +40,7 @@
     .span4
       = f.input :email
     .span4
-      = f.input :regarding_user, label: Ticket.human_attribute_name(:regarding_user) + regarding_user_link
+      = f.input :regarding_user, label: (Ticket.human_attribute_name(:regarding_user) + " " + regarding_user_link).html_safe
   = f.button :loading
   - if admin?
     = destroy_btn t(".destroy", cascade: true), auto_ticket_path(@ticket)
