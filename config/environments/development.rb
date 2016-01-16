@@ -29,8 +29,9 @@ LeapWeb::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
-  # Expands the lines which load the assets
-  config.assets.debug = true
+  # If set to true, each asset file is loaded separately. If you are not
+  # debugging js or css, it is much faster to set this to false.
+  config.assets.debug = false
 
   # super hacky, but otherwise getting certificate error, and doesn't seem dangerous in development mode:
   OpenSSL::SSL.send(:remove_const, "VERIFY_PEER")
