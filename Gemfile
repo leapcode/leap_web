@@ -92,7 +92,7 @@ end
 
 group :test, :debug do
   gem 'debugger', :platforms => :mri_19
-  gem 'byebug', :platforms => [:ruby_21, :ruby_22]
+  gem 'byebug', :platforms => :ruby_21
 end
 
 ##
