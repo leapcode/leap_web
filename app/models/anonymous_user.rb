@@ -12,7 +12,7 @@ class AnonymousUser < Object
   def id
     nil
   end
-  
+
   def has_payment_info?
     false
   end
@@ -37,4 +37,7 @@ class AnonymousUser < Object
     true
   end
 
+  def enabled?
+    false
+  end
 end

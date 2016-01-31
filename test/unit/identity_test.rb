@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../test_helper'
 
 class IdentityTest < ActiveSupport::TestCase
   include StubRecordHelper
@@ -177,9 +177,9 @@ class IdentityTest < ActiveSupport::TestCase
   end
 
   def cert_stub
-    # make this expire later than the others so it's on top
-    # when sorting by expiry descending.
-    @cert_stub ||= stub expiry: 2.month.from_now,
-    fingerprint: SecureRandom.hex
+    # make this expire later than the other test identities
+    # so that the query that returns certs sorted by expiry will
+    # return cert_stub first.
+    @cert_stub ||= stub(expiry: 2.month.from_now, fingerprint: SecureRandom.hex)
   end
 end
