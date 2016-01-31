@@ -14,6 +14,11 @@ end
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
 
+## CRYPTO
+# we need certificate_authority v2.0, but was never released to rubygems,
+# and travis does not work well with github sources, so vendored here:
+gem 'certificate_authority', :path => 'vendor/gems/certificate_authority'
+
 ## LOCALIZATION
 gem 'http_accept_language'
 gem 'rails-i18n'  # locale files for built-in validation messages and times
@@ -110,8 +115,5 @@ end
 ##
 ## DEPENDENCIES FOR OPTIONAL ENGINES
 ##
-
-gem 'certificate_authority', # unreleased so far ... but leap_web_certs need it
-  :git => 'https://github.com/cchandler/certificate_authority.git'
 
 gem 'valid_email' # used by leap_web_help

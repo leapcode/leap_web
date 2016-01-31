@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/cchandler/certificate_authority.git
-  revision: 050f2829ed12b6c257e24f4c8077c6e1b38bd979
-  specs:
-    certificate_authority (0.2.0)
-      activemodel (>= 3.0.6)
-      activesupport (>= 3.0.6)
-
 PATH
   remote: engines/billing
   specs:
@@ -16,6 +8,13 @@ PATH
   remote: engines/support
   specs:
     leap_web_help (0.6.0)
+
+PATH
+  remote: vendor/gems/certificate_authority
+  specs:
+    certificate_authority (0.2.0)
+      activemodel (>= 3.0.6)
+      activesupport (>= 3.0.6)
 
 PATH
   remote: vendor/gems/common_languages
