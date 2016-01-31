@@ -90,8 +90,9 @@ group :development do
   gem "binding_of_caller"
 end
 
-group :debug do
+group :test, :debug do
   gem 'debugger', :platforms => :mri_19
+  gem 'byebug', :platforms => [:ruby_21, :ruby_22]
 end
 
 ##

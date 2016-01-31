@@ -66,6 +66,7 @@ GEM
     braintree (2.48.1)
       builder (>= 2.0.0)
     builder (3.0.4)
+    byebug (8.2.1)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -274,6 +275,7 @@ DEPENDENCIES
   better_errors (= 1.1.0)
   binding_of_caller
   bootstrap-sass (= 2.3.2.2)
+  byebug
   capybara
   certificate_authority!
   client_side_validations
@@ -312,6 +314,3 @@ DEPENDENCIES
   thin
   uglifier (~> 1.2.7)
   valid_email
-
-BUNDLED WITH
-   1.10.6
