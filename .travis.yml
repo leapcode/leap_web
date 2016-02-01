@@ -2,6 +2,8 @@ services:
   - couchdb
 notifications:
   email: false
+before_install:
+  - "gem install bundler --version 1.11.2"
 before_script:
   - "rm .ruby-version"
   - "mv test/travis/ruby-version .ruby-version"
