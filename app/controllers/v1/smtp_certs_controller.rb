@@ -3,6 +3,7 @@ class V1::SmtpCertsController < ApiController
   before_filter :require_login
   before_filter :require_email_account
   before_filter :fetch_identity
+  before_filter :require_enabled
 
   # POST /1/smtp_cert
   def create
@@ -20,6 +21,10 @@ class V1::SmtpCertsController < ApiController
 
   def require_email_account
     access_denied unless service_level.provides? 'email'
+  end
+
+  def require_enabled
+    access_denied unless current_user.enabled?
   end
 
   def fetch_identity

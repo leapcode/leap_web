@@ -69,6 +69,17 @@ class Account
     @user.destroy
   end
 
+  # when a user is disable, all their data and associations remain
+  # in place, but the user should not be able to send email or
+  # create new authentication certificates.
+  def disable
+    if @user && !@user.tmp?
+      @user.enabled = false
+      @user.save
+      Identity.remove_cert_fingerprints_for(@user)
+    end
+  end
+
   protected
 
   def update_login(login)

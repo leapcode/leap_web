@@ -1,6 +1,7 @@
 class V1::CertsController < ApiController
 
   before_filter :require_login, :unless => :anonymous_access_allowed?
+  before_filter :require_enabled
 
   # GET /cert
   # deprecated - we actually create a new cert and that can
@@ -17,6 +18,12 @@ class V1::CertsController < ApiController
   end
 
   protected
+
+  def require_enabled
+    if !current_user.is_anonymous? && !current_user.enabled?
+      access_denied
+    end
+  end
 
   def service_level
     current_user.effective_service_level

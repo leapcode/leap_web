@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../test_helper'
 
 class AccountTest < ActiveSupport::TestCase
 
@@ -23,10 +23,10 @@ class AccountTest < ActiveSupport::TestCase
 
   test "create a new account" do
     with_config invite_required: false do
-    user = Account.create(FactoryGirl.attributes_for(:user))
-    assert user.valid?, "unexpected errors: #{user.errors.inspect}"
-    assert user.persisted?
-    user.account.destroy
+      user = Account.create(FactoryGirl.attributes_for(:user))
+      assert user.valid?, "unexpected errors: #{user.errors.inspect}"
+      assert user.persisted?
+      user.account.destroy
     end
   end
 
@@ -79,5 +79,15 @@ class AccountTest < ActiveSupport::TestCase
     user_code.save
 
     assert_equal 0, user_code.invite_count
+  end
+
+  test "disabled accounts have no cert fingerprints" do
+    user = Account.create(FactoryGirl.attributes_for(:user))
+    cert = stub(expiry: 1.month.from_now, fingerprint: SecureRandom.hex)
+    user.identity.register_cert cert
+    user.identity.save
+    assert_equal cert.fingerprint, Identity.for(user).cert_fingerprints.keys.first
+    user.account.disable
+    assert_equal({}, Identity.for(user).cert_fingerprints)
   end
 end

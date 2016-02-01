@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 
 class V1::CertsControllerTest < ActionController::TestCase
 
@@ -19,6 +19,12 @@ class V1::CertsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal cert.to_s, @response.body
     end
+  end
+
+  test "fail to create cert when disabled" do
+    login :enabled? => false
+    post :create
+    assert_access_denied
   end
 
   test "create unlimited cert" do

@@ -1,3 +1,11 @@
+#
+# NOTE: there is some confusing terminology between User and Identity:
+# If a user is disabled, the user still exists but has been marked as disabled
+# and this condition can be easily reversed. If an identity is disabled, then
+# it loses any association with the user and exists only to reserve that username
+# and prevent anyone else from registering it.
+#
+
 class Identity < CouchRest::Model::Base
   include LoginFormatValidation
 
@@ -56,6 +64,16 @@ class Identity < CouchRest::Model::Base
       # if the identity is not unique anymore because the destination
       # was reset to nil we destroy it.
       identity.save || identity.destroy
+    end
+  end
+
+  # if an identity is disabled, it loses contact
+  # with its former user. but sometimes we want to keep the association
+  # and remove the fingerprints that allow the user to send email.
+  def self.remove_cert_fingerprints_for(user)
+    Identity.by_user_id.key(user.id).each do |identity|
+      identity.write_attribute(:cert_fingerprints, {})
+      identity.save
     end
   end
 
