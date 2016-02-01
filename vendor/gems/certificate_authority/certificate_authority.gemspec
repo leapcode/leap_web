@@ -15,10 +15,7 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
-    "Gemfile",
-    "Gemfile.lock",
     "README.rdoc",
-    "Rakefile",
     "VERSION.yml",
     "certificate_authority.gemspec",
     "lib/certificate_authority.rb",
@@ -33,33 +30,7 @@ Gem::Specification.new do |s|
     "lib/certificate_authority/serial_number.rb",
     "lib/certificate_authority/signing_entity.rb",
     "lib/certificate_authority/signing_request.rb",
-    "lib/tasks/certificate_authority.rake",
-    "spec/samples/certs/DigiCertHighAssuranceEVCA-1.pem",
-    "spec/samples/certs/apple_wwdr_issued_cert.pem",
-    "spec/samples/certs/apple_wwdr_issuer.pem",
-    "spec/samples/certs/ca.crt",
-    "spec/samples/certs/ca.key",
-    "spec/samples/certs/client.crt",
-    "spec/samples/certs/client.csr",
-    "spec/samples/certs/client.key",
-    "spec/samples/certs/github.com.pem",
-    "spec/samples/certs/server.crt",
-    "spec/samples/certs/server.csr",
-    "spec/samples/certs/server.key",
-    "spec/spec_helper.rb",
-    "spec/units/certificate_authority_spec.rb",
-    "spec/units/certificate_revocation_list_spec.rb",
-    "spec/units/certificate_spec.rb",
-    "spec/units/distinguished_name_spec.rb",
-    "spec/units/extensions_spec.rb",
-    "spec/units/key_material_spec.rb",
-    "spec/units/ocsp_handler_spec.rb",
-    "spec/units/pkcs11_key_material_spec.rb",
-    "spec/units/serial_number_spec.rb",
-    "spec/units/signing_entity_spec.rb",
-    "spec/units/signing_request_spec.rb",
-    "spec/units/units_helper.rb",
-    "spec/units/working_with_openssl_spec.rb"
+    "lib/tasks/certificate_authority.rake"
   ]
   s.homepage = "https://github.com/cchandler/certificate_authority"
   s.licenses = ["MIT"]
