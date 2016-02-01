@@ -8,7 +8,7 @@ before_script:
   - "test/travis/setup_couch.sh"
   - "mv test/config/couchdb.admin.yml config/couchdb.admin.yml"
   - "mv test/config/couchdb.yml config/couchdb.yml"
-  - "gem install bundler"
+  - "gem install bundler --version 1.11.2"
   - "bundle exec rake RAILS_ENV=test db:rotate"
   - "bundle exec rake RAILS_ENV=test db:migrate"
 after_script:
