@@ -47,8 +47,7 @@ class UsersController < ApplicationController
   end
 
   def deactivate
-    @user.enabled = false
-    @user.save
+    @user.account.disable
     flash[:notice] = I18n.t("actions.user_disabled_message", username: @user.username)
     redirect_to :back
   end

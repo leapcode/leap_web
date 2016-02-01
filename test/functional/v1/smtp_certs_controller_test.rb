@@ -24,6 +24,12 @@ class V1::SmtpCertsControllerTest < ActionController::TestCase
     assert_equal cert.to_s, @response.body
   end
 
+  test "fail to create cert when disabled" do
+    login :enabled? => false
+    post :create
+    assert_access_denied
+  end
+
   protected
 
   def expect_cert(email)
