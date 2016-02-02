@@ -96,8 +96,12 @@ group :development do
 end
 
 group :test, :debug do
-  gem 'debugger', :platforms => :mri_19
-  gem 'byebug', :platforms => :ruby_21
+  # bundler on jessie doesn't support `:platforms => :ruby_21`
+  if RUBY_VERSION < "2.0"
+    gem 'debugger'
+  else
+    gem 'byebug'
+  end
 end
 
 ##
