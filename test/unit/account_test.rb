@@ -8,7 +8,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   teardown do
-    Identity.destroy_all_disabled
+    Identity.destroy_all_orphaned
   end
 
   test "create a new account when invited" do
@@ -86,8 +86,11 @@ class AccountTest < ActiveSupport::TestCase
     cert = stub(expiry: 1.month.from_now, fingerprint: SecureRandom.hex)
     user.identity.register_cert cert
     user.identity.save
-    assert_equal cert.fingerprint, Identity.for(user).cert_fingerprints.keys.first
+    assert_equal(cert.fingerprint, Identity.for(user).cert_fingerprints.keys.first)
     user.account.disable
     assert_equal({}, Identity.for(user).cert_fingerprints)
+    assert_equal(cert.fingerprint, Identity.for(user).read_attribute(:disabled_cert_fingerprints).keys.first)
+    user.account.enable
+    assert_equal(cert.fingerprint, Identity.for(user).cert_fingerprints.keys.first)
   end
 end

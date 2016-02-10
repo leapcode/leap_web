@@ -53,8 +53,7 @@ class UsersController < ApplicationController
   end
 
   def enable
-    @user.enabled = true
-    @user.save
+    @user.account.enable
     flash[:notice] = I18n.t("actions.user_enabled_message", username: @user.username)
     redirect_to :back
   end

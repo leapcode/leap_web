@@ -110,33 +110,38 @@ class IdentityTest < ActiveSupport::TestCase
     assert @id.errors.messages[:destination].include? "needs to be a valid email address"
   end
 
-  test "disabled identity" do
+  test "disable identity" do
     @id = Identity.for(@user)
-    @id.disable
-    assert_equal @user.email_address, @id.address
-    assert_equal nil, @id.destination
-    assert_equal nil, @id.user
+    @id.disable!
     assert !@id.enabled?
     assert @id.valid?
   end
 
-  test "disabled identity blocks handle" do
+  test "orphan identity" do
     @id = Identity.for(@user)
-    @id.disable
-    @id.save
+    @id.orphan!
+    assert_equal @user.email_address, @id.address
+    assert_equal nil, @id.destination
+    assert_equal nil, @id.user
+    assert @id.orphaned?
+    assert @id.valid?
+  end
+
+  test "orphaned identity blocks handle" do
+    @id = Identity.for(@user)
+    @id.orphan!
     other_user = find_record :user
     taken = Identity.build_for other_user, address: @id.address
     assert !taken.valid?
     assert_equal ["has already been taken"], taken.errors[:address]
   end
 
-  test "destroy all disabled identities" do
+  test "destroy all orphaned identities" do
     @id = Identity.for(@user)
-    @id.disable
-    @id.save
-    assert Identity.disabled.count > 0
-    Identity.destroy_all_disabled
-    assert_equal 0, Identity.disabled.count
+    @id.orphan!
+    assert Identity.orphaned.count > 0
+    Identity.destroy_all_orphaned
+    assert_equal 0, Identity.orphaned.count
   end
 
   test "store cert fingerprint" do

@@ -136,13 +136,26 @@ class User < CouchRest::Model::Base
     Account.new(self)
   end
 
+  # deprecated
   def identity
     @identity ||= Identity.for(self)
   end
 
+  # deprecated
   def refresh_identity
     @identity = Identity.for(self)
   end
+
+  def identities
+    Identity.by_user_id.key(self.id)
+  end
+
+  def destroy_identities
+    identities.each do |id|
+      id.destroy
+    end
+  end
+
 
   def desired_service_level
     code = self.desired_service_level_code || APP_CONFIG[:default_service_level]
@@ -153,7 +166,6 @@ class User < CouchRest::Model::Base
     code = self.effective_service_level_code || self.desired_service_level.id
     ServiceLevel.new({id: code})
   end
-
 
   def self.send_one_month_warnings
 

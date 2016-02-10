@@ -59,11 +59,15 @@ class Account
 
   def destroy(destroy_identity=false)
     return unless @user
-    if !user.tmp?
+    if !@user.tmp?
       if destroy_identity == false
-        Identity.disable_all_for(@user)
+        @user.identities.each do |id|
+          id.orphan!
+        end
       else
-        Identity.destroy_all_for(@user)
+        @user.identities.each do |id|
+          id.destroy
+        end
       end
     end
     @user.destroy
@@ -76,7 +80,17 @@ class Account
     if @user && !@user.tmp?
       @user.enabled = false
       @user.save
-      Identity.remove_cert_fingerprints_for(@user)
+      @user.identities.each do |id|
+        id.disable!
+      end
+    end
+  end
+
+  def enable
+    @user.enabled = true
+    @user.save
+    @user.identities.each do |id|
+      id.enable!
     end
   end
 

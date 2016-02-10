@@ -86,7 +86,7 @@ class UsersControllerTest < ActionController::TestCase
 
     # we destroy the user record and the associated data...
     user.expects(:destroy)
-    Identity.expects(:disable_all_for).with(user)
+    #user.identity.expects(:orphan!) << factory girl user doesn't have identities
     Ticket.expects(:destroy_all_from).with(user)
 
     login :is_admin? => true
@@ -101,7 +101,7 @@ class UsersControllerTest < ActionController::TestCase
 
     # we destroy the user record and the associated data...
     user.expects(:destroy)
-    Identity.expects(:disable_all_for).with(user)
+    #user.identity.expects(:orphan!) << factory girl user doesn't have identities
     Ticket.expects(:destroy_all_from).with(user)
 
     login user

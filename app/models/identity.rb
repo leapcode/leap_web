@@ -1,9 +1,13 @@
 #
-# NOTE: there is some confusing terminology between User and Identity:
-# If a user is disabled, the user still exists but has been marked as disabled
-# and this condition can be easily reversed. If an identity is disabled, then
-# it loses any association with the user and exists only to reserve that username
-# and prevent anyone else from registering it.
+# Identity states:
+#
+#   DISABLED -- An identity is disabled if and only if its associated user
+#               is also disabled. In the disabled state, incoming email
+#               should bounce and outgoing email should not be relayed.
+#
+#   ORPHANED -- An identity is orphaned if it has lost its association
+#               with a user account. This is in order to keep the name
+#               reserved to prevent anyone else from using it.
 #
 
 class Identity < CouchRest::Model::Base
@@ -17,10 +21,12 @@ class Identity < CouchRest::Model::Base
   property :destination, Email
   property :keys, HashWithIndifferentAccess
   property :cert_fingerprints, Hash
+  property :disabled_cert_fingerprints, Hash
+  property :enabled, TrueClass, :default => true
 
   validates :address, presence: true
   validate :address_available
-  validates :destination, presence: true, if: :enabled?
+  validates :destination, presence: true, if: :user_id
   validates :destination, uniqueness: {scope: :address}
   validate :address_local_email
   validate :destination_email
@@ -58,33 +64,33 @@ class Identity < CouchRest::Model::Base
     identity
   end
 
-  def self.disable_all_for(user)
-    Identity.by_user_id.key(user.id).each do |identity|
-      identity.disable
-      # if the identity is not unique anymore because the destination
-      # was reset to nil we destroy it.
-      identity.save || identity.destroy
-    end
+  # currently leap_mx ignores enabled property, so we
+  # also disable the fingerprints instead of just marking
+  # identity as disabled.
+
+  def disable!
+    self.disabled_cert_fingerprints = self.cert_fingerprints
+    self.cert_fingerprints = {}
+    self.write_attribute(:enabled, false)
+    self.save
   end
 
-  # if an identity is disabled, it loses contact
-  # with its former user. but sometimes we want to keep the association
-  # and remove the fingerprints that allow the user to send email.
-  def self.remove_cert_fingerprints_for(user)
-    Identity.by_user_id.key(user.id).each do |identity|
-      identity.write_attribute(:cert_fingerprints, {})
-      identity.save
-    end
+  def enable!
+    self.cert_fingerprints = self.disabled_cert_fingerprints
+    self.disabled_cert_fingerprints = nil
+    self.write_attribute(:enabled, true)
+    self.save
   end
 
-  def self.destroy_all_for(user)
-    Identity.by_user_id.key(user.id).each do |identity|
-      identity.destroy
-    end
+  # removes the association between this identity and the user.
+  def orphan!
+    self.destination = nil
+    self.user_id = nil
+    self.disable!
   end
 
-  def self.destroy_all_disabled
-    Identity.disabled.each do |identity|
+  def self.destroy_all_orphaned
+    Identity.orphaned.each do |identity|
       identity.destroy
     end
   end
@@ -97,36 +103,26 @@ class Identity < CouchRest::Model::Base
   end
 
   def status
-    return :blocked if disabled?
-    case destination
-    when address
-      :main_email
-    when /@#{APP_CONFIG[:domain]}\Z/i,
-      :alias
+    if !enabled? || orphaned?
+      return :blocked
     else
-      :forward
+      case destination
+      when address
+        :main_email
+      when /@#{APP_CONFIG[:domain]}\Z/i,
+        :alias
+      else
+        :forward
+      end
     end
   end
 
-  def enabled?
-    self.user_id
-  end
-
-  def disabled?
-    !enabled?
-  end
-
   def actions
-    if enabled?
+    if !orphaned?
       [] # [:show, :edit]
     else
       [:destroy]
     end
-  end
-
-  def disable
-    self.destination = nil
-    self.user_id = nil
   end
 
   def keys
@@ -151,6 +147,18 @@ class Identity < CouchRest::Model::Base
   # for LoginFormatValidation
   def login
     address.handle if address.present?
+  end
+
+  def orphaned?
+    self.user_id.nil?
+  end
+
+  def self.orphaned
+    # the "disabled" view is a misnomer. it returns
+    # identities that have been orphaned, not identities that
+    # have been disabled.
+    # TODO: fix the view name
+    Identity.disabled
   end
 
   protected

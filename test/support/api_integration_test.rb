@@ -21,7 +21,7 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
 
   teardown do
     if @user && @user.persisted?
-      Identity.destroy_all_for @user
+      @user.destroy_identities
       @user.reload.destroy
     end
     if @token && @token.persisted?

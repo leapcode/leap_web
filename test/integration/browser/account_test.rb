@@ -3,7 +3,7 @@ require 'test_helper'
 class AccountTest < BrowserIntegrationTest
 
   teardown do
-    Identity.destroy_all_disabled
+    Identity.destroy_all_orphaned
   end
 
   test "signup successfully when invited" do

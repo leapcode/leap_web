@@ -86,7 +86,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
 
   teardown do
     if @user && @user.reload
-      Identity.destroy_all_for @user
+      @user.destroy_identities
       @user.destroy
     end
   end
