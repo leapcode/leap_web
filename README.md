@@ -21,6 +21,8 @@ The Web App communicates with:
 
 LEAP Web is provisioned and run as part of the overall [LEAP platform](https://leap.se/en/docs/platform).
 
+[![Build Status](https://travis-ci.org/leapcode/leap_web.svg?branch=master)](https://travis-ci.org/leapcode/leap_web)
+
 Original code specific to this web application is licensed under the GNU
 Affero General Public License (version 3.0 or higher). See
 http://www.gnu.org/licenses/agpl-3.0.html for more information.
