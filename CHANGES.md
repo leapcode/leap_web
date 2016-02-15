@@ -1,10 +1,20 @@
-version 0.8 - RGSoC
+version 0.8 - email and RGSoC
 ------------------------------------------
 
-* Support for invite codes.
-* Support for braintree billing.
-* Ability to remove and disable users.
-* Localization fixes.
+This release focused on getting all the features needed for a complete 
+email provider and merging in the work done by Rails Girls Summer of 
+Code.
+
+* Support for invite codes: admins can require that new
+  users present an invite code. If required, the invite code
+  cannot be bypassed and is incorporated in the Secure Remote
+  Password negotiation. (thanks ankonym, ayajaff).
+* Support for customer account billing, including subscriptions.
+  (thanks claucece, EvyW).
+* Ability to remove, disable, and re-enable users.
+  (thanks EvyW).
+* Many localization fixes.
+* Many bug fixes.
 
 version 0.7.1 - localization
 ------------------------------------------
