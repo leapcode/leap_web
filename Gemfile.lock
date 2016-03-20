@@ -204,7 +204,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (11.1.1)
+    rake (10.5.0)
     rdiscount (2.1.7.1)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -297,6 +297,7 @@ DEPENDENCIES
   rails (~> 3.2.21)
   rails-i18n
   rails_warden
+  rake (~> 10.4)
   rdiscount
   ruby-srp (~> 0.2.1)
   sass-rails (~> 3.2.5)
