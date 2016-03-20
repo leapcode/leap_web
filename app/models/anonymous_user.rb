@@ -9,6 +9,10 @@ class AnonymousUser < Object
     false
   end
 
+  def is_test?
+    false
+  end
+
   def id
     nil
   end

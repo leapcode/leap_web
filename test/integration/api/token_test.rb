@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 require_relative 'srp_test'
 
 class TokenTest < SrpTest
@@ -12,4 +12,5 @@ class TokenTest < SrpTest
     token = server_auth['token']
     assert Token.find(Digest::SHA512.hexdigest(token))
   end
+
 end
