@@ -10,8 +10,8 @@ LeapWeb::Application.routes.draw do
   # HTTP Error Handling
   # instead of the default error pages use the errors controller and views
   #
-  match '/404' => 'errors#not_found'
-  match '/500' => 'errors#server_error'
+  match '/404' => 'errors#not_found', via: [:get, :post]
+  match '/500' => 'errors#server_error', via: [:get, :post]
 
   scope "(:locale)", :locale => CommonLanguages.match_available, :controller => 'pages', :action => 'show' do
     get 'privacy-policy', :as => 'privacy_policy'
