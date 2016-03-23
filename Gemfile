@@ -6,8 +6,8 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 # rake 11.x throws lots of warnings about rails 3.2 code
 gem "rake"
 gem "rails", "~> 4.2.6"
-gem "couchrest", "~> 1.1.3"
-gem "couchrest_model", "~> 2.0.0"
+gem "couchrest", "~> 2.0.0.rc3"
+gem "couchrest_model", "~> 2.1.0.beta2"
 if ARGV.grep(/assets:precompile/).empty?
   gem "couchrest_session_store", "~> 0.4.1"
 end
