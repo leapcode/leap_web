@@ -22,6 +22,14 @@ PATH
     common_languages (0.0.1)
       i18n
 
+PATH
+  remote: vendor/gems/couchrest_session_store
+  specs:
+    couchrest_session_store (0.4.0)
+      actionpack (~> 4.0)
+      couchrest
+      couchrest_model
+
 GEM
   remote: https://rubygems.org/
   specs:
