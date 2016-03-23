@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :no_frame_header
   before_filter :language_header
   rescue_from StandardError, :with => :default_error_handler
-  rescue_from RestClient::Exception, :with => :default_error_handler
+  rescue_from CouchRest::Exception, :with => :default_error_handler
 
   ActiveSupport.run_load_hooks(:application_controller, self)
 

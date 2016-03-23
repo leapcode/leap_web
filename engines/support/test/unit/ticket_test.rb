@@ -63,7 +63,7 @@ class TicketTest < ActiveSupport::TestCase
   test "find tickets user commented on" do
 
     # clear old tickets just in case
-    # this will cause RestClient::ResourceNotFound errors if there are multiple copies of the same ticket returned
+    # this will cause RESOURCE_NOT_FOUND errors if there are multiple copies of the same ticket returned
     Ticket.by_includes_post_by.key('123').each {|t| t.destroy}
     # TODO: the by_includes_post_by view is only used for tests. Maybe we should get rid of it and change the test to including ordering?
 

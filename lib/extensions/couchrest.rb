@@ -81,7 +81,7 @@ module CouchRest
   class ModelRailtie
     config.action_dispatch.rescue_responses.merge!(
       'CouchRest::Model::DocumentNotFound' => :not_found,
-      'RestClient::ResourceNotFound' => :not_found
+      'CouchRest::NotFound' => :not_found
     )
   end
 end

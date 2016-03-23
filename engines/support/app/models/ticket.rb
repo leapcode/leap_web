@@ -50,7 +50,7 @@ class Ticket < CouchRest::Model::Base
     self.by_created_by.key(user.id).each do |ticket|
       ticket.destroy
     end
-  rescue RestClient::ResourceNotFound
+  rescue RESOURCE_NOT_FOUND
     # silently ignore if design docs are not yet created
   end
 
