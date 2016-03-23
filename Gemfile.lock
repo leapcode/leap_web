@@ -253,6 +253,8 @@ GEM
     rdiscount (2.1.8)
     ref (2.0.0)
     regexp_parser (0.3.3)
+    responders (2.1.2)
+      railties (>= 4.2.0, < 5.1)
     ruby-srp (0.2.1)
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
@@ -346,6 +348,7 @@ DEPENDENCIES
   rails_warden
   rake
   rdiscount
+  responders (~> 2.0)
   ruby-srp (~> 0.2.1)
   sass-rails
   simple_form
