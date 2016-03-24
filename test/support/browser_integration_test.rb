@@ -102,7 +102,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     File.open(logfile_path, 'w') do |test_log|
       test_log.puts self.class.name
       test_log.puts "========================="
-      test_log.puts __name__
+      test_log.puts name
       test_log.puts Time.now
       test_log.puts current_path
       test_log.puts page.status_code
