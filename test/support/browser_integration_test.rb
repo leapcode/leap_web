@@ -3,10 +3,11 @@
 #
 # Use this class for capybara based integration tests for the ui.
 #
+require 'capybara/rails'
 
 class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   # let's use dom_id inorder to identify sections
-  include ActionController::RecordIdentifier
+  include ActionView::RecordIdentifier
 
   CONFIG_RU = (Rails.root + 'config.ru').to_s
   OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
