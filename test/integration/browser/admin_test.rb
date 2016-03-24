@@ -2,6 +2,24 @@ require 'test_helper'
 
 class AdminTest < BrowserIntegrationTest
 
+  test "default user actions" do
+    login
+    click_on "Account Settings"
+    assert page.has_content? I18n.t('destroy_my_account')
+    assert page.has_no_css? '#update_login_and_password'
+    assert page.has_no_css? '#update_pgp_key'
+  end
+
+  test "default admin actions" do
+    login
+    with_config admins: [@user.login] do
+      click_on "Account Settings"
+      assert page.has_content? I18n.t('destroy_my_account')
+      assert page.has_no_css? '#update_login_and_password'
+      assert page.has_css? '#update_pgp_key'
+    end
+  end
+
   test "clear blocked handle" do
     id = FactoryGirl.create :identity
     submit_signup(id.login)
