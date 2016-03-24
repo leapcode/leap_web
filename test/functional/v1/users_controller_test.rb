@@ -14,7 +14,7 @@ class V1::UsersControllerTest < ActionController::TestCase
 
     assert_equal user, assigns[:user]
     assert_response 204
-    assert_equal " ", @response.body
+    assert @response.body.blank?, "Response should be blank"
   end
 
   test "admin can update user" do
