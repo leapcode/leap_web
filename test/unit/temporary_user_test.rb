@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TmpUserTest < ActiveSupport::TestCase
+class TemporaryUserTest < ActiveSupport::TestCase
 
   setup do
     InviteCodeValidator.any_instance.stubs(:validate)

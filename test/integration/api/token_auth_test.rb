@@ -1,7 +1,7 @@
 require_relative '../../test_helper'
 require_relative 'srp_test'
 
-class TokenTest < SrpTest
+class TokenAuthTest < SrpTest
 
   setup do
     register_user
