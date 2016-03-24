@@ -91,8 +91,8 @@
 //
 
 input.large {
-  font-size: $baseFontSize * 1.25;
-  line-height: $baseLineHeight * 1.5;
+  font-size: $font-size-base * 1.25;
+  line-height: $line-height-base * 1.5;
 }
 
 .p {
@@ -119,9 +119,9 @@ input, textarea {
 
 // like a label, but with no background
 .label-clear {
-  background-color: $white;
+  background-color: $body-bg;
   text-shadow: none;
-  color: $black;
+  color: $gray-base;
 }
 
 // force a black icon, even if bootstrap thinks differently
@@ -187,7 +187,7 @@ input, textarea {
     font-weight: bold;
   }
   a {
-    color: $textColor;
+    color: $text-color;
   }
 }
 
@@ -227,9 +227,9 @@ input, textarea {
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
   li.active {
     a, a:hover {
-      background-color: $linkColor;
-      color: $white;
-      border-color: darken($linkColor, 0%);
+      background-color: $link-color;
+      color: $body-bg;
+      border-color: darken($link-color, 0%);
       cursor: pointer;
     }
   }
@@ -264,7 +264,7 @@ $footer-height: 100px;
 $footer-border-width: 1px;
 $footer-gutter: 20px; // vertical gap above footer
 $footer-combined: $footer-height + $footer-border-width + $footer-gutter;
-$footer-color: $grayLighter !default;
+$footer-color: $gray-lighter !default;
 
 html, body {
   height: 100%;
@@ -312,7 +312,7 @@ html, body {
     // border-top: $footer-border-width solid darken($footer-color, 10%);
     background-color: $footer-color;
     a {
-      color: $black;
+      color: $gray-base;
       margin: 0 5px;
     }
   }
