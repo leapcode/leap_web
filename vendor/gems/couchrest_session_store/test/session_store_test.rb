@@ -64,10 +64,10 @@ class SessionStoreTest < MiniTest::Test
 
   def test_stored_and_not_expired_yet
     sid, session = expiring_session
-    doc = CouchRest::Session::Document.fetch(sid)
-    expires = doc.send :expires
+    couchrest_session = CouchRest::Session.fetch(sid)
+    expires = couchrest_session.send :expires
     assert expires
-    assert !doc.expired?
+    assert !couchrest_session.expired?
     assert (expires - Time.now) > 0, "Exiry should be in the future"
     assert (expires - Time.now) <= 300, "Should expire after 300 seconds - not more"
     assert_equal [sid, session], store.send(:get_session, env, sid)

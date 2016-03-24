@@ -54,8 +54,8 @@ class CouchRest::Session::Store < ActionDispatch::Session::AbstractStore
 
   def set_session(env, sid, session, options)
     raise CouchRest::NotFound if /^_design\/(.*)/ =~ sid
-    doc = build_or_update_doc(sid, session, options)
-    doc.save
+    couchrest_session = build_or_update_doc(sid, session, options)
+    couchrest_session.save
     return sid
   # if we can't store the session we just return false.
   rescue CouchRest::Unauthorized,
@@ -75,12 +75,12 @@ class CouchRest::Session::Store < ActionDispatch::Session::AbstractStore
 
   def fetch_session(sid)
     return nil unless sid
-    doc = secure_get(sid)
-    doc.to_session unless doc.expired?
+    couchrest_session = secure_get(sid)
+    couchrest_session.to_session unless couchrest_session.expired?
   end
 
   def build_or_update_doc(sid, session, options)
-    CouchRest::Session::Document.build_or_update(sid, session, options)
+    CouchRest::Session.build_or_update(sid, session, options)
   end
 
   # prevent access to design docs
@@ -88,7 +88,7 @@ class CouchRest::Session::Store < ActionDispatch::Session::AbstractStore
   # but better be save than sorry.
   def secure_get(sid)
     raise CouchRest::NotFound if /^_design\/(.*)/ =~ sid
-    CouchRest::Session::Document.fetch(sid)
+    CouchRest::Session.fetch(sid)
   end
 
 end
