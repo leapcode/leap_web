@@ -57,7 +57,6 @@
 
 [class*="-icon-"] {
   display: inline-block;
-  @include ie7-restore-right-whitespace();
   vertical-align: middle;
   background-repeat: no-repeat;
   margin-top: 1px;
