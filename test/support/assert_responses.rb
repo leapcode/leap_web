@@ -85,7 +85,7 @@ module AssertResponses
       assert_json_response('error' => key.to_s, 'message' => message)
       assert_response status
     else
-      assert_equal({:alert => message}, flash.to_hash)
+      assert_equal({'alert' => message}, flash.to_hash)
     end
   end
 
