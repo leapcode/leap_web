@@ -43,7 +43,6 @@ gem 'client_side_validations-simple_form'
 gem "haml-rails"
 gem "bootstrap-sass"
 gem "sass-rails"
-gem 'quiet_assets'            # stops logging all the asset requests
 group :production do
   gem "uglifier"
   gem 'therubyracer', :platforms => :ruby
