@@ -67,8 +67,8 @@ class UsersControllerTest < ActionController::TestCase
     nonid = 'thisisnotanexistinguserid'
     login :is_admin? => true
     get :show, :id => nonid
+    assert_error_response :no_such_user
     assert_response :redirect
-    assert_equal({:alert => "No such user."}, flash.to_hash)
     assert_redirected_to users_path
   end
 

@@ -71,15 +71,18 @@ module AssertResponses
   end
 
   def assert_login_required
-    assert_error_response :not_authorized_login, :unauthorized
+    assert_error_response :not_authorized_login,
+      status: :unauthorized
   end
 
   def assert_access_denied
-    assert_error_response :not_authorized, :forbidden
+    assert_error_response :not_authorized,
+      status: :forbidden
   end
 
-  def assert_error_response(key, status=nil)
-    message = I18n.t(key)
+  def assert_error_response(key, options = {})
+    status=options.delete :status
+    message = I18n.t(key, options)
     if content_type == 'application/json'
       status ||= :unprocessable_entity
       assert_json_response('error' => key.to_s, 'message' => message)
