@@ -12,7 +12,7 @@ module ControllerExtension::JsonFile
   end
 
   def fetch_file
-    if File.exists?(@filename)
+    if File.exist?(@filename)
       @file = File.new(@filename)
     else
       not_found

@@ -13,7 +13,7 @@ Bundler.require(*Rails.groups)
 
 APP_CONFIG = ["defaults.yml", "config.yml"].inject({}) {|config, file|
   filepath = File.expand_path(file, File.dirname(__FILE__))
-  if File.exists?(filepath) && settings = YAML.load_file(filepath)[Rails.env]
+  if File.exist?(filepath) && settings = YAML.load_file(filepath)[Rails.env]
     config.merge(settings)
   else
     config

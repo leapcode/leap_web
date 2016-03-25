@@ -69,7 +69,7 @@ module CouchRest
 
         def prepare_directory(dir = '')
           dir = Rails.root + 'tmp' + 'designs' + dir
-          Dir.mkdir(dir) unless Dir.exists?(dir)
+          Dir.mkdir(dir) unless Dir.exist?(dir)
           return dir
         end
 
