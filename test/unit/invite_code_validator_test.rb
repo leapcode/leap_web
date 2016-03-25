@@ -3,9 +3,9 @@ require 'test_helper'
 class InviteCodeValidatorTest < ActiveSupport::TestCase
   test "user should not be created with invalid invite code" do
     with_config invite_required: true do
-    invalid_user = FactoryGirl.build(:user)
+      invalid_user = FactoryGirl.build(:user)
 
-    assert !invalid_user.valid?
+      assert !invalid_user.valid?
     end
   end
 
@@ -30,7 +30,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
 
 
   test "Invite count >= invite max uses is not accepted for new account signup" do
-    validator = InviteCodeValidator.new nil
+    validator = InviteCodeValidator.new
 
     user_code = InviteCode.new
     user_code.invite_count = 1
@@ -46,7 +46,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
   end
 
   test "Invite count < invite max uses is accepted for new account signup" do
-    validator = InviteCodeValidator.new nil
+    validator = InviteCodeValidator.new
 
     user_code = InviteCode.create
     user_code.save
@@ -60,7 +60,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
   end
 
   test "Invite count 0 is accepted for new account signup" do
-    validator = InviteCodeValidator.new nil
+    validator = InviteCodeValidator.new
 
     user_code = InviteCode.create
 
@@ -73,7 +73,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
   end
 
   test "There is an error message if the invite code does not exist" do
-    validator = InviteCodeValidator.new nil
+    validator = InviteCodeValidator.new
 
     user = FactoryGirl.build :user
     user.invite_code = "wrongcode"
