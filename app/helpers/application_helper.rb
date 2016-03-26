@@ -19,7 +19,7 @@ module ApplicationHelper
   # http://twitter.github.io/bootstrap/base-css.html#icons
   #
   def icon(name, color=nil)
-    "<i class=\"icon-#{name} #{color_class(color)}\"></i> ".html_safe
+    "<span class=\"glyphicon glyphicon-#{name} #{color_class(color)}\"></span> ".html_safe
   end
 
   def big_icon(name, color=nil)
