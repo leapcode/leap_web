@@ -39,6 +39,10 @@ module LinkHelper
   def btn(*args, &block)
     html_options = extract_html_options!(args, &block)
     type = Array(html_options.delete(:type))
+    btn_opts = [:default, :primary, :success, :info, :warning, :danger, :link]
+    if (type & btn_opts).blank?
+      type << :default
+    end
     type.map! {|t| "btn-#{t}"}
     html_options[:class] = concat_classes(html_options[:class], 'btn', type)
     args[0] = t(args[0]) if args[0].is_a?(Symbol)
