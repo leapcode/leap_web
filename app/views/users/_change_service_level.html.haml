@@ -13,6 +13,6 @@
       %p
       = t(:effective_service_level)
       = f.select :effective_service_level_code, ServiceLevel.select_options, :selected => @user.effective_service_level.id
-    .control-group
+    .form-group
       .controls
         = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}

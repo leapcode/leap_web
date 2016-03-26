@@ -8,6 +8,6 @@
 = simple_form_for [:api, @user], form_options do |f|
   %legend= t(:advanced_options)
   = f.input :public_key, :as => :text, :hint => t(:use_ascii_key), :input_html => {:class => "full-width", :rows => 4}
-  .control-group
+  .form-group
     .controls
       = f.submit t(:save), :class => 'btn', :data => {"loading-text" => "Saving..."}

@@ -6,7 +6,7 @@
     "error_tag":"span",
     "wrapper_error_class":"error",
     "wrapper_tag":"div",
-    "wrapper_class":"control-group"
+    "wrapper_class":"form-group"
   }
 
   //
