@@ -34,6 +34,12 @@ module ControllerExtension::Authentication
     access_denied unless admin?
   end
 
+  def require_monitor
+    unless current_user.is_monitor? || current_user.is_admin?
+      access_denied
+    end
+  end
+
   def authentication_errors
     return unless attempted_login?
     errors = get_warden_errors
