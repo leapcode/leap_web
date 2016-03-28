@@ -118,7 +118,7 @@ development:
   <<: *service_levels
   admins: [blue, red, staff]
   api_tokens:
-    test: nil
+    monitor: nil
     admin: nil
   domain: example.org
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -132,8 +132,10 @@ test:
   <<: *service_levels
   admins: [admin, admin2]
   api_tokens:
-    test: "212da28a59dcaca487365309dc93aa09"
+    monitor: "212da28a59dcaca487365309dc93aa09"
     admin: nil
+    allowed_ips:
+      - 0.0.0.0
   domain: test.me
   secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   reraise_errors: true
@@ -149,7 +151,7 @@ production:
   <<: *common
   admins: []
   api_tokens:
-    test: nil
+    monitor: nil
     admin: nil
   domain: example.net
   engines:

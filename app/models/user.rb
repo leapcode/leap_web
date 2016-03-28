@@ -107,7 +107,7 @@ class User < CouchRest::Model::Base
     false
   end
 
-  def is_test?
+  def is_monitor?
     false
   end
 

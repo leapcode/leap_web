@@ -7,8 +7,8 @@ end
 # for running monitor tests against a live production
 # installation.
 #
-class ApiTestUser < ApiUser
-  def is_test?
+class ApiMonitorUser < ApiUser
+  def is_monitor?
     true
   end
 end

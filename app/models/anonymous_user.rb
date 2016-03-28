@@ -9,7 +9,7 @@ class AnonymousUser < Object
     false
   end
 
-  def is_test?
+  def is_monitor?
     false
   end
 

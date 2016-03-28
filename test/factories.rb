@@ -26,6 +26,10 @@ FactoryGirl.define do
       end
     end
 
+    factory :test_user do
+      login {"test_user_" + Faker::Internet.user_name + '_' + SecureRandom.hex(4)}
+    end
+
     factory :premium_user do
       effective_service_level_code 2
     end

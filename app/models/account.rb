@@ -21,7 +21,7 @@ class Account
     user = User.new(attrs)
     user.save
 
-    if !user.tmp? && user.persisted?
+    if !user.is_tmp? && user.persisted?
       identity = user.identity
       identity.user_id = user.id
       identity.save
@@ -59,7 +59,7 @@ class Account
 
   def destroy(destroy_identity=false)
     return unless @user
-    if !@user.tmp?
+    if !@user.is_tmp?
       if destroy_identity == false
         @user.identities.each do |id|
           id.orphan!
@@ -77,7 +77,7 @@ class Account
   # in place, but the user should not be able to send email or
   # create new authentication certificates.
   def disable
-    if @user && !@user.tmp?
+    if @user && !@user.is_tmp?
       @user.enabled = false
       @user.save
       @user.identities.each do |id|
@@ -119,7 +119,7 @@ class Account
 
   def self.creation_problem?(user, identity)
     return true if user.nil? || !user.persisted? || user.errors.any?
-    if !user.tmp?
+    if !user.is_tmp?
       return true if identity.nil? || !identity.persisted? || identity.errors.any?
     end
     return false
