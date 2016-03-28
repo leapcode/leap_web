@@ -5,7 +5,7 @@ module ControllerExtension::TokenAuthentication
 
   def token
     @token ||= authenticate_with_http_token do |token, options|
-      Token.find_by_token(token) || ApiToken.find_by_token(token)
+      Token.find_by_token(token) || ApiToken.find_by_token(token, request.headers['REMOTE_ADDR'])
     end
   end
 

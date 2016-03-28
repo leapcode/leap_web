@@ -14,9 +14,11 @@ class ApiToken
   # Searches static config to see if there is a matching api token string.
   # Return an ApiToken if successful, or nil otherwise.
   #
-  def self.find_by_token(token)
+  def self.find_by_token(token, ip_address=nil)
     if APP_CONFIG["api_tokens"].nil? || APP_CONFIG["api_tokens"].empty?
       # no api auth tokens are configured
+      return nil
+    elsif ip_address && !ip_allowed?(ip_address)
       return nil
     elsif !token.is_a?(String) || token.size < 24
       # don't allow obviously invalid token strings
@@ -25,8 +27,8 @@ class ApiToken
       token_digest = Digest::SHA512.hexdigest(token)
       username = self.static_auth_tokens[token_digest]
       if username
-        if username == "test"
-          return ApiTestToken.new
+        if username == "monitor"
+          return ApiMonitorToken.new
         elsif username == "admin"
           # not yet supported
           return nil
@@ -51,14 +53,25 @@ class ApiToken
   #
   def self.static_auth_tokens
     @static_auth_tokens ||= APP_CONFIG["api_tokens"].inject({}) {|hsh, entry|
-      hsh[Digest::SHA512.hexdigest(entry[1])] = entry[0]
+      if ["monitor", "admin"].include?(entry[0])
+        hsh[Digest::SHA512.hexdigest(entry[1])] = entry[0]
+      end
       hsh
     }.freeze
   end
 
+  def self.ip_allowed?(ip)
+    ip == "0.0.0.0" ||
+    ip == "127.0.0.1" || (
+      APP_CONFIG["api_tokens"] &&
+      APP_CONFIG["api_tokens"]["allowed_ips"].is_a?(Array) &&
+      APP_CONFIG["api_tokens"]["allowed_ips"].include?(ip)
+    )
+  end
+
 end
 
-class ApiAdminToken < Token
+class ApiAdminToken < ApiToken
   # not yet supported
   #def authenticate
   #  AdminUser.new
@@ -69,8 +82,8 @@ end
 # These tokens used by the platform to run regular monitor tests
 # of a production infrastructure.
 #
-class ApiTestToken < Token
+class ApiMonitorToken < ApiToken
   def authenticate
-    ApiTestUser.new
+    ApiMonitorUser.new
   end
 end

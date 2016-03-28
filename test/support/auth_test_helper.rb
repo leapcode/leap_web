@@ -29,6 +29,21 @@ module AuthTestHelper
     @token.expects(:destroy) if @token
   end
 
+  # authenticate as the api monitor
+  def monitor_auth(&block)
+    token_auth(APP_CONFIG['api_tokens']['monitor'], &block)
+  end
+
+  # authenticate with a token
+  def token_auth(token_str)
+    original = request.env['HTTP_AUTHORIZATION']
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(token_str)
+    if block_given?
+      yield
+      request.env['HTTP_AUTHORIZATION'] = original
+    end
+  end
+
   protected
 
   def header_for_token_auth
