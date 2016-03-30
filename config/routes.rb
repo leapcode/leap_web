@@ -26,9 +26,10 @@ LeapWeb::Application.routes.draw do
 
   namespace "api", { module: "v1",
       path: "/1/",
-      defaults: {format: 'json'} } do
-    resources :sessions, :only => [:new, :create, :update],
+      defaults: {format: 'json'},
       :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
+      } do
+    resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
     resources :users, :only => [:create, :update, :destroy, :index, :show]
     resources :messages, :only => [:index, :update]
