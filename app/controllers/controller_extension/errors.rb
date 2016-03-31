@@ -6,16 +6,19 @@ module ControllerExtension::Errors
   def access_denied
     render_error :not_authorized, :forbidden, home_url
   end
+  alias_method :render_access_denied, :access_denied
 
   def login_required
     # Warden will intercept the 401 response and call
     # SessionController#unauthenticated instead.
     render_error :not_authorized_login, :unauthorized, login_url
   end
+  alias_method :render_login_required, :login_required
 
   def not_found(msg=nil, url=nil)
     render_error(msg || :not_found, :not_found, url || home_url)
   end
+  alias_method :render_not_found, :not_found
 
   private
 

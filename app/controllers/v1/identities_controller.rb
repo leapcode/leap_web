@@ -5,7 +5,11 @@ module V1
 
     def show
       @identity = Identity.find_by_address(params[:id])
-      respond_with @identity
+      if @identity
+        respond_with @identity
+      else
+        render_not_found
+      end
     end
 
   end
