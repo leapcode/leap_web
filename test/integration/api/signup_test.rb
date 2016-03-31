@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 require_relative 'srp_test'
 
 class SignupTest < SrpTest
@@ -8,7 +8,7 @@ class SignupTest < SrpTest
   end
 
   test "signup response" do
-    assert_json_response :login => @login, :ok => true
+    assert_json_response :login => @login, :ok => true, :id => @user.id, :enabled => true
     assert last_response.successful?
   end
 

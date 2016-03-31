@@ -16,7 +16,8 @@ module TemporaryUser
 
   USER_DB     = 'users'
   TMP_USER_DB = 'tmp_users'
-  TMP_LOGIN   = 'test_user'
+  TMP_LOGIN   = 'tmp_user'  # created and deleted frequently
+  TEST_LOGIN  = 'test_user' # created, rarely deleted
 
   included do
     use_database_method :db_name
@@ -26,7 +27,7 @@ module TemporaryUser
     # override it.
     instance_eval <<-EOS, __FILE__, __LINE__ + 1
       def find_by_login(*args)
-        if args.grep(/#{TMP_LOGIN}/).any?
+        if args.grep(/^#{TMP_LOGIN}/).any?
           by_login.database(tmp_database).key(*args).first()
         else
           by_login.key(*args).first()
@@ -60,6 +61,14 @@ module TemporaryUser
     def create_tmp_database!
       design_doc.sync!(tmp_database.tap{|db|db.create!})
     end
+
+    def is_tmp?(login)
+      !login.nil? && login =~ /^#{TMP_LOGIN}/
+    end
+
+    def is_test?(login)
+      !login.nil? && (login =~ /^#{TMP_LOGIN}/ || login =~ /^#{TEST_LOGIN}/)
+    end
   end
 
   #
@@ -71,8 +80,14 @@ module TemporaryUser
   end
 
   # returns true if this User instance is stored in tmp db.
-  def tmp?
-    !login.nil? && login.include?(TMP_LOGIN)
+  def is_tmp?
+    self.class.is_tmp?(self.login)
+  end
+
+  # returns true if this user is used for testing purposes
+  # (either a temporary or long lived)
+  def is_test?
+    self.class.is_test?(self.login)
   end
 
 end

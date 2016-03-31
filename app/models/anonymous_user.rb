@@ -9,6 +9,10 @@ class AnonymousUser < Object
     false
   end
 
+  def is_monitor?
+    false
+  end
+
   def id
     nil
   end

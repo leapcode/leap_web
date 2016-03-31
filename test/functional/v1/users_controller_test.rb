@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../../test_helper'
 
 class V1::UsersControllerTest < ActionController::TestCase
 
@@ -77,6 +77,56 @@ class V1::UsersControllerTest < ActionController::TestCase
     user_attribs = record_attributes_for :user
     with_config(allow_registration: false) do
       post :create, :user => user_attribs, :format => :json
+      assert_response :forbidden
+    end
+  end
+
+  test "admin can show user" do
+    user = FactoryGirl.create :user
+    login :is_admin? => true
+    get :show, :id => 0, :login => user.login, :format => :json
+    assert_response :success
+    assert_json_response user
+    get :show, :id => user.id, :format => :json
+    assert_response :success
+    assert_json_response user
+    get :show, :id => "0", :format => :json
+    assert_response :not_found
+  end
+
+  test "normal users cannot show user" do
+    user = find_record :user
+    login
+    get :show, :id => 0, :login => user.login, :format => :json
+    assert_access_denied
+  end
+
+  test "api monitor auth can create and destroy test users" do
+    with_config(allow_registration: false) do
+      monitor_auth do
+        user_attribs = record_attributes_for :test_user
+        post :create, :user => user_attribs, :format => :json
+        assert_response :success
+        delete :destroy, :id => assigns(:user).id, :format => :json
+        assert_response :success
+      end
+    end
+  end
+
+  test "api monitor auth cannot create normal users" do
+    monitor_auth do
+      user_attribs = record_attributes_for :user
+      post :create, :user => user_attribs, :format => :json
+      assert_response :forbidden
+    end
+  end
+
+  test "api monitor auth cannot delete normal users" do
+    post :create, :user => record_attributes_for(:user), :format => :json
+    assert_response :success
+    normal_user_id = assigns(:user).id
+    monitor_auth do
+      delete :destroy, :id => normal_user_id, :format => :json
       assert_response :forbidden
     end
   end

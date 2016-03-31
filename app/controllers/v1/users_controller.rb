@@ -2,10 +2,12 @@ module V1
   class UsersController < ApiController
     include ControllerExtension::FetchUser
 
+    # allow optional access to this controller using API auth tokens:
+    before_filter :token_authenticate
+
     before_filter :fetch_user, :only => [:update, :destroy]
-    before_filter :require_admin, :only => [:index]
+    before_filter :require_monitor, :only => [:index, :show]
     before_filter :require_login, :only => [:index, :update, :destroy]
-    before_filter :require_registration_allowed, only: :create
 
     respond_to :json
 
@@ -19,9 +21,27 @@ module V1
       end
     end
 
+    def show
+      if params[:login]
+        @user = User.find_by_login(params[:login])
+      elsif params[:id]
+        @user = User.find(params[:id])
+      end
+      if @user
+        respond_with @user
+      else
+        not_found
+      end
+    end
+
     def create
-      @user = Account.create(params[:user])
-      respond_with @user # return ID instead?
+      if current_user.is_monitor?
+        create_test_account
+      elsif APP_CONFIG[:allow_registration]
+        create_account
+      else
+        head :forbidden
+      end
     end
 
     def update
@@ -30,19 +50,34 @@ module V1
     end
 
     def destroy
-      @user.account.destroy(params[:identities] == "destroy")
+      destroy_identity = current_user.is_monitor? || params[:identities] == "destroy"
+      @user.account.destroy(destroy_identity)
       if @user == current_user
         logout
       end
       render :json => {'success' => 'user deleted'}
     end
 
-    protected
+    private
 
-    def require_registration_allowed
-      unless APP_CONFIG[:allow_registration]
+    # tester auth can only create test users.
+    def create_test_account
+      if User::is_test?(params[:user][:login])
+        @user = Account.create(params[:user])
+        respond_with @user
+      else
         head :forbidden
       end
     end
+
+    def create_account
+      if APP_CONFIG[:allow_registration]
+        @user = Account.create(params[:user])
+        respond_with @user # return ID instead?
+      else
+        head :forbidden
+      end
+    end
+
   end
 end

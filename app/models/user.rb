@@ -68,8 +68,10 @@ class User < CouchRest::Model::Base
 
   def to_json(options={})
     {
-      :login => login,
-      :ok => valid?
+      :login => self.login,
+      :ok => self.valid?,
+      :id => self.id,
+      :enabled => self.enabled?
     }.to_json(options)
   end
 
@@ -104,6 +106,10 @@ class User < CouchRest::Model::Base
   end
 
   def is_anonymous?
+    false
+  end
+
+  def is_monitor?
     false
   end
 

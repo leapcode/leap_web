@@ -26,16 +26,18 @@ LeapWeb::Application.routes.draw do
 
   namespace "api", { module: "v1",
       path: "/1/",
-      defaults: {format: 'json'} } do
-    resources :sessions, :only => [:new, :create, :update],
+      defaults: {format: 'json'},
       :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
+      } do
+    resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
-    resources :users, :only => [:create, :update, :destroy, :index]
+    resources :users, :only => [:create, :update, :destroy, :index, :show]
     resources :messages, :only => [:index, :update]
     resource :cert, :only => [:show, :create]
     resource :smtp_cert, :only => [:create]
     resource :service, :only => [:show]
     resources :configs, :only => [:index, :show]
+    resources :identities, :only => [:show]
   end
 
   scope "(:locale)", :locale => CommonLanguages.match_available do
