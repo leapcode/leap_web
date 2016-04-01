@@ -90,7 +90,12 @@ module LeapWeb
     ## CUSTOMIZATION
     ## see initializers/customization.rb
     ##
-    config.paths['app/views'].unshift "config/customization/views"
+    if APP_CONFIG["customization_directory"]
+      custom_view_path = (Pathname.new(APP_CONFIG["customization_directory"]).relative_path_from(Rails.root) + 'views').to_s
+    else
+      custom_view_path = "config/customization/views"
+    end
+    config.paths['app/views'].unshift custom_view_path
 
     # handle http errors ourselves
     config.exceptions_app = self.routes

@@ -1,7 +1,8 @@
 #
 # When deploying, common customizations can be dropped in config/customizations. This initializer makes this work.
 #
-customization_directory = "#{Rails.root}/config/customization"
+APP_CONFIG["customization_directory"] ||= "#{Rails.root}/config/customization"
+customization_directory = APP_CONFIG["customization_directory"]
 
 #
 # Set customization views as the first view path
