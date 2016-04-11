@@ -63,7 +63,7 @@ module V1
     # tester auth can only create test users.
     def create_test_account
       if User::is_test?(params[:user][:login])
-        @user = Account.create(params[:user])
+        @user = Account.create(params[:user], :invite_required => false)
         respond_with @user
       else
         head :forbidden

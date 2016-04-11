@@ -43,8 +43,7 @@ class User < CouchRest::Model::Base
     :mx_with_fallback => true
 
 
-  validates_with InviteCodeValidator, on: :create, if: -> {APP_CONFIG[:invite_required]}
-
+  validates_with InviteCodeValidator, :on => :create, :if => :invite_required?
 
   timestamps!
 
@@ -56,6 +55,11 @@ class User < CouchRest::Model::Base
   end # end of design
 
   include TemporaryUser # MUST come after designs are defined.
+
+  def initialize(*args)
+    super
+    @invite_required = APP_CONFIG[:invite_required]
+  end
 
   def self.login_starts_with(query)
     self.by_login.startkey(query).endkey(query + "\ufff0")
@@ -111,6 +115,15 @@ class User < CouchRest::Model::Base
 
   def is_monitor?
     false
+  end
+
+  def invite_required?
+    @invite_required
+  end
+
+  # should only be called for testing or monitoring purposes
+  def ignore_invites!
+    @invite_required = false
   end
 
   def most_recent_tickets(count=3)

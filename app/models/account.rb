@@ -14,13 +14,26 @@ class Account
     @user = user
   end
 
+  #
+  # Creates a new user, with matching identity record.
+  #
   # Returns the user record so it can be used in views.
-  def self.create(attrs)
+  #
+  # options:
+  #
+  #  :invite_required -- if 'false', will overrides app-wide
+  #                      configuration by same name.
+  #
+  def self.create(attrs, options={})
     identity = nil
     user = nil
     user = User.new(attrs)
+    if options[:invite_required] == false
+      user.ignore_invites!
+    end
     user.save
 
+    # this is not very atomic, but we do the best we can:
     if !user.is_tmp? && user.persisted?
       identity = user.identity
       identity.user_id = user.id
@@ -28,8 +41,7 @@ class Account
       identity.errors.each do |attr, msg|
         user.errors.add(attr, msg)
       end
-
-      if APP_CONFIG[:invite_required]
+      if user.invite_required?
         user_invite_code = InviteCode.find_by_invite_code user.invite_code
         user_invite_code.invite_count += 1
         user_invite_code.save

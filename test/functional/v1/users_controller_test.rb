@@ -102,7 +102,8 @@ class V1::UsersControllerTest < ActionController::TestCase
   end
 
   test "api monitor auth can create and destroy test users" do
-    with_config(allow_registration: false) do
+    # should work even with registration off and/or invites required
+    with_config(allow_registration: false, invite_required: true) do
       monitor_auth do
         user_attribs = record_attributes_for :test_user
         post :create, :user => user_attribs, :format => :json

@@ -21,6 +21,23 @@ class AccountTest < ActiveSupport::TestCase
     user.account.destroy
   end
 
+  test "fail to create account without invite" do
+    with_config invite_required: true do
+      user = Account.create(FactoryGirl.attributes_for(:user))
+      assert !user.valid?, "user should not be valid"
+      assert !user.persisted?, "user should not have been saved"
+    end
+  end
+
+  test "allow invite_required override" do
+    with_config invite_required: true do
+      user = Account.create(FactoryGirl.attributes_for(:user), :invite_required => false)
+      assert user.valid?, "unexpected errors: #{user.errors.inspect}"
+      assert user.persisted?, "user should have been saved"
+      user.account.destroy
+    end
+  end
+
   test "create a new account" do
     with_config invite_required: false do
       user = Account.create(FactoryGirl.attributes_for(:user))
