@@ -32,23 +32,6 @@ module CouchRest
       end
     end
 
-    module Connection
-
-      module ClassMethods
-
-        def use_database(db)
-          @database = prepare_database(db)
-        rescue RestClient::Exception,
-          Errno::EHOSTUNREACH,
-          Errno::ECONNREFUSED => e
-          message = "Could not connect to couch database #{db} due to #{e.to_s}"
-          Rails.logger.warn message
-          raise e.class.new(message) if APP_CONFIG[:reraise_errors]
-        end
-      end
-
-    end
-
     module Utils
       module Migrate
         def self.load_all_models_with_engines
