@@ -9,7 +9,7 @@ gem "rails", "~> 3.2.21"
 gem "couchrest", "~> 1.1.3"
 gem "couchrest_model", "~> 2.0.0"
 if ARGV.grep(/assets:precompile/).empty?
-  gem "couchrest_session_store", "= 0.3.0"
+  gem "couchrest_session_store", "= 0.3.1"
 end
 
 ## AUTHENTICATION
