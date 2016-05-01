@@ -1,4 +1,4 @@
-class V1::ConfigsController < ApiController
+class Api::ConfigsController < ApiController
   include ControllerExtension::JsonFile
 
   before_filter :require_login, :unless => :anonymous_access_allowed?

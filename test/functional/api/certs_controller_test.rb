@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class V1::CertsControllerTest < ActionController::TestCase
+class Api::CertsControllerTest < ActionController::TestCase
 
   test "create unlimited cert without login" do
     with_config allow_anonymous_certs: true do

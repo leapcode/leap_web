@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class V1::ServicesControllerTest < ActionController::TestCase
+class Api::ServicesControllerTest < ActionController::TestCase
 
   test "anonymous user gets login required service info" do
     get :show, format: :json

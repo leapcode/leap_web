@@ -1,4 +1,4 @@
-module V1
+module Api
   class IdentitiesController < ApiController
     before_filter :token_authenticate
     before_filter :require_monitor

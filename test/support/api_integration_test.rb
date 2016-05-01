@@ -3,6 +3,10 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
   DUMMY_TOKEN = Token.new
   RACK_ENV = {'HTTP_AUTHORIZATION' => %Q(Token token="#{DUMMY_TOKEN.to_s}")}
 
+  def api_version
+    2
+  end
+
   setup do
     @testcode = InviteCode.new
     @testcode.save!

@@ -5,8 +5,8 @@
 
 require 'test_helper'
 
-class ConfigsControllerWithStaticTokensTest < ActionController::TestCase
-  tests V1::ConfigsController
+class Api::TokenAuthTest < ActionController::TestCase
+  tests Api::ConfigsController
 
   def test_login_via_api_token
     with_config(:allow_anonymous_certs => false) do

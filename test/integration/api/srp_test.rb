@@ -14,7 +14,7 @@ class SrpTest < RackTest
 
   # this test wraps the api and implements the interface the ruby-srp client.
   def handshake(login, aa)
-    post "http://api.lvh.me:3000/1/sessions.json",
+    post api_url("sessions.json"),
       :login => login,
       'A' => aa,
       :format => :json
@@ -27,7 +27,7 @@ class SrpTest < RackTest
   end
 
   def validate(m)
-    put "http://api.lvh.me:3000/1/sessions/" + @login + '.json',
+    put api_url("sessions/#{@login}.json"),
       :client_auth => m,
       :format => :json
     return JSON.parse(last_response.body)
@@ -39,7 +39,7 @@ class SrpTest < RackTest
 
   def register_user(login = "integration_test", password = 'srp, verify me!', invite_code = @testcode.invite_code)
     cleanup_user(login)
-    post 'http://api.lvh.me:3000/1/users.json',
+    post api_url('users.json'),
       user_params(login: login, password: password, invite_code: invite_code)
     assert(@user = User.find_by_login(login), 'user should have been created: %s' % last_response_errors)
     @login = login
@@ -47,7 +47,7 @@ class SrpTest < RackTest
   end
 
   def update_user(params)
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
+    put api_url("users/#{@user.id}.json"),
       user_params(params),
       auth_headers
   end
@@ -68,7 +68,7 @@ class SrpTest < RackTest
   end
 
   def logout(params=nil, headers=nil)
-    delete "http://api.lvh.me:3000/1/logout.json",
+    delete api_url("logout.json"),
       params || {format: :json},
       headers || auth_headers
   end
@@ -111,5 +111,13 @@ class SrpTest < RackTest
     JSON.parse(last_response.body)['errors']
   rescue
     ""
+  end
+
+  def api_url(path)
+    "http://api.lvh.me:3000/#{api_version}/#{path}"
+  end
+
+  def api_version
+    2
   end
 end

@@ -22,7 +22,7 @@ class SecurityTest < BrowserIntegrationTest
   end
 
   test "reports internal server errors" do
-    V1::UsersController.any_instance.stubs(:create).raises
+    Api::UsersController.any_instance.stubs(:create).raises
     submit_signup
     assert page.has_content?("server failed")
   end

@@ -1,4 +1,4 @@
-class V1::CertsController < ApiController
+class Api::CertsController < ApiController
 
   before_filter :require_login, :unless => :anonymous_access_allowed?
   before_filter :require_enabled

@@ -1,4 +1,4 @@
-class V1::SmtpCertsController < ApiController
+class Api::SmtpCertsController < ApiController
 
   before_filter :require_login
   before_filter :require_email_account

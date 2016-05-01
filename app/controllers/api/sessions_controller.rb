@@ -1,4 +1,4 @@
-module V1
+module Api
   class SessionsController < ApiController
 
     before_filter :require_login, only: :destroy

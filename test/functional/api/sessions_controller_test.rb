@@ -3,7 +3,7 @@ require 'test_helper'
 # This is a simple controller unit test.
 # We're stubbing out both warden and srp.
 # There's an integration test testing the full rack stack and srp
-class V1::SessionsControllerTest < ActionController::TestCase
+class Api::SessionsControllerTest < ActionController::TestCase
 
   setup do
     @request.env['HTTP_HOST'] = 'api.lvh.me'

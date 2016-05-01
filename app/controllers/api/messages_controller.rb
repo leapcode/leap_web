@@ -1,4 +1,4 @@
-module V1
+module Api
   class MessagesController < ApiController
 
     before_filter :require_login

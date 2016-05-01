@@ -1,4 +1,4 @@
-class V1::ServicesController < ApiController
+class Api::ServicesController < ApiController
 
   before_filter :require_login, :unless => :anonymous_access_allowed?
 

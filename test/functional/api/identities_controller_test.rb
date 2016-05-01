@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class V1::IdentitiesControllerTest < ActionController::TestCase
+class Api::IdentitiesControllerTest < ActionController::TestCase
 
   test "api monitor can fetch identity" do
     monitor_auth do

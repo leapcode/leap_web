@@ -24,10 +24,10 @@ LeapWeb::Application.routes.draw do
 
   get '/provider.json' => 'static_config#provider'
 
-  namespace "api", { module: "v1",
-      path: "/1/",
+  namespace "api", { module: "api",
+      path: "/:version/",
       defaults: {format: 'json'},
-      :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
+      :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/, :version => /[12]/ }
       } do
     resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"

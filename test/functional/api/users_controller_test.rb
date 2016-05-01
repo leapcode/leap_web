@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class V1::UsersControllerTest < ActionController::TestCase
+class Api::UsersControllerTest < ActionController::TestCase
 
   test "user can change settings" do
     user = find_record :user

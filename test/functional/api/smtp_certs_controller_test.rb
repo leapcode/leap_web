@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class V1::SmtpCertsControllerTest < ActionController::TestCase
+class Api::SmtpCertsControllerTest < ActionController::TestCase
 
   test "no smtp cert without login" do
     with_config allow_anonymous_certs: true do

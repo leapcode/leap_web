@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class V1::MessagesControllerTest < ActionController::TestCase
+class Api::MessagesControllerTest < ActionController::TestCase
 
   setup do
     @user = FactoryGirl.build(:user)

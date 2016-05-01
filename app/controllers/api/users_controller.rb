@@ -1,4 +1,4 @@
-module V1
+module Api
   class UsersController < ApiController
     include ControllerExtension::FetchUser
 
