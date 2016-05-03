@@ -22,7 +22,7 @@ module ControllerExtension::FetchUser
     @user = User.find(params[:user_id] || params[:id])
     if current_user.is_admin? || current_user.is_monitor?
       if @user.nil?
-        not_found(t(:no_such_thing, :thing => 'user'), users_url)
+        not_found(t(:no_such_user), users_url)
       elsif current_user.is_monitor?
         access_denied unless @user.is_test?
       end
