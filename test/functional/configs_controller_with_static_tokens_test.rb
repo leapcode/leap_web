@@ -3,9 +3,9 @@
 # via static configured tokens.
 #
 
-require_relative '../test_helper'
+require 'test_helper'
 
-class TokenAuthTest < ActionController::TestCase
+class ConfigsControllerWithStaticTokensTest < ActionController::TestCase
   tests V1::ConfigsController
 
   def test_login_via_api_token
