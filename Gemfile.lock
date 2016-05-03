@@ -22,14 +22,6 @@ PATH
     common_languages (0.0.1)
       i18n
 
-PATH
-  remote: vendor/gems/couchrest_session_store
-  specs:
-    couchrest_session_store (0.4.0)
-      actionpack (~> 4.0)
-      couchrest
-      couchrest_model
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -111,10 +103,10 @@ GEM
       activemodel (~> 4.0)
       couchrest (= 2.0.0.rc3)
       tzinfo (>= 0.3.22)
-    couchrest_session_store (0.4.1)
+    couchrest_session_store (0.4.2)
       actionpack (~> 4.0)
-      couchrest
-      couchrest_model
+      couchrest (~> 2.0.0.rc3)
+      couchrest_model (~> 2.1.0.beta2)
     cucumber (2.3.3)
       builder (>= 2.1.2)
       cucumber-core (~> 1.4.0)
@@ -322,7 +314,7 @@ DEPENDENCIES
   common_languages!
   couchrest (~> 2.0.0.rc3)
   couchrest_model (~> 2.1.0.beta2)
-  couchrest_session_store (~> 0.4.1)
+  couchrest_session_store (~> 0.4.2)
   cucumber-rails
   factory_girl_rails
   fake_braintree

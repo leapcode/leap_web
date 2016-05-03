@@ -11,7 +11,7 @@ gem 'responders', '~> 2.0'
 gem "couchrest", "~> 2.0.0.rc3"
 gem "couchrest_model", "~> 2.1.0.beta2"
 if ARGV.grep(/assets:precompile/).empty?
-  gem "couchrest_session_store", "~> 0.4.1"
+  gem "couchrest_session_store", "~> 0.4.2"
 end
 
 ## AUTHENTICATION
