@@ -3,15 +3,13 @@ class V1::ConfigsController < ApiController
 
   before_filter :require_login, :unless => :anonymous_access_allowed?
   before_filter :sanitize_id, only: :show
-  before_filter :lookup_file, only: :show
-  before_filter :fetch_file, only: :show
 
   def index
     render json: {services: service_paths}
   end
 
   def show
-    send_file
+    send_file lookup_file
   end
 
   protected
@@ -34,6 +32,6 @@ class V1::ConfigsController < ApiController
   def lookup_file
     path = APP_CONFIG[:config_file_paths][@id]
     not_found if path.blank?
-    @filename = Rails.root.join path
+    Rails.root.join path
   end
 end
