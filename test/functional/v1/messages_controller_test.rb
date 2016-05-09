@@ -15,7 +15,6 @@ class V1::MessagesControllerTest < ActionController::TestCase
       login @user
       get :index, :locale => 'es'
       body = JSON.parse(response.body)
-      p body
       message1 = "<p>\"This\" is a <strong>very</strong> fine message. <a href=\"https://bitmask.net\">https://bitmask.net</a></p>\n"
       assert_equal 2, body.size, 'there should be two messages'
       assert_equal message1, body.first["text"], 'first message text should match files/motd/1.en.md'
