@@ -1,6 +1,0 @@
-services:
-  - couchdb
-notifications:
-  email: false
-before_script:
-  - "test/setup_couch.sh"
