@@ -7,7 +7,7 @@
 - else
   - content = yield
 
-- if @show_navigation
+- if @show_navigation && @user
   .col-md-2
     = render 'layouts/navigation'
   .col-md-10
