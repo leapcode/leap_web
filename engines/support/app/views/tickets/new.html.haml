@@ -1,9 +1,4 @@
-- @show_navigation = params[:user_id].present?
-
 = render 'tickets/tabs'
-
-- user = @user if admin?
-- user ||= current_user
 
 = simple_form_for @ticket, :validate => true, :html => {:class => 'form-horizontal'} do |f|
   = hidden_ticket_fields
