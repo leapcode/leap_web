@@ -3,7 +3,7 @@ require 'test_helper'
 # This is a simple controller unit test.
 # We're stubbing out both warden and srp.
 # There's an integration test testing the full rack stack and srp
-class Api::SessionsControllerTest < ActionController::TestCase
+class Api::SessionsControllerTest < ApiControllerTest
 
   setup do
     @request.env['HTTP_HOST'] = 'api.lvh.me'
@@ -12,7 +12,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
   end
 
   test "renders json" do
-    get :new, :format => :json
+    api_get :new, :format => :json
     assert_response :success
     assert_json_error nil
   end
@@ -22,7 +22,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
     strategy = stub :message => {:field => :translate_me}
     request.env['warden'].stubs(:winning_strategy).returns(strategy)
     I18n.expects(:t).with(:translate_me).at_least_once.returns("translation stub")
-    get :new, :format => :json
+    api_get :new, :format => :json
     assert_response 422
     assert_json_error :field => "translation stub"
   end
@@ -33,7 +33,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
     request.env['warden'].expects(:authenticate!)
     # make sure we don't get a template missing error:
     @controller.stubs(:render)
-    post :create, :login => @user.login, 'A' => @client_hex
+    api_post :create, :login => @user.login, 'A' => @client_hex
   end
 
   test "should authenticate" do
@@ -42,7 +42,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
     handshake = stub(:to_hash => {h: "ash"})
     session[:handshake] = handshake
 
-    post :update, :id => @user.login, :client_auth => @client_hex
+    api_post :update, :id => @user.login, :client_auth => @client_hex
 
     assert_nil session[:handshake]
     assert_response :success
@@ -55,7 +55,7 @@ class Api::SessionsControllerTest < ActionController::TestCase
   test "destroy should logout" do
     login
     expect_logout
-    delete :destroy
+    api_delete :destroy
     assert_response 204
   end
 

@@ -1,15 +1,15 @@
 require_relative '../../test_helper'
 
-class Api::IdentitiesControllerTest < ActionController::TestCase
+class Api::IdentitiesControllerTest < ApiControllerTest
 
   test "api monitor can fetch identity" do
     monitor_auth do
       identity = FactoryGirl.create :identity
-      get :show, :id => identity.address, :format => 'json'
+      api_get :show, :id => identity.address, :format => 'json'
       assert_response :success
       assert_equal identity, assigns(:identity)
 
-      get :show, :id => "blahblahblah", :format => 'json'
+      api_get :show, :id => "blahblahblah", :format => 'json'
       assert_response :not_found
     end
   end
@@ -17,7 +17,7 @@ class Api::IdentitiesControllerTest < ActionController::TestCase
 
   test "anonymous cannot fetch identity" do
     identity = FactoryGirl.create :identity
-    get :show, :id => identity.address, :format => 'json'
+    api_get :show, :id => identity.address, :format => 'json'
     assert_response :forbidden
   end
 

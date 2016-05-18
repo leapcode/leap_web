@@ -1,6 +1,6 @@
-require_relative '../../test_helper'
+require 'test_helper'
 
-class Api::UsersControllerTest < ActionController::TestCase
+class Api::UsersControllerTest < ApiControllerTest
 
   test "user can change settings" do
     user = find_record :user
@@ -10,7 +10,7 @@ class Api::UsersControllerTest < ActionController::TestCase
     Account.expects(:new).with(user).returns(account_settings)
 
     login user
-    put :update, :user => changed_attribs, :id => user.id, :format => :json
+    api_put :update, :user => changed_attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204
@@ -25,7 +25,7 @@ class Api::UsersControllerTest < ActionController::TestCase
     Account.expects(:new).with(user).returns(account_settings)
 
     login :is_admin? => true
-    put :update, :user => changed_attribs, :id => user.id, :format => :json
+    api_put :update, :user => changed_attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204
@@ -34,7 +34,7 @@ class Api::UsersControllerTest < ActionController::TestCase
   test "user cannot update other user" do
     user = find_record :user
     login
-    put :update, id: user.id,
+    api_put :update, id: user.id,
       user: record_attributes_for(:user_with_settings),
       :format => :json
     assert_access_denied
@@ -45,7 +45,7 @@ class Api::UsersControllerTest < ActionController::TestCase
     user = User.new(user_attribs)
     Account.expects(:create).with(user_attribs).returns(user)
 
-    post :create, :user => user_attribs, :format => :json
+    api_post :create, :user => user_attribs, :format => :json
 
     assert_nil session[:user_id]
     assert_json_response user
@@ -59,7 +59,7 @@ class Api::UsersControllerTest < ActionController::TestCase
     assert !user.valid?
     Account.expects(:create).with(user_attribs).returns(user)
 
-    post :create, :user => user_attribs, :format => :json
+    api_post :create, :user => user_attribs, :format => :json
 
     assert_json_error user.errors.messages
     assert_response 422
@@ -67,7 +67,7 @@ class Api::UsersControllerTest < ActionController::TestCase
 
   test "admin can autocomplete users" do
     login :is_admin? => true
-    get :index, :query => 'a', :format => :json
+    api_get :index, :query => 'a', :format => :json
 
     assert_response :success
     assert assigns(:users)
@@ -76,7 +76,7 @@ class Api::UsersControllerTest < ActionController::TestCase
   test "create returns forbidden if registration is closed" do
     user_attribs = record_attributes_for :user
     with_config(allow_registration: false) do
-      post :create, :user => user_attribs, :format => :json
+      api_post :create, :user => user_attribs, :format => :json
       assert_response :forbidden
     end
   end
@@ -84,20 +84,20 @@ class Api::UsersControllerTest < ActionController::TestCase
   test "admin can show user" do
     user = FactoryGirl.create :user
     login :is_admin? => true
-    get :show, :id => 0, :login => user.login, :format => :json
+    api_get :show, :id => 0, :login => user.login, :format => :json
     assert_response :success
     assert_json_response user
-    get :show, :id => user.id, :format => :json
+    api_get :show, :id => user.id, :format => :json
     assert_response :success
     assert_json_response user
-    get :show, :id => "0", :format => :json
+    api_get :show, :id => "0", :format => :json
     assert_response :not_found
   end
 
   test "normal users cannot show user" do
     user = find_record :user
     login
-    get :show, :id => 0, :login => user.login, :format => :json
+    api_get :show, :id => 0, :login => user.login, :format => :json
     assert_access_denied
   end
 
@@ -106,9 +106,9 @@ class Api::UsersControllerTest < ActionController::TestCase
     with_config(allow_registration: false, invite_required: true) do
       monitor_auth do
         user_attribs = record_attributes_for :test_user
-        post :create, :user => user_attribs, :format => :json
+        api_post :create, :user => user_attribs, :format => :json
         assert_response :success
-        delete :destroy, :id => assigns(:user).id, :format => :json
+        api_delete :destroy, :id => assigns(:user).id, :format => :json
         assert_response :success
       end
     end
@@ -117,17 +117,17 @@ class Api::UsersControllerTest < ActionController::TestCase
   test "api monitor auth cannot create normal users" do
     monitor_auth do
       user_attribs = record_attributes_for :user
-      post :create, :user => user_attribs, :format => :json
+      api_post :create, :user => user_attribs, :format => :json
       assert_response :forbidden
     end
   end
 
-  test "api monitor auth cannot delete normal users" do
-    post :create, :user => record_attributes_for(:user), :format => :json
+  test "api monitor auth cannot api_delete normal users" do
+    api_post :create, :user => record_attributes_for(:user), :format => :json
     assert_response :success
     normal_user_id = assigns(:user).id
     monitor_auth do
-      delete :destroy, :id => normal_user_id, :format => :json
+      api_delete :destroy, :id => normal_user_id, :format => :json
       assert_response :forbidden
     end
   end

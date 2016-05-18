@@ -26,7 +26,7 @@ LeapWeb::Application.routes.draw do
 
   namespace "api", { module: "api",
       path: "/:version/",
-      defaults: {format: 'json'},
+      defaults: {version: '2', format: 'json'},
       :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/, :version => /[12]/ }
       } do
     resources :sessions, :only => [:new, :create, :update]

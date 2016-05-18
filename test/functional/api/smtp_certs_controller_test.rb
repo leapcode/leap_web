@@ -1,17 +1,17 @@
 require 'test_helper'
 
-class Api::SmtpCertsControllerTest < ActionController::TestCase
+class Api::SmtpCertsControllerTest < ApiControllerTest
 
   test "no smtp cert without login" do
     with_config allow_anonymous_certs: true do
-      post :create
+      api_post :create
       assert_login_required
     end
   end
 
   test "require service level with email" do
     login
-    post :create
+    api_post :create
     assert_access_denied
   end
 
@@ -19,14 +19,14 @@ class Api::SmtpCertsControllerTest < ActionController::TestCase
     login effective_service_level: ServiceLevel.new(id: 2)
     cert = expect_cert(@current_user.email_address)
     cert.expects(:fingerprint).returns('fingerprint')
-    post :create
+    api_post :create
     assert_response :success
     assert_equal cert.to_s, @response.body
   end
 
   test "fail to create cert when disabled" do
     login :enabled? => false
-    post :create
+    api_post :create
     assert_access_denied
   end
 
