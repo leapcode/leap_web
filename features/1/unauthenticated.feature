@@ -16,7 +16,7 @@ Feature: Unauthenticated API endpoints
     And the response should be that config
 
   Scenario: Authentication required response
-    When I send a GET request to "/2/configs"
+    When I send a GET request to "/1/configs"
     Then the response status should be "401"
     And the response should have "error" with "not_authorized_login"
     And the response should have "message"
@@ -24,8 +24,8 @@ Feature: Unauthenticated API endpoints
   Scenario: Authentication required for all other API endpoints (incomplete)
     Given I am not logged in
     When I send requests to these endpoints:
-      |  GET   | /2/configs                |
-      |  GET   | /2/configs/config_id.json |
-      |  GET   | /2/service                |
-      | DELETE | /2/logout                 |
+      |  GET   | /1/configs                |
+      |  GET   | /1/configs/config_id.json |
+      |  GET   | /1/service                |
+      | DELETE | /1/logout                 |
     Then they should require authentication

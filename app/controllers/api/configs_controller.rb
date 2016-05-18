@@ -21,7 +21,11 @@ class Api::ConfigsController < ApiController
   }
 
   def service_paths
-    Hash[SERVICE_IDS.map{|k,v| [k,"/1/configs/#{v}.json"] } ]
+    Hash[SERVICE_IDS.map{|k,v| [k,"/#{api_version}/configs/#{v}.json"] } ]
+  end
+
+  def api_version
+    ["1", "2"].include?(params[:version]) ? params[:version] : "2"
   end
 
   def sanitize_id
