@@ -29,7 +29,7 @@ class CreateTicketTest < BrowserIntegrationTest
     fill_in 'Description', with: 'description of the problem goes here'
     click_on 'Submit Ticket'
     assert page.has_content?("is invalid")
-    assert_equal 'invalid data', find_field('Email').value
+    assert_equal 'invaliddata', find_field('Email').value
     assert_equal 'some user', find_field('Regarding User').value
   end
 
