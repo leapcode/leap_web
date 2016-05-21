@@ -21,6 +21,11 @@ require 'test_helper'
 #
 
 class LocalePathTest < ActionDispatch::IntegrationTest
+
+  teardown do
+    I18n.locale = 'en'
+  end
+
   test "redirect if accept-language is not default locale" do
     get_via_redirect '/', {}, 'HTTP_ACCEPT_LANGUAGE' => 'de'
     assert_equal '/de', path
