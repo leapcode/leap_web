@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
   ## added so updating service level works, but not sure we will actually want this. also not sure that this is place to prevent user from updating own effective service level, but here as placeholder:
   def update
-    @user.update_attributes(params[:user]) unless (!admin? and params[:user][:effective_service_level])
+    @user.update_attributes(user_params)
     if @user.valid?
       flash[:notice] = I18n.t(:changes_saved)
     end
@@ -79,4 +79,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_params
+    if admin?
+      params.require(:user).permit(:effective_service_level)
+    else
+      params.require(:user).permit(:password, :password_confirmation)
+    end
+  end
 end
