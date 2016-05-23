@@ -5,11 +5,9 @@
 class UsersController < ApplicationController
   include ControllerExtension::FetchUser
 
-  before_filter :require_login, :except => [:new]
-  before_filter :redirect_if_logged_in, :only => [:new]
+  before_filter :require_login
   before_filter :require_admin, :only => [:index, :deactivate, :enable]
   before_filter :fetch_user, :only => [:show, :edit, :destroy, :deactivate, :enable]
-  before_filter :require_registration_allowed, only: :new
 
   respond_to :html
 
@@ -25,10 +23,6 @@ class UsersController < ApplicationController
       @users = User.by_created_at.descending
     end
     @users = @users.limit(100)
-  end
-
-  def new
-    @user = User.new
   end
 
   def show
@@ -63,12 +57,6 @@ class UsersController < ApplicationController
   end
 
   protected
-
-  def require_registration_allowed
-    unless APP_CONFIG[:allow_registration]
-      redirect_to home_path
-    end
-  end
 
   def user_params
     if admin?

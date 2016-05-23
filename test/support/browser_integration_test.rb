@@ -52,7 +52,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
 
       username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
       password ||= SecureRandom.base64
-      visit '/users/new'
+      visit '/signup'
       fill_in 'Username', with: username
       fill_in 'Password', with: password
       fill_in 'Invite code', with: @testcode.invite_code
@@ -65,7 +65,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
 
       username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
       password ||= SecureRandom.base64
-      visit '/users/new'
+      visit '/signup'
       fill_in 'Username', with: username
       fill_in 'Password', with: password
       fill_in 'Password confirmation', with: password

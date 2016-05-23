@@ -1,8 +1,8 @@
 -#
 -# This form is handled entirely by javascript
 -# Please take care when changing element ids.
--# 
--# The form is hidden when no js is available 
+-#
+-# The form is hidden when no js is available
 -# to prevent submission in the clear.
 -#
 
@@ -12,7 +12,7 @@
 .col-md-9
   %h2=t :signup
   .lead=t :signup_info
-  = render :partial => 'warnings'
+  = render "sessions/warnings"
   = simple_form_for(@user, form_options) do |f|
     = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
     = f.input :password, :label => t(:password), :required => false, :validate => true, :input_html => { :id => :srp_password }
