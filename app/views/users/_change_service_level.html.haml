@@ -1,8 +1,13 @@
--# TODO: probably won't want here, but here for now. Also, we will need way to ensure payment if they pick a non-free plan.
--#
--# SERVICE LEVEL
--#
-- if APP_CONFIG[:service_levels]
+:ruby
+  # DISABLED! this form points to a route that does not exist.
+  #   It's a draft for implementing service levels.
+  # TODO: probably won't want here, but here for now.
+  #       We will need way to ensure payment for a non-free plan.
+  #
+  # SERVICE LEVEL
+  #
+  #
+- if APP_CONFIG[:service_levels] && false
   - form_options = {:html => {:class => user_form_class('form-horizontal'), :id => 'update_service_level', :data => {token: session[:token]}}, :validate => true}
   = simple_form_for @user, form_options do |f|
     %legend= t(:service_level)

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   before_filter :require_login, :except => [:new]
   before_filter :redirect_if_logged_in, :only => [:new]
   before_filter :require_admin, :only => [:index, :deactivate, :enable]
-  before_filter :fetch_user, :only => [:show, :edit, :update, :destroy, :deactivate, :enable]
+  before_filter :fetch_user, :only => [:show, :edit, :destroy, :deactivate, :enable]
   before_filter :require_registration_allowed, only: :new
 
   respond_to :html
@@ -35,15 +35,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-  end
-
-  ## added so updating service level works, but not sure we will actually want this. also not sure that this is place to prevent user from updating own effective service level, but here as placeholder:
-  def update
-    @user.update_attributes(user_params)
-    if @user.valid?
-      flash[:notice] = I18n.t(:changes_saved)
-    end
-    respond_with @user, :location => edit_user_path(@user)
   end
 
   def deactivate
