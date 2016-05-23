@@ -8,12 +8,12 @@ class TicketTest < ActiveSupport::TestCase
 
   test "ticket with default attribs is valid" do
     t = FactoryGirl.build :ticket
-    assert t.valid?
+    assert t.valid?, t.errors.full_messages.to_sentence
   end
 
   test "ticket without email is valid" do
     t = FactoryGirl.build :ticket, email: ""
-    assert t.valid?
+    assert t.valid?, t.errors.full_messages.to_sentence
   end
 
   test "ticket validates email format" do
