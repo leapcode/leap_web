@@ -50,8 +50,7 @@ module Api
     end
 
     def destroy
-      destroy_identity = current_user.is_monitor? || params[:identities] == "destroy"
-      @user.account.destroy(destroy_identity)
+      @user.account.destroy(release_handles)
       if @user == current_user
         logout
       end
@@ -59,6 +58,10 @@ module Api
     end
 
     private
+
+    def release_handles
+      current_user.is_monitor? || params[:identities] == "destroy"
+    end
 
     # tester auth can only create test users.
     def create_test_account
