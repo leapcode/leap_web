@@ -71,6 +71,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal key, @user.public_key
   end
 
+  test "user to json includes id, login, valid, is_admin and enabled" do
+    json_content = JSON.parse @user.to_json
+    assert_equal @user.id, json_content["id"]
+    assert_equal @user.valid?, json_content["ok"]
+    assert_equal @user.login, json_content["login"]
+    assert_equal @user.enabled?, json_content["enabled"]
+    assert_equal @user.is_admin?, json_content["is_admin"]
+  end
 
 
   #

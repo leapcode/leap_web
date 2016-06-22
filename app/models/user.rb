@@ -75,7 +75,8 @@ class User < CouchRest::Model::Base
       :login => self.login,
       :ok => self.valid?,
       :id => self.id,
-      :enabled => self.enabled?
+      :enabled => self.enabled?,
+      :is_admin => self.is_admin?
     }.to_json(options)
   end
 
