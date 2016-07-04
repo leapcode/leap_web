@@ -1,3 +1,4 @@
+require 'email'
 class LocalEmail < Email
 
   BLACKLIST_FROM_RFC2142 = [
