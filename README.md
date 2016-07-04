@@ -46,20 +46,6 @@ External docs:
   * Overview of the main code repositories
   * Ideas for discrete, unclaimed development projects that would greatly benefit the LEAP ecosystem.
 
-Known problems
----------------------------
-
-* Client certificates are generated without a CSR. The problem is that
-  this makes the web application extremely vulnerable to denial of
-  service attacks. This is not an issue unless the provider enables the
-  possibility of anonymously fetching a client certificate without
-  authenticating first.
-
-* By its very nature, the user database is vulnerable to enumeration
-  attacks. These are very hard to prevent, because our protocol is
-  designed to allow query of a user database via proxy in order to
-  provide network perspective.
-
 Installation
 ---------------------------
 
@@ -69,13 +55,23 @@ these instructions:
 
 ### Install system requirements
 
+You'll need git, ruby (2.1.5), couchdb and bundler installed.
+On a recent debian based distribution run
+
     sudo apt install git ruby couchdb bundler
 
-Your actual requirements might differ if you are running an older OS that defaults to ruby 1.9.
+For other operation systems please lookup the install instructions of these
+tools.
 
 ### Download source
 
+We host our own git repository. In order to create a local clone run
+
     git clone --recursive git://leap.se/leap_web
+
+The repo is mirrored on github and we accept pull requests there:
+
+    https://github.com/leapcode/leap_web
 
 ### Install required ruby libraries
 
@@ -88,13 +84,13 @@ have sudo, run ``bundle`` as root.
 
 ### Installation for development purposes
 
-Please see `doc/DEVELOP.md` for further required steps when installing
+Please see `doc/DEVELOP.md` for details about installing
 leap_web for development purposes.
 
-Configuration
+Configuration for Production
 ----------------------------
 
-The configuration file `config/defaults.yml` providers good defaults for
+The configuration file `config/defaults.yml` provides good defaults for
 most values. You can override these defaults by creating a file
 `config/config.yml`.
 
@@ -166,4 +162,18 @@ To run an individual test:
     rake test TEST=certs/test/unit/client_certificate_test.rb
     or
     ruby -Itest certs/test/unit/client_certificate_test.rb
+
+Known problems
+---------------------------
+
+* Client certificates are generated without a CSR. The problem is that
+  this makes the web application extremely vulnerable to denial of
+  service attacks. This is not an issue unless the provider enables the
+  possibility of anonymously fetching a client certificate without
+  authenticating first.
+
+* By its very nature, the user database is vulnerable to enumeration
+  attacks. These are very hard to prevent, because our protocol is
+  designed to allow query of a user database via proxy in order to
+  provide network perspective.
 
