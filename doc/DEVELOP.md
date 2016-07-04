@@ -1,5 +1,19 @@
 # Development #
 
+## Branches
+
+We use the 'master' branch to hold the version currently deployed to the
+production servers. Only hotfixes are applied here.
+
+Most of development happens based upon the 'develop' branch. So unless
+you are investigating a specific issue that occured in production you
+probably want to base your changes on 'develop':
+```
+git checkout origin/develop -b my-new-feature
+```
+This will create a new branch called 'my-new-feature' based on the develop
+branch from the origin remote.
+
 ## Setting up the local CouchDB
 
 CouchDB operates in Admin Party by default, meaning there are no access

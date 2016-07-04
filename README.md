@@ -68,14 +68,24 @@ tools.
 We host our own git repository. In order to create a local clone run
 
     git clone --recursive git://leap.se/leap_web
+    cd leap_web
 
 The repo is mirrored on github and we accept pull requests there:
 
     https://github.com/leapcode/leap_web
 
+### Pick branch (development only)
+
+We use the master branch for the stable version deployed to production.
+Development usually happens on the develop branch. So for development you
+want to run
+
+    git checkout origin/develop -b develop
+
+This will create a local branch called develop based on our develop branch.
+
 ### Install required ruby libraries
 
-    cd leap_web
     bundle --binstubs
 
 Typically, you run ``bundle`` as a normal user and it will ask you for a
