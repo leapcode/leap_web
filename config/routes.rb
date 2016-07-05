@@ -44,8 +44,8 @@ LeapWeb::Application.routes.draw do
     get "login" => "sessions#new", :as => "login"
     delete "logout" => "sessions#destroy", :as => "logout"
 
-    get "signup" => "users#new", :as => "signup"
-    resources :users, :except => [:create, :update] do
+    get "signup" => "account#new", :as => "signup"
+    resources :users, :except => [:new, :create, :update] do
       # resource :email_settings, :only => [:edit, :update]
       # resources :email_aliases, :only => [:destroy], :id => /.*/
       post 'deactivate', on: :member
