@@ -1,5 +1,10 @@
 # Deployment #
 
+LEAP Web is provisioned and run as part of the overall [LEAP platform](https://leap.se/en/docs/platform).
+We strongly recomment using the whole Platform and following its instructions.
+If you want to directly deploy the webapp never the less these instructions are
+for you.
+
 These instructions are targeting a Debian GNU/Linux system. You might need to
 change the commands to match your own needs.
 
@@ -10,9 +15,9 @@ change the commands to match your own needs.
 The following packages need to be installed:
 
 * git
-* ruby1.9
-* rubygems1.9
+* ruby (2.1.5)
 * couchdb (if you want to use a local couch)
+* bundler
 
 ### Setup Capistrano ###
 

@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'email'
 
 class EmailTest < ActiveSupport::TestCase
 
