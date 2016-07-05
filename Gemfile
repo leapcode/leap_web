@@ -77,7 +77,6 @@ group :test do
 end
 
 group :test, :development do
-  gem 'thin'
   gem 'i18n-missing_translations'
   gem 'pry'
 end
