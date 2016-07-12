@@ -1,4 +1,5 @@
 require 'login_format_validation'
+require 'local_email'
 
 class User < CouchRest::Model::Base
   include LoginFormatValidation
