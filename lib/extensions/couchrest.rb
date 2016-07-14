@@ -69,7 +69,7 @@ module CouchRest
 
         def prepare_directory(dir = '')
           dir = Rails.root + 'tmp' + 'designs' + dir
-          Dir.mkdir(dir) unless Dir.exists?(dir)
+          Dir.mkdir(dir) unless Dir.exist?(dir)
           return dir
         end
 
@@ -81,7 +81,7 @@ module CouchRest
   class ModelRailtie
     config.action_dispatch.rescue_responses.merge!(
       'CouchRest::Model::DocumentNotFound' => :not_found,
-      'RestClient::ResourceNotFound' => :not_found
+      'CouchRest::NotFound' => :not_found
     )
   end
 end

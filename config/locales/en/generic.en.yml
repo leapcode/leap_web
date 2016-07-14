@@ -21,7 +21,7 @@ en:
 
   example_email: 'user@domain.org'
 
-  no_such_thing: "No such %{thing}."
+  no_such_user: "No such user."
   create_thing: "Create %{thing}"
 
   overview: "Overview"

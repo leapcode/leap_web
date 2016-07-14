@@ -14,7 +14,7 @@ class UpdateAccountTest < SrpTest
 
   test "require token" do
     authenticate
-    put "http://api.lvh.me:3000/1/users/" + @user.id + '.json',
+    put "http://api.lvh.me:3000/2/users/" + @user.id + '.json',
       user_params(password: "No! Verify me instead.")
     assert_login_required
   end

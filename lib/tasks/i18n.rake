@@ -63,7 +63,7 @@ namespace :i18n do
   desc "pull translations from transifex"
   task :download do
     Dir.chdir('config/') do
-      if !File.exists?('transifex.netrc')
+      if !File.exist?('transifex.netrc')
         puts "In order to download translations, you need a config/transifex.netrc file."
         puts "For example:"
         puts "machine www.transifex.com login yourusername password yourpassword"

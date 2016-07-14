@@ -26,7 +26,7 @@ Rails.application.config.assets.paths.unshift "#{customization_directory}/styles
 #
 # Copy files to public
 #
-if !defined?(RAKE) && Dir.exists?("#{customization_directory}/public")
+if !defined?(RAKE) && Dir.exist?("#{customization_directory}/public")
   require 'fileutils'
   FileUtils.cp_r("#{customization_directory}/public/.", "#{Rails.root}/public", :preserve => true)
 end

@@ -87,6 +87,7 @@ common: &common
     soledad-service: 'public/1/config/soledad-service.json'
     eip-service: 'public/1/config/eip-service.json'
     smtp-service: 'public/1/config/smtp-service.json'
+    provider: 'config/provider/provider.json'
   mailer:
     from_address: 'noreply'
 

@@ -69,15 +69,13 @@ class Account
     @user.refresh_identity
   end
 
-  def destroy(destroy_identity=false)
+  def destroy(release_handles=false)
     return unless @user
     if !@user.is_tmp?
-      if destroy_identity == false
-        @user.identities.each do |id|
+      @user.identities.each do |id|
+        if release_handles == false
           id.orphan!
-        end
-      else
-        @user.identities.each do |id|
+        else
           id.destroy
         end
       end

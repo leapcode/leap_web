@@ -34,12 +34,12 @@
 = simple_form_for @ticket do |f|
   = hidden_ticket_fields
   = f.input :subject, input_html: {:class => 'large full-width'}
-  .row-fluid
-    .span4
+  .row
+    .col-md-4
       = f.input :is_open, as: :select, collection: [:true, :false], include_blank: false
-    .span4
+    .col-md-4
       = f.input :email
-    .span4
+    .col-md-4
       = f.input :regarding_user, label: (Ticket.human_attribute_name(:regarding_user) + " " + regarding_user_link).html_safe
   = f.button :loading
   - if admin?

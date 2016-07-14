@@ -1,19 +1,6 @@
-require_relative '../test_helper'
+require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-
-  test "should get new" do
-    get :new
-    assert_equal User, assigns(:user).class
-    assert_response :success
-  end
-
-  test "new should redirect logged in users" do
-    login
-    get :new
-    assert_response :redirect
-    assert_redirected_to home_path
-  end
 
   test "failed show without login" do
     user = find_record :user
@@ -67,8 +54,8 @@ class UsersControllerTest < ActionController::TestCase
     nonid = 'thisisnotanexistinguserid'
     login :is_admin? => true
     get :show, :id => nonid
+    assert_error_response :no_such_user
     assert_response :redirect
-    assert_equal({:alert => "No such user."}, flash.to_hash)
     assert_redirected_to users_path
   end
 
@@ -163,11 +150,4 @@ class UsersControllerTest < ActionController::TestCase
     assert !assigns(:user).enabled?
   end
 
-  test "new redirects if registration is closed" do
-    with_config(allow_registration: false) do
-      get :new
-      assert_response :redirect
-      assert_redirected_to home_path
-    end
-  end
 end

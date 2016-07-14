@@ -13,9 +13,9 @@ end
 After do |scenario|
   if scenario.failed?
     logfile_path = Rails.root + 'tmp'
-    logfile_path += "#{scenario.title.gsub(/\s/, '_')}.log"
+    logfile_path += "#{scenario.name.gsub(/\s/, '_')}.log"
     File.open(logfile_path, 'w') do |test_log|
-      test_log.puts scenario.title
+      test_log.puts scenario.name
       test_log.puts "========================="
       test_log.puts `tail log/test.log -n 200`
     end

@@ -37,9 +37,11 @@ class Ticket < CouchRest::Model::Base
 
   # email can be nil, "", or valid address.
   # validation provided by 'valid_email' gem.
+  # mx validation depends on network availability and is disabled in test
+  # and development environment
   validates :email, :allow_blank => true,
     :email => true,
-    :mx_with_fallback => true
+    :mx_with_fallback => Rails.env.production?
 
   def self.search(options = {})
     @selection = TicketSelection.new(options)
@@ -50,7 +52,7 @@ class Ticket < CouchRest::Model::Base
     self.by_created_by.key(user.id).each do |ticket|
       ticket.destroy
     end
-  rescue RestClient::ResourceNotFound
+  rescue RESOURCE_NOT_FOUND
     # silently ignore if design docs are not yet created
   end
 

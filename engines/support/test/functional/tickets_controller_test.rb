@@ -35,6 +35,12 @@ class TicketsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get new despite invalid user_id" do
+    get :new, user_id: :bla
+    assert_equal Ticket, assigns(:ticket).class
+    assert_response :success
+  end
+
   test "unauthenticated tickets are visible" do
     ticket = find_record :ticket, :created_by => nil
     get :show, :id => ticket.id

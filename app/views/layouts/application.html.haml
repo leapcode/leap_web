@@ -15,13 +15,13 @@
       #main
         .container-fluid
           - if @show_navigation && !admin?
-            .row-fluid
+            .row
               %h1= t(:user_control_panel)
           - if logged_in?
-            .row-fluid
-              .span12
+            .row
+              .col-md-12
                 = render 'layouts/header'
-          .row-fluid
+          .row
             = render 'layouts/content'
       #push
         -# #push is used for sticky footer in bootstrap 2. remove when upgrading to bootstrap 3

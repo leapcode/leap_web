@@ -4,12 +4,14 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 
 ## CORE
 # rake 11.x throws lots of warnings about rails 3.2 code
-gem "rake", "~> 10.4"
-gem "rails", "~> 3.2.21"
-gem "couchrest", "~> 1.1.3"
-gem "couchrest_model", "~> 2.0.0"
+gem "rake"
+gem "rails", "~> 4.2.6"
+# TODO: drop this and the respond_with usage
+gem 'responders', '~> 2.0'
+gem "couchrest", "~> 2.0.0.rc3"
+gem "couchrest_model", "~> 2.1.0.beta2"
 if ARGV.grep(/assets:precompile/).empty?
-  gem "couchrest_session_store", "= 0.3.1"
+  gem "couchrest_session_store", "~> 0.4.2"
 end
 
 ## AUTHENTICATION
@@ -30,8 +32,7 @@ gem 'rails-i18n'  # locale files for built-in validation messages and times
 gem 'common_languages', :path => 'vendor/gems/common_languages'
 
 ## VIEWS
-gem 'kaminari', "0.13.0" # for pagination. trying 0.13.0 as there seem to be
-                         # issues with 0.14.0 when using couchrest
+gem 'kaminari'
 gem 'rdiscount'   # for rendering .md templates
 
 ## ASSETS
@@ -39,19 +40,12 @@ gem "jquery-rails"
 gem "simple_form"
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
-gem "haml-rails", "= 0.4.0"   # The last version of haml-rails to support Rails 3.
-gem "bootstrap-sass", "= 2.3.2.2" # The last 2.x version. Bootstrap-sass versions
-                                  # tracks the version of Bootstrap. We currently require
-                                  # Bootstrap v2 because client side validations is incompatible
-                                  # with Bootstrap v3. When upgrading to Rails 4, see
-                                  # https://github.com/twbs/bootstrap-sass
-gem "sass-rails", "~> 3.2.5"  # Only version supported by bootstrap-sass 2.3.2.2
-gem 'quiet_assets'            # stops logging all the asset requests
+gem "haml-rails"
+gem "bootstrap-sass"
+gem "sass-rails"
 group :production do
-  gem "uglifier", "~> 1.2.7"    # javascript compression https://github.com/lautis/uglifier
-                                # this must not be included in development mode, or js
-                                # will get included twice.
-  gem 'therubyracer', "~> 0.12.2", :platforms => :ruby
+  gem "uglifier"
+  gem 'therubyracer', :platforms => :ruby
   #    ^^ See https://github.com/sstephenson/execjs#readme
   #      for list of supported runtimes.
 end
@@ -68,7 +62,7 @@ group :test do
   gem 'phantomjs-binaries'  # binaries specific to the os
 
   # moching and stubbing
-  gem 'mocha', '~> 0.13.0', :require => false
+  gem 'mocha', :require => false
   gem 'minitest-stub-const' # why?
 
   # generating test data
@@ -83,7 +77,6 @@ group :test do
 end
 
 group :test, :development do
-  gem 'thin'
   gem 'i18n-missing_translations'
   gem 'pry'
 end
@@ -93,17 +86,13 @@ group :production do
 end
 
 group :development do
-  gem "better_errors", '1.1.0'
+  gem "better_errors"
   gem "binding_of_caller"
 end
 
 group :test, :debug do
   # bundler on jessie doesn't support `:platforms => :ruby_21`
-  if RUBY_VERSION < "2.0"
-    gem 'debugger'
-  else
-    gem 'byebug'
-  end
+  gem 'byebug'
 end
 
 ##

@@ -1,5 +1,3 @@
-- @show_navigation = params[:user_id].present?
-
 = render 'tickets/tabs'
 = table @tickets, %w(subject created updated voices)
 = paginate @tickets

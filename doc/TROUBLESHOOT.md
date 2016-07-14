@@ -13,15 +13,19 @@ Here are some less common issues you might run into when installing Leap Web.
 Make sure bundler is installed. `gem list bundler` should list `bundler`.
 You also need to be able to access the `bundler` executable in your PATH.
 
-## Outdated version of rubygems ##
+## Incompatible ruby version ##
 
-### Error Messages ###
+### Detecting the problem ###
+The rubyversion we use for development and testing is noted in the file
 
-`bundler requires rubygems >= 1.3.6`
+    .ruby-version
+
+It should match what `ruby --version` prints.
 
 ### Solution ###
 
-`gem update --system` will install the latest rubygems
+Install the matching ruby version. For some operation systems this may require
+the use of rbenv or rvm.
 
 ## Missing development tools ##
 
@@ -42,5 +46,7 @@ Some gem dependencies might not compile because they lack the needed c libraries
 ### Solution ###
 
 Install the libraries in question including their development files.
+Usually the missing library is mentioned in the error message. Searching the
+internet for similar errors is a good starting point aswell.
 
 

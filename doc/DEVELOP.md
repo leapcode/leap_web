@@ -1,5 +1,19 @@
 # Development #
 
+## Branches
+
+We use the 'master' branch to hold the version currently deployed to the
+production servers. Only hotfixes are applied here.
+
+Most of development happens based upon the 'develop' branch. So unless
+you are investigating a specific issue that occured in production you
+probably want to base your changes on 'develop':
+```
+git checkout origin/develop -b my-new-feature
+```
+This will create a new branch called 'my-new-feature' based on the develop
+branch from the origin remote.
+
 ## Setting up the local CouchDB
 
 CouchDB operates in Admin Party by default, meaning there are no access
@@ -7,17 +21,24 @@ control checks. This is handy for local development. However, there is
 the risk that running tests with Couch in Admin Party yields false
 results.
 
-You have two options:
+We recommend keeping the default CouchDB configuration locally and testing
+the more complex setup with access control in Continuous Integration.
 
-1) Use Admin Party and accept the risk
-2) Stop Admin Party by creating user accounts & security docs by running the
-following script:
+Please see .travis.yml for the configuration of our CI runs.
 
+In order to prepare you local couch for development run
+```
+bin/rake db:rotate
+bin/rake db:migrate
+```
+
+### Customized database configuration (advanced)
+
+If you want to stop Admin Party mode you need to create user accounts &
+security docs. You can use the following script as a guideline:
     test/travis/setup_couch.sh
 
-### Database configuration
-
-Copy & adapt the default database configuration:
+Afterwards copy & adapt the default database configuration:
 
 ```
 mv config/couchdb.example.yml config/couchdb.yml
@@ -37,14 +58,14 @@ Some tips on modifying the views:
 
 ## Engines ##
 
-Leap Web contains some. They live in their own subdirectory and are included through bundler via their path. This way changes to the engines immediately affect the server as if they were in the main `app` directory.
+We use engines to separate optional functionality from the core. They live in their own subdirectory and are included through bundler via their path. This way changes to the engines immediately affect the server as if they were in the main `app` directory.
 
 Currently Leap Web includes 2 Engines:
 
 * [support](https://github.com/leapcode/leap_web/blob/master/engines/support) - Help ticket management
 * [billing](https://github.com/leapcode/leap_web/blob/master/engines/billing) - Billing System
 
-## Creating a new engine ##
+## Creating a new engine (advanced) ##
 
 If you want to add functionality to the webapp but keep it easy to remove you might consider adding an engine. This only makes sense if your engine really is a plugin - so no other pieces of code depend on it.
 
@@ -99,7 +120,7 @@ For example:
       visit robot_path(@robot, :locale => nil)
     end
 
-## Debugging
+## Debugging Production (advanced)
 
 Sometimes bugs only show up when deployed to the live production server. Debugging can be tricky,
 because the open source mod_passenger does not support debugger. You can't just run

@@ -59,8 +59,8 @@ class Token < CouchRest::Model::Base
   # So let's make sure we don't crash if they disappeared
   def destroy_with_rescue
     destroy_without_rescue
-  rescue RestClient::ResourceNotFound # do nothing it's gone already
-  rescue RestClient::Conflict # do nothing - it's been updated - #7670
+  rescue CouchRest::NotFound
+  rescue CouchRest::Conflict # do nothing - it's been updated - #7670
   end
   alias_method_chain :destroy, :rescue
 

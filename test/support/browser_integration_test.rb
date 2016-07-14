@@ -3,10 +3,11 @@
 #
 # Use this class for capybara based integration tests for the ui.
 #
+require 'capybara/rails'
 
 class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   # let's use dom_id inorder to identify sections
-  include ActionController::RecordIdentifier
+  include ActionView::RecordIdentifier
 
   CONFIG_RU = (Rails.root + 'config.ru').to_s
   OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
@@ -28,7 +29,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   Capybara.app_host = 'http://lvh.me:3003'
   Capybara.server_port = 3003
   Capybara.javascript_driver = :poltergeist
-  Capybara.default_wait_time = 5
+  Capybara.default_max_wait_time = 5
 
   # Make the Capybara DSL available
   include Capybara::DSL
@@ -46,32 +47,17 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   def submit_signup(username = nil, password = nil)
-
-    with_config invite_required: true do
-
-      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
-      password ||= SecureRandom.base64
-      visit '/users/new'
-      fill_in 'Username', with: username
-      fill_in 'Password', with: password
+    username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
+    password ||= SecureRandom.base64
+    visit '/signup'
+    fill_in 'Username', with: username
+    fill_in 'Password', with: password
+    if APP_CONFIG[:invite_required]
       fill_in 'Invite code', with: @testcode.invite_code
-      fill_in 'Password confirmation', with: password
-      click_on 'Sign Up'
-      return username, password
     end
-
-    with_config invite_required: false do
-
-      username ||= "test_#{SecureRandom.urlsafe_base64}".downcase
-      password ||= SecureRandom.base64
-      visit '/users/new'
-      fill_in 'Username', with: username
-      fill_in 'Password', with: password
-      fill_in 'Password confirmation', with: password
-      click_on 'Sign Up'
-      return username, password
-    end
-
+    fill_in 'Password confirmation', with: password
+    click_on 'Sign Up'
+    return username, password
   end
 
   # currently this only works for tests with poltergeist.
@@ -101,7 +87,7 @@ class BrowserIntegrationTest < ActionDispatch::IntegrationTest
     File.open(logfile_path, 'w') do |test_log|
       test_log.puts self.class.name
       test_log.puts "========================="
-      test_log.puts __name__
+      test_log.puts name
       test_log.puts Time.now
       test_log.puts current_path
       test_log.puts page.status_code

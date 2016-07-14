@@ -1,3 +1,5 @@
+require 'login_format_validation'
+require 'local_email'
 #
 # Identity states:
 #

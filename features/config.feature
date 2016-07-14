@@ -4,7 +4,7 @@ Feature: Download Provider Configuration
 
   This can be used to find out about services offered. The big picture can be retrieved from `/provider.json`. Which is available without authentication (see unauthenticated.feature).
 
-  More detailed settings of the services are available after authentication. You can get a list of the available settings from `/1/configs.json`.
+  More detailed settings of the services are available after authentication. You can get a list of the available settings from `/2/configs.json`.
 
   Background:
     Given I authenticated
@@ -26,33 +26,33 @@ Feature: Download Provider Configuration
     And the response should have "error" with "not_found"
 
   Scenario: Fetch list of available configs
-    When I send a GET request to "/1/configs.json"
+    When I send a GET request to "/2/configs.json"
     Then the response status should be "200"
     And the response should be:
       """
       {
         "services": {
-          "soledad": "/1/configs/soledad-service.json",
-          "eip": "/1/configs/eip-service.json",
-          "smtp": "/1/configs/smtp-service.json"
+          "soledad": "/2/configs/soledad-service.json",
+          "eip": "/2/configs/eip-service.json",
+          "smtp": "/2/configs/smtp-service.json"
         }
       }
       """
 
   Scenario: Attempt to fetch an invalid config
-    When I send a GET request to "/1/configs/non-existing.json"
+    When I send a GET request to "/2/configs/non-existing.json"
     Then the response status should be "403"
 
   # I am not sure what this test is about, that config is not
   # actually missing.
   #Scenario: Attempt to fetch a config that is missing on the server
-  #  When I send a GET request to "/1/configs/eip-service.json"
+  #  When I send a GET request to "/2/configs/eip-service.json"
   #  Then the response status should be "404"
 
   @tempfile, @config
   Scenario: Attempt to fetch the EIP config
     Given there is a config for the eip
-    When I send a GET request to "/1/configs/eip-service.json"
+    When I send a GET request to "/2/configs/eip-service.json"
     Then the response status should be "200"
     And the response should be that config
 

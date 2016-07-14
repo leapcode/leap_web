@@ -5,13 +5,9 @@ class StaticConfigController < ActionController::Base
   include ControllerExtension::JsonFile
 
   before_filter :set_minimum_client_version
-  before_filter :set_filename
-  before_filter :fetch_file
-
-  PROVIDER_JSON = Rails.root.join('config', 'provider', 'provider.json')
 
   def provider
-    send_file
+    send_file provider_json
   end
 
   protected
@@ -23,7 +19,8 @@ class StaticConfigController < ActionController::Base
       APP_CONFIG[:minimum_client_version].to_s
   end
 
-  def set_filename
-    @filename = PROVIDER_JSON
+  def provider_json
+    Rails.root.join APP_CONFIG[:config_file_paths]['provider']
   end
+
 end

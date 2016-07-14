@@ -1,0 +1,27 @@
+-#
+-# This form is handled entirely by javascript
+-# Please take care when changing element ids.
+-#
+-# The form is hidden when no js is available
+-# to prevent submission in the clear.
+-#
+
+- form_options = {url: '/not-used', html: {id: 'new_user', class: user_form_class('form-horizontal'), style: 'display:none'}, validate: true}
+
+.col-md-1
+.col-md-9
+  %h2=t :signup
+  .lead=t :signup_info
+  = render "sessions/warnings"
+  = simple_form_for(@user, form_options) do |f|
+    = f.input :login, :label => t(:username), :required => false, :input_html => { :id => :srp_username }
+    = f.input :password, :label => t(:password), :required => false, :validate => true, :input_html => { :id => :srp_password }
+    = f.input :password_confirmation, :label => t(:password_confirmation), :required => false, :validate => true, :input_html => { :id => :srp_password_confirmation }
+
+    - if APP_CONFIG[:invite_required]
+      = f.input :invite_code, :label => t(:invite_code), :input_html => { :id => :srp_invite_code }
+    - else
+      = f.input :invite_code, :as => "hidden", :input_html => { :value => " ", :id => :srp_invite_code }
+
+    = f.button :wrapped, cancel: home_path
+-#
