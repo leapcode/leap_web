@@ -74,13 +74,16 @@ class User < CouchRest::Model::Base
   end
 
   def to_json(options={})
+    to_hash.to_json(options)
+  end
+
+  def to_hash()
     {
       :login => self.login,
       :ok => self.valid?,
       :id => self.id,
       :enabled => self.enabled?,
-      :is_admin => self.is_admin?
-    }.to_json(options)
+    }
   end
 
   def salt

@@ -8,7 +8,7 @@ class SignupTest < SrpTest
   end
 
   test "signup response" do
-    assert_json_response :login => @login, :ok => true, :is_admin => false, :id => @user.id, :enabled => true
+    assert_json_response :login => @login, :ok => true, :id => @user.id, :enabled => true
     assert last_response.successful?
   end
 

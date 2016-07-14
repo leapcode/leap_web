@@ -86,12 +86,20 @@ class Api::UsersControllerTest < ApiControllerTest
     login :is_admin? => true
     api_get :show, :id => 0, :login => user.login, :format => :json
     assert_response :success
-    assert_json_response user
+    assert_json_response user.to_hash
     api_get :show, :id => user.id, :format => :json
     assert_response :success
-    assert_json_response user
+    assert_json_response user.to_hash
     api_get :show, :id => "0", :format => :json
     assert_response :not_found
+  end
+
+  test "admin can show is_admin property" do
+    user = FactoryGirl.create :user, login: "admin2"
+    login user
+    api_get :show, :id => user.id, :format => :json
+    assert_response :success
+    assert_json_response user.to_hash.merge(:is_admin => true)
   end
 
   test "normal users cannot show user" do

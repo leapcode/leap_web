@@ -28,9 +28,17 @@ module Api
         @user = User.find(params[:id])
       end
       if @user
-        respond_with @user
+        respond_with user_response
       else
         not_found
+      end
+    end
+
+    def user_response
+      @user.to_hash.tap do |user_hash|
+        if @user == current_user
+          user_hash['is_admin'] = @user.is_admin?
+        end
       end
     end
 
