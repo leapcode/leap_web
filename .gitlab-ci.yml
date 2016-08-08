@@ -8,7 +8,7 @@ image: "ruby:2.1"
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
 services:
   - couchdb:1.6.1
-  
+
 # Cache gems in between builds
 cache:
   paths:
@@ -17,13 +17,15 @@ cache:
 # This is a basic example for a gem or script which doesn't use
 # services such as redis or postgres
 before_script:
-  - ruby -v                                   # Print out ruby version for debugging
-  - gem install bundler  --no-ri --no-rdoc    # Bundler is not installed with the image
-  - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
-  - export RAILS_ENV=test
+  - ruby -v
+  - curl -s couchdb:5984
+  - cp test/config/gitlab/couchdb.yml config/couchdb.admin.yml
+  - cp test/config/gitlab/couchdb.yml config
+  - gem install bundler  --no-ri --no-rdoc
+  - bundle install -j $(nproc) --path vendor --without development debug
+  - bundle exec rake RAILS_ENV=test db:rotate
+  - bundle exec rake RAILS_ENV=test db:migrate
 
 rails:
   script:
-  - bundle exec rake db:rotate
-  - bundle exec rake db:migrate
   - bundle exec rake test
