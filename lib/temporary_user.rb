@@ -13,6 +13,7 @@
 module TemporaryUser
   extend ActiveSupport::Concern
 
+  USER_DB = 'users'
   TMP_USER_DB = 'tmp_users'
   TMP_LOGIN   = 'tmp_user'  # created and deleted frequently
   TEST_LOGIN  = 'test_user' # created, rarely deleted
@@ -38,11 +39,14 @@ module TemporaryUser
     end
     alias :find :get
 
-    # calls db_name(TMP_LOGIN), then creates a CouchRest::Database
-    # from the name
+    def database
+      @database ||= prepare_database USER_DB
+    end
+
     def tmp_database
       @tmp_database ||= prepare_database TMP_USER_DB
     end
+
 
     # create the tmp db if it doesn't exist.
     # requires admin access.
