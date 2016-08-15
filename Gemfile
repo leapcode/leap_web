@@ -5,7 +5,7 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 ## CORE
 # rake 11.x throws lots of warnings about rails 3.2 code
 gem "rake", "~> 10.4"
-gem "rails", "~> 3.2.21"
+gem "rails", "~> 3.2.22.4"
 gem "couchrest", "~> 1.1.3"
 gem "couchrest_model", "~> 2.0.0"
 if ARGV.grep(/assets:precompile/).empty?
