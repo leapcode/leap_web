@@ -6,10 +6,10 @@ before_install:
   - "gem install bundler --version 1.11.2"
 before_script:
   - "rm .ruby-version"
-  - "mv test/config/travis/ruby-version .ruby-version"
-  - "test/config/travis/setup_couch.sh"
-  - "mv test/config/travis/couchdb.admin.yml config/couchdb.admin.yml"
-  - "mv test/config/travis/couchdb.yml config/couchdb.yml"
+  - "mv config/ci/travis/ruby-version .ruby-version"
+  - "config/ci/travis/setup_couch.sh"
+  - "mv config/ci/travis/couchdb.admin.yml config/couchdb.admin.yml"
+  - "mv config/ci/travis/couchdb.yml config/couchdb.yml"
   - "bundle exec rake RAILS_ENV=test db:rotate"
   - "bundle exec rake RAILS_ENV=test db:migrate"
 after_script:

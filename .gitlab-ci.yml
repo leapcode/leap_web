@@ -20,8 +20,8 @@ before_script:
   - ruby -v
   - curl -s couchdb:5984
   - git submodule update --init
-  - cp test/config/gitlab/couchdb.yml config/couchdb.admin.yml
-  - cp test/config/gitlab/couchdb.yml config
+  - cp config/ci/gitlab/couchdb.yml config/couchdb.admin.yml
+  - cp config/ci/gitlab/couchdb.yml config
   - gem install bundler  --no-ri --no-rdoc
   - bundle install -j $(nproc) --path vendor --without development debug
   - bundle exec rake RAILS_ENV=test db:rotate
