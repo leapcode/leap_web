@@ -1,10 +1,9 @@
 require 'login_format_validation'
 require 'local_email'
+require 'temporary_user'
 
 class User < CouchRest::Model::Base
   include LoginFormatValidation
-
-  use_database :users
 
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true

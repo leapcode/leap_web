@@ -1,0 +1,3 @@
+test:
+  auto_update_design_doc: false
+  host: "couchdb"

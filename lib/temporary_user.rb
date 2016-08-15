@@ -12,16 +12,13 @@
 
 module TemporaryUser
   extend ActiveSupport::Concern
-  include CouchRest::Model::DatabaseMethod
 
-  USER_DB     = 'users'
+  USER_DB = 'users'
   TMP_USER_DB = 'tmp_users'
   TMP_LOGIN   = 'tmp_user'  # created and deleted frequently
   TEST_LOGIN  = 'test_user' # created, rarely deleted
 
   included do
-    use_database_method :db_name
-
     # since the original find_by_login is dynamically created with
     # instance_eval, it appears that we also need to use instance eval to
     # override it.
@@ -42,19 +39,14 @@ module TemporaryUser
     end
     alias :find :get
 
-    # calls db_name(TMP_LOGIN), then creates a CouchRest::Database
-    # from the name
-    def tmp_database
-      choose_database(TMP_LOGIN)
+    def database
+      @database ||= prepare_database USER_DB
     end
 
-    def db_name(login=nil)
-      if !login.nil? && login.include?(TMP_LOGIN)
-        TMP_USER_DB
-      else
-        USER_DB
-      end
+    def tmp_database
+      @tmp_database ||= prepare_database TMP_USER_DB
     end
+
 
     # create the tmp db if it doesn't exist.
     # requires admin access.
@@ -71,12 +63,12 @@ module TemporaryUser
     end
   end
 
-  #
-  # this gets called each and every time a User object needs to
-  # access the database.
-  #
-  def db_name
-    self.class.db_name(self.login)
+  def database
+    if login.present? && login.include?(TMP_LOGIN)
+      self.class.tmp_database
+    else
+      self.class.database
+    end
   end
 
   # returns true if this User instance is stored in tmp db.
