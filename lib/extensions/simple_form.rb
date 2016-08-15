@@ -2,7 +2,7 @@ module WrappedButton
   def wrapped_button(*args, &block)
     template.content_tag :div, :class => "form-actions" do
       options = args.extract_options!
-      options[:class] = ['btn-primary', options[:class]].compact
+      options[:class] = ['btn-primary', options[:class]].compact.flatten.join(' ')
       args.unshift :loading
       args << options
       if cancel = options.delete(:cancel)
