@@ -2,11 +2,7 @@ services:
   - couchdb
 notifications:
   email: false
-before_install:
-  - "gem install bundler --version 1.11.2"
 before_script:
-  - "rm .ruby-version"
-  - "mv config/ci/travis/ruby-version .ruby-version"
   - "config/ci/travis/setup_couch.sh"
   - "mv config/ci/travis/couchdb.admin.yml config/couchdb.admin.yml"
   - "mv config/ci/travis/couchdb.yml config/couchdb.yml"
