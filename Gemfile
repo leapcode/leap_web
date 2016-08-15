@@ -5,7 +5,7 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 ## CORE
 # rake 11.x throws lots of warnings about rails 3.2 code
 gem "rake"
-gem "rails", "~> 4.2.6"
+gem "rails", "~> 4.2.7"
 # TODO: drop this and the respond_with usage
 gem 'responders', '~> 2.0'
 gem "couchrest", "~> 2.0.0.rc3"
