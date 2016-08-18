@@ -1,4 +1,7 @@
 class SubscriptionsController < BillingBaseController
+
+  respond_to :html
+
   before_filter :require_login
   before_filter :assign_user
   before_filter :confirm_cancel_subscription, only: [:destroy]

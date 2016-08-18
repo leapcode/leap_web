@@ -44,7 +44,8 @@ class Api::SessionsControllerTest < ApiControllerTest
 
     api_post :update, :id => @user.login, :client_auth => @client_hex
 
-    assert_nil session[:handshake]
+    assert_nil session[:handshake],
+      'session should be cleared to prevent session fixation attacks'
     assert_response :success
     assert json_response.keys.include?("id")
     assert json_response.keys.include?("token")

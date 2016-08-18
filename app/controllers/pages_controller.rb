@@ -2,7 +2,9 @@
 # Render static pages
 #
 
+
 class PagesController < ApplicationController
+  respond_to :html
 
   def show
     @show_navigation = false

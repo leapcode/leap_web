@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   before_filter :require_login
   before_filter :require_admin, :only => [:index, :deactivate, :enable]
-  before_filter :fetch_user, :only => [:show, :edit, :destroy, :deactivate, :enable]
+  before_filter :fetch_user, :except => [:index]
 
   respond_to :html
 

@@ -3,6 +3,8 @@ module Api
     before_filter :token_authenticate
     before_filter :require_monitor
 
+    respond_to :json
+
     def show
       @identity = Identity.find_by_address(params[:id])
       if @identity

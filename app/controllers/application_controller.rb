@@ -1,33 +1,25 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_action :check_mime_types
   before_filter :set_locale
   before_filter :no_cache_header
   before_filter :no_frame_header
   before_filter :language_header
+
+  # UPGRADE: this won't be needed in Rails 5 anymore as it's the default
+  # behavior if a template is present but a different format would be
+  # rendered and that template is not present
+  before_filter :verify_request_format!, if: :mime_types_specified
+
   rescue_from StandardError, :with => :default_error_handler
   rescue_from CouchRest::Exception, :with => :default_error_handler
 
   ActiveSupport.run_load_hooks(:application_controller, self)
 
-  # by default we only respond to html.
-  # If you want to respond with json you are probably working on
-  # an ApiController.
-  respond_to :html
-
   protected
 
-  # UPGRADE: this won't be needed in Rails 5 anymore as it's the default
-  # behavior if a template is present but a different format would be
-  # rendered and that template is not present
-  def check_mime_types
-    mimes = collect_mimes_from_class_level()
-    return if mimes.empty?
-
-    collector = ActionController::MimeResponds::Collector.new(mimes, request.variant)
-    unless collector.negotiate_format(request)
-      raise ActionController::UnknownFormat
-    end
+  def mime_types_specified
+    mimes = collect_mimes_from_class_level
+    mimes.present?
   end
 
   def default_error_handler(exc)
