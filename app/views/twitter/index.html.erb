@@ -1,0 +1,26 @@
+<% unless Rails.application.secrets.twitter['enabled'] == false %>
+  <div class=twitter>
+      <div class="twitter_header">
+        Tweets by <%= @twitter_name %></p>
+      </div>
+    <!-- <p><a href="/followers"> You have <%= @num_followers %> followers.</a></p> -->
+    <% @tweets.each do |e| %>
+      <div class=tweets>
+          <p><%= image_tag("leap-icon.jpg", height: '40px', width: '40px') %></p>
+          <!-- <img class="tweets_pic"></img> -->
+        <div class=tweets_name>
+          @<%= @twitter_screen_name %>
+        </div>
+        <div class=tweet_text>
+          <%= " #{e.text}" %>
+        </div>
+        <div class=text_date>
+          <%= @tweet_time %> <% t = e.created_at%> <%="#{t.strftime("%m/%d/%Y")}"%>
+        </div>
+      </div>
+    <% end %>
+      <div class="twitter_footer">
+        To prevent leakage no links are displayed. For more information visit @<%= @twitter_name %> on twitter.com.</p>
+      </div>
+    </div>
+  <% end %>
