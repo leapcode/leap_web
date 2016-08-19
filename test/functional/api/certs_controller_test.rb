@@ -57,4 +57,10 @@ class Api::CertsControllerTest < ApiControllerTest
       returns(cert)
     return cert
   end
+
+  # overwrite defaults from ApiController because we don't do json here.
+  def add_api_defaults(args)
+    add_defaults args, version: '2'
+  end
+
 end

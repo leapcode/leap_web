@@ -3,6 +3,8 @@ class BillingBaseController < ApplicationController
 
   helper 'billing'
 
+  protected
+
   # required for navigation to work.
   def assign_user
     if params[:user_id]

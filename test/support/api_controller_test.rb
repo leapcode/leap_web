@@ -17,7 +17,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def add_api_defaults(args)
-    add_defaults args, version: '2'
+    add_defaults args, version: '2', format: :json
   end
 
   def add_defaults(args, defaults)

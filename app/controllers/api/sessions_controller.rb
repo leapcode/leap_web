@@ -2,6 +2,7 @@ module Api
   class SessionsController < ApiController
 
     before_filter :require_login, only: :destroy
+    respond_to :json
 
     def new
       @session = Session.new

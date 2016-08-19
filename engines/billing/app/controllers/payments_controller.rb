@@ -1,6 +1,8 @@
 class PaymentsController < BillingBaseController
   before_filter :require_login, :only => [:index]
 
+  respond_to :html
+
   def new
     if current_user.has_payment_info?
       @client_token = Braintree::ClientToken.generate(customer_id: current_user.braintree_customer_id)
