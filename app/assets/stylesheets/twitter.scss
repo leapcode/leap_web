@@ -1,16 +1,31 @@
+
+/**************************************************/
+
 .twitter {
-  position: fixed;
-  top: 0;
-  right: 10px;
-  bottom: 0;
-  overflow: auto;
-  width: 250px;
+  // position: fixed;
+  // top: 0;
+  // right: 10px;
+  // bottom: 0;
+  // overflow: auto;
+  // width: 250px;
 }
 .twitter_header {
   padding-top: 8px;
   height: 30px;
   font-size: 20px ;
   text-align: center;
+}
+.tweets:hover {
+    background-color: #ccf2ff;
+  }
+.tweets {
+  border-bottom-style: solid;
+  border-color: #bfbfbf;
+  // display: inline;
+  // height: 32px;
+  // width: 100%;
+  // position: absolute;
+  // text-align: center;
 }
 .tweets_pic {
   display: block;
@@ -19,22 +34,40 @@
   height: 33px;
   padding-left: 8px;
   padding-top: 8px;
-  // background-image: url(leap-icon.jpg);
+  // background: hsl(0, 0%, 30%);
 }
 .tweets_name {
   padding-left: 45px;
-  padding-top: 8px;
-  border-bottom-style: solid;
+  padding-top: 16px;
+  // border-bottom-style: solid;
+  // border-color: #00bfff;
 }
 .tweet_text {
   padding-left: 8px;
   padding-top: 15px;
 }
 .text_date {
-  padding-left: 8px;
+  text-align: right;
   padding-top: 4px;
   font-size: 12px ;
 }
 .twitter_footer {
   padding-top: 8px;
+}
+
+.twitter-image-frame {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.twitter-image-frame > img {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: auto;
 }

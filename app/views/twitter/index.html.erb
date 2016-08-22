@@ -6,7 +6,7 @@
     <!-- <p><a href="/followers"> You have <%= @num_followers %> followers.</a></p> -->
     <% @tweets.each do |e| %>
       <div class=tweets>
-          <p><%= image_tag("leap-icon.jpg", height: '40px', width: '40px') %></p>
+          <div class="tweets_pic twitter-image-frame"><%= image_tag("leap-icon.jpg") %></div>
           <!-- <img class="tweets_pic"></img> -->
         <div class=tweets_name>
           @<%= @twitter_screen_name %>
