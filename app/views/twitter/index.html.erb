@@ -3,11 +3,9 @@
       <div class="twitter_header">
         Tweets by <%= @twitter_name %></p>
       </div>
-    <!-- <p><a href="/followers"> You have <%= @num_followers %> followers.</a></p> -->
     <% @tweets.each do |e| %>
       <div class=tweets>
           <div class="tweets_pic twitter-image-frame"><%= image_tag("leap-icon.jpg") %></div>
-          <!-- <img class="tweets_pic"></img> -->
         <div class=tweets_name>
           @<%= @twitter_screen_name %>
         </div>
