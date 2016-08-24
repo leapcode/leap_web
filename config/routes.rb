@@ -1,4 +1,6 @@
 LeapWeb::Application.routes.draw do
+  get 'twitter/index'
+
   #
   # Please do not use root_path or root_url. Use home_path and home_url instead,
   # so that the path will be correctly prefixed with the locale.
