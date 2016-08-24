@@ -1,0 +1,167 @@
+dev_ca: &dev_ca
+  client_ca_key: "./test/files/ca.key"
+  client_ca_cert: "./test/files/ca.crt"
+  ca_key_password: nil
+
+cert_options: &cert_options
+  client_cert_lifespan: "2 months"
+  client_cert_bit_size: 2024
+  client_cert_hash: "SHA256"
+  allow_limited_certs: false
+  allow_unlimited_certs: true
+  allow_anonymous_certs: false
+  limited_cert_prefix: "LIMITED"
+  unlimited_cert_prefix: "UNLIMITED"
+
+downloads: &downloads
+  client_download_domain: https://dl.bitmask.net
+  available_clients:
+    - linux
+    - osx
+    - windows
+    - android
+  download_paths:
+    android: /android/
+    linux:   /linux/
+    osx:     /mac/
+    windows: /windows/
+    other:   /
+
+common: &common
+  force_ssl: false
+  pagination_size: 30
+  auth:
+    token_expires_after: 60
+
+  # handles that will be blocked from being used as logins or email aliases
+  # in addition to the ones in /etc/passwd and http://tools.ietf.org/html/rfc2142
+  handle_blacklist:
+    - certmaster
+    - ssladmin
+    - arin-admin
+    - administrator
+    - www-data
+    - maildrop
+    - postmaster
+    - admin
+    - contact
+    - info
+    - noreply
+    - robot
+    - helpdesk
+    - help
+    - tickets
+    - owner
+  # handles that will be allowed despite being in /etc/passwd or rfc2142
+  handle_whitelist: []
+  # actions enabled in the account settings
+  # see /users/app/views/users/_edit.html.haml for a list.
+  user_actions: ['contact_email', 'destroy_account']
+  admin_actions: ['contact_email', 'change_pgp_key', 'change_service_level', 'destroy_account']
+  billing: ~
+  default_locale: :en
+  available_locales:
+    - :cs
+    - :de
+    - :el
+    - :en
+    - :es
+    - :fi
+    - :fr
+    - :hu
+    - :it
+    - :lt
+    - :nb
+    - :nl
+    - :pl
+    - :pt
+    - :ru
+    - :tr
+    - :zh
+  minimum_client_version: "0.5"
+  engines:
+    - support
+    - billing
+  allow_registration: true
+  invite_required: false
+  config_file_paths:
+    soledad-service: 'public/1/config/soledad-service.json'
+    eip-service: 'public/1/config/eip-service.json'
+    smtp-service: 'public/1/config/smtp-service.json'
+    provider: 'config/provider/provider.json'
+  mailer:
+    from_address: 'noreply'
+
+service_levels: &service_levels
+  service_levels:
+    1:
+      name: free
+      description: "free account, with rate limited VPN"
+      eip_rate_limit: true
+      storage: 100
+      services:
+        - eip
+    2:
+      name: premium
+      description: "premium account, with unlimited vpn"
+      rate:
+        USD: 10
+        EUR: 10
+      services:
+        - eip
+        - email
+  default_service_level: 1
+
+development:
+  <<: *downloads
+  <<: *dev_ca
+  <<: *cert_options
+  <<: *common
+  <<: *service_levels
+  admins: [blue, red, staff, ava]
+  api_tokens:
+    monitor: nil
+    admin: nil
+  domain: example.org
+  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  reraise_errors: true
+
+  twitter:
+    twitter_handle  : 'xxxxxxxxxxxxxxxxx'
+    consumer_key    : 'xxxxxxxxxxxxxxxxx'
+    consumer_secret : 'xxxxxxxxxxxxxxxxx'
+    bearer_token    : 'xxxxxxxxxxxxxxxxx'
+
+test:
+  <<: *downloads
+  <<: *dev_ca
+  <<: *cert_options
+  <<: *common
+  <<: *service_levels
+  admins: [admin, admin2]
+  api_tokens:
+    monitor: "212da28a59dcaca487365309dc93aa09"
+    admin: nil
+    allowed_ips:
+      - 0.0.0.0
+  domain: test.me
+  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  reraise_errors: true
+  billing: {}
+  default_locale: :en
+  available_locales:
+    - :en
+    - :de
+
+production:
+  <<: *downloads
+  <<: *cert_options
+  <<: *common
+  admins: []
+  api_tokens:
+    monitor: nil
+    admin: nil
+  domain: example.net
+  engines:
+    - support
+  # logfile: /path/to/your/logs
