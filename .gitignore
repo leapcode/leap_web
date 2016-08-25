@@ -34,7 +34,7 @@ public/ca.crt
 public/config/*
 public/provider.json
 # config/config.yml
-config.secrets.yml
+config/secrets.yml
 config/initializers/test.rb
 public/1/*
 vendor/bundle/*
