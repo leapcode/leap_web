@@ -1,14 +1,15 @@
-.left.column
+.row
   %h1= t(:welcome, :provider => APP_CONFIG[:domain])
   .p=t(:welcome_message_html)
 
-  = home_page_buttons
-
-.right.column
-  = render :partial => 'twitter/index'
+.row
+  .col-md-9
+    = home_page_buttons
+  .col-md-3
+    = render 'twitter/index'
 
   - if Rails.env == 'development'
     .row
       %hr
       %p
-        = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
+= link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
