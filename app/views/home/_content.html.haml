@@ -8,8 +8,8 @@
   .col-md-3
     = render 'twitter/index'
 
-  - if Rails.env == 'development'
-    .row
-      %hr
-      %p
-= link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
+    - if Rails.env == 'development'
+      .row
+        %hr
+        %p
+          = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
