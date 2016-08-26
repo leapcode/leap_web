@@ -1,4 +1,7 @@
 module TwitterHelper
+  def twitter_enabled
+    Rails.application.secrets.twitter['enabled'] == true
+  end
 
   def twitter_client
     Twitter::REST::Client.new do |config|
@@ -20,5 +23,3 @@ module TwitterHelper
     twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}
   end
 end
-
-# unless Rails.application.secrets.twitter['enabled'] == false
