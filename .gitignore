@@ -33,7 +33,7 @@ public/assets/*
 public/ca.crt
 public/config/*
 public/provider.json
-# config/config.yml
+config/config.yml
 config/secrets.yml
 public/1/*
 vendor/bundle/*
