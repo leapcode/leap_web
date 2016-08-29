@@ -127,9 +127,8 @@ development:
   reraise_errors: true
 
   twitter:
-    consumer_key    : Change_to_your_consumer_key
-    consumer_secret : Change_to_your_consumer_secret
-    bearer_token    : Change_to_your_bearer_token
+    twitter_handle  : Change_to_your_Twitter_handle
+    bearer_token    : Change_to_your_Bearer_token
 
 test:
   <<: *downloads

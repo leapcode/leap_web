@@ -1,21 +1,15 @@
 .twitter {
   position: relative;
-  // top: 0;
-  // right: 10px;
-  // bottom: 0;
-  // overflow: auto;
-  // width: 250px;
 }
+
 .twitter_header {
-  padding-top: 8px;
-  height: 30px;
-  font-size: 20px ;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 20px;
+  text-align: left;
+  margin-bottom: 30px;
 }
 
 .twitter_list {
-  position: relative;
+  box-sizing: border-box;
 }
 
 .tweet:hover {
@@ -25,33 +19,35 @@
 .tweet {
   border-bottom-style: solid;
   border-color: #bfbfbf;
-  // display: inline;
-  // height: 32px;
-  // width: 100%;
-  // position: absolute;
-  // text-align: center;
+  padding: 10px 8px;
+}
+
+.tweet_title {
+  position: relative;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
 .tweet_pic {
   display: block;
-  float: left;
-  width: 28px;
-  height: 33px;
-  padding-left: 8px;
-  padding-top: 8px;
-  // background: hsl(0, 0%, 30%);
-}
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  }
 
 .tweet_name {
-  padding-left: 45px;
-  padding-top: 16px;
-  // border-bottom-style: solid;
-  // border-color: #00bfff;
+  padding-left: 50px;
+  line-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tweet_text {
-  padding-left: 8px;
-  padding-top: 15px;
+box-sizing: border-box;
 }
 
 .tweet_text_date {
@@ -67,7 +63,6 @@
   width: 40px;
   height: 40px;
   overflow: hidden;
-  position: relative;
 }
 
 .twitter_image_frame > img {
