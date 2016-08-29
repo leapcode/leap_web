@@ -1,0 +1,34 @@
+<% if twitter_enabled == true %>
+  <div class="twitter">
+
+      <div class="twitter_header">
+        Tweets by </br><%= twitter_name %></p>
+      </div>
+
+      <div class="twitter_list">
+        <% tweets.each do |e| %>
+          <div class="tweet">
+
+            <div class="tweet_title">
+              <div class="tweet_pic twitter_image_frame"><%= image_tag("team-loadtocode-Loading_icon.gif") %></div>
+                <div class="tweet_name">
+                  @<%= twitter_handle %>
+                </div>
+            </div>
+
+            <div class="tweet_text"><%= " #{e.text}" %>
+            </div>
+
+            <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
+            </div>
+
+          </div>
+        <% end %>
+      </div>
+
+      <div class="twitter_footer">
+        To prevent leakage no links are displayed. For more information visit @<%= twitter_name %> on twitter.com.</p>
+      </div>
+
+    </div>
+<% end %>

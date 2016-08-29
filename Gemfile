@@ -98,6 +98,7 @@ end
 ##
 ## OPTIONAL GEMS AND ENGINES
 ##
+gem 'twitter'
 
 enabled_engines.each do |name, gem_info|
   gem gem_info[:name], :path => gem_info[:path], :groups => gem_info[:env]

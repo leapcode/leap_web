@@ -1,0 +1,76 @@
+.twitter {
+  position: relative;
+}
+
+.twitter_header {
+  font-size: 20px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.twitter_list {
+  box-sizing: border-box;
+}
+
+.tweet:hover {
+    background-color: #ccf2ff;
+  }
+
+.tweet {
+  border-bottom-style: solid;
+  border-color: #bfbfbf;
+  padding: 10px 8px;
+}
+
+.tweet_title {
+  position: relative;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.tweet_pic {
+  display: block;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  }
+
+.tweet_name {
+  padding-left: 50px;
+  line-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tweet_text {
+box-sizing: border-box;
+}
+
+.tweet_text_date {
+  text-align: right;
+  padding-top: 4px;
+  font-size: 12px ;
+}
+.twitter_footer {
+  padding-top: 8px;
+}
+
+.twitter_image_frame {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.twitter_image_frame > img {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: auto;
+}
