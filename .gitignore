@@ -43,3 +43,4 @@ config/customization/*
 config/transifex.netrc
 !config/provider/.gitkeep
 !config/customization/.gitkeep
+config/secrets.yml

@@ -18,6 +18,9 @@ end
 gem "ruby-srp", "~> 0.2.1"
 gem "rails_warden"
 
+# # twitter ruby gem
+gem 'twitter'
+
 ## CRYPTO
 # we need certificate_authority v2.0, but was never released to rubygems,
 # and travis does not work well with github sources, so vendored here:
