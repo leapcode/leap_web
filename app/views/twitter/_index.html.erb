@@ -2,20 +2,17 @@
   <div class="twitter">
 
       <div class="twitter_header">
-        Tweets by </br><%= twitter_name %></p>
+        <p>These are the most recent tweets by </br><%= twitter_name%></p>
+
+        <div class="twitter_id">
+          <div class="twitter_pic twitter_image_frame"><%= image_tag("rails.png") %></div>
+          <div class="twitter_name"><a href="https://twitter.com/loadtocode">@<%= twitter_handle %></a></div>
+        </div>
       </div>
 
       <div class="twitter_list">
         <% tweets.each do |e| %>
           <div class="tweet">
-
-            <div class="tweet_title">
-              <div class="tweet_pic twitter_image_frame"><%= image_tag("team-loadtocode-Loading_icon.gif") %></div>
-                <div class="tweet_name">
-                  @<%= twitter_handle %>
-                </div>
-            </div>
-
             <div class="tweet_text"><%= " #{e.text}" %>
             </div>
 
@@ -29,6 +26,5 @@
       <div class="twitter_footer">
         To prevent leakage no links are displayed. For more information visit @<%= twitter_name %> on twitter.com.</p>
       </div>
-
-    </div>
+</div>
 <% end %>

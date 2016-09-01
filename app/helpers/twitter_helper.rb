@@ -18,6 +18,6 @@ module TwitterHelper
   end
 
   def tweets
-    twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}
+    twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
   end
 end
