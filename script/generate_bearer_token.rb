@@ -35,18 +35,19 @@ end
 
 uri = URI("https://api.twitter.com/oauth2/token")
 data = "grant_type=client_credentials"
-cre   = Base64.encode64("#{consumer_key}:#{consumer_secret}")
-cre.delete!("\n")
+cre   = Base64.strict_encode64("#{consumer_key}:#{consumer_secret}")
 authorization_headers = { "Authorization" => "Basic #{cre}"}
 
 Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
   response = http.request_post(uri, data, authorization_headers)
   token_hash = JSON.parse(response.body)
-  bearer_token = token_hash["access_token"]
+  @bearer_token = token_hash["access_token"]
 end
 
-if options[:file].nil? || options[:consec].nil? then
-  puts bearer_token
+if options[:file].nil? then
+  puts @bearer_token
 else
-  # put data into config/secrets.yml
+  if options[:file] == "config/secrets.yml"
+    Rails.application.secrets.twitter['bearer_token'] = @bearer_token
+  end
 end
