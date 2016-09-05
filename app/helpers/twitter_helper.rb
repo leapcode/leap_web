@@ -1,6 +1,8 @@
 module TwitterHelper
   def twitter_enabled
-    Rails.application.secrets.twitter['enabled'] == true
+    if Rails.application.secrets.twitter
+      Rails.application.secrets.twitter['enabled'] == true
+    end
   end
 
   def twitter_client
