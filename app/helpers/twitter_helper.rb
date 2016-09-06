@@ -15,8 +15,24 @@ module TwitterHelper
     Rails.application.secrets.twitter['twitter_handle']
   end
 
+  def twitter_user_info
+      $twitter_user_info ||= []
+  end
+
   def twitter_name
-    twitter_client.user(twitter_handle).name
+    if twitter_user_info[0] == nil
+      update_twitter_info
+    else
+      if Time.now > twitter_user_info[0] + 15.minutes
+        update_twitter_info
+      end
+    end
+    twitter_user_info[1]
+  end
+
+  def update_twitter_info
+    twitter_user_info[0] = Time.now
+    twitter_user_info[1] = twitter_client.user(twitter_handle).name
   end
 
   def tweets
