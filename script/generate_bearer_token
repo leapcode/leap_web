@@ -70,6 +70,7 @@ else
     end
   else
     secrets["development"]["twitter"]["twitter_handle"] = options[:twitterhandle]
+    secrets["test"]["twitter"]["twitter_handle"] = options[:twitterhandle]
   end
 
   secrets["development"]["twitter"]["bearer_token"] = $bearer_token
