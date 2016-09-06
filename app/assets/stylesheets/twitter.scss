@@ -5,30 +5,14 @@
 .twitter_header {
   font-size: 20px;
   text-align: left;
-  margin-bottom: 30px;
+  margin-bottom: 80px;
 }
 
-.twitter_list {
-  box-sizing: border-box;
+.twitter_id {
+  position: absolute;
 }
 
-.tweet:hover {
-    background-color: #ccf2ff;
-  }
-
-.tweet {
-  border-bottom-style: solid;
-  border-color: #bfbfbf;
-  padding: 10px 8px;
-}
-
-.tweet_title {
-  position: relative;
-  height: 40px;
-  margin-bottom: 10px;
-}
-
-.tweet_pic {
+.twitter_pic {
   display: block;
   width: 40px;
   height: 40px;
@@ -38,12 +22,39 @@
   top: 0;
   }
 
-.tweet_name {
-  padding-left: 50px;
+.twitter_image_frame {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  }
+
+.twitter_name {
+  padding-left: 65px;
   line-height: 40px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 20px;
+}
+
+.twitter_image_frame > img {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: auto;
+  }
+
+.twitter_list {
+  box-sizing: border-box;
+}
+
+.tweet {
+  border-top-style: solid;
+  border-color: lightgrey;
+  padding: 10px 8px;
 }
 
 .tweet_text {
@@ -55,22 +66,9 @@ box-sizing: border-box;
   padding-top: 4px;
   font-size: 12px ;
 }
+
 .twitter_footer {
+  border-top-style: solid;
+  border-color: lightgrey;
   padding-top: 8px;
-}
-
-.twitter_image_frame {
-  width: 40px;
-  height: 40px;
-  overflow: hidden;
-}
-
-.twitter_image_frame > img {
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin: auto;
 }
