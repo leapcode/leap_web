@@ -35,7 +35,23 @@ module TwitterHelper
     twitter_user_info[1] = twitter_client.user(twitter_handle).name
   end
 
-  def tweets
-    twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
+  def twitter_tweets
+      $twitter_tweets ||= []
+  end
+
+  def twitter_timeline
+    if twitter_tweets[0] == nil
+      update_twitter_timeline
+    else
+      if Time.now > twitter_tweets[0] + 15.minutes
+        update_twitter_timeline
+      end
+    end
+    twitter_tweets[1]
+  end
+
+  def update_twitter_timeline
+    twitter_tweets[0] = Time.now
+    twitter_tweets[1] = twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
   end
 end
