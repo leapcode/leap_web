@@ -58,10 +58,12 @@ else
   if File.exist?("#{options[:projectroot]}/leap_web/config/secrets.yml")
     secrets = YAML.load_file("#{options[:projectroot]}/leap_web/config/secrets.yml")
   else
+    puts "Please make sure that you created a secrets-file as described in the documentation or have given the correct directory. No secrets-file could be found."
+    exit
     # secrets_content = {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}
     # secrets = {"development"=> secrets_content, "test"=>secrets_content}
-    secrets = {"development"=> {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}, "test"=>{"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}}
-    File.new("#{options[:projectroot]}/leap_web/config/secrets.yml", "w")
+    # secrets = {"development"=> {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}, "test"=>{"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}}
+    # File.new("#{options[:projectroot]}/leap_web/config/secrets.yml", "w")
   end
 
   if options[:twitterhandle].nil? then
