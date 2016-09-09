@@ -3,9 +3,10 @@
 }
 
 .twitter_header {
-  font-size: 20px;
+  font-size: 16px;
   text-align: left;
-  margin-bottom: 80px;
+  margin-bottom: 55px;
+  padding: 10px 8px;
 }
 
 .twitter_id {
@@ -25,28 +26,29 @@
 .twitter_image_frame {
   width: 40px;
   height: 40px;
-  overflow: hidden;
+  overflow: hidden
   }
-
-.twitter_name {
-  padding-left: 65px;
-  line-height: 40px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 20px;
-}
 
 .twitter_image_frame > img {
   display: block;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: 30;
   width: 100%;
   margin: auto;
   }
 
+.twitter_name {
+  padding-left: 55px;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+// Body = displays tweets
 .twitter_list {
   box-sizing: border-box;
 }
@@ -70,5 +72,7 @@ box-sizing: border-box;
 .twitter_footer {
   border-top-style: solid;
   border-color: lightgrey;
-  padding-top: 8px;
+  padding: 10px 8px;
+  font-style: italic;
+  font-size: 12px;
 }
