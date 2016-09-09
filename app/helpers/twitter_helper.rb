@@ -23,7 +23,7 @@ module TwitterHelper
     if twitter_user_info[0] == nil
       update_twitter_info
     else
-      if Time.now > twitter_user_info[0] + 15.minutes
+      if Time.now > twitter_user_info[0] + 120.minutes
         update_twitter_info
       end
     end
