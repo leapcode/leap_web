@@ -13,7 +13,7 @@
   position: absolute;
 }
 
-.twitter_pic {
+.twitter_image_frame {
   display: block;
   width: 40px;
   height: 40px;
@@ -21,12 +21,6 @@
   position: absolute;
   left: 0;
   top: 0;
-  }
-
-.twitter_image_frame {
-  width: 40px;
-  height: 40px;
-  overflow: hidden
   }
 
 .twitter_image_frame > img {
