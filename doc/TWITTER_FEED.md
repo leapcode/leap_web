@@ -32,4 +32,4 @@ LEAP web app (as part of the main view).
 
 ### Default avatar image ###
 
-This feature uses by default the twitter bird as avatar picture (Twitter_Logo_Blue.png). By using the Twitter trademarks in these Brand Guidelines, you agree to follow these Twitter Trademark Guidelines (the “Guidelines”) as well as our Terms of Service and all other Twitter rules and policies. Please find more details here: https://brand.twitter.com/.
+This feature uses by default the twitter bird as avatar picture (Twitter_Logo_Blue.png). By using the Twitter trademarks, you agree to follow these Twitter Trademark Guidelines (the “Guidelines”) as well as Twitter's Terms of Service and all other Twitter rules and policies. Please find more details here: https://brand.twitter.com/.
