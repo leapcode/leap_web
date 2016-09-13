@@ -32,7 +32,6 @@ common: &common
   pagination_size: 30
   auth:
     token_expires_after: 60
-
   # handles that will be blocked from being used as logins or email aliases
   # in addition to the ones in /etc/passwd and http://tools.ietf.org/html/rfc2142
   handle_blacklist:
