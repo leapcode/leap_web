@@ -213,3 +213,7 @@ LEAP web app (as part of the main view).
   * The full command looks like this: `script/generate_bearer_token --key your_consumerkey --secret your_consumersecret --projectroot your_projectroot --twitterhandle your_twitterhandle`
   * If you didn't give all your information to the script, had a typo or want to change anything else, please do so by finding the secrets-file at `/config/secrets.yml`
   * Make sure that the correct twitterhandle and bearer-token is included
+
+* Deactivate your bearer token
+  * To deactivate your generated bearer token you can run `script/invalidate_bearer_token`
+  * The full command looks like this: `script/invalidate_bearer_token --key your_consumerkey --secret your_consumersecret --token your_bearer_token`
