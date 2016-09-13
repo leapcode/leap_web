@@ -13,16 +13,14 @@
           <div class="tweet">
             <div class="tweet_text"><%= " #{e.text}" %>
             </div>
-
             <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
             </div>
-
           </div>
         <% end %>
-      </div>
+    </div>
 
-      <div class="twitter_footer">
-        <p>This feed uses a Ruby interface to access the Twitter API. Within LEAP Twitter does not track you.</p>
-      </div>
+    <div class="twitter_footer">
+      <p>This feed uses a Ruby interface to access the Twitter API. Within LEAP Twitter does not track you.</p>
+    </div>
 </div>
 <% end %>
