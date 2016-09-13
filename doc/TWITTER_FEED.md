@@ -1,5 +1,4 @@
 # Display of status updates from twitter on main view #
----------------------------
 
 This is a feature to include status updates that displays most recent tweets
 of a (determined) twitter account (accessed via Twitter API).
