@@ -9,6 +9,7 @@ The LEAP Web App provides the following functions:
 * Webfinger access to user’s public keys
 * Email aliases and forwarding
 * Localized and Customizable documentation
+* Display of status updates from Twitter (access to tweets via Twitter API)
 
 Written in: Ruby, Rails.
 
@@ -36,6 +37,7 @@ For more information, see these files in the ``doc`` directory:
 * DEPLOY -- for notes on deployment.
 * DEVELOP -- for developer notes.
 * CUSTOM -- how to customize.
+* TWITTER_FEED -- how to use it.
 
 External docs:
 
@@ -186,4 +188,3 @@ Known problems
   attacks. These are very hard to prevent, because our protocol is
   designed to allow query of a user database via proxy in order to
   provide network perspective.
-

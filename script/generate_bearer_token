@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+require "net/http"
+require "uri"
+require "json"
+require "base64"
+require "optparse"
+require "yaml"
+
+options = {}
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Create your bearer_token for twitter by including following two [options], feel free to have your secrets-file created/filled giving the other information as well:"
+
+  opts.on("--key KEY", "consumer_key of your twitter application") do |key|
+    options[:conkey] = key
+  end
+
+  opts.on("--secret SECRET", "consumer_secret of your twitter application") do |secret|
+    options[:consec] = secret
+  end
+
+  opts.on("--projectroot DIR", "directory where leapweb is") do |projectroot|
+    options[:projectroot] = projectroot
+  end
+
+  opts.on("--twitterhandle TWI", "twitterhandle without @ which will be passed into secrets-file") do |twitterhandle|
+    options[:twitterhandle] = twitterhandle
+  end
+
+end
+
+option_parser.parse!
+
+if options[:conkey].nil? || options[:consec].nil? then
+  puts option_parser
+  exit
+else
+  consumer_key = options[:conkey]
+  consumer_secret = options[:consec]
+end
+
+uri = URI("https://api.twitter.com/oauth2/token")
+data = "grant_type=client_credentials"
+cre   = Base64.strict_encode64("#{consumer_key}:#{consumer_secret}")
+authorization_headers = { "Authorization" => "Basic #{cre}"}
+
+Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+  response = http.request_post(uri, data, authorization_headers)
+  token_hash = JSON.parse(response.body)
+  $bearer_token = token_hash["access_token"]
+end
+
+if options[:projectroot].nil? then
+  puts "You didn't tell us the directory to have your secrets-file created or being filled. Feel free to copy/paste your bearer_token:"
+  puts $bearer_token
+else
+  if File.exist?("#{options[:projectroot]}/leap_web/config/secrets.yml")
+    secrets = YAML.load_file("#{options[:projectroot]}/leap_web/config/secrets.yml")
+  else
+    puts "Please make sure that you created a secrets-file as described in the documentation or have given the correct directory. No secrets-file could be found."
+    exit
+    # secrets_content = {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}
+    # secrets = {"development"=> secrets_content, "test"=>secrets_content}
+    # secrets = {"development"=> {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}, "test"=>{"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}}
+    # File.new("#{options[:projectroot]}/leap_web/config/secrets.yml", "w")
+  end
+
+  if options[:twitterhandle].nil? then
+    if secrets["development"]["twitter"]["twitter_handle"] == "" then
+      puts "You didn't put your twitter-handle neither in the secrets-file nor passed it as a flag. Don't forget that you can't use the twitter-feature without your twitter-handle."
+    end
+  else
+    secrets["development"]["twitter"]["twitter_handle"] = options[:twitterhandle]
+    secrets["test"]["twitter"]["twitter_handle"] = options[:twitterhandle]
+  end
+
+  secrets["development"]["twitter"]["bearer_token"] = $bearer_token
+  secrets["test"]["twitter"]["bearer_token"] = $bearer_token
+
+  File.open("#{options[:projectroot]}/leap_web/config/secrets.yml", "r+") do |file|
+    file.write(secrets.to_yaml)
+  end
+end

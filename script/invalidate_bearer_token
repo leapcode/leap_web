@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require "net/http"
+require "uri"
+require "json"
+require "base64"
+require "optparse"
+
+options = {}
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Invalidate your bearer_token for twitter by including the following [options]. The bearer token can't be used afterwards anymore. Please create a new bearer-token if you want to activate the twitter feature again."
+
+  opts.on("--key KEY", "consumer_key of your twitter application") do |key|
+    options[:conkey] = key
+  end
+
+  opts.on("--secret SECRET", "consumer_secret of your twitter application") do |secret|
+    options[:consec] = secret
+  end
+
+  opts.on("--token TOKEN", "bearer token for twitter") do |token|
+    options[:token] = token
+  end
+
+end
+
+option_parser.parse!
+
+if options[:conkey].nil? || options[:consec].nil? || options[:token].nil? then
+  puts option_parser
+  exit
+else
+  consumer_key = options[:conkey]
+  consumer_secret = options[:consec]
+  bearer_token = options[:token]
+end
+
+uri = URI("https://api.twitter.com/oauth2/invalidate_token")
+data = "access_token=#{bearer_token}"
+cre   = Base64.strict_encode64("#{consumer_key}:#{consumer_secret}")
+authorization_headers = { "Authorization" => "Basic #{cre}"}
+
+Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+  response = http.request_post(uri, data, authorization_headers)
+  puts JSON.parse(response.body)
+end
