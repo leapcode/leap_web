@@ -19,6 +19,18 @@ LEAP web app (as part of the main view).
 * Activate the feature within your local LEAP Web Application
   * If not already existing create a secrets-file in /config with the name secrets.yml (`/config/secrets.yml`)
   * Secrets-file should contain the following, make sure its in YAML: {"development"=> {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}, "test"=>{"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}}
+```
+development:
+  twitter:
+    enabled: false # set to true for usage
+    twitter_handle: XXXXX #put your twitter handle here
+    bearer_token: XXXXX #put your bearer token here
+test:
+  twitter:
+    enabled: false # set to true for usage
+    twitter_handle: XXXXX #put your twitter handle here
+    bearer_token: XXXXX #put your bearer token here
+```
   * To have your bearer token created, run script in terminal being in the file of leap_web: `script/generate_bearer_token`
   * To have the script run properly you have to add before running: `--key your_consumerkey --secret your_consumersecret`
   * Add also `--projectroot your_projectroot --twitterhandle your_twitterhandle` as well to not have manually put the data in your secrets-file
