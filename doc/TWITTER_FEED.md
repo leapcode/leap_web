@@ -30,6 +30,11 @@ test:
     enabled: false # set to true for usage
     twitter_handle: XXXXX #put your twitter handle here
     bearer_token: XXXXX #put your bearer token here
+production:
+  twitter:
+    enabled: false # set to true for usage
+    twitter_handle: XXXXX #put your twitter handle here
+    bearer_token: XXXXX #put your bearer token here
 ```
   * To have your bearer token created, run script in terminal being in the file of leap_web: `script/generate_bearer_token`
   * To have the script run properly you have to add before running: `--key your_consumerkey --secret your_consumersecret`
