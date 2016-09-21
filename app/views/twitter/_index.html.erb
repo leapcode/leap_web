@@ -9,14 +9,15 @@
       </div>
 
       <div class="twitter_list">
-        <% tweets.each do |e| %>
-          <div class="tweet">
-            <div class="tweet_text"><%= " #{e.text}" %>
+        <%if tweets == [] then%><%= error_message %><% end %>
+          <% tweets.each do |e| %>
+            <div class="tweet">
+              <div class="tweet_text"><%= " #{e.text}" %>
+              </div>
+              <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
+              </div>
             </div>
-            <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
     </div>
 
     <div class="twitter_footer">
