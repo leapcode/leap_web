@@ -3,20 +3,21 @@
 
       <div class="twitter_header">
         <div class="twitter_id">
-          <div class="twitter_image_frame"><%= image_tag("Twitter_Logo_Blue.png") %></div>
-          <div class="twitter_name"><%= twitter_name%><br><a href="https://twitter.com/loadtocode">@<%= twitter_handle %></a></div>
+          <div class="twitter_image_frame"><%= image_tag("Avatar_Pic.png") %></div>
+          <div class="twitter_name"><%= twitter_name%><br><a href="https://twitter.com/<%= twitter_handle %>">@<%= twitter_handle %></a></div>
         </div>
       </div>
 
       <div class="twitter_list">
-        <% tweets.each do |e| %>
-          <div class="tweet">
-            <div class="tweet_text"><%= " #{e.text}" %>
+        <%if tweets == [] then%><%= error_message %><% end %>
+          <% tweets.each do |e| %>
+            <div class="tweet">
+              <div class="tweet_text"><%= sanitize(e.text) %>
+              </div>
+              <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
+              </div>
             </div>
-            <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
     </div>
 
     <div class="twitter_footer">
