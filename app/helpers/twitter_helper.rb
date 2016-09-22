@@ -22,7 +22,7 @@ module TwitterHelper
   def update_twitter_info
     twitter_user_info[0] = Time.now
     twitter_user_info[1] = twitter_client.user(twitter_handle).name
-    twitter_user_info[2] = twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(7)
+    twitter_user_info[2] = twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
     if twitter_user_info[2] == nil
       error_handling
       twitter_user_info[3] = "The twitter handle does not exist or the account's tweets are protected. Please change the privacy settings accordingly."
