@@ -22,7 +22,6 @@ module TwitterHelper
   def update_twitter_info
     twitter_user_info[0] = Time.now
     twitter_user_info[1] = twitter_client.user(twitter_handle).name
-<<<<<<< HEAD
     twitter_user_info[2] = twitter_client.user_timeline(twitter_handle, {:count => 200}).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
     if twitter_user_info[2] == nil
       error_handling
