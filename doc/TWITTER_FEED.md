@@ -41,7 +41,7 @@ production:
   * Add also `--projectroot your_projectroot --twitterhandle your_twitterhandle` as well to not have manually put the data in your secrets-file
   * The full command looks like this: `script/generate_bearer_token --key your_consumerkey --secret your_consumersecret --projectroot your_projectroot --twitterhandle your_twitterhandle`
   * If you didn't give all your information to the script, had a typo or want to change anything else, please do so by finding the secrets-file at `/config/secrets.yml`
-  * Make sure that the correct twitter-handle and bearer-token is included. The tweets of the twitter-account you want to have shown have to be public!
+  * Make sure that the correct twitter-handle and bearer-token is included. The account's tweets must not be protected, otherwise they cannot be displayed.
 
 * Deactivate your bearer token
   * To deactivate your generated bearer token you can run script/invalidate_bearer_token
