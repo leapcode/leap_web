@@ -19,8 +19,8 @@ customization_directory = APP_CONFIG["customization_directory"]
 # * For this to work, config.assets.initialize_on_precompile MUST be set to true, otherwise
 #   this initializer will never get called in production mode when the assets are precompiled.
 #
-Rails.application.config.assets.paths.unshift "#{customization_directory}/assets"
-
+Rails.application.config.assets.paths.unshift "#{customization_directory}/images"
+Rails.application.config.assets.paths.unshift "#{customization_directory}/stylesheets"
 #
 # Copy files to public
 #

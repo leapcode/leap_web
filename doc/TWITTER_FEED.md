@@ -24,7 +24,7 @@ LEAP web app (as part of the main view).
   * Add also `--projectroot your_projectroot --twitterhandle your_twitterhandle` as well to not have manually put the data in your secrets-file
   * The full command looks like this: `script/generate_bearer_token --key your_consumerkey --secret your_consumersecret --projectroot your_projectroot --twitterhandle your_twitterhandle`
   * If you didn't give all your information to the script, had a typo or want to change anything else, please do so by finding the secrets-file at `/config/secrets.yml`
-  * Make sure that the correct twitterhandle and bearer-token is included
+  * Make sure that the correct twitter handle and bearer token is included
 
 * Deactivate your bearer token
   * To deactivate your generated bearer token you can run script/invalidate_bearer_token
@@ -32,4 +32,5 @@ LEAP web app (as part of the main view).
 
 ### Default avatar image ###
 
-This feature uses by default the twitter bird as avatar picture (Twitter_Logo_Blue.png). By using the Twitter trademarks, you agree to follow the Twitter Trademark Guidelines as well as Twitter's Terms of Service and all other Twitter rules and policies. Please find more details here: https://brand.twitter.com/.
+This feature uses by default the twitter bird as avatar picture, you can find here (app/assets/images/Avatar_Pic.png). For customization you can upload your own avatar picture to 'config/customization/images' naming the image file 'Avatar_Pic.png'. This will replace the default image file.
+By using the Twitter trademarks, you agree to follow the Twitter Trademark Guidelines as well as Twitter's Terms of Service and all other Twitter rules and policies. Please find more details here: https://brand.twitter.com/.
