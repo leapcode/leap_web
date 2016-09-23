@@ -22,17 +22,18 @@ module TwitterHelper
   def update_twitter_info
     twitter_user_info[0] = Time.now
     twitter_user_info[1] = twitter_client.user(twitter_handle).name
+<<<<<<< HEAD
     twitter_user_info[2] = twitter_client.user_timeline(twitter_handle, {:count => 200}).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(3)
     if twitter_user_info[2] == nil
       error_handling
-      twitter_user_info[3] = "The twitter handle does not exist or the account's tweets are protected. Please change the privacy settings accordingly."
+      twitter_user_info[3] = "The twitter handle does not exist or the account's tweets are protected. Please change the privacy settings accordingly or contact your provider-admin."
     end
   rescue Twitter::Error::BadRequest
     error_handling
     twitter_user_info[3] = "The request for displaying tweets is invalid or cannot be otherwise served."
   rescue Twitter::Error::Unauthorized
     error_handling
-    twitter_user_info[3] = "The account's tweets are protected and cannot be displayed. Please change the privacy settings of the corresponding account."
+    twitter_user_info[3] = "Your bearer-token is invalid or the account's tweets are protected and cannot be displayed. Please change the privacy settings of the corresponding account, check your bearer-token in the secrets-file or contact your provider-admin to have the tweets shown."
   rescue Twitter::Error::Forbidden
     error_handling
     twitter_user_info[3] = "The request for displaying tweets is understood, but it has been refused or access is not allowed."
