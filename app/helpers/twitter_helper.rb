@@ -22,7 +22,11 @@ module TwitterHelper
   def update_twitter_info
     twitter_user_info[0] = Time.now
     twitter_user_info[1] = twitter_client.user(twitter_handle).name
+<<<<<<< 791e03c838ccb0f346e34b04838eedaeb5fcff36
     twitter_user_info[2] = twitter_client.user_timeline(twitter_handle, {:count => 200}).select{ |tweet| tweet.text.start_with?('RT','@')==false}
+=======
+    twitter_user_info[2] = twitter_client.user_timeline(twitter_handle).select{ |tweet| tweet.text.start_with?('RT','@')==false}.take(10)
+>>>>>>> Doc updated on how to customize avatar picture in twitter feature; update error response messages; added 'config/customization/images' + link in 'config/initializer/customization.rb'
     if twitter_user_info[2] == nil
       error_handling
       twitter_user_info[3] = "The twitter handle does not exist or the account's tweets are protected. Please change the privacy settings accordingly or contact your provider-admin."
