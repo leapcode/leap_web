@@ -5,8 +5,11 @@
 .row-fluid
   = home_page_buttons
 
-  - if Rails.env == 'development'
-    .row-fluid
-      %hr
-      %p
-        = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
+.row-fluid
+  = render 'home/provider_message'
+
+- if Rails.env == 'development'
+  .row-fluid
+    %hr
+    %p
+      = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
