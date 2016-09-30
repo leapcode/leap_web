@@ -18,9 +18,16 @@
               </div>
             </div>
           <% end %>
-    </div>
+          <%if all_tweets_count > num_of_tweets then%>
+            <div class="tweet">
+              <div class="more_tweets_link"><a href="https://twitter.com/<%= twitter_handle %>">Show more tweets...</a>
+              </div>
+            </div>
+          <% end %>
+      </div>
 
     <div class="twitter_footer">
+
       <p>This feed uses a Ruby interface to access the Twitter API. Within LEAP Twitter does not track you.</p>
     </div>
 </div>
