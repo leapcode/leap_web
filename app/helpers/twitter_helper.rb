@@ -71,7 +71,7 @@ module TwitterHelper
   end
 
   def num_of_tweets
-    2
+    3
   end
 
   def tweets
