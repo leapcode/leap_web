@@ -9,15 +9,14 @@
 //
 // import bootstrap.
 //
+@import "bootstrap-sprockets";
 @import "bootstrap";
-@import "bootstrap-responsive";
-// backport bootstrap 3.2 features
-@import "backport";
 
 //
 // LEAP web app specific overrides
 //
 @import "leap";
+@import "twitter";
 
 // And finally bootswatch style itself
 // @import "bootswatch/cerulean/bootswatch";

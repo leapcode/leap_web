@@ -4,12 +4,9 @@ Given /there is a config for the (.*)$/ do |config|
   @tempfile = Tempfile.new("#{config}.json")
   @tempfile.write @dummy_config
   @tempfile.close
-  if config == 'provider'
-    StaticConfigController::PROVIDER_JSON = @tempfile.path
-  else
-    @orig_config ||= APP_CONFIG.dup
-    APP_CONFIG[:config_file_paths].merge! "#{config}-service" => @tempfile.path
-  end
+  @orig_config ||= APP_CONFIG.dup
+  config = "#{config}-service" unless config == 'provider'
+  APP_CONFIG[:config_file_paths].merge! config => @tempfile.path
 end
 
 # use with @config

@@ -5,3 +5,5 @@
 function alert_message(msg) {
   $('#messages').append('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><span>'+msg+'</span></div>');
 }
+
+ClientSideValidations.formBuilders['SimpleForm::FormBuilder'].wrappers.bootstrap = ClientSideValidations.formBuilders['SimpleForm::FormBuilder'].wrappers["default"];

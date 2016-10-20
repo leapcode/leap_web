@@ -16,6 +16,7 @@
 //= require bootstrap
 //= require rails.validations
 //= require rails.validations.simple_form
+//= require typeahead.bundle
 //= require leap
 //= require platform
 //= require tickets

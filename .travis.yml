@@ -1,15 +1,12 @@
+sudo: false
 services:
   - couchdb
 notifications:
   email: false
-before_install:
-  - "gem install bundler --version 1.11.2"
 before_script:
-  - "rm .ruby-version"
-  - "mv test/travis/ruby-version .ruby-version"
-  - "test/travis/setup_couch.sh"
-  - "mv test/config/couchdb.admin.yml config/couchdb.admin.yml"
-  - "mv test/config/couchdb.yml config/couchdb.yml"
+  - "config/ci/travis/setup_couch.sh"
+  - "mv config/ci/travis/couchdb.admin.yml config/couchdb.admin.yml"
+  - "mv config/ci/travis/couchdb.yml config/couchdb.yml"
   - "bundle exec rake RAILS_ENV=test db:rotate"
   - "bundle exec rake RAILS_ENV=test db:migrate"
 after_script:

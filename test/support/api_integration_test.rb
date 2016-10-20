@@ -3,13 +3,12 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
   DUMMY_TOKEN = Token.new
   RACK_ENV = {'HTTP_AUTHORIZATION' => %Q(Token token="#{DUMMY_TOKEN.to_s}")}
 
-  setup do
-    @testcode = InviteCode.new
-    @testcode.save!
+  def api_version
+    2
   end
 
   def login(user = nil)
-    @user ||= user ||= FactoryGirl.create(:user, :invite_code => @testcode.invite_code)
+    @user ||= user ||= create_invited_user
     # DUMMY_TOKEN will be frozen. So let's use a dup
     @token ||= DUMMY_TOKEN.dup
     # make sure @token is up to date if it already exists
@@ -17,6 +16,13 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
     @token.user_id = @user.id
     @token.last_seen_at = Time.now
     @token.save
+  end
+
+  def create_invited_user(options = {})
+    @testcode = InviteCode.new
+    @testcode.save!
+    options.reverse_merge! invite_code: @testcode.invite_code
+    FactoryGirl.create :user, options
   end
 
   teardown do

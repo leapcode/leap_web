@@ -1,5 +1,5 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path('../../config/environment', __FILE__)
+require_relative '../config/environment'
 require 'rails/test_help'
 
 require 'mocha/setup'
@@ -16,11 +16,11 @@ class ActiveSupport::TestCase
   protected
 
   def logfile_path
-    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{__name__}.log"
+    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{name}.log"
   end
 
   def screenshot_path
-    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{__name__}.png"
+    Rails.root + 'tmp' + "#{self.class.name.underscore}.#{name}.png"
   end
 
   def file_path(name)

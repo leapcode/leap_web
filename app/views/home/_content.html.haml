@@ -1,12 +1,31 @@
-.row-fluid
-  %h1= t(:welcome, :provider => APP_CONFIG[:domain])
-  .p=t(:welcome_message_html)
+- if twitter_enabled == true
+  .col-md-8
+    .row
+      %h1= t(:welcome, :provider => APP_CONFIG[:domain])
+      .p=t(:welcome_message_html)
 
-.row-fluid
-  = home_page_buttons
+    .row
+      = home_page_buttons
+    .row
+      = render 'home/provider_message'
 
-  - if Rails.env == 'development'
-    .row-fluid
-      %hr
-      %p
-        = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?
+  .col-md-1
+
+  .col-md-3
+    .row
+      = render 'twitter/index'
+- else
+  .row
+    %h1= t(:welcome, :provider => APP_CONFIG[:domain])
+    .p=t(:welcome_message_html)
+
+  .row
+    = home_page_buttons
+  .row
+    = render 'home/provider_message'
+
+    - if Rails.env == 'development'
+      .row
+        %hr
+        %p
+          = link_to "make donation", new_payment_path if APP_CONFIG[:payment].present?

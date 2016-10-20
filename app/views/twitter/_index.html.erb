@@ -1,0 +1,34 @@
+<% if twitter_enabled == true %>
+  <div class="twitter">
+
+      <div class="twitter_header">
+        <div class="twitter_id">
+          <div class="twitter_image_frame"><%= image_tag("Avatar_Pic.png") %></div>
+          <div class="twitter_name"><%= twitter_name%><br><a href="https://twitter.com/<%= twitter_handle %>">@<%= twitter_handle %></a></div>
+        </div>
+      </div>
+
+      <div class="twitter_list">
+        <%if tweets == [] then%><%= error_message %><% end %>
+          <% tweets.each do |e| %>
+            <div class="tweet">
+              <div class="tweet_text"><%= sanitize(e.text) %>
+              </div>
+              <div class="tweet_text_date">tweeted on <% t = e.created_at%> <%= t.strftime("%m/%d/%y").to_s %>
+              </div>
+            </div>
+          <% end %>
+          <%if all_tweets_count > num_of_tweets then%>
+            <div class="tweet">
+              <div class="more_tweets_link"><a href="https://twitter.com/<%= twitter_handle %>">Show more tweets...</a>
+              </div>
+            </div>
+          <% end %>
+      </div>
+
+    <div class="twitter_footer">
+
+      <p>This feed uses a Ruby interface to access the Twitter API. Within LEAP Twitter does not track you.</p>
+    </div>
+</div>
+<% end %>

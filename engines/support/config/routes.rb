@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
     resources :tickets, except: :edit do
       member do
-        put 'open'
-        put 'close'
+        patch 'open'
+        patch 'close'
       end
     end
 

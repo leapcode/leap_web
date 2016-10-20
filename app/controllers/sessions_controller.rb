@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   before_filter :redirect_if_logged_in, :only => [:new]
+  respond_to :html, :json
 
   def new
     @session = Session.new
@@ -16,7 +17,7 @@ class SessionsController < ApplicationController
   end
 
   #
-  # Warden will catch all 401s and run this instead:
+  # Warden will catch all 401s and triggers this action:
   #
   def unauthenticated
     login_required

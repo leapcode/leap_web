@@ -1,8 +1,8 @@
 .home-buttons
-  .row-fluid.first
-    .span2
-    .download.span8
+  .row.first
+    .col-md-2
+    .download.col-md-8
       = btn client_download_url, type: [:large, :primary] do
         = big_icon('download')
         = t(:download_bitmask)
-    .span2
+    .col-md-2

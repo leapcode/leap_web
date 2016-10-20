@@ -10,8 +10,8 @@ LeapWeb::Application.routes.draw do
   # HTTP Error Handling
   # instead of the default error pages use the errors controller and views
   #
-  match '/404' => 'errors#not_found'
-  match '/500' => 'errors#server_error'
+  match '/404' => 'errors#not_found', via: [:get, :post]
+  match '/500' => 'errors#server_error', via: [:get, :post]
 
   scope "(:locale)", :locale => CommonLanguages.match_available, :controller => 'pages', :action => 'show' do
     get 'privacy-policy', :as => 'privacy_policy'
@@ -24,10 +24,10 @@ LeapWeb::Application.routes.draw do
 
   get '/provider.json' => 'static_config#provider'
 
-  namespace "api", { module: "v1",
-      path: "/1/",
-      defaults: {format: 'json'},
-      :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/ }
+  namespace "api", { module: "api",
+      path: "/:version/",
+      defaults: {version: '2', format: 'json'},
+      :constraints => { :id => /[^\/]+(?=\.json\z)|[^\/]+/, :version => /[12]/ }
       } do
     resources :sessions, :only => [:new, :create, :update]
     delete "logout" => "sessions#destroy", :as => "logout"
@@ -44,8 +44,8 @@ LeapWeb::Application.routes.draw do
     get "login" => "sessions#new", :as => "login"
     delete "logout" => "sessions#destroy", :as => "logout"
 
-    get "signup" => "users#new", :as => "signup"
-    resources :users, :except => [:create, :update] do
+    get "signup" => "account#new", :as => "signup"
+    resources :users, :except => [:new, :create, :update] do
       # resource :email_settings, :only => [:edit, :update]
       # resources :email_aliases, :only => [:destroy], :id => /.*/
       post 'deactivate', on: :member

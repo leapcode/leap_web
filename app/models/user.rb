@@ -1,7 +1,9 @@
+require 'login_format_validation'
+require 'local_email'
+require 'temporary_user'
+
 class User < CouchRest::Model::Base
   include LoginFormatValidation
-
-  use_database :users
 
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true
@@ -71,12 +73,16 @@ class User < CouchRest::Model::Base
   end
 
   def to_json(options={})
+    to_hash.to_json(options)
+  end
+
+  def to_hash()
     {
       :login => self.login,
       :ok => self.valid?,
       :id => self.id,
-      :enabled => self.enabled?
-    }.to_json(options)
+      :enabled => self.enabled?,
+    }
   end
 
   def salt

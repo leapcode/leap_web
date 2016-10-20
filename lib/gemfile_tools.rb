@@ -68,7 +68,7 @@ def local_config
     empty_hash.default_proc = proc{|h, k| h.key?(k.to_s) ? h[k.to_s] : nil}
     ["defaults.yml", "config.yml"].inject(empty_hash.dup) {|config, file|
       filepath = File.join(File.expand_path("../../config", __FILE__), file)
-      if File.exists?(filepath)
+      if File.exist?(filepath)
         new_config = YAML.load_file(filepath)
         ['development', 'test','production'].each do |env|
           config[env] ||= empty_hash.dup
@@ -87,7 +87,7 @@ end
 # or nil if not actually a gem directory
 #
 def gem_info(gem_dir)
-  if Dir.exists?(gem_dir)
+  if Dir.exist?(gem_dir)
     gemspec = Dir["#{gem_dir}/*.gemspec"]
     if gemspec.any?
       gem_name = File.basename(gemspec.first).sub(/\.gemspec$/,'')

@@ -2,6 +2,7 @@ require_relative '../test_helper'
 
 class IdentityTest < ActiveSupport::TestCase
   include StubRecordHelper
+  include RecordAssertions
 
   setup do
     @user = find_record :user
@@ -22,7 +23,7 @@ class IdentityTest < ActiveSupport::TestCase
   test "enabled identity requires destination" do
     @id = Identity.new user: @user, address: @user.email_address
     assert !@id.valid?
-    assert_equal ["can't be blank"], @id.errors[:destination]
+    assert_error @id, destination: :blank
   end
 
   test "disabled identity requires no destination" do
@@ -62,7 +63,7 @@ class IdentityTest < ActiveSupport::TestCase
     @id = Identity.create_for @user, address: alias_name, destination: forward_address
     dup = Identity.build_for @user, address: alias_name, destination: forward_address
     assert !dup.valid?
-    assert_equal ["has already been taken"], dup.errors[:destination]
+    assert_error dup, destination: :taken
   end
 
   test "validates availability" do
@@ -70,7 +71,7 @@ class IdentityTest < ActiveSupport::TestCase
     @id = Identity.create_for @user, address: alias_name, destination: forward_address
     taken = Identity.build_for other_user, address: alias_name
     assert !taken.valid?
-    assert_equal ["has already been taken"], taken.errors[:address]
+    assert_error taken, address: :taken
   end
 
   test "setting and getting pgp key" do
@@ -133,7 +134,7 @@ class IdentityTest < ActiveSupport::TestCase
     other_user = find_record :user
     taken = Identity.build_for other_user, address: @id.address
     assert !taken.valid?
-    assert_equal ["has already been taken"], taken.errors[:address]
+    assert_error taken, address: :taken
   end
 
   test "destroy all orphaned identities" do

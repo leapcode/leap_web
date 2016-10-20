@@ -1,3 +1,5 @@
+require 'login_format_validation'
+
 class Session < SRP::Session
   include ActiveModel::Validations
   include LoginFormatValidation
