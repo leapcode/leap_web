@@ -65,6 +65,16 @@ On a recent debian based distribution run
 For other operation systems please lookup the install instructions of these
 tools.
 
+To run the tests you also need to be able to install the nokogiri gem.
+Nokogiri needs to be compiled during installation and thus has some more
+dependencies. On debian run:
+
+    sudo apt install build-essential patch ruby-dev zlib1g-dev liblzma-dev
+
+On other systems you might have to look up instructions at
+  http://www.nokogiri.org/tutorials/installing_nokogiri.html
+
+
 ### Download source
 
 We host our own git repository. In order to create a local clone run
@@ -74,21 +84,11 @@ We host our own git repository. In order to create a local clone run
 
 The repo is mirrored on github and we accept pull requests there:
 
-    https://github.com/leapcode/leap_web
-
-### Pick branch (development only)
-
-We use the master branch for the stable version deployed to production.
-Development usually happens on the develop branch. So for development you
-want to run
-
-    git checkout origin/develop -b develop
-
-This will create a local branch called develop based on our develop branch.
+  https://github.com/leapcode/leap_web
 
 ### Install required ruby libraries
 
-    bundle --binstubs
+    bundle
 
 Typically, you run ``bundle`` as a normal user and it will ask you for a
 sudo password when it is time to install the required gems. If you don't
