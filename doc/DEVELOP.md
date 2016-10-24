@@ -47,7 +47,12 @@ mv config/couchdb.admin.example.yml config/couchdb.admin.yml
 
 ## Continuous Integration ##
 
-See https://travis-ci.org/leapcode/leap_web for CI reports.
+See https://travis-ci.org/leapcode/leap_web for CI reports on travis.
+(configured in .travis.yml)
+
+We also run builds on with gitlab runners:
+https://0xacab.org/leap/leap_web/pipelines
+(configured in .gitlab.yml)
 
 ## Views ##
 
