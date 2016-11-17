@@ -26,6 +26,7 @@ class AccountTest < ActiveSupport::TestCase
       user = Account.create(FactoryGirl.attributes_for(:user))
       assert !user.valid?, "user should not be valid"
       assert !user.persisted?, "user should not have been saved"
+      assert_has_errors user, invite_code: "This is not a valid code"
     end
   end
 
@@ -47,6 +48,25 @@ class AccountTest < ActiveSupport::TestCase
     end
   end
 
+  test "error on reused username" do
+    with_config invite_required: false do
+      attributes = FactoryGirl.attributes_for :user
+      user = Account.create attributes
+      dup = Account.create attributes
+      assert !dup.valid?
+      assert_has_errors dup, login: "has already been taken"
+      user.account.destroy
+    end
+  end
+
+  test "error on invalid username" do
+    with_config invite_required: false do
+      attributes = FactoryGirl.attributes_for :user, login: "a"
+      user = Account.create attributes
+      assert !user.valid?
+      assert_has_errors user, login: "Must have at least two characters"
+    end
+  end
 
   test "create and remove a user account" do
     # We keep an identity that will block the handle from being reused.
@@ -110,4 +130,32 @@ class AccountTest < ActiveSupport::TestCase
     user.account.enable
     assert_equal(cert.fingerprint, Identity.for(user).cert_fingerprints.keys.first)
   end
+
+  # Pixelated relies on the ability to test invite codes without sending a
+  # username and password yet.
+  # So we better make sure we return the appropriate errors
+  test "errors trying to create account with invite only" do
+    with_config invite_required: true do
+      user = Account.create invite_code: @testcode.invite_code
+      assert user.errors[:invite_code].blank?
+    end
+  end
+
+  test "errors trying to create account with invalid invite only" do
+    with_config invite_required: true do
+      user = Account.create invite_code: "wrong_invite_code"
+      assert_has_errors user, invite_code: "This is not a valid code"
+    end
+  end
+
+  # Tests for the presence of the errors given.
+  # Does not test for the absence of other errors - so there may be more.
+  def assert_has_errors(record, errors)
+    errors.each do |field, field_errors|
+      Array(field_errors).each do |error|
+        assert_includes record.errors[field], error
+      end
+    end
+  end
+
 end
