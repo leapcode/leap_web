@@ -230,7 +230,7 @@ class User < CouchRest::Model::Base
   def identity_is_valid
     return if identity.valid?
     identity.errors.each do |attribute, error|
-      self.errors.add(:login, error)
+      errors.add(:login, error) unless errors[:login].include? error
     end
   end
 
