@@ -78,6 +78,16 @@ class TicketsControllerTest < ActionController::TestCase
     assert_nil assigns(:tickets).detect{|t| t.created_by != @user}
   end
 
+
+  test "should rerender form on missing info" do
+    params = { :subject => "unauth ticket test subject",
+               :comments_attributes => {"0" => {}}
+             }
+    assert_raises ActionController::ParameterMissing do
+      post :create, :ticket => params
+    end
+  end
+
   test "should create unauthenticated ticket" do
     params = {:subject => "unauth ticket test subject", :comments_attributes => {"0" => {"body" =>"body of test ticket"}}}
 

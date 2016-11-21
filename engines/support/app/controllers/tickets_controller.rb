@@ -19,7 +19,7 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = Ticket.new(params[:ticket])
+    @ticket = Ticket.new ticket_params
 
     #protecting posted_by isn't working, so this should protect it:
     @ticket.comments.last.posted_by = current_user.id
@@ -87,6 +87,12 @@ class TicketsController < ApplicationController
 
   def set_title
     @title = t("layouts.title.tickets")
+  end
+
+  def ticket_params
+    # make sure we have everything we need...
+    params.require(:ticket).require(:comments_attributes).require('0')
+    params.require(:ticket)
   end
 
   private
