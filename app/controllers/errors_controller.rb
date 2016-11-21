@@ -1,6 +1,4 @@
-# We render http errors ourselves so we can customize them
 class ErrorsController < ApplicationController
-  respond_to :html
 
   # 404
   def not_found

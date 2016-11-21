@@ -10,9 +10,6 @@ class ApplicationController < ActionController::Base
   # rendered and that template is not present
   before_filter :verify_request_format!, if: :mime_types_specified
 
-  rescue_from StandardError, :with => :default_error_handler
-  rescue_from CouchRest::Exception, :with => :default_error_handler
-
   ActiveSupport.run_load_hooks(:application_controller, self)
 
   protected
@@ -20,13 +17,6 @@ class ApplicationController < ActionController::Base
   def mime_types_specified
     mimes = collect_mimes_from_class_level
     mimes.present?
-  end
-
-  def default_error_handler(exc)
-    respond_to do |format|
-      format.json { render_json_error(exc) }
-      format.all  { raise exc }  # reraise the exception so the normal thing happens.
-    end
   end
 
   #
