@@ -21,6 +21,13 @@ test/dummy/log/*
 test/dummy/tmp/*
 *.pyc
 
+# Ignore files created on server by working as user leap-webapp
+# in its homedir /srv/leap/webapp
+/.bash_history
+/.ssh
+/.viminfo
+
+
 # ignore the disabled customization directories that
 # i keep around for testing purposes.
 config/customization.*
