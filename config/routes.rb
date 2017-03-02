@@ -58,6 +58,6 @@ LeapWeb::Application.routes.draw do
 
   get "/.well-known/host-meta" => 'webfinger#host_meta'
   get "/webfinger" => 'webfinger#search'
-  get "/key/:login" => 'keys#show'
+  get "/key/:login" => 'keys#show', :constraints => { :login => /[^\/]+/ }
 
 end

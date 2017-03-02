@@ -2,6 +2,10 @@ require 'test_helper'
 
 class KeysControllerTest < ActionController::TestCase
 
+  test "get key for username with dot" do
+    assert_recognizes({controller: 'keys', action: 'show', login: 'username.with.dot'}, 'key/username.with.dot')
+  end
+
   test "get existing public key" do
     public_key = 'my public key'
     @user = stub_record :user, :public_key => public_key
