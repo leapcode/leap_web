@@ -28,6 +28,16 @@ class UserTest < ActiveSupport::TestCase
     assert !@user.valid?
   end
 
+  test "validates hex for recovery_code_verifier" do
+    @user.recovery_code_verifier = "1234567abcdef"
+    assert @user.valid?
+  end
+
+  test "validates recovery_code_verifier with non hex chars" do
+    @user.recovery_code_verifier = "gkpq"
+    assert !@user.valid?
+  end
+
   test "test require alphanumerical for login" do
     @user.login = "qw#r"
     assert !@user.valid?

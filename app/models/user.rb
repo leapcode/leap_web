@@ -35,8 +35,8 @@ class User < CouchRest::Model::Base
 
   validate :identity_is_valid
 
-  validates :password_salt, :password_verifier,
-    :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
+  validates :password_salt, :password_verifier, :recovery_code_verifier, :recovery_code_salt,
+    :format => { :with => /\A[\h]*\z/, :message => "Only hex numbers allowed" }
 
   validates :password, :presence => true,
     :confirmation => true,
