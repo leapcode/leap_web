@@ -8,6 +8,8 @@ class User < CouchRest::Model::Base
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
+  property :recovery_code_verifier, String, :accessible => true
+  property :recovery_code_salt, String, :accessible => true
   property :contact_email, String, :accessible => true
   property :contact_email_key, String, :accessible => true
   property :invite_code, String, :accessible => true

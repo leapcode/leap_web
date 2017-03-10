@@ -28,6 +28,12 @@ class UpdateAccountTest < SrpTest
     assert server_auth["M2"]
   end
 
+  test "update recovery code via api" do
+    authenticate
+    update_user recovery_code_verifier: "123", recovery_code_salt: "456"
+    assert last_response.successful?
+  end
+
   test "change login with password_verifier" do
     authenticate
     new_login = 'zaph'

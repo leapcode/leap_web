@@ -62,6 +62,9 @@ class Account
       update_login(attrs[:login])
       @user.update_attributes attrs.slice(:password_verifier, :password_salt)
     end
+    if attrs[:recovery_code_verifier].present?
+      @user.update_attributes attrs.slice(:recovery_code_verifier, :recovery_code_salt)
+    end
     # TODO: move into identity controller
     key = update_pgp_key(attrs[:public_key])
     @user.errors.set :public_key, key.errors.full_messages
