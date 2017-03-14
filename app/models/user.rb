@@ -8,6 +8,8 @@ class User < CouchRest::Model::Base
   property :login, String, :accessible => true
   property :password_verifier, String, :accessible => true
   property :password_salt, String, :accessible => true
+  property :recovery_code_verifier, String, :accessible => true
+  property :recovery_code_salt, String, :accessible => true
   property :contact_email, String, :accessible => true
   property :contact_email_key, String, :accessible => true
   property :invite_code, String, :accessible => true
@@ -33,8 +35,8 @@ class User < CouchRest::Model::Base
 
   validate :identity_is_valid
 
-  validates :password_salt, :password_verifier,
-    :format => { :with => /\A[\dA-Fa-f]+\z/, :message => "Only hex numbers allowed" }
+  validates :password_salt, :password_verifier, :recovery_code_verifier, :recovery_code_salt,
+    :format => { :with => /\A[\h]*\z/, :message => "Only hex numbers allowed" }
 
   validates :password, :presence => true,
     :confirmation => true,

@@ -96,6 +96,42 @@ class AccountTest < ActiveSupport::TestCase
     user.account.destroy
   end
 
+  test "create recovery code if it does not exist" do
+    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user.account.update(:recovery_code_verifier => "abc", :recovery_code_salt => "123")
+    user.reload
+
+    assert_equal "abc", user.recovery_code_verifier
+    assert_equal "123", user.recovery_code_salt
+
+    user.account.destroy
+  end
+
+  test "update recovery code that already exists" do
+    user = Account.create(FactoryGirl.attributes_for(:user,
+      :invite_code => @testcode.invite_code,
+      :recovery_code_verifier => "000",
+      :recovery_code_salt => "111"))
+
+    user.account.update(:recovery_code_verifier => "abc", :recovery_code_salt => "123")
+    user.reload
+
+    assert_equal "abc", user.recovery_code_verifier
+    assert_equal "123", user.recovery_code_salt
+
+    user.account.destroy
+  end
+
+  test "update password" do
+    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user.account.update(:password_verifier => "551A8B", :password_salt => "551A8B")
+
+    assert_equal "551A8B", user.password_verifier
+    assert_equal "551A8B", user.password_salt
+
+    user.account.destroy
+  end
+
   test "Invite code count goes up by 1 when the invite code is entered" do
     with_config invite_required: true do
       user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
