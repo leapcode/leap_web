@@ -9,6 +9,8 @@ class PagesController < ApplicationController
   def show
     @show_navigation = false
     render page_name
+  rescue ActionView::MissingTemplate
+    raise ActionController::RoutingError.new('Not Found')
   end
 
   private
