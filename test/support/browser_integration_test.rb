@@ -1,33 +1,18 @@
+require_relative 'rack_stack_test'
+
 #
 # BrowserIntegrationTest
 #
 # Use this class for capybara based integration tests for the ui.
 #
-require 'capybara/rails'
 
-class BrowserIntegrationTest < ActionDispatch::IntegrationTest
+class BrowserIntegrationTest < RackStackTest
   # let's use dom_id inorder to identify sections
   include ActionView::RecordIdentifier
 
   CONFIG_RU = (Rails.root + 'config.ru').to_s
   OUTER_APP = Rack::Builder.parse_file(CONFIG_RU).first
 
-  require 'capybara/poltergeist'
-
-  Capybara.register_driver :rack_test do |app|
-    Capybara::RackTest::Driver.new(app)
-  end
-
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app)
-  end
-
-  # this is integration testing. So let's make the whole
-  # rack stack available...
-  Capybara.app = OUTER_APP
-  Capybara.run_server = true
-  Capybara.app_host = 'http://lvh.me:3003'
-  Capybara.server_port = 3003
   Capybara.javascript_driver = :poltergeist
   Capybara.default_max_wait_time = 5
 
