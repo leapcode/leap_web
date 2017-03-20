@@ -47,7 +47,7 @@ class Account
         user_invite_code.save
       end
     end
-  rescue StandardError => ex
+  rescue VALIDATION_FAILED => ex
     user.errors.add(:base, ex.to_s) if user
   ensure
     if creation_problem?(user, identity)
