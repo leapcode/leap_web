@@ -3,8 +3,11 @@ LeapWeb::Application.routes.draw do
   # Please do not use root_path or root_url. Use home_path and home_url instead,
   # so that the path will be correctly prefixed with the locale.
   #
-  root :to => "home#index"
-  get '(:locale)' => 'home#index', :locale => CommonLanguages.match_available, :as => 'home'
+
+  scope format: 'html' do
+    root :to => "home#index"
+    get '(:locale)' => 'home#index', :locale => CommonLanguages.match_available, :as => 'home'
+  end
 
   #
   # HTTP Error Handling
