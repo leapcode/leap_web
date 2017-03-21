@@ -3,7 +3,10 @@ require 'test_helper'
 class KeysControllerTest < ActionController::TestCase
 
   test "get key for username with dot" do
-    assert_recognizes({controller: 'keys', action: 'show', login: 'username.with.dot'}, 'key/username.with.dot')
+    assert_routing 'key/username.with.dot', controller: 'keys',
+      action: 'show',
+      login: 'username.with.dot',
+      format: :text
   end
 
   test "get existing public key" do
@@ -27,10 +30,9 @@ class KeysControllerTest < ActionController::TestCase
   end
 
   test "get public key for non-existing user" do
-    # raise 404 error if user doesn't exist (doesn't need to be this routing error, but seems fine to assume for now):
-    assert_raise(ActionController::RoutingError) {
-      get :show, :login => 'asdkljslksjfdlskfj'
-    }
+    # raise 404 error if user doesn't exist
+    get :show, :login => 'asdkljslksjfdlskfj'
+    assert_response :not_found
   end
 
 end
