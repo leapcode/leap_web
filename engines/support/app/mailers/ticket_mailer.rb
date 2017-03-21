@@ -4,7 +4,7 @@ class TicketMailer < ActionMailer::Base
 
   def self.send_notice(ticket, comment, url)
     reply_recipients(ticket, comment.user).each do |email, key|
-      TicketMailer.notice(ticket, comment, url, email, key).deliver
+      TicketMailer.notice(ticket, comment, url, email, key).deliver_now
     end
   end
 
