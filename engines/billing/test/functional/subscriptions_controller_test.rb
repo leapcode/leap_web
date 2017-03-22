@@ -53,13 +53,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
  test "subscribe creates subscription" do
    user = find_record :user
-   user.expects(:save).returns(true)
    login user
    payment_methods = [stub(:token => 'user_token')]
    Braintree::Customer.any_instance.stubs(:payment_methods).returns(payment_methods)
-   user.expects(:save).returns(true)
 
+   user.expects(:update_attributes).returns(true).twice
    post :subscribe, :id => "1", :first_name => "Test", :last_name => "Testing", :company => "RGSoC", :email => "any@email.com", :phone => "555-888-1234"
+   user.validate
 
    assert assigns(:result).success?
    assert_not_nil flash[:success]
@@ -67,12 +67,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
  test "unsubscribe cancels subscription" do
    user = find_record :user
-   user.expects(:save).returns(true)
    result = Braintree::Subscription.create(payment_method_token: 'user_token', plan_id: '1')
    user.subscription_id = result.subscription.id
    login user
 
+   user.expects(:update_attributes).returns(true)
    delete :unsubscribe, :id => "1"
+   user.validate
 
    assert assigns(:result).success?
    assert_not_nil flash[:success]

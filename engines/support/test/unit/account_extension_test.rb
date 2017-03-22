@@ -10,7 +10,7 @@ class AccountExtensionTest < ActiveSupport::TestCase
     t = FactoryGirl.create :ticket_with_creator
     u = t.created_by_user
     Account.new(u).destroy
-    assert_equal nil, Ticket.find(t.id)
+    assert_nil Ticket.find(t.id)
   end
 
 end

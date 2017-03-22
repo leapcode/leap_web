@@ -83,7 +83,8 @@ class UserTest < ActiveSupport::TestCase
 
   test "user to hash includes id, login, valid and enabled" do
     hash = @user.to_hash
-    assert_equal @user.id, hash[:id]
+    assert_nil @user.id
+    assert_nil hash[:id]
     assert_equal @user.valid?, hash[:ok]
     assert_equal @user.login, hash[:login]
     assert_equal @user.enabled?, hash[:enabled]

@@ -122,8 +122,8 @@ class IdentityTest < ActiveSupport::TestCase
     @id = Identity.for(@user)
     @id.orphan!
     assert_equal @user.email_address, @id.address
-    assert_equal nil, @id.destination
-    assert_equal nil, @id.user
+    assert_nil @id.destination
+    assert_nil @id.user
     assert @id.orphaned?
     assert @id.valid?
   end
