@@ -5,8 +5,14 @@
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
 
-if token = APP_CONFIG[:secret_token]
-  LeapWeb::Application.config.secret_token = token
-else
-  raise StandardError.new("No secret_token defined in config/config.yml - please provide one.")
+unless APP_CONFIG[:secret_key_base] or APP_CONFIG[:secret_token]
+  raise StandardError.new("No secret_key_base or secret_token defined in config/config.yml - please provide one.")
+end
+
+if APP_CONFIG[:secret_key_base]
+  LeapWeb::Application.config.secret_key_base = APP_CONFIG[:secret_key_base]
+end
+
+if APP_CONFIG[:secret_token]
+  LeapWeb::Application.config.secret_token = APP_CONFIG[:secret_token]
 end
