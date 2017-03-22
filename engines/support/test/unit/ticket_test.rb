@@ -42,7 +42,7 @@ class TicketTest < ActiveSupport::TestCase
     t = FactoryGirl.create :ticket_with_creator
     u = t.created_by_user
     Ticket.destroy_all_from(u)
-    assert_equal nil, Ticket.find(t.id)
+    assert_nil Ticket.find(t.id)
   end
 =begin
 # TODO: do once have current_user stuff in order
