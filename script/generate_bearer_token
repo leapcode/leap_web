@@ -60,10 +60,6 @@ else
   else
     puts "Please make sure that you created a secrets-file as described in the documentation or have given the correct directory. No secrets-file could be found."
     exit
-    # secrets_content = {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}
-    # secrets = {"development"=> secrets_content, "test"=>secrets_content}
-    # secrets = {"development"=> {"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}, "test"=>{"twitter"=>{"enabled"=>false, "twitter_handle"=>"", "bearer_token"=>"", "twitter_picture"=>nil}}}
-    # File.new("#{options[:projectroot]}/leap_web/config/secrets.yml", "w")
   end
 
   if options[:twitterhandle].nil? then
@@ -78,9 +74,9 @@ else
 
   secrets["development"]["twitter"]["bearer_token"] = $bearer_token
   secrets["test"]["twitter"]["bearer_token"] = $bearer_token
-  secrets["production"]["twitter"]["twitter_handle"] = $bearer_token
+  secrets["production"]["twitter"]["bearer_token"] = $bearer_token
 
-  File.open("#{options[:projectroot]}/leap_web/config/secrets.yml", "r+") do |file|
+  File.open("#{options[:projectroot]}/config/secrets.yml", "r+") do |file|
     file.write(secrets.to_yaml)
   end
 end
