@@ -20,7 +20,6 @@ cache:
 before_script:
   - ruby -v
   - curl -s couchdb:5984
-  - git submodule update --init
   - cp config/ci/gitlab/couchdb.yml config/couchdb.admin.yml
   - cp config/ci/gitlab/couchdb.yml config
   - gem install bundler  --no-ri --no-rdoc
