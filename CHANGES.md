@@ -1,8 +1,26 @@
+version 0.9 (unreleased) - rails 4, twitter feed and deprecations
+----------------------------------------------------
+
+We have a great contribution from the Rails Girls Summer of Code again!
+The landing page of the webapp can now include a twitter feed to display
+news from the provider.
+Other than that this is a maintainance and transition release.
+
+* Twitter feed on main page (thanks theaamanda and lilaluca).
+* upgrade to rails 4.2
+
+Upgrading:
+
+* We now use rails 4's `secret_key_base`. Please make sure to supply it
+  in config/config.yml for production environments. If you are using the
+  leap platform that will already take care of it.
+
+
 version 0.8 - email and RGSoC
 ------------------------------------------
 
-This release focused on getting all the features needed for a complete 
-email provider and merging in the work done by Rails Girls Summer of 
+This release focused on getting all the features needed for a complete
+email provider and merging in the work done by Rails Girls Summer of
 Code.
 
 * Support for invite codes: admins can require that new

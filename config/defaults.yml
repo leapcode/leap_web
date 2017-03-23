@@ -122,7 +122,7 @@ development:
     monitor: nil
     admin: nil
   domain: example.org
-  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  secret_key_base: "1a904c4222fe04548fbe7a3545c4d5210b0a31af1227cbbe304708cf08e5f3a4dffe56372c30aa5486bb8ad577bf86032e720c1513b61870dc1a480e813ffecd"
   reraise_errors: true
 
 test:
@@ -138,7 +138,7 @@ test:
     allowed_ips:
       - 0.0.0.0
   domain: test.me
-  secret_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+  secret_key_base: "e1c04f93edb26b64040ba49f34084b03abbc286a7fbb60b5b0736bed2d9fe3ec5f16ef4253b252080f3c8b52e11541d57adc8eee6e4bd53f3b568aced3455106"
   reraise_errors: true
   billing: {}
   default_locale: :en

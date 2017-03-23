@@ -112,7 +112,7 @@ There are a few values you should make sure to modify:
       admins: ["myusername","otherusername"]
       domain: example.net
       force_ssl: true
-      secret_token: "4be2f60fafaf615bd4a13b96bfccf2c2c905898dad34"
+      secret_key_base: "e1c04f93edb26b64040ba49f34084b03abbc286a7fbb60b5b0736bed2d9fe3ec5f16ef4253b252080f3c8b52e11541d57adc8eee6e4bd53f3b568aced3455106"
       client_ca_key: "./test/files/ca.key"
       client_ca_cert: "./test/files/ca.key"
       ca_key_password: nil
@@ -125,8 +125,8 @@ There are a few values you should make sure to modify:
 * `force_ssl`, if set to true, will require secure cookies and turn on
    HSTS. Don't do this if you are using a self-signed server certificate.
 
-* `secret_token`, used for cookie security, you can create one with
-  `rake secret`. Should be at least 30 characters.
+* `secret_key_base`, used for cookie security, you can create one with
+  `rake secret`. Should be at least 64 bytes hex.
 
 * `client_ca_key`, the private key of the CA used to generate client
    certificates.
