@@ -151,11 +151,11 @@
   }
 
   function extractErrors(message) {
-    if ($.isPlainObject(message) && message.errors) {
-      return message.errors;
+    if ($.isPlainObject(message)) {
+      return message.errors || { base: message.error };
     } else {
       return {
-        base: (message.error || JSON.stringify(message))
+        base: message
       };
     }
   }

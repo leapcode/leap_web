@@ -88,10 +88,17 @@ srp.remote = (function(){
   // the http error response.
   function error(xhr, text, thrown)
   {
-    if (xhr.responseText && xhr.responseText != "")
-      srp.error($.parseJSON(xhr.responseText));
-    else
-      srp.error("Server did not respond.");
+    var message;
+    if (xhr.responseText && xhr.responseText != "") {
+      try {
+        message = $.parseJSON(xhr.responseText);
+      } catch (err) {
+        message = xhr.responseText;
+      }
+    } else {
+      message = "Server did not respond.";
+    }
+    srp.error(message);
   };
 
   return {
