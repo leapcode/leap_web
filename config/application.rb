@@ -22,6 +22,7 @@ APP_CONFIG = ["defaults.yml", "config.yml"].inject({}) {|config, file|
 
 module LeapWeb
   class Application < Rails::Application
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -53,7 +54,14 @@ module LeapWeb
     end
     config.paths['app/views'].unshift custom_view_path
 
+
+    config.action_dispatch.rescue_responses.merge!(
+      'CouchRest::Model::DocumentNotFound' => :not_found,
+      'CouchRest::NotFound' => :not_found
+    )
+
     # handle http errors ourselves
     config.exceptions_app = self.routes
+
   end
 end

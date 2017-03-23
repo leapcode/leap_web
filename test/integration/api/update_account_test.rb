@@ -54,4 +54,12 @@ class UpdateAccountTest < SrpTest
     # does not change login if no password_verifier is present
     assert_equal original_login, @user.reload.login
   end
+
+  test "destroy account" do
+    authenticate
+    url = api_url("users/#{@user.id}.json?identities=destroy")
+    delete url, nil, auth_headers
+    assert last_response.successful?
+  end
+
 end
