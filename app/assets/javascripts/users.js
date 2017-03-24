@@ -10,6 +10,7 @@
       poll_identities,
       prevent_default,
       clear_errors,
+      validate_password_confirmation,
       signup,
       update_user;
 
@@ -55,6 +56,20 @@
     req.done( function() {
       $(form).find('.btn[type="submit"]').button('reset');
     });
+  };
+
+  validate_password_confirmation = function(submitEvent) {
+    var form = submitEvent.target;
+    var password = $(form).find('input#srp_password').val();
+    var confirmation = $(form).find('input#srp_password_confirmation').val();
+    if (password === confirmation) {
+      return true;
+    }
+    else {
+      displayFieldError("password_confirmation", "does not match.");
+      submitEvent.stopImmediatePropagation()
+      return false;
+    }
   };
 
   var account = {
@@ -163,6 +178,7 @@
     $('.hidden.js-show').removeClass('hidden');
     $('.js-show').show();
     $('#new_user').submit(prevent_default);
+    $('#new_user').submit(validate_password_confirmation);
     $('#new_user').submit(signup);
     $('#new_session').submit(prevent_default);
     $('#new_session').submit(srp.login);

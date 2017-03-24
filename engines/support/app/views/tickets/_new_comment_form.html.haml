@@ -3,7 +3,7 @@
 -#
 = simple_form_for @ticket, :html => {:class => 'slim'}  do |f|
   = hidden_ticket_fields
-  = f.simple_fields_for :comments, @comment, :wrapper => :none, :html => {:class => 'slim'} do |c|
+  = f.simple_fields_for :comments, @comment, :wrapper => false, :html => {:class => 'slim'} do |c|
     = c.input :body, :label => false, :as => :text,
       :input_html => {:class => "full-width", :rows=> 5}
     - if admin?

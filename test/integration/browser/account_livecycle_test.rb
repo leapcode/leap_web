@@ -24,7 +24,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
 
       visit '/signup'
       fill_in 'Username', with: username
-      fill_in 'Password', with: password
+      fill_in 'Password', with: password, match: :prefer_exact
       fill_in 'Password confirmation', with: password
       click_on 'Sign Up'
 
