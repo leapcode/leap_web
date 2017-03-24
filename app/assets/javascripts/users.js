@@ -1,13 +1,6 @@
 (function() {
 
 
-  var settings = {
-    "error_class":"help-inline",
-    "error_tag":"span",
-    "wrapper_error_class":"error",
-    "wrapper_tag":"div",
-    "wrapper_class":"form-group"
-  }
 
   //
   // LOCAL FUNCTIONS
@@ -17,9 +10,7 @@
       poll_identities,
       prevent_default,
       clear_errors,
-      clear_field_errors,
-      validate_password_confirmation,
-      validate_password_length,
+      signup,
       update_user;
 
   prevent_default = function(event) {
@@ -42,8 +33,13 @@
     return $('#messages').empty();
   };
 
-  clear_field_errors = function() {
-    return $(settings.error_tag + '.' + settings.error_class).remove();
+  signup = function(submitEvent) {
+    var form = submitEvent.target;
+    var validations = form.ClientSideValidations
+    if ( ( typeof validations === 'undefined' ) ||
+         $(form).isValid(validations.settings.validators) ) {
+      srp.signup();
+    }
   };
 
   update_user = function(submitEvent) {
@@ -59,33 +55,6 @@
     req.done( function() {
       $(form).find('.btn[type="submit"]').button('reset');
     });
-  };
-
-  validate_password_confirmation = function(submitEvent) {
-    var form = submitEvent.target;
-    var password = $(form).find('input#srp_password').val();
-    var confirmation = $(form).find('input#srp_password_confirmation').val();
-    if (password === confirmation) {
-      return true;
-    }
-    else {
-      displayFieldError("password_confirmation", "does not match.");
-      submitEvent.stopImmediatePropagation()
-      return false;
-    }
-  };
-
-  validate_password_length = function(submitEvent) {
-    var form = submitEvent.target;
-    var password = $(form).find('input#srp_password').val();
-    if (password.length > 7) {
-      return true;
-    }
-    else {
-      displayFieldError("password", "needs to be at least 8 characters long.");
-      submitEvent.stopImmediatePropagation()
-      return false;
-    }
   };
 
   var account = {
@@ -175,24 +144,15 @@
     var message = $.isArray(error) ? error[0] : error;
     var element = $('form input[name$="[' + field + ']"]');
     if (element) {
-      addError(element, settings, message);
+      addError(element, message);
     }
   };
 
-  function addError(element, settings, message) {
-    var errorElement, wrapper;
+  function addError(element, message) {
+    var form = element.closest('form');
+    var settings = form[0].ClientSideValidations.settings;
+    ClientSideValidations.formBuilders['SimpleForm::FormBuilder'].add(element, settings, message);
 
-    errorElement = element.parent().find("" + settings.error_tag + "." + settings.error_class);
-    wrapper = element.closest(settings.wrapper_tag + '.' + settings.wrapper_class);
-    if (errorElement[0] == null) {
-      errorElement = $("<" + settings.error_tag + "/>", {
-        "class": settings.error_class,
-        text: message
-      });
-      element.after(errorElement);
-    }
-    wrapper.addClass(settings.wrapper_error_class);
-    return errorElement.text(message);
   }
 
 //
@@ -203,10 +163,7 @@
     $('.hidden.js-show').removeClass('hidden');
     $('.js-show').show();
     $('#new_user').submit(prevent_default);
-    $('#new_user').submit(clear_field_errors);
-    $('#new_user').submit(validate_password_length);
-    $('#new_user').submit(validate_password_confirmation);
-    $('#new_user').submit(srp.signup);
+    $('#new_user').submit(signup);
     $('#new_session').submit(prevent_default);
     $('#new_session').submit(srp.login);
     $('#update_login_and_password').submit(prevent_default);
