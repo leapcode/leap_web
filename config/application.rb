@@ -7,6 +7,13 @@ require "action_mailer/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+# Require gems that depend on a certain load order
+# client_side_validations modules get included only if active_model is loaded.
+# they will only be included in couchrest_model if that is required last.
+require 'active_model'
+require 'client_side_validations'
+require 'couchrest_model'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
