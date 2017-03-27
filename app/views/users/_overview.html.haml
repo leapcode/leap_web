@@ -15,10 +15,11 @@
 
   %p= t(:overview_intro, default: "")
 
-  %ul.unstyled
+  %ul.list-unstyled
     %li= icon('user') + link_to(t(".account"), edit_user_path(@user))
     - # %li= icon('envelope') + link_to(t(:overview_email), {insert path for user identities, presuambly}
     %li= icon('question-sign') + link_to(t(".tickets"), user_tickets_path(@user))
-    %li= icon('shopping-cart') + link_to(t(".billing"), billing_top_link(@user)) if APP_CONFIG[:billing]
+    - if APP_CONFIG[:billing]
+      %li= icon('shopping-cart') + link_to(t(".billing"), billing_top_link(@user))
 
 
