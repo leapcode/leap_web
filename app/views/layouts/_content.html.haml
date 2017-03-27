@@ -10,10 +10,10 @@
 - if @show_navigation && @user
   .col-md-2
     = render 'layouts/navigation'
-  .span10
+  .col-md-10
     = render 'layouts/messages'
     = content
 - else
-  .span12
+  .col-md-12
     = render 'layouts/messages'
     = content
