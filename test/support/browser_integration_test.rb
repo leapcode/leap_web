@@ -36,7 +36,7 @@ class BrowserIntegrationTest < RackStackTest
     password ||= SecureRandom.base64
     visit '/signup'
     fill_in 'Username', with: username
-    fill_in 'Password', with: password
+    fill_in 'Password', with: password, match: :prefer_exact
     if APP_CONFIG[:invite_required]
       fill_in 'Invite code', with: @testcode.invite_code
     end
