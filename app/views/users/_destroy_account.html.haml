@@ -10,19 +10,21 @@
     = label_tag do
       = check_box_tag 'block_username', 1, true
       = t(:keep_username_blocked)
-  = submit_tag destroy_account_text, class: "btn btn-danger"
+  = button_tag class: "btn btn-danger" do
+    = icon(:remove)
+    = @user == current_user ? destroy_account_text : t(:destroy)
 
 - if @user != current_user and @user.enabled?
   %legend
     = t(:deactivate_account, :username => @user.login)
   %p= t(:deactivate_description)
   = btn deactivate_user_path(@user), :method => :post, :type => "warning"  do
-    %i.icon-pause.icon-white
+    = icon :pause
     = t(:deactivate)
 - elsif @user != current_user and !@user.enabled?
   %legend
     = t(:enable_account, :username => @user.login)
   %p= t(:enable_description)
   = btn enable_user_path(@user), :method => :post, :type => "warning"  do
-    %i.icon-ok.icon-white
+    = icon :ok
     = t(:enable)

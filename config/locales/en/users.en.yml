@@ -17,6 +17,7 @@ en:
   all_strategies_failed: "Could not understand your login attempt. Please first send your login and a SRP ephemeral value A and then send the client_auth in the same session (using cookies)."
   update_login_and_password: "Update Login and Password"
   destroy_my_account: "Destroy my account"
+  destroy: "Destroy"
   destroy_account_info: "This will permanently destroy your account and all the data associated with it. Proceed with caution!"
   admin_destroy_account: "Destroy the account %{username}"
   keep_username_blocked: "Keep the username blocked from reuse for a while"
