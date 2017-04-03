@@ -19,6 +19,7 @@ en:
   destroy_my_account: "Destroy my account"
   destroy_account_info: "This will permanently destroy your account and all the data associated with it. Proceed with caution!"
   admin_destroy_account: "Destroy the account %{username}"
+  keep_username_blocked: "Keep the username blocked from reuse for a while"
   account_destroyed: "The account has been destroyed successfully."
   set_email_address: "Set email address"
   forward_email: "Forward Email"

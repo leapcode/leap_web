@@ -3,14 +3,15 @@
 -#
 
 %legend
-  - if @user == current_user
-    = t(:destroy_my_account)
-  - else
-    = t(:admin_destroy_account, :username => @user.login)
+  = destroy_account_text
 %p= t(:destroy_account_info)
-= destroy_btn user_path(@user), :type => "danger" do
-  %i.icon-remove.icon-white
-  = t(:destroy_my_account)
+= form_tag user_path(@user), method: :delete do
+  .checkbox
+    = label_tag do
+      = check_box_tag 'block_username', 1, true
+      = t(:keep_username_blocked)
+  = submit_tag destroy_account_text, class: "btn btn-danger"
+
 - if @user != current_user and @user.enabled?
   %legend
     = t(:deactivate_account, :username => @user.login)

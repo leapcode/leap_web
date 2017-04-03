@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.account.destroy
+    @user.account.destroy(release_handles)
     flash[:notice] = I18n.t(:account_destroyed)
     # admins can destroy other users
     if @user != current_user
@@ -64,5 +64,9 @@ class UsersController < ApplicationController
     else
       params.require(:user).permit(:password, :password_confirmation)
     end
+  end
+
+  def release_handles
+    ! params[:block_username]
   end
 end

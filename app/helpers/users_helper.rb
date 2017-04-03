@@ -11,4 +11,12 @@ module UsersHelper
     end
   end
 
+
+  def destroy_account_text
+    if @user == current_user
+      t(:destroy_my_account)
+    else
+      t(:admin_destroy_account, :username => @user.login)
+    end
+  end
 end
