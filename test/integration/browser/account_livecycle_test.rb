@@ -8,7 +8,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
 
   test "signup successfully when invited" do
     username, password = submit_signup
-    assert page.has_content?("Welcome #{username}")
+    assert_successful_login username
     click_on 'Log Out'
     assert page.has_content?("Log In")
     assert_equal '/', current_path
@@ -28,14 +28,14 @@ class AccountLivecycleTest < BrowserIntegrationTest
       fill_in 'Password confirmation', with: password
       click_on 'Sign Up'
 
-      assert page.has_content?("Welcome #{username}")
+      assert_successful_login username
     end
   end
 
   test "signup with username ending in dot json" do
     username = Faker::Internet.user_name + '.json'
     submit_signup username
-    assert page.has_content?("Welcome #{username}")
+    assert_successful_login username
   end
 
   test "signup with reserved username" do
@@ -48,7 +48,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
     username, password = submit_signup
     click_on 'Log Out'
     attempt_login(username, password)
-    assert page.has_content?("Welcome #{username}")
+    assert_successful_login username
     within('.sidenav li.active') do
       assert page.has_content?("Overview")
     end
@@ -78,6 +78,15 @@ class AccountLivecycleTest < BrowserIntegrationTest
     click_on I18n.t('destroy_my_account')
     submit_signup(username)
     assert page.has_content?('has already been taken')
+  end
+
+  test "handle available after non blocking account destruction" do
+    username, password = submit_signup
+    click_on I18n.t('account_settings')
+    uncheck I18n.t('keep_username_blocked')
+    click_on I18n.t('destroy_my_account')
+    submit_signup(username)
+    assert_successful_login username
   end
 
   test "change pgp key" do
@@ -111,4 +120,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
     assert page.has_no_selector? '.btn-primary.disabled'
   end
 
+  def assert_successful_login(username)
+    assert page.has_content?("Welcome #{username}")
+  end
 end
