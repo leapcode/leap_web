@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.files = Dir['*.md', 'lib/leap_web.rb', 'lib/leap_web/*']
   s.require_path = 'lib'
   s.requirements << 'none'
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 2.1.0'
   s.required_rubygems_version = ">= 1.3.6"
 
   s.author = 'Azul'

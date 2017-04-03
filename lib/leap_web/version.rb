@@ -1,3 +1,3 @@
 module LeapWeb
-  VERSION = "0.8.1" unless defined?(LeapWeb::VERSION)
+  VERSION = "0.9.0" unless defined?(LeapWeb::VERSION)
 end

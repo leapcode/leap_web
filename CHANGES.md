@@ -1,9 +1,10 @@
-version 0.9 (unreleased) - twitter feed, rails 4 and deprecations
+version 0.9 - twitter feed, rails 4 and deprecations
 ----------------------------------------------------
 
-This release features a great contribution from the Rails Girls Summer of Code
-again! The landing page of the webapp can now include a twitter feed to display
+This release features a great contribution from the Rails Girls Summer of Code:
+The landing page of the webapp can now include a twitter feed to display
 news from the provider.
+
 Other than that this is a maintainance and transition release.
 
 * Twitter feed on main page (thanks theaamanda and lilaluca).
