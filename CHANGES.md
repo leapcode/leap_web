@@ -1,19 +1,34 @@
-version 0.9 (unreleased) - rails 4, twitter feed and deprecations
+version 0.9 (unreleased) - twitter feed, rails 4 and deprecations
 ----------------------------------------------------
 
-We have a great contribution from the Rails Girls Summer of Code again!
-The landing page of the webapp can now include a twitter feed to display
+This release features a great contribution from the Rails Girls Summer of Code
+again! The landing page of the webapp can now include a twitter feed to display
 news from the provider.
 Other than that this is a maintainance and transition release.
 
 * Twitter feed on main page (thanks theaamanda and lilaluca).
 * upgrade to rails 4.2
+* upgrade to bootstrap 3
 
 Upgrading:
 
 * We now use rails 4's `secret_key_base`. Please make sure to supply it
   in config/config.yml for production environments. If you are using the
   leap platform that will already take care of it.
+
+Deprecations:
+
+* We have not seen any active use of the **billing** functionality.
+  So we deprecate it and will probably drop it in one of the next releases.
+* We will replace the user facing **help desk** functionality with a single
+  sign on mechanism to integrate with other help desk systems.
+  We will maintain the endpoint to submit tickets and the ticket management
+  in the admin interface. That way it should also be easy to create your own
+  ticket submission form.
+* We deprecate the ability to **signup and login** directly through the webapp.
+  We will remove it in the future for security reasons. Signup and Login should
+  only happen through bitmask to prevent password phishing and js injections.
+
 
 
 version 0.8 - email and RGSoC
