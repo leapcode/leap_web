@@ -2,6 +2,6 @@
 .container-fluid
   .row
     %h4 To use bitmask services:
-    = btn client_download_url, type: "primary" do
-      %i.icon-arrow-down.icon-white
+    = btn client_download_url, type: "primary", class: "download" do
+      = icon :download
       = t(:download_bitmask)
