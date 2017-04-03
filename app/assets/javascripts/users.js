@@ -139,7 +139,7 @@
       return message.errors || { base: message.error };
     } else {
       return {
-        base: message
+        base: '<pre>' + message + '</pre>'
       };
     }
   }
