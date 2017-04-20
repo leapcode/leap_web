@@ -25,7 +25,7 @@ module Api
     def update
       authenticate!
       @token = Token.create(:user_id => current_user.id)
-      session[:token] = @token.id
+      session[:token] = @token.to_s
       render :json => login_response
     end
 

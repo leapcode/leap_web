@@ -92,7 +92,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
   test "change pgp key" do
     with_config user_actions: ['change_pgp_key'] do
       pgp_key = FactoryGirl.build :pgp_key
-      login
+      username, _password = submit_signup
       click_on "Account Settings"
       within('#update_pgp_key') do
         fill_in 'Public key', with: pgp_key
@@ -102,8 +102,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
       # at some point we're done:
       page.assert_no_selector 'input[value="Saving..."]'
       assert page.has_field? 'Public key', with: pgp_key.to_s
-      @user.reload
-      assert_equal pgp_key, @user.public_key
+      assert_equal pgp_key, User.find_by_login(username).public_key
     end
   end
 
