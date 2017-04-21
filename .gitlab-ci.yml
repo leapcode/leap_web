@@ -2,11 +2,21 @@ ruby2-1:
   image: "ruby:2.1"
   script:
     - bundle exec rake test
+  artifacts:
+    when: on_failure
+    paths:
+      - log/test.log
+      - tmp/*.log
+      - tmp/*.png
 
 ruby2-3:
   image: "ruby:2.3"
   script:
     - bundle exec rake test
+  artifacts:
+    when: on_failure
+    paths:
+      - log/test.log
 
 services:
   - couchdb:1.6.1
