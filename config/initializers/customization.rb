@@ -21,7 +21,6 @@ customization_directory = APP_CONFIG["customization_directory"]
 #
 Rails.application.config.assets.paths.unshift "#{customization_directory}/images"
 Rails.application.config.assets.paths.unshift "#{customization_directory}/stylesheets"
-Rails.application.config.sass.load_paths.unshift "#{customization_directory}/stylesheets"
 #
 # Copy files to public
 #
