@@ -1,7 +1,9 @@
 //
-// import custom scss, content to be set in deployment.
+// This will in turn import config/customization/stylesheets/head
+// It is a workaround for sass-rails defaulting to relative imports.
+// https://0xacab.org/leap/webapp/issues/8794
 //
-@import "head";
+@import "custom/head-import";
 
 // First import journal variables
 // @import "bootswatch/cerulean/variables";
@@ -22,6 +24,8 @@
 // @import "bootswatch/cerulean/bootswatch";
 
 //
-// import custom scss, content to be set in deployment.
+// This will in turn import config/customization/stylesheets/tail
+// It is a workaround for sass-rails defaulting to relative imports.
+// https://0xacab.org/leap/webapp/issues/8794
 //
-@import "tail";
+@import "custom/tail-import";
