@@ -59,7 +59,6 @@ class TokenTest < ActiveSupport::TestCase
     sample = Token.new(user_id: @user.id)
     sample.last_seen_at = 2.hours.ago
     with_config auth: {token_expires_after: 60} do
-      sample.expects(:destroy)
       assert_nil sample.authenticate
     end
   end
@@ -83,13 +82,37 @@ class TokenTest < ActiveSupport::TestCase
     fresh.destroy
   end
 
-
   test "Token.destroy_all_expired does not interfere with expired.authenticate" do
     expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
     with_config auth: {token_expires_after: 60} do
       Token.destroy_all_expired
     end
     assert_nil expired.authenticate
+  end
+
+  test "active logout (destroy) prevents reuse" do
+    token = FactoryGirl.create :token
+    same = Token.find(token.id)
+    token.destroy
+    assert_raises CouchRest::NotFound do
+      same.touch
+    end
+  end
+
+  test "logout works on prolonged token" do
+    token = FactoryGirl.create :token
+    same = Token.find(token.id)
+    token.touch
+    same.destroy
+    assert_nil Token.find(same.id)
+  end
+
+  test 'second destroy carries on' do
+    token = FactoryGirl.create :token
+    same = Token.find(token.id)
+    token.destroy
+    same.destroy
+    assert_nil Token.find(same.id)
   end
 
 end
