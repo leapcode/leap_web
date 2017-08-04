@@ -5,6 +5,6 @@ en:
   download_bitmask: "Download Bitmask"
 
   login_info: "Log in to change your account settings, create support tickets, and manage payments."
-  signup_info: "Create a new user account. For higher security, we recommend you create your account via the Bitmask application instead."
+  signup_info: "Create a new user account via the Bitmask application and use it to access our services."
   support_info: "Can't login? Create a new support ticket anonymously."
   get_help: "Get Help"
