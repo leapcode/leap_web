@@ -35,8 +35,13 @@ class Token < CouchRest::Model::Base
     by_last_seen_at.endkey(expires_after.minutes.ago)
   end
 
+  def self.to_cleanup
+    return [] unless expires_after
+    by_last_seen_at.endkey((expires_after + 5).minutes.ago)
+  end
+
   def self.destroy_all_expired
-    self.expired.each do |token|
+    self.to_cleanup.each do |token|
       token.destroy
     end
   end
@@ -46,27 +51,29 @@ class Token < CouchRest::Model::Base
   end
 
   def authenticate
-    if expired?
-      destroy
-      return nil
-    else
-      touch
-      return user
-    end
+    return if expired?
+    touch
+    return user
+  rescue CouchRest::NotFound
+    # Reload in touch failed - token has been deleted.
+    # That's either an active logout or account destruction.
+    # We don't accept the token anymore.
   end
 
   # Tokens can be cleaned up in different ways.
   # So let's make sure we don't crash if they disappeared
   def destroy_with_rescue
     destroy_without_rescue
-  rescue CouchRest::NotFound
   rescue CouchRest::Conflict # do nothing - it's been updated - #7670
+    try_to_reload && retry
+  rescue CouchRest::NotFound
   end
   alias_method_chain :destroy, :rescue
 
   def touch
-    self.last_seen_at = Time.now
-    save
+    update_attributes last_seen_at: Time.now
+  rescue CouchRest::Conflict
+    reload && retry
   end
 
   def expired?
@@ -82,5 +89,25 @@ class Token < CouchRest::Model::Base
       self.last_seen_at = Time.now
     end
   end
-end
 
+  # UPGRADE: the underlying code here changes between CouchRest::Model
+  # 2.1.0.rc1 and 2.2.0.beta2
+  # Hopefully we'll also get a pr merged that pushes this workaround
+  # upstream:
+  # https://github.com/couchrest/couchrest_model/pull/223
+  def reload
+    prepare_all_attributes(
+      database.get!(id), :directly_set_attributes => true
+    )
+    self
+  end
+
+  protected
+
+  def try_to_reload
+    reload
+  rescue CouchRest::NotFound
+    return false
+  end
+
+end
