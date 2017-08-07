@@ -1,3 +1,12 @@
+version 0.9.1 - bugfixes
+------------------------
+
+Plain bugfix release for 0.9:
+
+* prevent token conflicts
+* custom: fix stylesheet customization
+* fix: set token in forms correctly
+
 version 0.9 - twitter feed, rails 4 and deprecations
 ----------------------------------------------------
 
