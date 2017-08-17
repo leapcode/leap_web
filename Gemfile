@@ -86,7 +86,7 @@ group :production do
 end
 
 group :development do
-  gem "better_errors"
+  # gem "better_errors" << currently incompatible with haml
   gem "binding_of_caller"
 end
 
