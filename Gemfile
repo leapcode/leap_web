@@ -68,6 +68,7 @@ group :test do
   # generating test data
   gem 'factory_girl_rails'  # test data factories
   gem 'faker'               # names and numbers for test data
+  gem 'psych', '~> 2.2.4'   # needed by faker
 
   # billing tests
   gem 'fake_braintree', require: false
