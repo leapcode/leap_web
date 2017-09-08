@@ -22,7 +22,7 @@ class LoginTest < SrpTest
 
   test "wrong password login attempt" do
     authenticate password: "wrong password"
-    assert_json_error "base" => "Not a valid username/password combination"
+    assert_json_error "base" => I18n.t(:invalid_user_pass)
     assert !last_response.successful?
     assert_nil server_auth["M2"]
   end
@@ -31,7 +31,7 @@ class LoginTest < SrpTest
     assert_raises RECORD_NOT_FOUND do
       authenticate login: "wrong login"
     end
-    assert_json_error "base" => "Not a valid username/password combination"
+    assert_json_error "base" => I18n.t(:invalid_user_pass)
     assert !last_response.successful?
     assert_nil server_auth
   end

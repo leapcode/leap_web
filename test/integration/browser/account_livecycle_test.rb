@@ -2,6 +2,8 @@ require 'test_helper'
 
 class AccountLivecycleTest < BrowserIntegrationTest
 
+  include ActionView::Helpers::SanitizeHelper
+
   teardown do
     Identity.destroy_all_orphaned
   end
@@ -115,7 +117,7 @@ class AccountLivecycleTest < BrowserIntegrationTest
 
   def assert_invalid_login(page)
     assert page.has_selector? '.btn-primary.disabled'
-    assert page.has_content? I18n.t(:invalid_user_pass)
+    assert page.has_content? sanitize(I18n.t(:invalid_user_pass), tags: [])
     assert page.has_no_selector? '.btn-primary.disabled'
   end
 
