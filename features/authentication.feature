@@ -13,12 +13,12 @@ Feature: Authentication
     Given I authenticated
     And I set headers:
       | Authorization | Token token="MY_AUTH_TOKEN" |
-    When I send a GET request to "/2/configs.json"
+    When I send a GET request to "/2/service"
     Then the response status should be "200"
 
   Scenario: Submitting an invalid token
     Given I authenticated
     And I set headers:
       | Authorization | Token token="InvalidToken" |
-    When I send a GET request to "/2/configs.json"
+    When I send a GET request to "/2/service"
     Then the response status should be "401"
