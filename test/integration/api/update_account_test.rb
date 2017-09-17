@@ -19,6 +19,14 @@ class UpdateAccountTest < SrpTest
     assert_login_required
   end
 
+  test "empty request" do
+    authenticate
+    update_user
+    refute last_response.successful?
+    assert_equal 400, last_response.status
+    assert_equal '', last_response.body
+  end
+
   test "update password via api" do
     authenticate
     update_user password: "No! Verify me instead."

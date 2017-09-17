@@ -53,7 +53,7 @@ module Api
     end
 
     def update
-      @user.account.update params[:user]
+      @user.account.update user_update_params
       respond_with @user
     end
 
@@ -66,6 +66,15 @@ module Api
     end
 
     private
+
+    def user_update_params
+      params.require(:user).permit :login,
+        :password_verifier,
+        :password_salt,
+        :recovery_code_verifier,
+        :recovery_code_salt,
+        :public_key
+    end
 
     def release_handles
       current_user.is_monitor? || params[:identities] == "destroy"
