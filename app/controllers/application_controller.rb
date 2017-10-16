@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
   #
   # URL paths for which we don't enforce the locale as the prefix of the path.
   #
-  NON_LOCALE_PATHS = /^\/(assets|webfinger|.well-known|rails|key|[0-9]+)($|\/)/
+  NON_LOCALE_PATHS = /^\/(assets|webfinger|.well-known|rails|key|[0-9]+|new)($|\/)/
 
   #
   # For some requests, we ignore locale determination.
