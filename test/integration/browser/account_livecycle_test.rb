@@ -63,6 +63,16 @@ class AccountLivecycleTest < BrowserIntegrationTest
     assert_invalid_login(page)
   end
 
+  test "failed login with locale" do
+    page.driver.add_header 'Accept-Language', 'de'
+    visit '/'
+    click_on 'Anmelden'
+    fill_in 'Nutzername', with: 'username'
+    fill_in 'Password', with: 'falsches password'
+    click_on 'Session erstellen'
+    assert_invalid_login(page, locale: :de)
+  end
+
   test "account destruction" do
     username, password = submit_signup
 
@@ -115,9 +125,10 @@ class AccountLivecycleTest < BrowserIntegrationTest
     click_on 'Log In'
   end
 
-  def assert_invalid_login(page)
+  def assert_invalid_login(page, locale: nil)
     assert page.has_selector? '.btn-primary.disabled'
-    assert page.has_content? sanitize(I18n.t(:invalid_user_pass), tags: [])
+    message = I18n.t :invalid_user_pass, locale: locale
+    assert page.has_content? sanitize(message, tags: [])
     assert page.has_no_selector? '.btn-primary.disabled'
   end
 
