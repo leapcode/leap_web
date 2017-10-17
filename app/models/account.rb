@@ -43,8 +43,12 @@ class Account
       end
       if user.invite_required?
         user_invite_code = InviteCode.find_by_invite_code user.invite_code
-        user_invite_code.invite_count += 1
-        user_invite_code.save
+        if user.is_test? && user_invite_code.max_uses == 1
+          user_invite_code.destroy
+        else
+          user_invite_code.invite_count += 1
+          user_invite_code.save
+        end
       end
     end
   rescue VALIDATION_FAILED => ex

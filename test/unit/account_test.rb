@@ -12,7 +12,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "create a new account when invited" do
-    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     assert user.valid?, "unexpected errors: #{user.errors.inspect}"
     assert user.persisted?
     assert id = user.identity
@@ -23,7 +23,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "fail to create account without invite" do
     with_config invite_required: true do
-      user = Account.create(FactoryGirl.attributes_for(:user))
+      user = Account.create(user_attributes)
       assert !user.valid?, "user should not be valid"
       assert !user.persisted?, "user should not have been saved"
       assert_has_errors user, invite_code: "This is not a valid code"
@@ -32,7 +32,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "allow invite_required override" do
     with_config invite_required: true do
-      user = Account.create(FactoryGirl.attributes_for(:user), :invite_required => false)
+      user = Account.create(user_attributes, :invite_required => false)
       assert user.valid?, "unexpected errors: #{user.errors.inspect}"
       assert user.persisted?, "user should have been saved"
       user.account.destroy
@@ -41,7 +41,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "create a new account" do
     with_config invite_required: false do
-      user = Account.create(FactoryGirl.attributes_for(:user))
+      user = Account.create(user_attributes)
       assert user.valid?, "unexpected errors: #{user.errors.inspect}"
       assert user.persisted?
       user.account.destroy
@@ -50,7 +50,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "error on reused username" do
     with_config invite_required: false do
-      attributes = FactoryGirl.attributes_for :user
+      attributes = user_attributes
       user = Account.create attributes
       dup = Account.create attributes
       assert !dup.valid?
@@ -72,17 +72,17 @@ class AccountTest < ActiveSupport::TestCase
     # We keep an identity that will block the handle from being reused.
     assert_difference "Identity.count" do
       assert_no_difference "User.count" do
-        user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+        user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
         user.account.destroy
       end
     end
   end
 
   test "change username and create alias" do
-    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     old_id = user.identity
     old_email = user.email_address
-    user.account.update(FactoryGirl.attributes_for(:user))
+    user.account.update(user_attributes)
     user.reload
     old_id.reload
     assert user.valid?
@@ -97,7 +97,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "create recovery code if it does not exist" do
-    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     user.account.update(:recovery_code_verifier => "abc", :recovery_code_salt => "123")
     user.reload
 
@@ -108,7 +108,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "update recovery code that already exists" do
-    user = Account.create(FactoryGirl.attributes_for(:user,
+    user = Account.create(user_attributes(
       :invite_code => @testcode.invite_code,
       :recovery_code_verifier => "000",
       :recovery_code_salt => "111"))
@@ -123,7 +123,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "update password" do
-    user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     user.account.update(:password_verifier => "551A8B", :password_salt => "551A8B")
 
     assert_equal "551A8B", user.password_verifier
@@ -134,18 +134,27 @@ class AccountTest < ActiveSupport::TestCase
 
   test "Invite code count goes up by 1 when the invite code is entered" do
     with_config invite_required: true do
-      user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+      user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
       user_code = InviteCode.find_by_invite_code user.invite_code
-      user_code.save
       user.save
       assert user.persisted?
       assert_equal 1, user_code.invite_count
     end
+  end
 
+  test "Single use invite code is destroyed when used by test user" do
+    with_config invite_required: true do
+      attrs = user_attributes invite_code: @testcode.invite_code
+      attrs[:login] = 'test_user_' + attrs[:login]
+      user = Account.create(attrs)
+      user.save
+      assert user.persisted?, user.errors.inspect
+      assert_nil InviteCode.find_by_invite_code user.invite_code
+    end
   end
 
   test "Invite code stays zero when invite code is not used" do
-    #user = Account.create(FactoryGirl.attributes_for(:user, :invite_code => @testcode.invite_code))
+    #user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     invalid_user = FactoryGirl.build(:user, :invite_code => @testcode.invite_code)
     invalid_user.save
     user_code = InviteCode.find_by_invite_code invalid_user.invite_code
@@ -155,7 +164,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "disabled accounts have no cert fingerprints" do
-    user = Account.create(FactoryGirl.attributes_for(:user))
+    user = Account.create(user_attributes)
     cert = stub(expiry: 1.month.from_now, fingerprint: SecureRandom.hex)
     user.identity.register_cert cert
     user.identity.save
@@ -184,6 +193,8 @@ class AccountTest < ActiveSupport::TestCase
     end
   end
 
+  protected
+
   # Tests for the presence of the errors given.
   # Does not test for the absence of other errors - so there may be more.
   def assert_has_errors(record, errors)
@@ -192,6 +203,10 @@ class AccountTest < ActiveSupport::TestCase
         assert_includes record.errors[field], error
       end
     end
+  end
+
+  def user_attributes(attrs = {})
+    FactoryGirl.attributes_for :user, attrs
   end
 
 end
