@@ -11,7 +11,7 @@
       %td= f.text_field :max_uses, style: 'width: 4em'
       %td= f.submit t("helpers.submit.invites.create"), style: 'margin-bottom: 10px', class: 'btn btn-default'
 
-= table @invites, %w(created code uses actions)
+= table @invites, %w(updated created code uses actions)
 
 -# select the text of the invite code when you click on it:
 :javascript

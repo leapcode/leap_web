@@ -7,7 +7,9 @@ class InviteCodesController < ApplicationController
 
   def index
     @invite  = InviteCode.new # for the creation form.
-    @invites = InviteCode.all.page(params[:page]).per(APP_CONFIG[:pagination_size])
+    @invites = InviteCode.by_updated_at.descending.
+      page(params[:page]).
+      per(APP_CONFIG[:pagination_size])
     respond_with @invites
   end
 
