@@ -1,13 +1,13 @@
 PATH
   remote: engines/billing
   specs:
-    leap_web_billing (0.9.1)
+    leap_web_billing (0.9.2)
       braintree
 
 PATH
   remote: engines/support
   specs:
-    leap_web_help (0.9.1)
+    leap_web_help (0.9.2)
 
 PATH
   remote: vendor/gems/certificate_authority
