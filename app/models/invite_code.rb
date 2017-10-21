@@ -12,6 +12,8 @@ class InviteCode < CouchRest::Model::Base
   design do
     view :by_invite_code
     view :by_invite_count
+    view :by_created_at
+    view :by_updated_at
   end
 
   def initialize(attributes = {}, options = {})

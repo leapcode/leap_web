@@ -1,5 +1,7 @@
 %tr
   %td
+    = simple_date(invite_code.updated_at)
+  %td
     = simple_date(invite_code.created_at)
   %td
     %input.invite-code{:value => invite_code.invite_code}
