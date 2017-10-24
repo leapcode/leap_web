@@ -4,28 +4,42 @@ class Api::UsersControllerTest < ApiControllerTest
 
   test "user can change settings" do
     user = find_record :user
-    changed_attribs = record_attributes_for :user_with_settings
+    attribs = record_attributes_for(:user)
+    changed_attribs = attribs.slice 'login',
+      'password_verifier',
+      'password_salt'
     account_settings = stub
     account_settings.expects(:update).with(changed_attribs)
     Account.expects(:new).with(user).returns(account_settings)
 
     login user
-    api_put :update, :user => changed_attribs, :id => user.id, :format => :json
+    api_put :update, :user => attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204
     assert @response.body.blank?, "Response should be blank"
   end
 
+  test "deal with empty settings" do
+    user = find_record :user
+    login user
+    assert_raises ActionController::ParameterMissing do
+      api_put :update, :id => user.id, :format => :json
+    end
+  end
+
   test "admin can update user" do
     user = find_record :user
-    changed_attribs = record_attributes_for :user_with_settings
+    attribs = record_attributes_for(:user)
+    changed_attribs = attribs.slice 'login',
+      'password_verifier',
+      'password_salt'
     account_settings = stub
     account_settings.expects(:update).with(changed_attribs)
     Account.expects(:new).with(user).returns(account_settings)
 
     login :is_admin? => true
-    api_put :update, :user => changed_attribs, :id => user.id, :format => :json
+    api_put :update, :user => attribs, :id => user.id, :format => :json
 
     assert_equal user, assigns[:user]
     assert_response 204

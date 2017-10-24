@@ -46,7 +46,7 @@ class SrpTest < RackTest
     @password = password
   end
 
-  def update_user(params)
+  def update_user(params = {})
     put api_url("users/#{@user.id}.json"),
       user_params(params),
       auth_headers
