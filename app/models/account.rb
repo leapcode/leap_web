@@ -34,31 +34,25 @@ class Account
     user.save
 
     # this is not very atomic, but we do the best we can:
-    if !user.is_tmp? && user.persisted?
+    return user unless user.persisted?
+    if !user.is_tmp?
       identity = user.identity
       identity.user_id = user.id
       identity.save
       identity.errors.each do |attr, msg|
         user.errors.add(attr, msg)
       end
-      if user.invite_required?
-        user_invite_code = InviteCode.find_by_invite_code user.invite_code
-        if user.is_test? && user_invite_code.max_uses == 1
-          user_invite_code.destroy
-        else
-          user_invite_code.invite_count += 1
-          user_invite_code.save
-        end
-      end
     end
+    consume_invite_code_for_user(user) if user.invite_required?
+    return user
   rescue VALIDATION_FAILED => ex
     user.errors.add(:base, ex.to_s) if user
+    return user
   ensure
     if creation_problem?(user, identity)
       user.destroy     if user     && user.persisted?
       identity.destroy if identity && identity.persisted?
     end
-    return user
   end
 
   def update(attrs)
@@ -112,6 +106,16 @@ class Account
   end
 
   protected
+
+  def self.consume_invite_code_for_user(user)
+    invite_code = InviteCode.find_by_invite_code user.invite_code
+    if user.is_test? && invite_code.max_uses == 1
+      invite_code.destroy
+    else
+      invite_code.invite_count += 1
+      invite_code.save
+    end
+  end
 
   def update_login(login)
     return unless login.present?

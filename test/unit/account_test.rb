@@ -153,6 +153,17 @@ class AccountTest < ActiveSupport::TestCase
     end
   end
 
+  test "Single use invite code is destroyed when used by tmp user" do
+    with_config invite_required: true do
+      attrs = user_attributes invite_code: @testcode.invite_code
+      attrs[:login] = 'tmp_user_' + attrs[:login]
+      user = Account.create(attrs)
+      user.save
+      assert user.persisted?, user.errors.inspect
+      assert_nil InviteCode.find_by_invite_code user.invite_code
+    end
+  end
+
   test "Invite code stays zero when invite code is not used" do
     #user = Account.create(user_attributes( :invite_code => @testcode.invite_code))
     invalid_user = FactoryGirl.build(:user, :invite_code => @testcode.invite_code)
