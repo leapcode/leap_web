@@ -25,16 +25,20 @@ class Account
   #                      configuration by same name.
   #
   def self.create(attrs, options={})
+    User.new(attrs).tap do |user|
+      self.new(user).create(options)
+    end
+  end
+
+  def create(options={})
     identity = nil
-    user = nil
-    user = User.new(attrs)
     if options[:invite_required] == false
       user.ignore_invites!
     end
     user.save
 
     # this is not very atomic, but we do the best we can:
-    return user unless user.persisted?
+    return unless user.persisted?
     if !user.is_tmp?
       identity = user.identity
       identity.user_id = user.id
@@ -43,13 +47,11 @@ class Account
         user.errors.add(attr, msg)
       end
     end
-    consume_invite_code_for_user(user) if user.invite_required?
-    return user
+    consume_invite_code if user.invite_required?
   rescue VALIDATION_FAILED => ex
-    user.errors.add(:base, ex.to_s) if user
-    return user
+    user.errors.add(:base, ex.to_s)
   ensure
-    if creation_problem?(user, identity)
+    if creation_problem?(identity)
       user.destroy     if user     && user.persisted?
       identity.destroy if identity && identity.persisted?
     end
@@ -58,22 +60,22 @@ class Account
   def update(attrs)
     if attrs[:password_verifier].present?
       update_login(attrs[:login])
-      @user.update_attributes attrs.slice(:password_verifier, :password_salt)
+      user.update_attributes attrs.slice(:password_verifier, :password_salt)
     end
     if attrs[:recovery_code_verifier].present?
-      @user.update_attributes attrs.slice(:recovery_code_verifier, :recovery_code_salt)
+      user.update_attributes attrs.slice(:recovery_code_verifier, :recovery_code_salt)
     end
     # TODO: move into identity controller
     key = update_pgp_key(attrs[:public_key])
-    @user.errors.set :public_key, key.errors.full_messages
-    @user.save && save_identities
-    @user.refresh_identity
+    user.errors.set :public_key, key.errors.full_messages
+    user.save && save_identities
+    user.refresh_identity
   end
 
   def destroy(release_handles=false)
-    return unless @user
-    if !@user.is_tmp?
-      @user.identities.each do |id|
+    return unless user
+    if !user.is_tmp?
+      user.identities.each do |id|
         if release_handles == false
           id.orphan!
         else
@@ -81,33 +83,35 @@ class Account
         end
       end
     end
-    @user.destroy
+    user.destroy
   end
 
   # when a user is disable, all their data and associations remain
   # in place, but the user should not be able to send email or
   # create new authentication certificates.
   def disable
-    if @user && !@user.is_tmp?
-      @user.enabled = false
-      @user.save
-      @user.identities.each do |id|
+    if user && !user.is_tmp?
+      user.enabled = false
+      user.save
+      user.identities.each do |id|
         id.disable!
       end
     end
   end
 
   def enable
-    @user.enabled = true
-    @user.save
-    @user.identities.each do |id|
+    user.enabled = true
+    user.save
+    user.identities.each do |id|
       id.enable!
     end
   end
 
   protected
 
-  def self.consume_invite_code_for_user(user)
+  attr_reader :user
+
+  def consume_invite_code
     invite_code = InviteCode.find_by_invite_code user.invite_code
     if user.is_test? && invite_code.max_uses == 1
       invite_code.destroy
@@ -119,16 +123,16 @@ class Account
 
   def update_login(login)
     return unless login.present?
-    @old_identity = Identity.for(@user)
-    @user.login = login
-    @new_identity = Identity.for(@user) # based on the new login
-    @old_identity.destination = @user.email_address # alias old -> new
+    @old_identity = Identity.for(user)
+    user.login = login
+    @new_identity = Identity.for(user) # based on the new login
+    @old_identity.destination = user.email_address # alias old -> new
   end
 
   def update_pgp_key(key)
     PgpKey.new(key).tap do |key|
       if key.present? && key.valid?
-        @new_identity ||= Identity.for(@user)
+        @new_identity ||= Identity.for(user)
         @new_identity.set_key(:pgp, key)
       end
     end
@@ -138,7 +142,7 @@ class Account
     @new_identity.try(:save) && @old_identity.try(:save)
   end
 
-  def self.creation_problem?(user, identity)
+  def creation_problem?(identity)
     return true if user.nil? || !user.persisted? || user.errors.any?
     if !user.is_tmp?
       return true if identity.nil? || !identity.persisted? || identity.errors.any?
