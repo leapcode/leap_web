@@ -15,11 +15,13 @@ class WebfingerControllerTest < ActionController::TestCase
   end
 
   test "get user webfinger xml" do
-    @user = stub_record :user, :public_key => 'my public key'
+    key = 'my public key'
+    @user = stub_record :user, :public_key => key
     User.stubs(:find_by_login).with(@user.login).returns(@user)
     get :search, :q => @user.email_address.to_s, :format => :xml
     assert_response :success
     assert_equal "application/xml", response.content_type
+    assert_includes response.body, Base64.encode64(key)
   end
 
   test "get user webfinger json" do
