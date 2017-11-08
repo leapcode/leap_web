@@ -2,16 +2,16 @@ fr:
   errors:
     title:
       not_found: Page introuvable.
-      server_error: Ho ho !
+      server_error: Oh oh !
     subtitle:
-      not_found: La page que vous recherchiez n'existe pas.
+      not_found: La page que vous recherchiez n’existe pas.
       server_error: Une erreur du serveur est survenue.
     text:
-      not_found: Vous avez peut être fait une faute de frappe de l'URL ou la page a été déplacée.
-      server_error: Le problème a été consigné et nous allons l'étudier.
+      not_found: Vous avez peut être fait une faute de frappe de l’URL ou la page a été déplacée.
+      server_error: Le problème a été consigné et nous allons l’étudier.
   flash:
     success: '%{resource} a été enregistré avec succès.'
-    error: 'Impossible d''enregistrer %{resource}.'
+    error: 'Impossible d’enregistrer %{resource}.'
     create:
       success: '%{resource} été crée avec succès.'
       error: 'Impossible de créer %{resource}.'
@@ -19,12 +19,11 @@ fr:
       success: '%{resource} a été mise à jour avec succès.'
       error: 'Impossible de mettre %{resource} à jour.'
   privacy_policy: Politique de confidentialité
-  terms_of_service: Conditions générales d'utilisation
+  terms_of_service: Conditions générales d’utilisation
   pricing: Prix
   about: À propos de nous
   contact: Contact
-  signup: S'enregistrer
-  donations: Donation
+  signup: S’enregistrer
   login: Connexion
   logout: Déconnexion
   cancel: Annuler
@@ -41,53 +40,55 @@ fr:
   changes_saved: Changements enregistrés avec succès.
   are_you_sure: Êtes-vous certain ? Ce changement ne peut pas être annulé.
   example_email: utilisateur@domaine.org
-  no_such_thing: '%{thing} n''existe pas.'
+  no_such_thing: '%{thing} n’existe pas.'
   create_thing: Créer %{thing}
   overview: Aperçu
   home: Accueil
   welcome: Bienvenue à %{provider}.
-  welcome_message_html: Nous fournissons des services sécurisés de communication, incluant le RPV et le courriel. D'autres services sont en cours d'élaboration.
+  welcome_message_html: Nous fournissons des services sécurisés de communication, incluant le RPV et le courriel. D’autres services sont en cours d’élaboration.
   download_bitmask: Télécharger Bitmask
-  login_info: Connectez-vous pour changer vos paramètres de compte, créer des billets d'assistance et gérer les paiements.
-  signup_info: Créer un nouveau compte utilisateur. Pour une sécurité accrue, nous vous recommandons plutôt de créer votre compte avec l'application Bitmask.
-  support_info: Connexion impossible ? Créez anonymement un nouveau billet d'assistance.
-  get_help: Obtenir de l'aide
+  login_info: Connectez-vous pour changer vos paramètres de compte, créer des billets d’assistance et gérer les paiements.
+  signup_info: Créer un nouveau compte utilisateur. Pour une sécurité accrue, nous vous recommandons plutôt de créer votre compte avec l’application Bitmask.
+  support_info: Connexion impossible ? Créez anonymement un nouveau billet d’assistance.
+  get_help: Obtenir de l’aide
   messages:
     not_found: Impossible de trouver ce message.
     marked_as_read: Le message a été marqué comme lu.
   common:
     navigation_item:
       users: Utilisateurs
-      identities: Noms d'utilisateur
+      identities: Noms d’utilisateur
       tickets: Billets
-  user_control_panel: Panneau de contrôle de l'utilisateur
+  user_control_panel: Panneau de contrôle de l’utilisateur
   account_settings: Paramètres du compte
-  username: Nom d'utilisateur
+  username: Nom d’utilisateur
   password: Mot de passe
+  password_confirmation: Confirmation du mot de passe
+  invite_code: Code d’invitation
   change_password: Changer le mot de passe
-  invalid_user_pass: La combinaison nom d'utilisateur/mot de passe est invalide
-  invalid_ephemeral: Une clef aléatoire invalide a été utilisée. À nos yeux, ceci ressemble à une tentative d'attaque du site. Si ce n'est pas le cas, veuillez contacter l'assistance afin que nous puissions étudier le problème.
-  all_strategies_failed: Votre tentative de connexion est incompréhensible. Veuillez d'abord envoyer votre connexion et une valeur A SRP éphémère, et ensuite le client_auth dans la même session (en utilisant des fichiers témoins).
-  update_login_and_password: Mettre à jour le nom d'utilisateur et le mot de passe
+  invalid_user_pass: La combinaison nom d’utilisateur/mot de passe est invalide
+  invalid_ephemeral: Une clef aléatoire invalide a été utilisée. À nos yeux, ceci ressemble à une tentative d’attaque du site. Si ce n’est pas le cas, veuillez contacter l’assistance afin que nous puissions étudier le problème.
+  all_strategies_failed: Votre tentative de connexion est incompréhensible. Veuillez d’abord envoyer votre connexion et une valeur A SRP éphémère, et ensuite le client_auth dans la même session (en utilisant des fichiers témoins).
+  update_login_and_password: Mettre à jour le nom d’utilisateur et le mot de passe
   destroy_my_account: Détruire mon compte
   destroy_account_info: Ceci détruira votre compte et toutes les données associées. Agissez avec prudence !
   admin_destroy_account: Détruire le compte %{username}
   account_destroyed: Le compte a été détruit avec succès.
-  set_email_address: Définir l'adresse courriel
+  set_email_address: Définir l’adresse courriel
   forward_email: Transférer le courriel
   email_aliases: Alias courriel
   public_key: Clef publique
   add_email_alias: Ajouter un alias courriel
   user_updated_successfully: Les paramètres ont été mis à jour avec succès.
   user_created_successfully: Votre compte a été créé avec succès.
-  email_alias_destroyed_successfully: L'alias courriel %{alias} a été retiré.
+  email_alias_destroyed_successfully: L’alias courriel %{alias} a été retiré.
   use_ascii_key: Clef publique OpenPGP. Ne changez pas cette valeur à moins de savoir ce que vous faites.
   advanced_options: Options avancées
-  not_authorized: Désolé, mais vous n'êtes pas autorisé à effectuer cette action.
+  not_authorized: Désolé, mais vous n’êtes pas autorisé à effectuer cette action.
   not_authorized_login: Veuillez vous connecter pour effectuer cette action.
   search: Recherche
-  cookie_disabled_warning: Les fichiers témoins sont désactivés. Vous ne pourrez pas vous connecter tant qu'ils ne seront pas activés.
-  js_required_html: Nous sommes désolés, mais ceci ne fonctionne pas sans que JavaScript ne soit activé. Le système d'authentification utilisé, <a href='http://srp.stanford.edu/'>SRP</a>, en est la cause et exige JavaScript.
+  cookie_disabled_warning: Les fichiers témoins sont désactivés. Vous ne pourrez pas vous connecter tant qu’ils ne seront pas activés.
+  js_required_html: Nous sommes désolés, mais ceci ne fonctionne pas sans que JavaScript ne soit activé. Le système d’authentification utilisé, <a href='http://srp.stanford.edu/'>SRP</a>, en est la cause et exige JavaScript.
   enable_account: Activer le compte %{username}
   enable_description: Ceci rétablira toutes les fonctions du compte.
   deactivate_account: Désactiver le compte %{username}
@@ -102,8 +103,8 @@ fr:
   users:
     overview:
       welcome: Bienvenue %{username}.
-      intro: 'De ce panneau de contrôle de l''utilisateur vous pouvez :'
-      tickets: Créer et vérifier les billets d'assistance..
+      intro: 'De ce panneau de contrôle de l’utilisateur vous pouvez :'
+      tickets: Créer et vérifier les billets d’assistance..
       email: Modifier les paramètres de courriel.
       account: Détruire votre compte.
   activemodel:
@@ -122,7 +123,7 @@ fr:
   cost: Coût
   free: Gratuit
   support_tickets: Assistance
-  email_notice_text: Un nouveau commentaire a été ajouté à ce billet d'assistance.
+  email_notice_text: Un nouveau commentaire a été ajouté à ce billet d’assistance.
   email_no_reply_text: Ne répondez pas à ce courriel.
   layouts:
     tickets: Billets
@@ -131,7 +132,7 @@ fr:
     header:
       tickets: Billets
     navigation:
-      tickets: Billets d'assistance
+      tickets: Billets d’assistance
   tickets:
     all: Tous les billets
     open: Billets ouverts
@@ -158,7 +159,7 @@ fr:
     destroy: Détruire
     post_reply: Publier la réponse
     reply_and_close: Répondre et fermer
-    access_ticket_text: 'Vous pourrez accéder à ce billet ultérieurement à l''URL %{full_url}. Vous pouvez ajouter cette page à vos signets pour la trouver plus tard. Toute personne possédant  cette URL pourra accéder à ce billet, et si vous utilisez un ordinateur partagé, vous devriez la supprimer de l''historique du navigateur.
+    access_ticket_text: 'Vous pourrez accéder à ce billet ultérieurement à l’URL %{full_url}. Vous pouvez ajouter cette page à vos signets pour la trouver plus tard. Toute personne possédant  cette URL pourra accéder à ce billet, et si vous utilisez un ordinateur partagé, vous devriez la supprimer de l’historique du navigateur.
 
       '
   helpers:
@@ -174,7 +175,7 @@ fr:
       ticket:
         subject: Objet
         email: Courriel
-        regarding_user: À propos de l'utilisateur
+        regarding_user: À propos de l’utilisateur
         regarding_account: À propos du compte
         is_open: État
       ticket_comment:
@@ -193,4 +194,4 @@ fr:
           'false': Fermé
     hints:
       ticket:
-        email: Fournissez une adresse courriel afin d'être prévenu lorsque ce billet sera mis à jour.
+        email: Fournissez une adresse courriel afin d’être prévenu lorsque ce billet sera mis à jour.

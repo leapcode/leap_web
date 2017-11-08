@@ -1,14 +1,14 @@
 de:
   errors:
     title:
-      not_found: Seite wurde nicht gefunden.
+      not_found: Seite nicht gefunden.
       server_error: Aua!
     subtitle:
-      not_found: Die Seite die sie sie am suchen sind existiert nicht.
-      server_error: Wir liefen in einen Serverfehler.
+      not_found: Die gesuchte Seite existiert nicht.
+      server_error: Hier liegt ein Serverfehler vor.
     text:
       not_found: Sie haben sich vielleicht vertippt oder die Seite wurde verschoben.
-      server_error: Das Problem wurde angemeldet und wir werden das prüfen.
+      server_error: Das Problem wurde gemeldet und wir werden es überprüfen.
   flash:
     success: '%{resource} wurde erfolgreich gespeichert.'
     error: '%{resource} konnte nicht gespeichert werden.'
@@ -16,14 +16,13 @@ de:
       success: '%{resource} wurde erfolgreich erstellt.'
       error: '%{resource} konnte nicht erstellt werden.'
     update:
-      success: '%{resource} wurde erfolgreich aktuaslisiert.'
-      error: '%{resource} konnte nicht aktuaslisiert werden.'
-  privacy_policy: Datenschutz-Bestimmungen
-  terms_of_service: Allgemeine Geschaefts Bedingungen
+      success: '%{resource} wurde erfolgreich aktualisiert.'
+      error: '%{resource} konnte nicht aktualisiert werden.'
+  privacy_policy: Datenschutzbestimmungen
+  terms_of_service: Allgemeine Geschäftsbedingungen
   pricing: Kosten
-  about: über uns
+  about: Über uns
   contact: Kontakt
-  donations: Spende
   signup: Registrieren
   login: Anmelden
   logout: Abmelden
@@ -31,25 +30,27 @@ de:
   created: Erstellt
   created_by_on: Erstellt von %{user} um %{time}
   updated: Aktualisiert
-  none: Nichts
+  none: Keine
   unknown: Unbekannt
   admin: Administrator
   anonymous: Anonym
-  save: peichern
+  save: Speichern
   add: Hinzufügen
   remove: Entfernen
   changes_saved: Änderungen erfolgreich gespeichert.
-  are_you_sure: Sind sie sich sicher? Änderungen können nicht rückgängig gemacht werden.
+  are_you_sure: Sind Sie sicher? Diese Änderung kann nicht rückgängig gemacht werden.
   example_email: user@domain.org
-  no_such_thing: Kein solches %{thing}.
+  no_such_thing: '%{thing} existiert nicht.'
   create_thing: '%{thing} erstellen'
   overview: Übersicht
   home: Home
   welcome: Willkommen bei %{provider}
+  welcome_message_html: Wir bieten sichere Kommunikationsdienste, inklusive VPN und E-Mail. Weitere Dienste sind bereits in Arbeit.
   download_bitmask: Bitmask herunterladen
-  login_info: Loggen Sie sich ein, um ihre Kontoeinstellungen zu ändern, Support-Tickets zu erstellen und Zahlungen zu verwalten.
-  signup_info: Erstellen Sie ein neues Benutzerkonto. Aus Sicherheitsgründen empfehlen wir Ihnen, Ihr Konto über die Bitmask Anwendung zu erstellen.
-  support_info: Können Sie sich nicht einloggen? Erstellen Sie ein neues Support-Ticket anonym.
+  login_info: Melden Sie sich in Ihrem Konto an, um Ihre Kontoeinstellungen zu ändern, Support-Tickets zu erstellen und Zahlungen zu verwalten.
+  signup_info: Erstellen Sie ein neues Benutzerkonto. Aus Sicherheitsgründen empfehlen wir Ihnen, Ihr Konto über die Bitmask-Anwendung zu erstellen.
+  support_info: Können Sie sich nicht einloggen? Erstellen Sie anonym ein Support-Ticket.
+  get_help: Hilfe
   messages:
     not_found: Diese Nachricht konnte nicht gefunden werden.
     marked_as_read: Die Nachricht wurde als gelesen markiert.
@@ -59,69 +60,71 @@ de:
       identities: Nutzernamen
       tickets: Tickets
   user_control_panel: Benutzerkontrollzentrum
-  account_settings: Benutzerkonto Einstellungen
+  account_settings: Kontoeinstellungen
   username: Nutzername
   password: Passwort
+  password_confirmation: Passwort bestätigen
+  invite_code: Einladungscode
   change_password: Passwort ändern
-  invalid_user_pass: Keine gültige Benutzername / Passwort-Kombination
-  invalid_ephemeral: Ungültiger Zufallsschlüssel verwendet. Das sah aus wie ein Versuch, die Website über uns zu hacken. Wenn Sie es nicht waren, wenden Sie sich an unserem Support damit wir uns mit dem Problem befassen.
-  all_strategies_failed: Ihr Login-Versuch konnte nicht verstanden werden. Bitte senden Sie Ihren Benutzernamen und ein SRP ephemere Wert A und dann senden Sie die client_auth in derselben Sitzung (mit Hilfe von Cookies).
-  update_login_and_password: Einloggen und Passwort Aktualisieren
+  invalid_user_pass: Keine gültige Nutzernamen-/Passwort-Kombination
+  invalid_ephemeral: Ungültiger Zufallsschlüssel verwendet. Für uns sieht das aus wie ein Versuch, die Website zu hacken. Andernfalls wenden Sie sich bitte an unseren Support, damit wir uns um das Problem kümmern.
+  all_strategies_failed: Ihr Login-Versuch konnte nicht verstanden werden. Bitte senden Sie Ihren Nutzernamen und einen SRP ephemeral value A und dann senden Sie die client_auth in derselben Sitzung (mit Hilfe von Cookies).
+  update_login_and_password: Nutzernamen und Passwort aktualisieren
   destroy_my_account: Benutzerkonto löschen
-  destroy_account_info: Dies wird dauerhaft Ihr Konto und alle zugehörigen Daten löschen. Gehen Sie mit Vorsicht damit um!
-  admin_destroy_account: Benutzerkonto löschen %{username}
+  destroy_account_info: 'Vorsicht: Hiermit löschen Sie dauerhaft Ihr Konto und alle zugehörigen Daten. '
+  admin_destroy_account: 'Dieses Benutzerkonto löschen: %{username}'
   account_destroyed: Das Konto wurde erfolgreich gelöscht.
   set_email_address: E-Mail-Adresse einstellen
-  forward_email: vorwärts per E-Mail
-  email_aliases: E-Mail genutzte Aliases
+  forward_email: E-Mail weiterleiten
+  email_aliases: E-Mail-Aliasse
   public_key: Öffentlicher Schlüssel
-  add_email_alias: E-Mail Alias Hinzufügen
+  add_email_alias: E-Mail-Alias hinzufügen
   user_updated_successfully: Die Einstellungen wurden erfolgreich aktualisiert.
   user_created_successfully: Ihr Konto wurde erfolgreich erstellt
-  email_alias_destroyed_successfully: Entfernter E-Mail Alias %{alias}.
-  use_ascii_key: Öffentlicher OpenPGP Schlüssel. Ändern Sie diesen Wert nur, wenn Sie wissen, was Sie tun.
+  email_alias_destroyed_successfully: E-Mail-Alias %{alias} wurde entfernt.
+  use_ascii_key: Öffentlicher OpenPGP-Schlüssel. Ändern Sie diesen Wert nur, wenn Sie wissen, was Sie tun.
   advanced_options: Erweiterte Optionen
   not_authorized: Es tut uns leid, aber Sie sind nicht berechtigt, diese Aktion durchzuführen.
-  not_authorized_login: Bitte loggen Sie sich ein, um diese Aktion durchzuführen.
+  not_authorized_login: Bitte melde Sie sich an, um diese Aktion durchzuführen.
   search: Suche
-  cookie_disabled_warning: Sie haben Cookies deaktiviert. Sie werden nicht in der Lage sein sich anzumelden, bis die Cookies aktiviert werden.
-  js_required_html: Es tut uns leid,  Javascript muss aktiviert sein. Dies liegt daran, das dass Authentifizierungssystem das verwendet wird, <a href='http://srp.stanford.edu/'>SRP</a>, Javascript braucht
-  enable_account: Dieses Konto aktivieren %{username}
-  enable_description: Dies wird das Konto die volle Funktionalität wiederherstellen
-  deactivate_account: Dieses Konto deaktivieren %{username}
-  deactivate_description: Dies wird vorübergehend einige Konto-Funktionen deaktivieren.
-  payment_one_month_warning: Wir hoffen, Sie haben im letzten Monat diesen Service genoßen. Bitte melden Sie sich an, um innerhalb des nächsten Monats zu zahlen, durch %{date_in_one_month}. Richtungen zur Zahlung sind verfügbar über  INSERT_URL
+  cookie_disabled_warning: Sie haben Cookies deaktiviert. Sie können sich nur anmelden, wenn Cookies aktiviert sind.
+  js_required_html: JavaScript muss aktiviert sein, weil das verwendete Authentifizierungssystem (<a href='http://srp.stanford.edu/'>SRP</a>) JavaScript benötigt.
+  enable_account: 'Dieses Konto aktivieren: %{username}'
+  enable_description: Dies stellt die volle Funktionalität des Kontos wieder her.
+  deactivate_account: 'Dieses Konto deaktivieren: %{username}'
+  deactivate_description: Dies deaktiviert vorübergehend einige Kontofunktionen.
+  payment_one_month_warning: Wir hoffen, dieser Service hat Ihnen im vergangenen Monat gefallen. Bitte melden Sie sich an, um innerhalb des nächsten Monats bis zum %{date_in_one_month} zu zahlen. Die Zahlungsinformationen finden Sie unter INSERT_URL.
   bye: Auf Wiedersehen!
-  bye_message: So lange und danke für den Fisch.
-  contact_email: Kontakt Mailadresse
-  contact_email_info: 'Sie möchten vielleicht eine Email Adresse angeben über welche wir Sie kontaktieren können, falls es ein Problem mit Ihrem Benutzerkonto gibt. Aus Gründen des Datenschutzes können Sie es auch vorziehen dieses Feld freizulassen.
+  bye_message: Macht's gut und danke für den Fisch.
+  contact_email: E-Mail-Kontaktadresse
+  contact_email_info: 'Sie können eine E-Mail-Adresse angeben, über die wir Sie kontaktieren können, falls es ein Problem mit Ihrem Benutzerkonto gibt. Aus Datenschutzgründen können Sie dieses Feld aber auch frei lassen.
 
     '
   users:
     overview:
       welcome: Willkommen %{username}.
       intro: 'Vom Benutzerkontrollzentrum aus können Sie:'
-      tickets: Erstellen und Überprüfen von Support-Tickets.
+      tickets: Support-Tickets erstellen und überprüfen.
       email: E-Mail-Einstellungen ändern.
-      account: Benutzerkonto löschen.
+      account: Ihr Benutzerkonto löschen.
   activemodel:
     models:
       user:
         one: Benutzer
         other: '%{count} Benutzer'
-  create_new_customer: Erstelle einen neuen Braintree Kunden
+  create_new_customer: Erstelle einen neuen Braintree-Kunden
   must_create_customer: Sie müssen einen Kunden im Braintree speichern, bevor Sie ein Abonnement abschließen
-  subscribe: Abonniere
-  save_customer_info: Kundeninformation speichern
-  donation_not_payment: 'Achtung: Dies ist eine Spende und findet keine keine Anwendung gegenüber Ihrem Konto.'
-  no_relevant_subscription: Kein Abonnement welches Aktiv, Ausstehend oder Überfällig ist.
+  subscribe: Abonnieren
+  save_customer_info: Kundeninformationen speichern
+  donation_not_payment: 'Achtung: Dies ist eine Spende und wird nicht Ihrem Konto gutgeschrieben.'
+  no_relevant_subscription: Kein aktives, ausstehendes oder überfälliges Abonnement
   plan: Abonnement
   description: Beschreibung
   cost: Kosten
   free: Kostenlos
   support_tickets: Support
-  email_notice_text: Es wurde ein neuer Kommentar zu diesem Hilfe-Ticket hinzugefügt.
-  email_no_reply_text: Antworte nicht auf diese Email.
+  email_notice_text: Es wurde ein neuer Kommentar zu diesem Support-Ticket hinzugefügt.
+  email_no_reply_text: Antworten Sie nicht auf diese E-Mail.
   layouts:
     tickets: Tickets
     title:
@@ -129,7 +132,7 @@ de:
     header:
       tickets: Tickets
     navigation:
-      tickets: Support Tickets
+      tickets: Support-Tickets
   tickets:
     all: Alle Tickets
     open: Offene Tickets
@@ -141,8 +144,8 @@ de:
       open: Offen
       closed: Geschlossen
     action:
-      open: Offen
-      close: Geschlossen
+      open: Öffnen
+      close: Schließen
     confirm:
       destroy:
         are_you_sure: Sind Sie sicher, dass Sie dieses Ticket löschen wollen?
@@ -156,24 +159,24 @@ de:
     destroy: Löschen
     post_reply: Antworten
     reply_and_close: Antworten und schließen
-    access_ticket_text: 'Sie können dieses Ticket später unter der URL %{full_url} abrufen. Sie wollen diese Seite vielleicht zu Ihren Lesezeichen hinzufügen, um sie wiederzufinden. Es ist jedem mit dieser URL möglich Zugang zu dem Ticket zu erhalten, sind Sie also an einem öffentlichen Rechner, wollen Sie diese vielleicht aus dem Verlauf Ihres Browsers löschen.
+    access_ticket_text: 'Sie können dieses Ticket später unter dieser URL abrufen: %{full_url}. Sie können diese Seite als Lesezeichen hinzufügen, um sie später wiederzufinden. Mit dieser URL kann jeder Zugang zu Ihrem Ticket zu erhalten - sind Sie also an einem öffentlichen Rechner, möchten Sie diese URL vielleicht aus dem Browserverlauf löschen.
 
       '
   helpers:
     submit:
       ticket:
         create: Ticket versenden
-        update: Aktualisiere Ticket
+        update: Ticket aktualisieren
   couchrest:
     models:
       ticket: Ticket
       ticket_comment: Kommentar
     attributes:
       ticket:
-        subject: Thema
-        email: Email
-        regarding_user: Den Benutzer betreffend
-        regarding_account: Das Benutzerkonten betreffend
+        subject: Betreff
+        email: E-Mail
+        regarding_user: Den Nutzer betreffend
+        regarding_account: Das Benutzerkonto betreffend
         is_open: Status
       ticket_comment:
         body: Beschreibung
@@ -181,7 +184,7 @@ de:
   simple_form:
     labels:
       ticket:
-        email: Email
+        email: E-Mail
         comments:
           body: Beschreibung
     options:
@@ -191,4 +194,4 @@ de:
           'false': Geschlossen
     hints:
       ticket:
-        email: Geben Sie ein Email Adresse an, um benachrichtigt zu werden, wenn dieses Ticket aktualisiert wird,
+        email: Geben Sie eine E-Mail-Adresse an, um benachrichtigt zu werden, wenn dieses Ticket aktualisiert wird,

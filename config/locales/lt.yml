@@ -2,66 +2,96 @@ lt:
   errors:
     title:
       not_found: Puslapis nerastas.
+      server_error: Oi!
     subtitle:
       not_found: Puslapio, kurio ieškote, nėra.
+      server_error: Mes susidūrėme su serverio klaida.
     text:
       not_found: Jūs neteisingai įvedėte adresą arba puslapis buvo perkeltas.
-  privacy_policy: Privatumo Politika
-  terms_of_service: Naudojimosi Sąlygos
+      server_error: Problema buvo užregistruota ir mes ją ištirsime.
+  privacy_policy: Privatumo politika
+  terms_of_service: Naudojimosi sąlygos
   pricing: Kainynas
-  about: Apie Mus
+  about: Apie mus
+  signup: Užsiregistruoti
   login: Prisijungti
   logout: Atsijungti
-  cancel: Atšaukti
+  cancel: Atsisakyti
   created: Sukurta
+  created_by_on: Sukūrė %{user} ties %{time}
   updated: Atnaujinta
+  none: Nėra
   unknown: Nežinoma
   admin: Administratorius
-  save: Išsaugoti
+  save: Įrašyti
   add: Pridėti
   remove: Šalinti
-  changes_saved: Pakeitimai sėkmingai išsaugoti.
+  changes_saved: Pakeitimai sėkmingai įrašyti.
   are_you_sure: Ar tikrai? Šis pakeitimas negali būti atšauktas.
+  create_thing: Sukurti %{thing}
   overview: Apžvalga
+  home: Pradžia
+  welcome: Sveiki atvykę į %{provider}.
+  welcome_message_html: Mes teikiame saugaus bendravimo paslaugas, įskaitant VPN ir el. paštą ir kitas vis dar kuriamas paslaugas.
   download_bitmask: Atsisiųsti Bitmask
   messages:
     marked_as_read: Pranešimas pažymėtas kaip perskaitytas.
+  common:
+    navigation_item:
+      users: Naudotojai
+      identities: Naudotojų vardai
   user_control_panel: naudotojo valdymo skydelis
-  account_settings: Paskyros Nustatymai
-  username: Vartotojo Vardas
+  account_settings: Paskyros nustatymai
+  username: Naudotojo vardas
   password: Slaptažodis
-  invalid_user_pass: Neteisinga vartotojo vardo/slaptažodžio kombinacija
+  password_confirmation: Slaptažodžio patvirtinimas
+  change_password: Keisti slaptažodį
+  invalid_user_pass: Neteisinga naudotojo vardo/slaptažodžio kombinacija
+  invalid_ephemeral: Panaudotas neteisingas atsitiktinis raktas. Mums tai pasirodė kaip bandymas nulaužti svetainę. Jei taip nėra, susisiekite su palaikymu, kad mes galėtume išnagrinėti problemą.
   destroy_my_account: Sunaikinti mano paskyrą
   destroy_account_info: Tai visam laikui sunaikins jūsų paskyrą ir visus su ja susietus duomenis. Elkitės atsargiai!
   admin_destroy_account: Sunaikinti paskyrą %{username}
   account_destroyed: Paskyra sėkmingai sunaikinta.
-  public_key: Viešas Raktas
+  public_key: Viešasis raktas
   user_updated_successfully: Nustatymai sėkmingai atnaujinti.
+  user_created_successfully: Jūsų paskyra sėkmingai sukurta.
   use_ascii_key: OpenPGP viešasis raktas. Nekeiskite šios reikšmės, nebent žinote ką darote.
-  advanced_options: Išplėstinės Parinktys
+  advanced_options: Išplėstinės parinktys
+  not_authorized: Atleiskite, bet jums neleidžiama atlikti šio veiksmo.
   not_authorized_login: Prisijunkite, norėdami atlikti veiksmą.
-  cookie_disabled_warning: Jūs esate išjungę slapukus. Jūs negalėsite prisijungti tol, kol neįjungsite slapukus.
+  cookie_disabled_warning: Jūs esate išjungę slapukus. Jūs negalėsite prisijungti tol, kol neįjungsite slapukų.
+  js_required_html: Atleiskite, tačiau tai neveikia be įjungto javascript. Taip yra todėl, kad naudojama tapatybės nustatymo sistema, <a href='http://srp.stanford.edu/'>SRP</a>, reikalauja javascript.
   enable_description: Tai atkurs pilną paskyros funkcionalumą
+  deactivate_description: Tai laikinai išjungs tam tikrą paskyros funkcionalumą.
   bye: Viso gero!
+  contact_email: Kontaktinis el. paštas
+  contact_email_info: 'Jūs galite nurodyti el. pašto adresą, kuriuo mes galėtume su jumis susisiekti tuo atveju, jeigu atsirastų problemų su jūsų paskyra. Dėl privatumo sumetimų, jūs galite pageidauti palikti šį lauką tuščią.
+
+    '
   users:
     overview:
-      welcome: Sveiki Atvykę %{username}.
+      welcome: Sveiki atvykę, %{username}.
+      intro: 'Šiame naudotojo valdymo skydelyje jūs galite:'
+      email: Keisti el. pašto nustatymus.
       account: Sunaikinti jūsų paskyrą.
   activemodel:
     models:
       user:
-        one: Vartotojas
-        few: '%{count} Vartotojai'
-        other: '%{count} Vartotojų'
+        one: '%{count} naudotojas'
+        few: '%{count} naudotojai'
+        other: '%{count} naudotojų'
+  donation_not_payment: 'Pastaba: Tai yra paaukojimas ir jis nebus pritaikytas jūsų paskyrai.'
   description: Aprašas
   couchrest:
     attributes:
       ticket:
         email: El. paštas
+        is_open: Būsena
       ticket_comment:
         body: Aprašas
   simple_form:
     labels:
       ticket:
+        email: El. paštas
         comments:
           body: Aprašas

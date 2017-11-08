@@ -47,6 +47,7 @@ tr:
   welcome: '%{provider}''a hoşgeldiniz.'
   download_bitmask: Bitmask'ı İndir
   support_info: Giriş yapamadınız mı? Anonim olarak yeni bir destek talebi oluştur.
+  get_help: ' Yardım Alın'
   messages:
     not_found: Bu mesaj bulunamadı.
     marked_as_read: İleti okundu olarak işaretlendi.
@@ -59,6 +60,8 @@ tr:
   account_settings: Hesap Ayarları
   username: Kullanıcı Adı
   password: Şifre
+  password_confirmation: Şifre onayı
+  invite_code: Davet kodu
   change_password: Şifre Değiştir
   invalid_user_pass: Geçerli bir kullanıcı adı/şifre eşleşmesi değil
   update_login_and_password: Giriş ve Şifreyi Güncelle
@@ -89,3 +92,30 @@ tr:
       user:
         one: Kullanıcı
         other: '%{count} Kullanıcı'
+  description: Açıklama
+  email_no_reply_text: Bu e-postayı yanıtlamayın.
+  tickets:
+    status:
+      open: Açık
+      closed: Kapalı
+    action:
+      open: Aç
+      close: Kapa
+  couchrest:
+    models:
+      ticket_comment: Yorum
+    attributes:
+      ticket:
+        subject: Konu
+        email: E-posta
+  simple_form:
+    labels:
+      ticket:
+        email: E-posta
+        comments:
+          body: Açıklama
+    options:
+      ticket:
+        is_open:
+          'true': Açık
+          'false': Kapalı

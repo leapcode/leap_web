@@ -45,10 +45,12 @@ nb:
   overview: Oversikt
   home: Hjem
   welcome: Velkommen hos %{provider}.
+  welcome_message_html: Vi tilbyr sikrede kommunikasjonstjenester, inkludert VPN og e-post, med flere ting på trappene.
   download_bitmask: Last ned Bitmaskerade
   login_info: Logg inn for å endre dine kontoinnstillinger, gi tilbakemeldinger, og behandle betalinger.
   signup_info: Opprett en ny brukerkonto. Å isteden gjøre dette via Bitmaskeraden er sikrere, og derfor det anbefalte alternativet.
   support_info: Innlogging virker ikke? Opprett en ny brukerstøttebillett anonymt.
+  get_help: Få hjelp
   messages:
     not_found: Den meldingen forefinnes ikke.
     marked_as_read: Meldingen har blitt markert som lest.
@@ -61,16 +63,18 @@ nb:
   account_settings: Kontoinnstillinger
   username: Brukernavn
   password: Passord
+  password_confirmation: Passordsbekreftelse
+  invite_code: Invitasjonskode
   change_password: Endre passord
   invalid_user_pass: Kombinasjonen mellom brukernavn og passord samsvarer ikke
   invalid_ephemeral: Ugyldig tilfeldig nøkkel brukt. Dette kan være et angrep på siden. Ta kontakt med brukerstøtte slik at vi kan se nærmere på saken.
-  all_strategies_failed: Forsto ikke dine innloggingsdetaljer. Først send din innloggingsinfo og SRP kortlevd verdi A, og så client_auth i samme økt (med informasjonskapsler).
+  all_strategies_failed: Forsto ikke dine innloggingsdetaljer. Send først din innloggingsinfo og SRP kortlevd verdi A, og så client_auth i samme økt (med informasjonskapsler).
   update_login_and_password: Oppdater innloggingsnavn og passord
   destroy_my_account: Slett kontoen min
   destroy_account_info: Dette vil slette din konto og all data tilknyttet den. Forsett med varsomhet!
   admin_destroy_account: Utslett kontoen %{username}
   account_destroyed: Kontoen har blitt utslettet.
-  set_email_address: Velg e-post -adresse
+  set_email_address: Velg e-postadresse
   forward_email: Videresend e-post
   email_aliases: Alternative e-postnavn
   public_key: Offentlig nøkkel
@@ -84,12 +88,12 @@ nb:
   not_authorized_login: Logg inn for å utføre denne handlingen.
   search: Søk
   cookie_disabled_warning: Informasjonskapsler er avskrudd. Du vil ikke kunne logge inn før du skrur på informasjonskapsler.
-  js_required_html: 'Vi beklager, dette virker ikke uten at javascript er påslått. Grunnet <a href=''http://srp.stanford.edu/''>SRP</a>. autentikasjonssystemet som brukes, krever det.  '
+  js_required_html: 'Vi beklager, dette virker ikke uten at JavaScript er påslått. Grunnet at <a href=''http://srp.stanford.edu/''>SRP</a>, autentikasjonssystemet som brukes, krever det.  '
   enable_account: 'Aktiver denne kontoen: %{username}'
   enable_description: Dette vil gjenopprette kontoen til full funksjonalitet
   deactivate_account: 'Deaktiver denne kontoen: %{username}'
   deactivate_description: Dette vil deaktivere noe av kontofunksjonaliteten midlertidig.
-  payment_one_month_warning: Vi håper du har hatt glede av denne tjenesten den seneste månedet. Abonner og betal i neste måned, innen %{date_in_one_month}. Anvisninger for betaling er tilgjengelige på INSERT_URL
+  payment_one_month_warning: Vi håper du har hatt glede av denne tjenesten den seneste måneden. Abonner og betal i neste måned, innen %{date_in_one_month}. Anvisninger for betaling er tilgjengelige på INSERT_URL
   bye: Adjø!
   bye_message: Adjø, og takk for fisken.
   contact_email: E-post for kontakt
@@ -100,7 +104,7 @@ nb:
     overview:
       welcome: Velkommen skal du være %{username}.
       intro: 'Fra dette brukerkontrollpanelet, kan du:'
-      tickets: Opprette og sjekke brukerstøttebilletter.
+      tickets: Opprett og sjekke brukerstøttebilletter.
       email: Endre e-postinnstillinger.
       account: Slett min konto.
   activemodel:
@@ -110,18 +114,19 @@ nb:
         other: '%{count} brukere'
   create_new_customer: Opprett en ny Braintree-kunde
   must_create_customer: Du må lagre en kunde i Braintree før du abonnerer på en plan
-  subscribe: Abboner
+  subscribe: Abonner
   save_customer_info: Lagre kundeinformasjon
   donation_not_payment: 'Merk: Dette er en donasjon, og vil ikke gå til kontoen din.'
   no_relevant_subscription: Ingen abonnement er aktive, på vent, eller mangler betaling
   plan: Plan
   description: Beskrivelse
   cost: Kostnad
+  free: Gratis
   support_tickets: Støtte
   email_notice_text: En ny kommentar har blitt lagt til denne brukerstøttebilletten.
   email_no_reply_text: Ikke svar på denne e-posten.
   layouts:
-    tickets: Billetter.
+    tickets: Billetter
     title:
       tickets: Billetter
     header:
