@@ -1,7 +1,9 @@
 class Api::ConfigsController < ApiController
   include ControllerExtension::JsonFile
 
-  before_filter :require_login, :unless => :anonymous_access_allowed?
+  before_filter :require_login,
+    :unless => :anonymous_access_allowed?,
+    :except => :index
   before_filter :sanitize_id, only: :show
 
   def index
