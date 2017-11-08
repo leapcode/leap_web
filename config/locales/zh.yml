@@ -63,6 +63,8 @@ zh:
   account_settings: 账号设置
   username: 用户名
   password: 密码
+  password_confirmation: 密码确认
+  invite_code: 邀请码
   change_password: 更改密码
   invalid_user_pass: 不是有效的用户名/密码组合
   invalid_ephemeral: 使用的随机密钥无效。这看起来像是试图在破解该网站。如果不是，请联系支持以便我们关注此问题。

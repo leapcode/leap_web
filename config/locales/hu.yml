@@ -45,10 +45,12 @@ hu:
   overview: Áttekintés
   home: Kezdőlap
   welcome: Köszöntjük %{provider} oldalán.
+  welcome_message_html: Biztonságos kommunikáció szolgáltatásokat nyújtunk, mint VPN, Email és további szolgáltatások előkészületben.
   download_bitmask: Bitmask letöltése
   login_info: Lépjen be a fiók beállítások módosításához, támogatási jegyek létrehozásához és a fizetések kezeléséhez.
   signup_info: Új fiók létrehozva. A nagyobb biztonság érdekében ajánljuk, hogy a Bitmask alkalmazáson keresztül hozza inkább létre fiókját.
   support_info: Nem tud belépni? Hozzon létre jegyet névtelenül.
+  get_help: Segítség kérése
   messages:
     not_found: Az üzenet nem található.
     marked_as_read: Az üzenet olvasottnak jelölve.
@@ -61,6 +63,8 @@ hu:
   account_settings: Fiók beállítások
   username: Felhasználónév
   password: Jelsző
+  password_confirmation: Jelszó megerősítés
+  invite_code: Meghívás kód
   change_password: Jelszó változtatása
   invalid_user_pass: Nem érvényes felhasználónév/jelszó kombináció
   invalid_ephemeral: Érvénytelen véletlen kulcs került használatra. Ez úgy tűnik egy próbálkozás az oldal megtörésére. Ha mégsem az volt, vegye fel a kapcsolatot a támogatással, így utána járhatunk a dolognak.
@@ -92,6 +96,10 @@ hu:
   payment_one_month_warning: 'Reméljük, hogy a szolgáltatás hasznos volt az elmúlt hónapban. Kérjük iratkozzon fel a fizetéshez a %{date_in_one_month} napjáig. A fizetési lehetőséget itt található: INSERT_URL'
   bye: Viszontlátásra!
   bye_message: Oly sokáig, és köszönet a halakért.
+  contact_email: Kapcsolat Email
+  contact_email_info: 'Megadhat egy email címet, ahol felvehetjük Önnel a kapcsolat, ha probléma van a fiókjával. Adatvédelmi okokból üresen is hagyhatja.
+
+    '
   users:
     overview:
       welcome: Köszöntjük %{username}.
@@ -104,8 +112,12 @@ hu:
       user:
         one: Felhasználó
         other: '%{count} felhasználó'
+  create_new_customer: Új Braintree vásárló létrehozása
+  must_create_customer: Először tárolnia kell a vásárlót a braintree-be, mielőtt feliratkozik egy előfizetésre
   subscribe: Feliratkozás
   save_customer_info: Vásárlói információ mentése
+  donation_not_payment: 'Megjegyzés: Ez egy támogatás és nem kerül felszámításra a fiókjához.'
+  no_relevant_subscription: Nincs Aktív, Függő vagy Határidőn túli feliratkozás
   plan: Terv
   description: Leírás
   cost: Költség
@@ -147,6 +159,11 @@ hu:
     destroy: Megsemmisít
     post_reply: Válasz küldése
     reply_and_close: Válasz és Bezárás
+    access_ticket_text: 'Később is elérheti ezt a hibajegyet a %{full_url} címen.
+
+      A könnyebb megtalálhatóság érdekében könyvjelzőt is társíthat hozzá. Bárki hozzáférhet a jegyhez az URL birtokában, így megosztott számítógép esetén célszerű törölni a böngésző előzményeit.
+
+      '
   helpers:
     submit:
       ticket:

@@ -23,7 +23,6 @@ it:
   pricing: Prezzario
   about: A proposito di
   contact: Contatti
-  donations: Donazioni
   signup: Registrati
   login: Accedi
   logout: Log Out
@@ -33,7 +32,7 @@ it:
   updated: Aggiornata
   none: Nessuno
   unknown: Sconosciuto
-  admin: Administratore
+  admin: Admin
   anonymous: Anonimo
   save: Salva
   add: Aggiungi
@@ -46,31 +45,35 @@ it:
   overview: Panoramica
   home: Home
   welcome: Benvenuto su %{provider}.
+  welcome_message_html: Offriamo servizi di comunicazine sicuri, inclusi VPN ed Email, con altri servizi in preparazione.
   download_bitmask: Scarica Bitmask
   login_info: Esegui l'accesso per modificare le tue impostazioni account, crea tickets di supporto, e gestisci i tuoi pagamenti.
   signup_info: Crea un nuovo account utente. Per ovvie ragioni di sicurezza, ti raccomandiamo però di creare un account direttamente da dentro Bitmask.
   support_info: Non puoi effettuare l'accesso? Crea un nuovo ticket di supporto in maniera anonima.
+  get_help: Ottieni Aiuto
   messages:
     not_found: Quel messaggio non può essere trovato.
     marked_as_read: Il messaggio è stato segnato come "già letto".
   common:
     navigation_item:
       users: Utenti
-      identities: Usernames
-      tickets: Tickets
+      identities: Nomi utenti
+      tickets: Biglietto
   user_control_panel: Pannello di Controllo Utente
   account_settings: Impostazioni Account
   username: Username
   password: Password
+  password_confirmation: Password di conferma
+  invite_code: Codice Invito
   change_password: Cambia Password
   invalid_user_pass: Non è una combinazione username/password valida
-  invalid_ephemeral: 'Password non valida. Questo potrebbe essere un attacco al nostro sito. Per favore contatta il supporto così potremo esaminare il problema. '
-  all_strategies_failed: Tentativo di login non valido. Per favore invia (usando i cookies) in questa stessa sessione i tuoi dati di login, il valore A temporaneo di SRP e successivamente il tuo client_auth (autentificazione cliente).
+  invalid_ephemeral: 'É stata usata una chiave casuale invalida. Questo appare come un attacco al nostro sito. Se così non è, cortesemente contatta il supporto, così potremo verificare. '
+  all_strategies_failed: Accesso login non compresibile. Per favore, invia in un'unica sessine (usando i cookies) il tuo login ed a seguire il valore A temporaneo di SRP; successivamente invia il tuo client_auth.
   update_login_and_password: Aggiorna Login e Password
-  destroy_my_account: Elimina il tuo account
-  destroy_account_info: Il tuo account e tutti i dati associati ad esso verranno eliminati in maniera definitiva. Procedi con cautela!
-  admin_destroy_account: Elimina l'account %{username}
-  account_destroyed: 'L''account è stato eliminato con successo. '
+  destroy_my_account: Distruggi il mio account
+  destroy_account_info: Verranno distrutti, in maniera permanente, il tuo account e tutti i dati associati. Procedi con cautela!
+  admin_destroy_account: Distruggi l'account %{username}
+  account_destroyed: 'L''account è stato distrutto con successo. '
   set_email_address: Imposta indirizzo e-mail
   forward_email: Inoltra e-mail
   email_aliases: Alias e-mail
@@ -78,22 +81,119 @@ it:
   add_email_alias: Aggiungi alias e-mail
   user_updated_successfully: Impostazioni aggiornate con successo.
   user_created_successfully: Account creato con successo.
-  email_alias_destroyed_successfully: Alias e-mail %{alias} eliminata.
-  use_ascii_key: Chiave pubblica OpenPGP. Non modificare questo valore.
+  email_alias_destroyed_successfully: Alias e-mail %{alias} eliminato.
+  use_ascii_key: Chiave pubblica OpenPGP. Non modificare questo valore se non sai cosa stai facendo.
   advanced_options: Opzioni avanzate
-  not_authorized: 'Siamo spiacenti, ma non sei autorizzato ad eseguire l'' azione. '
+  not_authorized: 'Spiacente, ma non sei autorizzato ad eseguire questa azione. '
   not_authorized_login: Per favore, esegui l'accesso per eseguire l'azione.
   search: Cerca
-  cookie_disabled_warning: 'I tuoi cookies sono disabilitati. Per eseguire l''accesso devi attivare i cookies. '
-  js_required_html: 'Siamo spiacenti, ma devi attivare Javascript. Il sistema di autenticazione usato, <a href=''http://srp.stanford.edu/''>SRP</a>, richiede Javascript. '
+  cookie_disabled_warning: I tuoi cookie sono disabilitati. Non sarai in grado di accedere finché non abiliterai i cookie.
+  js_required_html: 'Siamo spiacenti, ma questo non funziona senza aver attivato javascript.
+
+    Questo perché Il sistema di autenticazione usato, <a href=''http://srp.stanford.edu/''>SRP</a>, richiede javascript. '
   enable_account: Attiva l'account %{username}
-  enable_description: Questo consentirà di ripristinare l'account in tutte le sue funzionalità
+  enable_description: Questo ripristinerà l'account in tutte le sue funzionalità
   deactivate_account: Disattiva l'account %{username}
-  deactivate_description: Questo disattiverà momentaneamente alcune funzionalità dell'account.
-  payment_one_month_warning: Speriamo che il servizio di questo mese ti sia piaciuto. Per favore, registrati e effetua il pagamento entro la fine del prossimo mense entro il %{date_in_one_month}. Indicazioni per il pagamento sono disponibili qui INSERT_URL
+  deactivate_description: Questo disattiverà, momentaneamente, alcune funzionalità dell'account.
+  payment_one_month_warning: Speriamo che il servizio di questo mese ti sia piaciuto. Per favore, registrati ed effetua il pagamento entro la fine del prossimo mese, il %{date_in_one_month}. Indicazioni per il pagamento sono disponibili qui INSERT_URL
   bye: Arrivederci!
   bye_message: Addio, e grazie per tutto il pesce.
   contact_email: E-mail contatti
-  contact_email_info: 'È possibile specificare un indirizzo email dove possiamo contattarti nel caso di problemi con il tuo account. Per motivi di privacy, puoi scegliere di lasciare vuoto questo campo.
+  contact_email_info: 'Puoi specificare un indirizzo email, dove possiamo contattarti nel caso di problemi con il tuo account. Per motivi di privacy, puoi scegliere di lasciare vuoto questo campo.
 
     '
+  users:
+    overview:
+      welcome: Benvenuto %{username}.
+      intro: 'Da questo pannello di controllo utenti, puoi:'
+      tickets: Crea e verifica richieste di supporto.
+      email: Modifica impostazioni email.
+      account: Distruggi il tuo account.
+  activemodel:
+    models:
+      user:
+        one: Utente
+        other: '%{count} Utenti'
+  create_new_customer: Crea un nuovo client Braintree
+  must_create_customer: Devi registare un client braintree prima di sottoscrivere un piano.
+  subscribe: Sottoscrivi
+  save_customer_info: Salva inromazioni utente
+  donation_not_payment: 'Nota: questa è una donazione, e non modificherà il tuo account.'
+  no_relevant_subscription: Nessuna iscrizione che sia Attiva, in Sospeso o passata.
+  plan: Piano
+  description: Descrizione
+  cost: Costo
+  free: Libero
+  support_tickets: Supporto
+  email_notice_text: Un nuovo commento è stato aggiuno  a questo help ticket.
+  email_no_reply_text: Non rispondere a questa email.
+  layouts:
+    tickets: Ticket
+    title:
+      tickets: Ticket
+    header:
+      tickets: Ticket
+    navigation:
+      tickets: Ticket di supporto
+  tickets:
+    all: Tutti i ticket
+    open: Ticket Aperti
+    closed: Ticket Chiusi
+    new: Nuovi Ticket
+    created: 'Creato il '
+    updated: 'Aggiornato il '
+    status:
+      open: Aperto
+      closed: Chiuso
+    action:
+      open: Aperto
+      close: Chiuso
+    confirm:
+      destroy:
+        are_you_sure: Sei sicuro di voler distruggere questi ticket?
+    tabs:
+      all: Tutti i ticket
+      open: Tocket Aperti
+      closed: Ticket Chiusi
+    index:
+      none: Non è stato trovato alcun ticket
+      voices: Voci
+    destroy: Distruggi
+    post_reply: Risposta all'Articolo
+    reply_and_close: Rispondi e Chiudi
+    access_ticket_text: 'Puoi tornare successivamente al ticket via URL %{full_url}. Puoi registrare questa pagina per ritrovarla in futuro. Chiunque abbia questo URL sarà in grado di accedere a questo ticket, per cui, se stai usando un computer usato da più persone, forse vorrai cancellarlo dalla browser history.
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: Invia Ticket
+        update: Aggiorna Ticket
+  couchrest:
+    models:
+      ticket: Ticket
+      ticket_comment: Commento
+    attributes:
+      ticket:
+        subject: Soggetto
+        email: Email
+        regarding_user: Per quanto riguarda l'utente
+        regarding_account: Per quanto riguarda l'account
+        is_open: Stato
+      ticket_comment:
+        body: Descrizione
+        private: privato
+  simple_form:
+    labels:
+      ticket:
+        email: Email
+        comments:
+          body: Descrizione
+    options:
+      ticket:
+        is_open:
+          'true': Aperto
+          'false': Chiuso
+    hints:
+      ticket:
+        email: Fornire un indirizzo email affinché ti sia inviata notifica quando questo ticket sarà aggiornato.

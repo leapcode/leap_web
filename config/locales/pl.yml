@@ -45,10 +45,12 @@ pl:
   overview: Przegląd
   home: Home
   welcome: Witamy w %{provider}.
+  welcome_message_html: Zapewniamy bezpieczne usługi komunikacyjne, wliczając VPN oraz Email, pracujemy  nad wiekszą ilością usług.
   download_bitmask: Pobierz Bitmask
   login_info: Zaloguj się, aby zmienić ustawienia Twojego konta, utwórz bilety wsparcia i zarządzaj płatnościami.
   signup_info: Utwórz nowe konto. Dla większego bezpieczeństwa, zalecamy, abyś utworzył swoje konto używając Bitmask.
   support_info: Nie możesz się zalogować? Utwórz nowy bilecik wsparcia anonimowo.
+  get_help: Uzyskaj pomoc
   messages:
     not_found: Nie można było znaleźć tej wiadomości.
     marked_as_read: Wiadomość została oznaczona jako przeczytana.
@@ -61,6 +63,8 @@ pl:
   account_settings: Ustawienia Konta
   username: Użytkownik
   password: Hasło
+  password_confirmation: Potwierdzenie hasła
+  invite_code: Kod zaproszeniowy
   change_password: Zmień hasło
   invalid_user_pass: Nieprawidłowa nazwa użytkownika lub hasło.
   invalid_ephemeral: Użyto nieprawidłowego klucza losowego. Wygląda to tak jakby ktoś próbować włamać się na naszą stronę. Jeśli nie, to skontaktuj się z obsługą.
@@ -92,6 +96,7 @@ pl:
   payment_one_month_warning: Mamy nadzieję, że jesteś zadowolony z naszej usługi w zeszłym miesiącu. Zaloguj się, aby zapłacić w ciągu najbliższego miesiąca, przez %{date_in_one_month}. Wskazówki dotyczące płatności dostępne są w INSERT_URL
   bye: Do widzenia!
   bye_message: Na razie i dzięki za wizytę.
+  contact_email: Kontakt email
   users:
     overview:
       welcome: Witamy %{username}.
@@ -104,6 +109,7 @@ pl:
       user:
         one: Użytkownik
         few: '%{count} Użytkowników'
+        many: '%{count} Użytkowników'
         other: '%{count} Użytkowników'
   subscribe: Subskrybuj
   save_customer_info: Zapisz informacje kupcy
@@ -161,6 +167,8 @@ pl:
       ticket:
         subject: Temat
         email: Email
+        regarding_user: O użytkowniku
+        regarding_account: O koncie
         is_open: Status
       ticket_comment:
         body: Opis

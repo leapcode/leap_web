@@ -2,7 +2,7 @@ es:
   errors:
     title:
       not_found: Página no encontrada.
-      server_error: ¡Ouch!
+      server_error: ¡Auch!
     subtitle:
       not_found: La página que estaba buscando no existe.
       server_error: Nos topamos con un error de servidor.
@@ -23,8 +23,6 @@ es:
   pricing: Tarifas
   about: Sobre nosotros
   contact: Contacto
-  donations: "Donaciones"
-  subscriptions: "Subscripciones"
   signup: Registrarse
   login: Iniciar sesión
   logout: Cerrar sesión
@@ -47,7 +45,7 @@ es:
   overview: Panorama
   home: Página principal
   welcome: Bienvenido a %{provider}.
-  welcome_message_html: Proporcionamos servicios de comunicación seguros, incluyendo VPN y correo electrónico, con más servicios en camino.
+  welcome_message_html: Proporcionamos servicios de comunicación segura, incluyendo VPN y correo electrónico, con más servicios en camino.
   download_bitmask: Descargar Bitmask
   login_info: Inicie sesión para cambiar la configuración de su cuenta, crear instancias de soporte, y gestionar los pagos.
   signup_info: Cree una nueva cuenta de usuario. Para mayor seguridad, le recomendamos que cree su cuenta a través de la aplicación Bitmask, en lugar de la web.
@@ -65,15 +63,17 @@ es:
   account_settings: Configuración de cuenta
   username: Nombre de usuario
   password: Contraseña
+  password_confirmation: Confirmación de contraseña
+  invite_code: Código de invitación
   change_password: Cambiar contraseña
   invalid_user_pass: No es una combinación válida de nombre-de-usuario/contraseña
-  invalid_ephemeral: Clave aleatoria usada no válida. A nosotros nos parece un intento de hackerar el sitio. Si no lo fuera, por favor contacte con el soporte para que podamos examinar el asunto.
+  invalid_ephemeral: Clave aleatoria usada no válida. Nos parece como un intento de hackear el sitio. Si no lo fuera, por favor contacte con el soporte para que podamos examinar el asunto.
   all_strategies_failed: Su intento de inicio de sesión no pudo entenderse. Por favor envíe primero su nombre de usuario y el valor efímero A de SRP (protocolo de constraseña remota segura), y luego envíe el valor client_auth en la misma sesión (usando cookies).
   update_login_and_password: Actualizar nombre de usuario y contraseña
-  destroy_my_account: Destruir mi cuenta
-  destroy_account_info: Esto destruírá permanentemente su cuenta y todos los datos asociados con ella. ¡Proceda con cuidado!
-  admin_destroy_account: Destruir la cuenta %{username}
-  account_destroyed: La cuenta ha sido destruida con éxito.
+  destroy_my_account: Eliminar mi cuenta
+  destroy_account_info: Esto eliminará permanentemente su cuenta y todos los datos asociados con ella. ¡Proceda con cuidado!
+  admin_destroy_account: Eliminar la cuenta %{username}
+  account_destroyed: La cuenta ha sido eliminada con éxito.
   set_email_address: Configurar dirección de correo electrónico
   forward_email: Dirección de reenvío
   email_aliases: Alias de correo electrónico
@@ -88,38 +88,30 @@ es:
   not_authorized_login: Por favor inicie sesión para realizar esta acción.
   search: Buscar
   cookie_disabled_warning: Tiene las cookies deshabilitadas. No podrá iniciar sesión hasta que habilite las cookies.
-  js_required_html: Lo sentimos, pero esto no funciona sin javascript habilitado. Esto es a causa del sistema de autentificación usado, <a href='http://srp.stanford.edu/'>SRP</a>, requiere javascript.
+  js_required_html: Lo sentimos, pero esto no funciona sin javascript habilitado. Esto es a causa del sistema de autentificación usado, <a href='http://srp.stanford.edu/'>SRP</a>, que requiere javascript.
   enable_account: Habilitar la cuenta %{username}
   enable_description: Esto devolverá a la cuenta la funcionalidad completa.
   deactivate_account: Desactivar la cuenta %{username}
   deactivate_description: Esto desactivará temporalmente alguna funcionalidad de la cuenta.
   payment_one_month_warning: Esperamos que haya disfrutado de este servicio durante el  mes pasado. Por favor regístrese para el pago durante el mes siguiente, antes del %{date_in_one_month}. Las direcciones para el pago están disponibles en INSERT_URL
   bye: ¡Adiós!
-  bye_message: '''Hasta luego, y gracias por todo el pescado''.'
+  bye_message: Hasta luego, y gracias por el pescado.
   contact_email: Correo de contacto
   contact_email_info: 'Puede especificar una dirección de correo electrónico donde podamos contactar con usted si hay un problema con su cuenta. Por razones de privacidad, podría preferir dejar esto vacío.
 
     '
   users:
     overview:
-      welcome: Bienvenido %{username}.
+      welcome: Bienvenido/a %{username}.
       intro: 'Desde este panel de control del usuario, puede:'
       tickets: Crear y comprobar instancias de soporte.
       email: Modificar configuración de correo electrónico.
-      account: Destruir su cuenta.
+      account: Eliminar su cuenta.
   activemodel:
     models:
       user:
         one: Usuario
         other: '%{count} usuarios'
-  actions:
-    toggle_user: "Activar / Desactivar Usuario"
-    enable_user: "Activar Usuario"
-    disable_user: "Desactivar Usuario"
-    confirm_user_deactivation: "Estás seguro que quieres desactivar al usuario con nombre '%{username}'?"
-    confirm_user_activation: "Estás seguro que quieres activar al usuario con nombre '%{username}'?"
-    user_disabled_message: "Usuario con nombre '%{username}' ha sido desactivado."
-    user_enabled_message: "Usuario con nombre '%{username}' ha sido activado."
   create_new_customer: Crear un nuevo Cliente de Braintree
   must_create_customer: Tiene que almacenar un cliente en Braintree antes de suscribirse a un plan
   subscribe: Suscribirse
@@ -130,11 +122,6 @@ es:
   description: Descripción
   cost: Coste
   free: Gratuito
-  new_donation: "Nueva Donación"
-  donation_info: "Por favor, llena los detalles de tu donación (esta no será cargada a tu cuenta, si tienes una):"
-  donation_amount: "Ingrese el monto"
-  donate: "Donar"
-  personal_info: "Por favor, ingresa tu información personal"
   support_tickets: Soporte
   email_notice_text: Ha sido añadido un nuevo comentario a esta instancia de ayuda.
   email_no_reply_text: No responda a este correo.
@@ -161,7 +148,7 @@ es:
       close: Cerrar
     confirm:
       destroy:
-        are_you_sure: ¿Está seguro de que quiere destruir esta instancia?
+        are_you_sure: ¿Está seguro de que quiere eliminar esta instancia?
     tabs:
       all: Todas las instancias
       open: Instancias abiertas
@@ -169,10 +156,10 @@ es:
     index:
       none: No se han encontrado instancias
       voices: Voces
-    destroy: Destruir
+    destroy: Eliminar
     post_reply: Publicar respuesta
     reply_and_close: Responder y cerrar
-    access_ticket_text: 'Puede acceder más tarde a esta instancia en la URL %{full_url}. Puede que quiera añadir un marcador a esta página para encontrarla de nuevo. Tenga en cuenta que cualquiera con esta URL podrá acceder a esa instancia, así que si está en una computadora compartida puede que esto no sea buena idea y que además quiera eliminarla del historial del navegador.
+    access_ticket_text: 'Puede acceder más tarde a esta instancia en la URL %{full_url}. Puede que quiera añadir esta página a marcadores para poder encontrarla de nuevo. Tenga en cuenta que cualquiera con esta URL podrá acceder a esa instancia, así que si está en una computadora compartida puede que esto no sea buena idea y que además quiera eliminarla del historial del navegador.
 
       '
   helpers:
@@ -183,7 +170,7 @@ es:
   couchrest:
     models:
       ticket: Instancia
-      ticket_comment: Comentario
+      ticket_comment: Comentar
     attributes:
       ticket:
         subject: Asunto
@@ -208,28 +195,3 @@ es:
     hints:
       ticket:
         email: Proporcione una dirección de correo electrónico para que se le notifique cuando se actualice esta instancia.
-
-#Payment (except for some donation, which is in user, mostly)
-#donations
-  donation_sucess: "¡Felicitaciones! Tu donación ha sido exitosa"
-  donation_not_sucess: "Algo malo sucedió al procesar tu donación. Por favor, intenta de nuevo"
-#subscriptions
-  subscription_sucess: "¡Felicitaciones! Ahora estás suscrito"
-  subscription_not_sucess: "Algo malo sucedió al procesar tu subscripción. Por favor, intenta de nuevo"
-  unsubscription_sucess: "Tu subscripción ha sido cancelada"
-  unsubscription_not_sucess: "Algo malo sucedió. Por favor, intenta de nuevo"
-  subscriptions: "Subscripciones"
-  lastestsubs: "Últimas Subscripciones:"
-  date: "Fecha"
-  unsubscribe_from: "Cancelar la subscrición a"
-  no_subs: "Ninguna Sucripción"
-  choose_subs: "Elige una Subscripción:"
-  choose_button: "Elegir"
-  new_subs: "Nueva Subscripción"
-  #common
-  first_name: "Nombre"
-  last_name: "Apellido"
-  company: "Compañía"
-  phone: "Teléfono"
-  personal_info: "Por favor, ingresa tu información personal:"
-  pay_details: "Por favor, ingresa tus detalles de pago"

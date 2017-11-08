@@ -23,7 +23,6 @@ pt:
   pricing: Preço
   about: Sobre Nós
   contact: Contato
-  donations: Doações
   signup: Cadastrar
   login: Entrar
   logout: Sair
@@ -46,10 +45,12 @@ pt:
   overview: Resumo
   home: Início
   welcome: Seja bem vindo ao %{provider}.
+  welcome_message_html: Nós fornecemos serviços seguros de comunicação, incluindo VPN e Email, contendo mais serviços em produção.
   download_bitmask: Baixar Bitmask
   login_info: Logue-se para mudar as configurações da sua conta, criar tíquete de suporte e gerenciar pagamentos.
   signup_info: Crie uma nova conta de usuário. Para maior segurança, recomendamos que você crie sua conta através do aplicativo Bitmask.
   support_info: Não consegue logar-se? Crie um novo tíquete de suporte anonimamente.
+  get_help: Obter Ajuda
   messages:
     not_found: A mensagem não pode ser encontrada.
     marked_as_read: Mensagem foi marcada como lida.
@@ -62,6 +63,7 @@ pt:
   account_settings: Configurações de Conta
   username: Nome de usuário
   password: Senha
+  invite_code: Código de convite
   change_password: Trocar Senha
   invalid_user_pass: Não é uma combinação válidade de usuário/senha
   invalid_ephemeral: Foi utilizada uma chave aleatória inválida. Isto pareceu para nós uma tentativa de hackear o site. Se não foi, por favor entre em contato com o suporte para que possamos verificar a questão.
@@ -172,6 +174,8 @@ pt:
       ticket:
         subject: Assunto
         email: Email
+        regarding_user: A Respeito do Usuário
+        regarding_account: A Respeito da Conta
         is_open: Estado
       ticket_comment:
         body: Descrição

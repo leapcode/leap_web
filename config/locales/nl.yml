@@ -45,10 +45,12 @@ nl:
   overview: Overzicht
   home: Home
   welcome: Welkom bij %{provider}.
+  welcome_message_html: Wij leveren beveiligde communicatie services, VPN en email inbegrepen, met meer services in de maak.
   download_bitmask: Download Bitmask
   login_info: Log in om je accountinstellingen te veranderen, support tickets te maken en betalingen te beheren.
   signup_info: Maak een nieuwe gebruikersaccount aan. Voor betere veiligheid raden we aan een account aan te maken via de Bitmask applicatie.
   support_info: Je kan niet inloggen? Maak een nieuw support ticket anoniem aan.
+  get_help: Krijg Hulp
   messages:
     not_found: Dat bericht kon niet worden gevonden.
     marked_as_read: Bericht werd gemarkeerd als gelezen.
@@ -61,9 +63,12 @@ nl:
   account_settings: Account instellingen
   username: Gebruikersnaam
   password: Wachtwoord
+  password_confirmation: Wachtwoord bevestiging
+  invite_code: Uitnodigingscode
   change_password: Wachtwoord veranderen
   invalid_user_pass: Geen geldige gebruikersnaam/wachtwoord combinatie
-  invalid_ephemeral: Ongeldige willekeurige sleutel gebruikt. Dit lijkt als een poging om de site te hacken. Als dit niet zo is, contacteer support zodat we het probleem kunnen inkijken.
+  invalid_ephemeral: Ongeldige willekeurige sleutel gebruikt. Dit lijkt als een poging om de site te hacken. Als dit niet zo is, contacteer support zodat we het probleem kunnen bekijken.
+  all_strategies_failed: Kon je inlogpoging niet begrijpen. Zend eerst je login en een kortstondig SRP waarde A en stuur de client_auth in dezelfde sessie (gebruik coockies).
   update_login_and_password: Login en wachtwoord updaten
   destroy_my_account: Mijn account vernietigen
   destroy_account_info: Dit zal je account permanent vernietigen en alle data geassocieerd met het account. Ga voorzichtig verder!
@@ -88,8 +93,13 @@ nl:
   enable_description: Dit zal het account herstellen naar zijn volle functionaliteit
   deactivate_account: Deactiveer account %{username}
   deactivate_description: Dit zal tijdelijk sommige account functionaliteiten deactiveren.
+  payment_one_month_warning: We hopen dat je genoten hebt van de service deze maand. Meld je aan om binnen een maand te betalen %{date_in_one_month}. Stappenplan voor betalingen zijn beschikbaar in INSERT_URL
   bye: Tot ziens!
   bye_message: Tot ziens en bedankt voor alle vis.
+  contact_email: Emailcontact
+  contact_email_info: 'U mag een emailadres achterlaten zodat we contact op kunnen nemen wanneer een probleem zich voordoet. Voor privacy redenen zou je dit leeg kunnen laten.
+
+    '
   users:
     overview:
       welcome: Welkom %{username}.
@@ -102,39 +112,86 @@ nl:
       user:
         one: Gebruiker
         other: '%{count} gebruikers'
+  create_new_customer: Maak een nieuwe Brainee klant
   must_create_customer: Je moet een klant bewaren in braintree voor je een abonnement kan kiezen.
   subscribe: Abonneren
+  save_customer_info: Bewaar Klantgegevens
+  donation_not_payment: 'Notitie: Dit is een donatie, en zal niet worden toegevoegd aan je account'
+  no_relevant_subscription: Geen abonnee die Actief, Afwachtend of Verlopen is.
   plan: Abonnementstype
   description: Omschrijving
   cost: Prijs
   free: Gratis
+  support_tickets: Support
+  email_notice_text: Een nieuwe reactie is toegevoegd om dit ticket te maken.
+  email_no_reply_text: Reageer niet op deze email.
   layouts:
     tickets: Tickets
     title:
       tickets: Tickets
     header:
       tickets: Tickets
+    navigation:
+      tickets: Support Tickets
   tickets:
+    all: Alle Tickets
+    open: Open Tickets
+    closed: Gesloten Tickets
+    new: Nieuwe Ticket
+    created: Gemaakt op
+    updated: Geupdate op
     status:
       open: Open
       closed: Gesloten
     action:
       open: Openen
       close: Sluiten
+    confirm:
+      destroy:
+        are_you_sure: Weet je zeker dat je deze ticket wilt vernietigen?
     tabs:
       all: Alle tickets
+      open: Open Tickets
+      closed: Gesloten Tickets
+    index:
+      none: Geen tickets gevonden.
+      voices: Stemmen
+    destroy: Vernietig
     post_reply: Beantwoorden
     reply_and_close: Beantwoorden en sluiten
+    access_ticket_text: 'U krijgt toegang naar de ticket via URL %{full_url}. U wilt deze pagina misschien bladwijzeren zodat u deze makkelijk terug vindt. Iedereen met deze URL heeft toegang tot de ticket, dus wanneer je een gedeelde computer bezit wilt u misschien uw webgeschiedenis verwijderen.
+
+      '
+  helpers:
+    submit:
+      ticket:
+        create: Ticket insturen
+        update: Ticket bijwerken
   couchrest:
+    models:
+      ticket: Ticket
+      ticket_comment: Reactie
     attributes:
       ticket:
+        subject: Onderwerp
         email: E-mail
+        regarding_user: Met betrekking tot gebruiker
+        regarding_account: Met betrekking tot Account
         is_open: Status
+      ticket_comment:
+        body: Omschrijving
+        private: prive
   simple_form:
     labels:
       ticket:
         email: E-mail
+        comments:
+          body: Omschrijving
     options:
       ticket:
         is_open:
           'true': Open
+          'false': Gesloten
+    hints:
+      ticket:
+        email: Vul een emailadres in zodat we kunnen melden wanneer je ticket is geupdate
