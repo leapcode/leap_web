@@ -31,6 +31,12 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def update
+    @user.update_attributes user_params
+    flash[:notice] = I18n.t(:changes_saved) if @user.valid?
+    respond_with @user, location: edit_user_path(@user)
+  end
+
   def deactivate
     @user.account.disable
     flash[:notice] = I18n.t("actions.user_disabled_message", username: @user.username)
@@ -62,7 +68,7 @@ class UsersController < ApplicationController
     if admin?
       params.require(:user).permit(:effective_service_level)
     else
-      params.require(:user).permit(:password, :password_confirmation)
+      params.require(:user).permit(:contact_email)
     end
   end
 
