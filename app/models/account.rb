@@ -65,9 +65,6 @@ class Account
     if attrs[:recovery_code_verifier].present?
       user.update_attributes attrs.slice(:recovery_code_verifier, :recovery_code_salt)
     end
-    # TODO: move into identity controller
-    key = update_pgp_key(attrs[:public_key])
-    user.errors.set :public_key, key.errors.full_messages
     user.save && save_identities
     user.refresh_identity
   end
@@ -127,15 +124,6 @@ class Account
     user.login = login
     @new_identity = Identity.for(user) # based on the new login
     @old_identity.destination = user.email_address # alias old -> new
-  end
-
-  def update_pgp_key(key)
-    PgpKey.new(key).tap do |key|
-      if key.present? && key.valid?
-        @new_identity ||= Identity.for(user)
-        @new_identity.set_key(:pgp, key)
-      end
-    end
   end
 
   def save_identities

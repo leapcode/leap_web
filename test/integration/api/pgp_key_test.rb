@@ -14,16 +14,16 @@ class PgpKeyTest < SrpTest
     assert_equal key, Identity.for(@user).keys[:pgp]
   end
 
-  # eventually probably want to remove most of this into a non-integration
-  # functional test
   test "prevent uploading invalid key" do
     update_user public_key: "invalid key"
+    assert_invalid_key_response
     assert_nil Identity.for(@user).keys[:pgp]
   end
 
   test "prevent emptying public key" do
     update_user public_key: key
     update_user public_key: ""
+    assert_invalid_key_response
     assert_equal key, Identity.for(@user).keys[:pgp]
   end
 
@@ -31,5 +31,10 @@ class PgpKeyTest < SrpTest
 
   def key
     @key ||= FactoryGirl.build :pgp_key
+  end
+
+  def assert_invalid_key_response
+    assert_response :unprocessable_entity
+    assert_json_error "public_key_block"=>["does not look like an armored pgp public key block"]
   end
 end
