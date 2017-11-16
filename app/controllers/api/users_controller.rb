@@ -34,14 +34,6 @@ module Api
       end
     end
 
-    def user_response
-      @user.to_hash.tap do |user_hash|
-        if @user == current_user
-          user_hash['is_admin'] = @user.is_admin?
-        end
-      end
-    end
-
     def create
       if current_user.is_monitor?
         create_test_account
@@ -53,8 +45,14 @@ module Api
     end
 
     def update
-      @user.account.update user_update_params
-      respond_with @user
+      if user_update_params.present?
+        @user.account.update user_update_params
+        respond_with @user
+      else
+        # TODO: move into identity controller
+        key = update_pgp_key(user_key_param[:public_key])
+        respond_with key
+      end
     end
 
     def destroy
@@ -67,13 +65,24 @@ module Api
 
     private
 
+    def user_response
+      @user.to_hash.tap do |user_hash|
+        if @user == current_user
+          user_hash['is_admin'] = @user.is_admin?
+        end
+      end
+    end
+
     def user_update_params
       params.require(:user).permit :login,
         :password_verifier,
         :password_salt,
         :recovery_code_verifier,
-        :recovery_code_salt,
-        :public_key
+        :recovery_code_salt
+    end
+
+    def user_key_param
+      params.require(:user).permit :public_key
     end
 
     def release_handles
@@ -99,5 +108,14 @@ module Api
       end
     end
 
+    def update_pgp_key(key)
+      PgpKey.new(key).tap do |key|
+        if key.valid?
+          identity = Identity.for(@user)
+          identity.set_key(:pgp, key)
+          identity.save
+        end
+      end
+    end
   end
 end
