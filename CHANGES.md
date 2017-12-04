@@ -1,3 +1,28 @@
+Version 0.9.3 - bugfixes
+------------------------
+
+* on invalid key upload respond with error and 422 response code
+* fix alternate email address dialogue
+* publish public key in webfinger
+* update translations from transifex
+* hand out config.json without auth
+* sanity checks on user params
+* cleanup temp invites from server tests so they do not clutter admin ui
+
+Version 0.9.2 - bugfixes and invite code tweaks
+-----------------------------------------------
+
+Features:
+
+* destroy invites used to create test accounts
+* sort invite codes by last update
+
+Bugfix release for 0.9:
+
+* pin to the newest psych gem
+* remove better_errors gem
+* fix login error message with non en locales
+
 version 0.9.1 - bugfixes
 ------------------------
 
