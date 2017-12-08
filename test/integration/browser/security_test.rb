@@ -10,7 +10,7 @@ class SecurityTest < BrowserIntegrationTest
   test "detects attempt to circumvent SRP" do
     InviteCodeValidator.any_instance.stubs(:validate)
 
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     visit '/login'
     fill_in 'Username', with: user.login
     fill_in 'Password', with: "password"

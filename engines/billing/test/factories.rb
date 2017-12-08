@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   TEST_CC_NUMBER = %w(4111 1111 1111 1111).join
 

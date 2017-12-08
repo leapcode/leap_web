@@ -26,7 +26,7 @@ module StubRecordHelper
     if record_or_method_hash && !record_or_method_hash.is_a?(Hash)
       return record_or_method_hash
     end
-    FactoryGirl.build_stubbed(factory).tap do |record|
+    FactoryBot.build_stubbed(factory).tap do |record|
       if persisted or record.persisted?
         record_or_method_hash.reverse_merge! :created_at => Time.now,
           :updated_at => Time.now, :id => Random.rand(100000).to_s
@@ -38,7 +38,7 @@ module StubRecordHelper
   # returns deep stringified attributes so they can be compared to
   # what the controller receives as params
   def record_attributes_for(factory, attribs_hash = nil)
-    FactoryGirl.attributes_for(factory, attribs_hash).tap do |attribs|
+    FactoryBot.attributes_for(factory, attribs_hash).tap do |attribs|
       attribs.keys.each do |key|
         val = attribs.delete(key)
         attribs[key.to_s] = val.is_a?(Hash) ? val.stringify_keys! : val

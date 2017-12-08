@@ -58,7 +58,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test "error on invalid username" do
     with_config invite_required: false do
-      attributes = FactoryGirl.attributes_for :user, login: "a"
+      attributes = user_attributes login: "a"
       @user = Account.create attributes
       assert !@user.valid?
       assert_has_errors @user, login: "Must have at least two characters"
@@ -155,7 +155,8 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   test "Invite code stays zero when invite code is not used" do
-    invalid_user = FactoryGirl.build(:user, :invite_code => @testcode.invite_code)
+    invalid_user = FactoryBot.build :user,
+      :invite_code => @testcode.invite_code
     invalid_user.save
     user_code = InviteCode.find_by_invite_code invalid_user.invite_code
     user_code.save
@@ -206,7 +207,7 @@ class AccountTest < ActiveSupport::TestCase
   end
 
   def user_attributes(attrs = {})
-    FactoryGirl.attributes_for :user, attrs
+    FactoryBot.attributes_for :user, attrs
   end
 
 end

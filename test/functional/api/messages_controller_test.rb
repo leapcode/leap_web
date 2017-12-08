@@ -2,17 +2,12 @@ require 'test_helper'
 
 class Api::MessagesControllerTest < ApiControllerTest
 
-  setup do
-    @user = FactoryGirl.build(:user)
-    @user.save
-  end
-
   # NOTE: the available languages for test are :en and :de
   # so :es will result in english response.
 
   test "get the motd" do
     with_config("customization_directory" => Rails.root+'test/files') do
-      login @user
+      login
       api_get :index, :locale => 'es'
       body = JSON.parse(response.body)
       message1 = "<p>\"This\" is a <strong>very</strong> fine message. <a href=\"https://bitmask.net\">https://bitmask.net</a></p>\n"
@@ -23,7 +18,7 @@ class Api::MessagesControllerTest < ApiControllerTest
 
   test "get localized motd" do
     with_config("customization_directory" => Rails.root+'test/files') do
-      login @user
+      login
       api_get :index, :locale => 'de'
       body = JSON.parse(response.body)
       message1 = "<p>Dies ist eine sehr feine Nachricht. <a href=\"https://bitmask.net\">https://bitmask.net</a></p>\n"
@@ -32,7 +27,7 @@ class Api::MessagesControllerTest < ApiControllerTest
   end
 
   test "get empty motd" do
-    login @user
+    login
     api_get :index
     assert_equal "[]", response.body, "motd response should be empty if no motd directory exists"
   end
@@ -44,7 +39,7 @@ class Api::MessagesControllerTest < ApiControllerTest
 =begin
   setup do
     InviteCodeValidator.any_instance.stubs(:validate)
-    @user = FactoryGirl.build(:user)
+    @user = FactoryBot.build(:user)
     @user.save
     @message = Message.new(:text => 'a test message')
     @message.user_ids_to_show << @user.id

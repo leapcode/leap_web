@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :ticket do
     subject { Faker::Lorem.sentence }
@@ -14,7 +14,7 @@ FactoryGirl.define do
     end
 
     factory :ticket_with_creator do
-      created_by { FactoryGirl.create(:user).id }
+      created_by { FactoryBot.create(:user).id }
     end
 
   end

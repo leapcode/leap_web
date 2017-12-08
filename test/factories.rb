@@ -3,7 +3,7 @@ Dir.glob(ENGINE_FACTORY_FILES) do |factory_file|
   require factory_file
 end
 
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :user do
     # Faker::Internet.user_name alone was sometimes

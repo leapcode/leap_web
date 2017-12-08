@@ -30,7 +30,7 @@ class PgpKeyTest < SrpTest
   protected
 
   def key
-    @key ||= FactoryGirl.build :pgp_key
+    @key ||= FactoryBot.build :pgp_key
   end
 
   def assert_invalid_key_response

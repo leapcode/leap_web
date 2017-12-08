@@ -66,7 +66,7 @@ group :test do
   gem 'minitest-stub-const' # why?
 
   # generating test data
-  gem 'factory_girl_rails'  # test data factories
+  gem 'factory_bot_rails'   # test data factories
   gem 'faker'               # names and numbers for test data
   gem 'psych', '~> 2.2.4'   # needed by faker
 

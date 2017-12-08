@@ -6,7 +6,7 @@ class SubscriptionTest < BraintreeIntegrationTest
   include StubRecordHelper
 
   setup do
-    @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
+    @admin = User.find_by_login('admin') || FactoryBot.create(:user, login: 'admin')
     @customer = stub_customer
     @braintree_customer = @customer.braintree_customer
     response = Braintree::Subscription.create plan_id: '5',

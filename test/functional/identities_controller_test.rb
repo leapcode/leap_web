@@ -1,4 +1,4 @@
-require_relative '../test_helper'
+require 'test_helper'
 
 class IdentitiesControllerTest < ActionController::TestCase
 
@@ -26,7 +26,7 @@ class IdentitiesControllerTest < ActionController::TestCase
 
   test "admin can unblock username" do
     # an identity without user_id and destination is a blocked handle
-    identity = FactoryGirl.create :identity
+    identity = create_identity
     login :is_admin? => true
     delete :destroy, id: identity.id
     assert_response :redirect
@@ -34,13 +34,19 @@ class IdentitiesControllerTest < ActionController::TestCase
   end
 
   test "admin cannot remove main identity" do
-    user = FactoryGirl.create :user
-    identity = FactoryGirl.create :identity,
-      Identity.attributes_from_user(user)
+    user = create_user
+    identity = create_identity Identity.attributes_from_user(user)
     login :is_admin? => true
     delete :destroy, id: identity.id
     assert_response :redirect
     assert_equal identity, Identity.find(identity.id)
   end
 
+  def create_identity(attrs={})
+    FactoryBot.create :identity, attrs
+  end
+
+  def create_user
+    FactoryBot.create :user
+  end
 end

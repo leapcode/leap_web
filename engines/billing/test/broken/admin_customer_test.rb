@@ -4,8 +4,8 @@ require 'fake_braintree'
 class AdminCustomerTest < BraintreeIntegrationTest
 
   setup do
-    @admin = User.find_by_login('admin') || FactoryGirl.create(:user, login: 'admin')
-    @user = FactoryGirl.create(:user)
+    @admin = User.find_by_login('admin') || FactoryBot.create(:user, login: 'admin')
+    @user = FactoryBot.create(:user)
   end
 
   teardown do

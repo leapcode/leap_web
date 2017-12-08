@@ -34,7 +34,9 @@ class CreateTicketTest < BrowserIntegrationTest
   end
 
   test "prefills fields" do
-    login FactoryGirl.create(:premium_user, :invite_code => @testcode.invite_code)
+    user = FactoryBot.create :premium_user,
+      :invite_code => @testcode.invite_code
+    login user
     visit '/'
     click_on "Support Tickets"
     click_on "New Ticket"
@@ -53,7 +55,9 @@ class CreateTicketTest < BrowserIntegrationTest
   end
 
   test "cleared email field should remain clear" do
-    login FactoryGirl.create(:premium_user, :invite_code => @testcode.invite_code)
+    user = FactoryBot.create :premium_user,
+      :invite_code => @testcode.invite_code
+    login user
     visit '/'
     click_on "Support Tickets"
     click_on "New Ticket"

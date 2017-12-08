@@ -137,7 +137,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "close ticket" do
     login
-    open_ticket = FactoryGirl.create :ticket_with_comment,
+    open_ticket = FactoryBot.create :ticket_with_comment,
       created_by: @current_user.id
     post :close, id: open_ticket.id
     assert !open_ticket.reload.is_open
@@ -145,7 +145,7 @@ class TicketsControllerTest < ActionController::TestCase
 
   test "reopen ticket" do
     login
-    open_ticket = FactoryGirl.create :ticket_with_comment,
+    open_ticket = FactoryBot.create :ticket_with_comment,
       created_by: @current_user.id, is_open: false
     post :open, id: open_ticket.id
     assert open_ticket.reload.is_open

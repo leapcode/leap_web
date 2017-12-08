@@ -49,7 +49,7 @@ class BrowserIntegrationTest < RackStackTest
   # ApiIntegrationTest has a working implementation for RackTest
   def login(user = nil)
     InviteCodeValidator.any_instance.stubs(:validate)
-    @user ||= user ||= FactoryGirl.create(:user)
+    @user ||= user ||= FactoryBot.create(:user)
     token = Token.create user_id: user.id
     page.driver.add_header "Authorization", %Q(Token token="#{token}")
     visit '/'

@@ -4,7 +4,7 @@ require 'fake_braintree'
 class CustomerCreationTest < BraintreeIntegrationTest
 
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     login_as @user
   end
 
@@ -38,7 +38,7 @@ class CustomerCreationTest < BraintreeIntegrationTest
   # for a broken customer
   test "successfully confirms customer creation" do
     response = post_transparent_redirect :create_customer_data,
-      customer: FactoryGirl.attributes_for(:braintree_customer),
+      customer: FactoryBot.attributes_for(:braintree_customer),
       redirect_url: confirm_customer_url
 
     assert_difference("Customer.count") do
@@ -57,7 +57,7 @@ class CustomerCreationTest < BraintreeIntegrationTest
     FakeBraintree.decline_all_cards!
 
     response = post_transparent_redirect :create_customer_data,
-      customer: FactoryGirl.attributes_for(:broken_customer),
+      customer: FactoryBot.attributes_for(:broken_customer),
       redirect_url: confirm_customer_url
 
     assert FakeBraintree.decline_all_cards?

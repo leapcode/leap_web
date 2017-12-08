@@ -7,22 +7,22 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "ticket with default attribs is valid" do
-    t = FactoryGirl.build :ticket
+    t = build_ticket
     assert t.valid?, t.errors.full_messages.to_sentence
   end
 
   test "ticket without email is valid" do
-    t = FactoryGirl.build :ticket, email: ""
+    t = build_ticket email: ""
     assert t.valid?, t.errors.full_messages.to_sentence
   end
 
   test "ticket validates email format" do
-    t = FactoryGirl.build :ticket, email: "invalid email"
+    t = build_ticket email: "invalid email"
     assert !t.valid?
   end
 
   test "ticket open states" do
-    t = FactoryGirl.build :ticket
+    t = build_ticket
     assert t.is_open
     t.close
     assert !t.is_open
@@ -31,7 +31,7 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "creation validated" do
-    user = FactoryGirl.create :user
+    user = create_user
     @sample = Ticket.new
     assert !@sample.is_creator_validated?
     @sample.created_by = user.id
@@ -39,7 +39,7 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test "destroy all tickets from a user" do
-    t = FactoryGirl.create :ticket_with_creator
+    t = FactoryBot.create :ticket_with_creator
     u = t.created_by_user
     Ticket.destroy_all_from(u)
     assert_nil Ticket.find(t.id)
@@ -89,4 +89,13 @@ class TicketTest < ActiveSupport::TestCase
     assert_equal [], Ticket.by_includes_post_by.key('123').all;
   end
 
+  protected
+
+  def build_ticket(attrs = {})
+    FactoryBot.build :ticket, attrs
+  end
+
+  def create_user
+    FactoryBot.create :user
+  end
 end
