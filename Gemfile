@@ -5,7 +5,7 @@ require File.expand_path('../lib/gemfile_tools.rb', __FILE__)
 ## CORE
 # rake 11.x throws lots of warnings about rails 3.2 code
 gem "rake"
-gem "rails", "~> 4.2.7"
+gem "rails", "~> 4.2.10"
 # TODO: drop this and the respond_with usage
 gem 'responders', '~> 2.0'
 gem "couchrest", "~> 2.0.0.rc3"
@@ -75,7 +75,6 @@ group :test do
 
   # we use cucumber to document and test the api
   gem 'cucumber-rails', require: false
-  gem 'cucumber', '~> 2.4.0'  # version that still supports ruby 2.1
 end
 
 group :test, :development do
@@ -93,8 +92,7 @@ group :development do
 end
 
 group :test, :debug do
-  # bundler on jessie doesn't support `:platforms => :ruby_21`
-  gem 'byebug', '~> 9.0.6'
+  gem 'byebug'
 end
 
 ##
