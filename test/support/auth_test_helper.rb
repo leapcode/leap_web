@@ -53,9 +53,8 @@ module AuthTestHelper
   end
 
   def expect_warden_logout
-    raw = mock('raw session') do
-      expects(:inspect)
-    end
+    raw = mock('raw session')
+    raw.expects(:inspect)
     request.env['warden'].expects(:raw_session).returns(raw)
     request.env['warden'].expects(:logout)
   end
