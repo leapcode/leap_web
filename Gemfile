@@ -75,6 +75,7 @@ group :test do
 
   # we use cucumber to document and test the api
   gem 'cucumber-rails', require: false
+  gem 'cucumber', '~> 2.4.0'  # version that still supports ruby 2.1
 end
 
 group :test, :development do
@@ -93,7 +94,7 @@ end
 
 group :test, :debug do
   # bundler on jessie doesn't support `:platforms => :ruby_21`
-  gem 'byebug'
+  gem 'byebug', '~> 9.0.6'
 end
 
 ##
