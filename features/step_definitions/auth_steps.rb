@@ -1,7 +1,7 @@
 Given /^I authenticated$/ do
   @testcode = InviteCode.new
   @testcode.save!
-  @user = FactoryGirl.create(:user, :invite_code => @testcode.invite_code)
+  @user = FactoryBot.create(:user, :invite_code => @testcode.invite_code)
   @my_auth_token = Token.create user_id: @user.id
 end
 

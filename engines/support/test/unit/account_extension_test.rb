@@ -7,7 +7,7 @@ class AccountExtensionTest < ActiveSupport::TestCase
   end
 
   test "destroying an account triggers ticket destruction" do
-    t = FactoryGirl.create :ticket_with_creator
+    t = FactoryBot.create :ticket_with_creator
     u = t.created_by_user
     Account.new(u).destroy
     assert_nil Ticket.find(t.id)

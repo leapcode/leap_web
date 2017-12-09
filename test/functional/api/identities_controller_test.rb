@@ -4,7 +4,7 @@ class Api::IdentitiesControllerTest < ApiControllerTest
 
   test "api monitor can fetch identity" do
     monitor_auth do
-      identity = FactoryGirl.create :identity
+      identity = create_identity
       api_get :show, :id => identity.address, :format => 'json'
       assert_response :success
       assert_equal identity, assigns(:identity)
@@ -16,9 +16,12 @@ class Api::IdentitiesControllerTest < ApiControllerTest
 
 
   test "anonymous cannot fetch identity" do
-    identity = FactoryGirl.create :identity
+    identity = create_identity
     api_get :show, :id => identity.address, :format => 'json'
     assert_response :forbidden
   end
 
+  def create_identity
+    FactoryBot.create :identity
+  end
 end

@@ -22,7 +22,7 @@ class ApiIntegrationTest < ActionDispatch::IntegrationTest
     @testcode = InviteCode.new
     @testcode.save!
     options.reverse_merge! invite_code: @testcode.invite_code
-    FactoryGirl.create :user, options
+    FactoryBot.create :user, options
   end
 
   teardown do

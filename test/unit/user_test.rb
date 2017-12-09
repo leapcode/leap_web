@@ -5,7 +5,7 @@ class UserTest < ActiveSupport::TestCase
   include SRP::Util
   setup do
     InviteCodeValidator.any_instance.stubs(:validate)
-    @user = FactoryGirl.build(:user)
+    @user = FactoryBot.build(:user)
   end
 
   test "don't find a user with login nil" do
@@ -62,13 +62,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "login needs to be unique" do
-    other_user = FactoryGirl.create :user, login: @user.login
+    other_user = FactoryBot.create :user, login: @user.login
     assert !@user.valid?
     other_user.destroy
   end
 
   test "login needs to be unique amongst aliases" do
-    other_user = FactoryGirl.create :user
+    other_user = FactoryBot.create :user
     id = Identity.create_for other_user, address: @user.login
     assert !@user.valid?
     id.destroy

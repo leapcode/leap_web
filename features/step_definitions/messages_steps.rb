@@ -1,5 +1,5 @@
 Given /^there is a message for me$/ do
-  @message = FactoryGirl.create :message, user_ids_to_show: [@user.id]
+  @message = FactoryBot.create :message, user_ids_to_show: [@user.id]
 end
 
 Given /^there is a message for me with:$/ do |options|
@@ -8,7 +8,7 @@ Given /^there is a message for me with:$/ do |options|
   if old_message = Message.find(attributes['id'])
     old_message.destroy
   end
-  @message = FactoryGirl.create :message, attributes
+  @message = FactoryBot.create :message, attributes
 end
 
 Given(/^that message is marked as read$/) do

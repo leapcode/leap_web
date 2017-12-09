@@ -64,7 +64,7 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "Token.destroy_all_expired is noop if no expiry is set" do
-    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
+    expired = create_token last_seen_at: 2.hours.ago
     with_config auth: {} do
       Token.destroy_all_expired
     end
@@ -72,8 +72,8 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "Token.destroy_all_expired cleans up expired tokens only" do
-    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
-    fresh = FactoryGirl.create :token
+    expired = create_token last_seen_at: 2.hours.ago
+    fresh = create_token
     with_config auth: {token_expires_after: 60} do
       Token.destroy_all_expired
     end
@@ -83,7 +83,7 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "Token.destroy_all_expired does not interfere with expired.authenticate" do
-    expired = FactoryGirl.create :token, last_seen_at: 2.hours.ago
+    expired = create_token last_seen_at: 2.hours.ago
     with_config auth: {token_expires_after: 60} do
       Token.destroy_all_expired
     end
@@ -91,7 +91,7 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "active logout (destroy) prevents reuse" do
-    token = FactoryGirl.create :token
+    token = create_token
     same = Token.find(token.id)
     token.destroy
     assert_raises CouchRest::NotFound do
@@ -100,7 +100,7 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test "logout works on prolonged token" do
-    token = FactoryGirl.create :token
+    token = create_token
     same = Token.find(token.id)
     token.touch
     same.destroy
@@ -108,11 +108,14 @@ class TokenTest < ActiveSupport::TestCase
   end
 
   test 'second destroy carries on' do
-    token = FactoryGirl.create :token
+    token = create_token
     same = Token.find(token.id)
     token.destroy
     same.destroy
     assert_nil Token.find(same.id)
   end
 
+  def create_token(attrs = {})
+    FactoryBot.create :token, attrs
+  end
 end

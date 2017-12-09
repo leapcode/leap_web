@@ -66,7 +66,7 @@ group :test do
   gem 'minitest-stub-const' # why?
 
   # generating test data
-  gem 'factory_girl_rails'  # test data factories
+  gem 'factory_bot_rails'   # test data factories
   gem 'faker'               # names and numbers for test data
   gem 'psych', '~> 2.2.4'   # needed by faker
 
@@ -75,6 +75,7 @@ group :test do
 
   # we use cucumber to document and test the api
   gem 'cucumber-rails', require: false
+  gem 'cucumber', '~> 2.4.0'  # version that still supports ruby 2.1
 end
 
 group :test, :development do
@@ -93,7 +94,7 @@ end
 
 group :test, :debug do
   # bundler on jessie doesn't support `:platforms => :ruby_21`
-  gem 'byebug'
+  gem 'byebug', '~> 9.0.6'
 end
 
 ##

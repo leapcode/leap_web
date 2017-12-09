@@ -96,7 +96,7 @@ class Api::UsersControllerTest < ApiControllerTest
   end
 
   test "admin can show user" do
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
     login :is_admin? => true
     api_get :show, :id => 0, :login => user.login, :format => :json
     assert_response :success
@@ -109,7 +109,7 @@ class Api::UsersControllerTest < ApiControllerTest
   end
 
   test "admin can show is_admin property" do
-    admin = FactoryGirl.create :user
+    admin = FactoryBot.create :user
     with_config(admins: [admin.login]) do
       login admin
       api_get :show, :id => admin.id, :format => :json

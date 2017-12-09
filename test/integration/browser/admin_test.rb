@@ -21,7 +21,7 @@ class AdminTest < BrowserIntegrationTest
   end
 
   test "clear blocked handle" do
-    id = FactoryGirl.create :identity
+    id = FactoryBot.create :identity
     submit_signup(id.login)
     assert page.has_content?('has already been taken')
     login

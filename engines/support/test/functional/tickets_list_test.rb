@@ -12,7 +12,7 @@ class TicketsListTest < ActionController::TestCase
 
   test "tickets by admin" do
       other_user = find_record :user
-      ticket = FactoryGirl.create :ticket, :created_by => other_user.id
+      ticket = create_ticket :created_by => other_user.id
 
       login :is_admin? => true
 
@@ -29,7 +29,7 @@ class TicketsListTest < ActionController::TestCase
 
 
   test "admin_status mine vs all" do
-    testticket = FactoryGirl.create :ticket
+    testticket = create_ticket
     user = find_record :user
     login :is_admin? => true, :email => nil
 
@@ -40,8 +40,7 @@ class TicketsListTest < ActionController::TestCase
   end
 
   test "admin ticket ordering" do
-    tickets = FactoryGirl.create_list :ticket, 2
-
+    2.times { create_ticket }
     login :is_admin? => true, :email => nil
     get :index, {:admin_status => "all", :open_status => "open", :sort_order => 'created_at_desc'}
 
@@ -63,9 +62,9 @@ class TicketsListTest < ActionController::TestCase
 
   test "own tickets include tickets commented upon" do
     login
-    ticket = FactoryGirl.create :ticket
-    other_ticket = FactoryGirl.create :ticket
-    comment = FactoryGirl.build(:ticket_comment, posted_by: @current_user.id)
+    ticket = create_ticket
+    other_ticket = create_ticket
+    comment = FactoryBot.build :ticket_comment, posted_by: @current_user.id
     ticket.comments << comment
     ticket.save
 
@@ -77,20 +76,16 @@ class TicketsListTest < ActionController::TestCase
 
   test "list all tickets created by user" do
     login
-    ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
-    other_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
+    ticket = create_ticket_with_comment created_by: @current_user.id
+    other_ticket = create_ticket_with_comment created_by: @current_user.id
     get :index, {:open_status => "open"}
     assert_equal 2, assigns[:all_tickets].count
   end
 
   test "closing ticket removes from open tickets list" do
     login
-    ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
-    other_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
+    ticket = create_ticket_with_comment created_by: @current_user.id
+    other_ticket = create_ticket_with_comment created_by: @current_user.id
     other_ticket.reload
     other_ticket.close
     other_ticket.save
@@ -100,23 +95,29 @@ class TicketsListTest < ActionController::TestCase
 
   test "list closed tickets only" do
     login
-    open_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
-    closed_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id, is_open: false
+    open_ticket = create_ticket_with_comment created_by: @current_user.id
+    closed_ticket = create_ticket_with_comment created_by: @current_user.id,
+      is_open: false
     get :index, {:open_status => "closed"}
     assert_equal [closed_ticket], assigns(:all_tickets).all
   end
 
   test "list all tickets" do
     login
-    open_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id
-    closed_ticket = FactoryGirl.create :ticket_with_comment,
-      created_by: @current_user.id, is_open: false
+    open_ticket = create_ticket_with_comment created_by: @current_user.id
+    closed_ticket = create_ticket_with_comment created_by: @current_user.id,
+      is_open: false
     get :index, {:open_status => "all"}
     assert_equal 2, assigns(:all_tickets).count
     assert assigns(:all_tickets).include?(open_ticket)
     assert assigns(:all_tickets).include?(closed_ticket)
+  end
+
+  def create_ticket(attrs = {})
+    FactoryBot.create :ticket, attrs
+  end
+
+  def create_ticket_with_comment(attrs = {})
+    FactoryBot.create :ticket_with_comment, attrs
   end
 end

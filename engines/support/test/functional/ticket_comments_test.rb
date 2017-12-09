@@ -9,7 +9,7 @@ class TicketsCommentsTest < ActionController::TestCase
   end
 
   test "add comment to unauthenticated ticket" do
-    ticket = FactoryGirl.create :ticket, :created_by => nil
+    ticket = create_ticket :created_by => nil
 
     assert_difference('Ticket.find(ticket.id).comments.count') do
       put :update, :id => ticket.id,
@@ -25,7 +25,7 @@ class TicketsCommentsTest < ActionController::TestCase
   test "add comment to own authenticated ticket" do
 
     login
-    ticket = FactoryGirl.create :ticket, :created_by => @current_user.id
+    ticket = create_ticket :created_by => @current_user.id
 
     #they should be able to comment if it is their ticket:
     assert_difference('Ticket.find(ticket.id).comments.count') do
@@ -42,7 +42,7 @@ class TicketsCommentsTest < ActionController::TestCase
   test "cannot comment if it is another users ticket" do
     other_user = find_record :user
     login :is_admin? => false, :email => nil
-    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
+    ticket = create_ticket :created_by => other_user.id
     # they should *not* be able to comment if it is not their ticket
     put :update, :id => ticket.id, :ticket => {:comments_attributes => {"0" => {"body" =>"not allowed comment"}} }
     assert_response :redirect
@@ -53,8 +53,8 @@ class TicketsCommentsTest < ActionController::TestCase
 
   test "authenticated comment on an anonymous ticket adds to my tickets" do
     login
-    ticket = FactoryGirl.create :ticket
-    other_ticket = FactoryGirl.create :ticket
+    ticket = create_ticket
+    other_ticket = create_ticket
     put :update, :id => ticket.id,
       :ticket => {:comments_attributes => {"0" => {"body" =>"NEWER comment"}} }
     assert_not_nil assigns(:ticket).comments.last.posted_by
@@ -71,7 +71,7 @@ class TicketsCommentsTest < ActionController::TestCase
     admin = find_record :user, @current_user
     other_user = find_record :user
 
-    ticket = FactoryGirl.create :ticket, :created_by => other_user.id
+    ticket = create_ticket :created_by => other_user.id
 
     #admin should be able to comment:
     assert_difference('Ticket.find(ticket.id).comments.count') do
@@ -84,7 +84,7 @@ class TicketsCommentsTest < ActionController::TestCase
   end
 
   test "commenting on a ticket adds to tickets that are mine" do
-    testticket = FactoryGirl.create :ticket
+    testticket = create_ticket
     user = find_record :admin_user
     login user
     get :index, {:user_id => user.id, :open_status => "open"}
@@ -96,6 +96,10 @@ class TicketsCommentsTest < ActionController::TestCase
     assert assigns(:all_tickets).include?(assigns(:ticket))
     assert_not_nil assigns(:ticket).comments.last.posted_by
     assert_equal assigns(:ticket).comments.last.posted_by, @current_user.id
+  end
+
+  def create_ticket(attrs = {})
+    FactoryBot.create :ticket, attrs
   end
 
 end

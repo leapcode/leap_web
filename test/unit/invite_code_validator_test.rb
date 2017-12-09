@@ -3,14 +3,14 @@ require 'test_helper'
 class InviteCodeValidatorTest < ActiveSupport::TestCase
   test "user should not be created with invalid invite code" do
     with_config invite_required: true do
-      invalid_user = FactoryGirl.build(:user)
+      invalid_user = build_user
 
       assert !invalid_user.valid?
     end
   end
 
   test "user should be created with valid invite code" do
-    valid_user = FactoryGirl.build(:user)
+    valid_user = build_user
     valid_code = InviteCode.create
     valid_user.invite_code = valid_code.invite_code
 
@@ -19,7 +19,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
 
   test "trying to create a user with invalid invite code should add error" do
     with_config invite_required: true do
-    invalid_user = FactoryGirl.build(:user, :invite_code => "a non-existent code")
+    invalid_user = build_user :invite_code => "a non-existent code"
 
     invalid_user.valid?
 
@@ -36,7 +36,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
     user_code.invite_count = 1
     user_code.save
 
-    user = FactoryGirl.build :user
+    user = build_user
     user.invite_code = user_code.invite_code
 
     validator.validate(user)
@@ -51,7 +51,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
     user_code = InviteCode.create
     user_code.save
 
-    user = FactoryGirl.build :user
+    user = build_user
     user.invite_code = user_code.invite_code
 
     validator.validate(user)
@@ -64,7 +64,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
 
     user_code = InviteCode.create
 
-    user = FactoryGirl.build :user
+    user = build_user
     user.invite_code = user_code.invite_code
 
     validator.validate(user)
@@ -75,7 +75,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
   test "There is an error message if the invite code does not exist" do
     validator = InviteCodeValidator.new
 
-    user = FactoryGirl.build :user
+    user = build_user
     user.invite_code = "wrongcode"
 
     validator.validate(user)
@@ -83,4 +83,7 @@ class InviteCodeValidatorTest < ActiveSupport::TestCase
     assert_equal ["This is not a valid code"], user.errors[:invite_code]
   end
 
+  def build_user(attrs = {})
+    FactoryBot.build :user, attrs
+  end
 end
