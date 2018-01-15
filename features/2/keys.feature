@@ -3,7 +3,7 @@ Feature: Handle current users collection of keys
   LEAP currently uses OpenPGP and is working on implementing katzenpost.
   Both systems require public keys of a user to be available for retrival.
 
-  The /1/keys endpoint allows the client to manage the public keys
+  The /2/keys endpoint allows the client to manage the public keys
   registered for their users email address.
 
   You need to specify the type of the key when publishing it. Some
@@ -26,7 +26,7 @@ Feature: Handle current users collection of keys
       | Authorization | Token token="MY_AUTH_TOKEN" |
 
   Scenario: Get initial empty set of keys
-    When I send a GET request to "1/keys"
+    When I send a GET request to "2/keys"
     Then the response status should be "200"
     And the response should be:
     """
@@ -35,51 +35,59 @@ Feature: Handle current users collection of keys
 
   Scenario: Get all the keys
     Given I have published a "openpgp" key
-    And I have published "katzenpost_kink" keys
-    When I send a GET request to "1/keys"
+    And I have published "katzenpost_link" keys
+    When I send a GET request to "2/keys"
     Then the response status should be "200"
     And the response should be:
     """
     {
     "openpgp": {
       "type": "openpgp",
-      "value": "ASDF",
-      "rev": "1234567890"
+      "value": "DUMMY_KEY",
+      "rev": "DUMMY_REV"
       },
     "katzenpost_link": {
       "type": "katzenpost_link",
       "value": {
-        "one": "ASDF",
-        "two": "QWER"
+        "one": "DUMMY_KEY",
+        "two": "DUMMY_KEY"
       },
-      "rev": "1234567890"
+      "rev": "DUMMY_REV"
       }
     }
     """
 
   Scenario: Get a single key
     Given I have published a "openpgp" key
-    When I send a GET request to "1/keys/openpgp"
+    When I send a GET request to "2/keys/openpgp"
     Then the response status should be "200"
     And the response should be:
     """
-    "ASDF"
+    {
+      "type": "openpgp",
+      "value": "DUMMY_KEY",
+      "rev": "DUMMY_REV"
+    }
     """
 
   Scenario: Get a set of keys for one type
     Given I have published "katzenpost_link" keys
-    When I send a GET request to "1/keys/katzenpost_link"
+    When I send a GET request to "2/keys/katzenpost_link"
     Then the response status should be "200"
     And the response should be:
     """
       {
-        "one": "ASDF",
-        "two": "QWER"
+        "type": "katzenpost_link",
+        "value": {
+          "one": "DUMMY_KEY",
+          "two": "DUMMY_KEY"
+          },
+        "rev": "DUMMY_REV"
       }
     """
 
   Scenario: Publish an initial OpenPGP key
-    When I send a POST request to "1/keys" with the following:
+    When I send a POST request to "2/keys" with the following:
     """
       {
       "type": "openpgp",
@@ -87,10 +95,11 @@ Feature: Handle current users collection of keys
       }
     """
     Then the response status should be "204"
+    And I should have published a "openpgp" key
 
   Scenario: Do not overwrite an existing key
     Given I have published a "openpgp" key
-    When I send a POST request to "1/keys" with the following:
+    When I send a POST request to "2/keys" with the following:
     """
       {
       "type": "openpgp",
@@ -105,9 +114,22 @@ Feature: Handle current users collection of keys
       }
     """
 
+  Scenario: Updating an existing key
+    Given I have published a "openpgp" key
+    When I send a PATCH request to "2/keys/openpgp" with the following:
+    """
+      {
+      "type": "openpgp",
+      "value": "QWER",
+      "rev": "DUMMY_REV"
+      }
+    """
+    Then the response status should be "204"
+    And I should have published a "openpgp" key with value "QWER"
+
   Scenario: Updating an existing key require revision
     Given I have published a "openpgp" key
-    When I send a PATCH request to "1/keys/openpgp" with the following:
+    When I send a PATCH request to "2/keys/openpgp" with the following:
     """
       {
       "type": "openpgp",
@@ -118,24 +140,30 @@ Feature: Handle current users collection of keys
     And the response should be:
     """
       {
-      "error": "no revision specified"
+      "error": "param is missing or the value is empty: rev"
       }
     """
 
-  Scenario: Updating an existing key
-    Given I have published a "openpgp" key with revision "1234567890"
-    When I send a PATCH request to "1/keys/openpgp" with the following:
+  Scenario: Updating an existing key require right revision
+    Given I have published a "openpgp" key
+    When I send a PATCH request to "2/keys/openpgp" with the following:
     """
       {
       "type": "openpgp",
       "value": "QWER",
-      "rev": "1234567890"
+      "rev": "WRONG_REV"
       }
     """
-    Then the response status should be "204"
+    Then the response status should be "422"
+    And the response should be:
+    """
+      {
+      "error": "wrong revision: WRONG_REV"
+      }
+    """
 
   Scenario: Publishing an empty key fails
-    When I send a POST request to "1/keys" with the following:
+    When I send a POST request to "2/keys" with the following:
     """
       {}
     """
@@ -143,6 +171,6 @@ Feature: Handle current users collection of keys
     And the response should be:
     """
       {
-      "error": "key type missing"
+      "error": "param is missing or the value is empty: type"
       }
     """
