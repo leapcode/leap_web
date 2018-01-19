@@ -21,6 +21,13 @@ class KeyringTest < ActiveSupport::TestCase
     assert_equal 'new value', keyring.key_of_type('type')['value']
   end
 
+  test 'raise on updating missing key' do
+    assert_raises Keyring::NotFound do
+      keyring.update 'type', rev: nil ,value: 'new value'
+    end
+    assert_nil keyring.key_of_type('type')
+  end
+
   test 'raise on updating without rev' do
     keyring.create 'type', 'value'
     assert_raises Keyring::Error do
@@ -33,6 +40,35 @@ class KeyringTest < ActiveSupport::TestCase
     keyring.create 'type', 'value'
     assert_raises Keyring::Error do
       keyring.update 'type', rev: 'wrong rev', value: 'new value'
+    end
+    assert_equal 'value', keyring.key_of_type('type')['value']
+  end
+
+  test 'delete key' do
+    keyring.create 'type', 'value'
+    initial_rev = keyring.key_of_type('type')['rev']
+    keyring.delete 'type', rev: initial_rev
+    assert_nil keyring.key_of_type('type')
+  end
+
+  test 'raise on deleting missing key' do
+    assert_raises Keyring::NotFound do
+      keyring.delete 'type', rev: nil
+    end
+  end
+
+  test 'raise on deleting without rev' do
+    keyring.create 'type', 'value'
+    assert_raises Keyring::Error do
+      keyring.delete 'type', rev: nil
+    end
+    assert_equal 'value', keyring.key_of_type('type')['value']
+  end
+
+  test 'raise on deleting with wrong rev' do
+    keyring.create 'type', 'value'
+    assert_raises Keyring::Error do
+      keyring.delete 'type', rev: 'wrong rev'
     end
     assert_equal 'value', keyring.key_of_type('type')['value']
   end
@@ -52,6 +88,10 @@ class KeyringTest < ActiveSupport::TestCase
 
       def dummy.keys
         self
+      end
+
+      def dummy.delete_key(type)
+        self.delete(type)
       end
 
       def dummy.save; end

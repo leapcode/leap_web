@@ -41,7 +41,7 @@ LeapWeb::Application.routes.draw do
     resource :service, :only => [:show]
     resources :configs, :only => [:index, :show]
     resources :identities, :only => [:show]
-    resources :keys, :only=> [:index, :show, :create, :update]
+    resources :keys, :except=> [:edit, :new]
   end
 
   scope "(:locale)", :locale => CommonLanguages.match_available do

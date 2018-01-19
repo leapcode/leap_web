@@ -25,9 +25,21 @@ class Api::KeysController < ApiController
   def update
     keyring.update type, rev: rev, value: value
     head :no_content
+  rescue Keyring::NotFound => e
+    render status: 404, json: {error: e.message}
   rescue Keyring::Error, ActionController::ParameterMissing => e
     render status: 422, json: {error: e.message}
   end
+
+  def destroy
+    keyring.delete type, rev: rev
+    head :no_content
+  rescue Keyring::NotFound => e
+    render status: 404, json: {error: e.message}
+  rescue Keyring::Error, ActionController::ParameterMissing => e
+    render status: 422, json: {error: e.message}
+  end
+
 
   protected
 

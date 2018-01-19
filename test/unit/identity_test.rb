@@ -80,6 +80,14 @@ class IdentityTest < ActiveSupport::TestCase
     assert_equal pgp_key_string, @id.keys[:pgp]
   end
 
+  test "deleting pgp key" do
+    @id = Identity.for(@user)
+    @id.set_key(:pgp, pgp_key_string)
+    @id.delete_key(:pgp)
+    assert_nil @id.keys[:pgp]
+    assert_equal Hash.new, @id.keys
+  end
+
   test "querying pgp key via couch" do
     @id = Identity.for(@user)
     @id.set_key(:pgp, pgp_key_string)

@@ -136,6 +136,11 @@ class Identity < CouchRest::Model::Base
     write_attribute('keys', keys.merge(type => key.to_s))
   end
 
+  def delete_key(type)
+    raise 'key not found' unless keys[type]
+    write_attribute('keys', keys.except(type))
+  end
+
   def cert_fingerprints
     read_attribute('cert_fingerprints') || Hash.new
   end
