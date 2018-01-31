@@ -1,3 +1,25 @@
+Version 0.10.0 - new keys API  (unreleased)
+-------------------------------------------
+
+Allow dealing with different keytypes for katzenpost:
+
+* new keys API that uses revisions to detect conflicts
+* new view for getting all keys for a given address
+
+Bugfixes:
+
+* update `srp_js` to version 0.5.0
+
+Deprecations:
+
+* The old way of updating OpenPGP keys through the /1/users API
+  is deprecated now. Please use /2/keys instead.
+
+Compatibility:
+
+* In order to retrieve the OpenPGP keys uploaded through the new
+  key API nickserver >= 0.10.1 must be used.
+
 Version 0.9.3 - bugfixes
 ------------------------
 
@@ -20,7 +42,7 @@ Features:
 Bugfix release for 0.9:
 
 * pin to the newest psych gem
-* remove better_errors gem
+* remove `better_errors` gem
 * fix login error message with non en locales
 
 version 0.9.1 - bugfixes
