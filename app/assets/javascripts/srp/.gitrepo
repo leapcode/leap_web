@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://leap.se/git/srp_js
+	branch = master
+	commit = 2088cbec310bb2c5768f4e8a1d424f8468e17c73
+	parent = 8370b62870a3100e126e6434a09eb518c26dfd71
+	cmdver = 0.3.1
