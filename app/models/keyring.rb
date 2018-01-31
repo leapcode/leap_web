@@ -20,13 +20,13 @@ class Keyring
 
   def create(type, value)
     raise Error, "key already exists" if storage.keys[type].present?
-    storage.set_key type, {type: type, value: value, rev: new_rev}.to_json
+    storage.set_key type, {type: type, value: value, rev: new_rev}
     storage.save
   end
 
   def update(type, rev:, value:)
     check_rev type, rev
-    storage.set_key type, {type: type, value: value, rev: new_rev}.to_json
+    storage.set_key type, {type: type, value: value, rev: new_rev}
     storage.save
   end
 
@@ -37,7 +37,7 @@ class Keyring
   end
 
   def key_of_type(type)
-    JSON.parse(storage.keys[type]) if storage.keys[type]
+    storage.keys[type]
   end
 
   protected
@@ -46,6 +46,9 @@ class Keyring
   def check_rev(type, rev)
     old = key_of_type(type)
     raise NotFound, type unless old
+    # We used to store plain strings. It's deprecated now.
+    # If we happen to run into them do not check their revision.
+    return if old.is_a? String
     raise Error, "wrong revision: #{rev}" unless old['rev'] == rev
   end
 

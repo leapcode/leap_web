@@ -112,7 +112,7 @@ module Api
       PgpKey.new(key).tap do |key|
         if key.valid?
           identity = Identity.for(@user)
-          identity.set_key(:pgp, key)
+          identity.set_key(:pgp, key.to_s)
           identity.save
         end
       end

@@ -82,8 +82,8 @@ class KeyringTest < ActiveSupport::TestCase
 
   def teststorage
     @teststorage ||= Hash.new.tap do |dummy|
-      def dummy.set_key(type, value)
-        self[type] = value
+      def dummy.set_key(type, hash)
+        self[type] = hash.stringify_keys
       end
 
       def dummy.keys
