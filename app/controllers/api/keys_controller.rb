@@ -5,14 +5,11 @@ class Api::KeysController < ApiController
 
   # get /keys
   def index
-    keys = identity.keys.map do |k,v|
-      [k, JSON.parse(v)]
-    end
-    render json: keys.to_h
+    render json: identity.keys
   end
 
   def show
-    render json: JSON.parse(identity.keys[params[:id]])
+    render json: identity.keys[params[:id]]
   end
 
   def create

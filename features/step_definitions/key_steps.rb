@@ -16,7 +16,7 @@ Then /^I should have published an? "([^"]*)" key(?: with value "([^"]*)")?$/ do 
   identity = Identity.for(@user)
   keys = identity.keys
   assert_includes keys.keys, type
-  assert_equal value, JSON.parse(keys[type])['value'] if value
+  assert_equal value, keys[type]['value'] if value
 end
 
 Then /^I should not have published an? "([^"]*)" key$/ do |type|

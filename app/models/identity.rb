@@ -131,9 +131,10 @@ class Identity < CouchRest::Model::Base
     read_attribute('keys') || HashWithIndifferentAccess.new
   end
 
-  def set_key(type, key)
-    return if keys[type] == key.to_s
-    write_attribute('keys', keys.merge(type => key.to_s))
+  def set_key(type, key_hash)
+    key_hash.stringify_keys! if key_hash.respond_to? :stringify_keys!
+    return if keys[type] == key_hash
+    write_attribute('keys', keys.merge(type => key_hash))
   end
 
   def delete_key(type)
