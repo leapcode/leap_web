@@ -1,0 +1,12 @@
+image: ruby:latest
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+  - node_modules/
+
+test:
+  script:
+   - npm install
+   - npm test

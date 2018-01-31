@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://leap.se/git/srp_js
 	branch = master
-	commit = 9e1a41733468d4a3f5102b04277b9cd7b52d0a45
-	parent = ac4cf4a1da4dcc697f1f5219f0073c5991a135e0
+	commit = 2088cbec310bb2c5768f4e8a1d424f8468e17c73
+	parent = 8370b62870a3100e126e6434a09eb518c26dfd71
 	cmdver = 0.3.1
