@@ -1,5 +1,8 @@
 LEAP Web
 ---------------------
+___________________
+| This is retired |
+-------------------
 
 The LEAP Web App provides the following functions:
 
